@@ -58,3 +58,15 @@ AUDIODESIGN recomienda que la siguiente version audible deje de perseguir silaba
 - Curva de clip gain humana: una base por frase, rampas suaves, preservar crescendos y finales.
 
 Esta direccion no debe activarse sin pruebas auditivas controladas. Mientras el usuario no este presente, el loop puede anadir tests, protecciones y documentacion, pero no cambiar mas el sonido por defecto.
+
+## V2 Section-Aware Phrase Leveling
+
+La idea macro -> meso -> micro queda aceptada como direccion de diseno, con una condicion importante: la macro-dinamica debe ordenar la entrada al compresor sin borrar la intencion musical. Si un estribillo esta cantado mas fuerte que un verso, esa diferencia se debe preservar parcialmente; no se igualan secciones por regla fija.
+
+- Macro: regiones, marcadores, bloques contiguos o grupos de items separados por pausas largas. Correccion muy parcial: `strength 0.30-0.40`, `maxBoost +2 dB`, `maxCut -3 dB`, `deadband 1.5 dB`.
+- Meso: frases vocales dentro de cada zona. Es la escala principal de trabajo: pausa natural `180-350 ms`, frase minima `350 ms`, medicion robusta `P70`, `strength 0.55`.
+- Micro: reparacion opcional y apagada por defecto. Solo para palabras/silabas caidas claramente despues de macro y meso; no respiraciones, consonantes, ruido o expresividad natural.
+- Stop temprano: si una escala ya deja la entrada al compresor estable, no se baja a una escala mas micro.
+- Preview debe reportar confianza por escala: frases utiles, duracion activa, correccion media/maxima, skips y motivos.
+
+No implementar aun sin pruebas auditivas: clasificar verso/estribillo automaticamente, activar micro-leveling por defecto, procesar items no seleccionados para entender la cancion, o aplicar reglas fijas tipo "estribillo siempre +X dB".

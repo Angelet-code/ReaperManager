@@ -77,6 +77,15 @@ test("vocal-level skips existing take envelopes unless replace-envelope is expli
   assert.match(body, /created_or_error == true or settings\.replace_envelope == true/);
 });
 
+test("vocal-level bridge rejects non-selected raw item filters", () => {
+  const source = readBridge();
+  const body = extractFunction(source, "command_vocal_level_items", "normalize_words");
+
+  assert.match(body, /local item_filter = command\.itemFilter or \{ type = "selected" \}/);
+  assert.match(body, /if item_filter\.type ~= "selected" then\s+error\("vocal-level only supports selected items"\)\s+end/);
+  assert.match(body, /local items = collect_items\(item_filter\)/);
+});
+
 test("gain-stage remains take-gain based and does not create take envelopes", () => {
   const source = readBridge();
   const body = extractFunction(source, "command_gain_stage_items", "vocal_level_settings");

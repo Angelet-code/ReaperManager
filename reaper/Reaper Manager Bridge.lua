@@ -2351,7 +2351,12 @@ end
 
 local function command_vocal_level_items(command)
   local settings = vocal_level_settings(command)
-  local items = collect_items(command.itemFilter or { type = "selected" })
+  local item_filter = command.itemFilter or { type = "selected" }
+  if item_filter.type ~= "selected" then
+    error("vocal-level only supports selected items")
+  end
+
+  local items = collect_items(item_filter)
   if command.selectedItemIndex then
     local selected_index = math.floor(tonumber(command.selectedItemIndex) or 0)
     if selected_index >= 1 and selected_index <= #items then
