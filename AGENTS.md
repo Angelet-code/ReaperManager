@@ -158,6 +158,12 @@ node .\bin\reaper-manager.js vocal-level --selected-items
 node .\bin\reaper-manager.js vocal-level --selected-items --replace-envelope
 ```
 
+Undo the last Reaper Manager action during bench tests:
+
+```powershell
+node .\bin\reaper-manager.js undo --count 1
+```
+
 Set track states:
 
 ```powershell

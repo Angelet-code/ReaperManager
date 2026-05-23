@@ -24,6 +24,20 @@ Defaults de V1:
 - `peakCeilingDb = -0.3`
 - `maxBoostDb = 12`
 - `maxCutDb = 12`
+- `minPartMs = 300`
+- `partMergeGapMs = 350`
+- `syllableSplitDb = 20`
+- `syllableSplitHoldMs = 140`
+- `gainDeadbandDb = 3`
+- `minGainChangeDb = 5`
+- `curveSmoothMs = 320`
+- `curveToleranceDb = 2`
+- `curveMinPointGapMs = 240`
+- `curveDetail = 0.5`
+- `curveEdgeRampMs = 80`
+- `zeroCrossing = true`
+
+El criterio por defecto es frase/energia sostenida, no silaba. El splitter se conserva como detector de energia y solo separa cambios grandes; los bordes detectados se ajustan a cruces por cero cuando la opcion esta activa.
 
 ## No Objetivos
 
@@ -39,6 +53,7 @@ Defaults de V1:
 - Las respiraciones, ruido de sala y consonantes no disparan boosts artificiales.
 - Los silencios vuelven a `0 dB` de envelope y no quedan levantados.
 - `--preview` no escribe envelopes, no renombra pistas y no cambia seleccion ni ganancias.
+- `--preview` informa `estimated_points`, pero mantiene `points = 0` y `envelope_points_written = 0`.
 - La aplicacion real respeta techo de pico, limites de boost/cut y queda deshecha con un undo.
 - Si un item necesita mas corte que `maxCutDb` para respetar el techo de pico, se salta en lugar de escribir una automatizacion extrema.
 
@@ -46,18 +61,17 @@ Defaults de V1:
 
 `relative`, `reference-percentile`, `preserve-loudness`, `steps`, `zero-crossing` y controles de deteccion siguen disponibles para pruebas y comparativas, pero no son el camino normal de V1.
 
-## Direccion V2 Pendiente
+## Criterio De Frase En V1
 
-AUDIODESIGN recomienda que la siguiente version audible deje de perseguir silabas y trabaje por frases vocales:
+AUDIODESIGN adopta ya en V1 una direccion de frase para evitar artefactos y exceso de puntos:
 
 - Unidad principal: frase vocal dentro de item, no palabra ni item completo.
-- Frase minima util: unos `350 ms`; pausas naturales de separacion: `180-350 ms`.
+- Frase minima util: unos `300 ms`; pausas naturales de separacion: hasta `350 ms`.
 - Medicion robusta por zonas activas de frase, usando percentiles como `P70`, no promedio total con silencio.
-- Correccion parcial hacia target: `applied = clamp((target - measured) * strength, -8, +6)`, con `strength` alrededor de `0.55`.
 - No levantar respiraciones, ruido de sala, consonantes aisladas ni micro-eventos.
-- Curva de clip gain humana: una base por frase, rampas suaves, preservar crescendos y finales.
+- Curva de clip gain humana: una base por frase, rampas suaves, preservar crescendos y finales, y no llenar el take de puntos si una correccion amplia ya resuelve la entrada al compresor.
 
-Esta direccion no debe activarse sin pruebas auditivas controladas. Mientras el usuario no este presente, el loop puede anadir tests, protecciones y documentacion, pero no cambiar mas el sonido por defecto.
+En el banco de prueba del 2026-05-23, el lead largo bajo de unas 293 partes/597 puntos con defaults micro a unas 51 partes/168 puntos con defaults por frase. Backings, guturales y graves quedaron entre 2 y 7 partes en preview. Estos numeros no sustituyen escucha, pero si bloquean la direccion de "micro-edicion nerviosa" como default.
 
 ## V2 Section-Aware Phrase Leveling
 

@@ -329,6 +329,24 @@ local function command_ping()
   }
 end
 
+local function command_undo(command)
+  local count = math.floor(tonumber(command.count) or 1)
+  if count < 1 then count = 1 end
+
+  for _ = 1, count do
+    if reaper.Undo_DoUndo2 then
+      reaper.Undo_DoUndo2(0)
+    else
+      reaper.Main_OnCommand(40029, 0)
+    end
+  end
+
+  reaper.UpdateArrange()
+  return {
+    undone = count
+  }
+end
+
 local function command_color_tracks(command)
   local tracks = collect_tracks(command.filter)
   local color = color_native(command.color or {})
@@ -1262,7 +1280,7 @@ local function vocal_level_settings(command)
     reference_percentile = tonumber(command.referencePercentile) or 65,
     stabilize_boost_db = tonumber(command.stabilizeBoostDb) or 3.2,
     stabilize_cut_db = tonumber(command.stabilizeCutDb) or 7,
-    gain_deadband_db = tonumber(command.gainDeadbandDb) or 1.5,
+    gain_deadband_db = tonumber(command.gainDeadbandDb) or 3,
     preserve_loudness = tonumber(command.preserveLoudness) or 1,
     sustain_low_fraction = (tonumber(command.sustainLowPercent) or 50) / 100,
     sustain_high_fraction = (tonumber(command.sustainHighPercent) or 90) / 100,
@@ -1270,19 +1288,19 @@ local function vocal_level_settings(command)
     detect_window_ms = tonumber(command.detectWindowMs) or tonumber(command.gateWindowMs) or 15,
     detect_silence_db = tonumber(command.detectSilenceDb) or -45,
     detect_range_db = tonumber(command.detectRangeDb) or tonumber(command.gateRangeDb) or 35,
-    part_merge_gap_s = (tonumber(command.partMergeGapMs) or tonumber(command.activationMergeGapMs) or 90) / 1000,
-    min_part_s = (tonumber(command.minPartMs) or tonumber(command.minActivationMs) or tonumber(command.minPhraseMs) or 80) / 1000,
-    syllable_split_db = tonumber(command.syllableSplitDb) or 8,
-    syllable_split_hold_s = (tonumber(command.syllableSplitHoldMs) or 45) / 1000,
-    min_gain_change_db = tonumber(command.minGainChangeDb) or 3,
+    part_merge_gap_s = (tonumber(command.partMergeGapMs) or tonumber(command.activationMergeGapMs) or 350) / 1000,
+    min_part_s = (tonumber(command.minPartMs) or tonumber(command.minActivationMs) or tonumber(command.minPhraseMs) or 300) / 1000,
+    syllable_split_db = tonumber(command.syllableSplitDb) or 20,
+    syllable_split_hold_s = (tonumber(command.syllableSplitHoldMs) or 140) / 1000,
+    min_gain_change_db = tonumber(command.minGainChangeDb) or 5,
     gain_merge_gap_s = (tonumber(command.gainMergeGapMs) or 0) / 1000,
     zero_crossing_enabled = command.zeroCrossing ~= false,
     zero_crossing_search_s = (tonumber(command.zeroCrossingSearchMs) or 12) / 1000,
-    curve_smooth_s = (tonumber(command.curveSmoothMs) or 120) / 1000,
-    curve_tolerance_db = tonumber(command.curveToleranceDb) or 1.5,
-    curve_min_point_gap_s = (tonumber(command.curveMinPointGapMs) or 90) / 1000,
-    curve_detail = tonumber(command.curveDetail) or 0.75,
-    curve_edge_ramp_s = (tonumber(command.curveEdgeRampMs) or 45) / 1000,
+    curve_smooth_s = (tonumber(command.curveSmoothMs) or 320) / 1000,
+    curve_tolerance_db = tonumber(command.curveToleranceDb) or 2,
+    curve_min_point_gap_s = (tonumber(command.curveMinPointGapMs) or 240) / 1000,
+    curve_detail = tonumber(command.curveDetail) or 0.5,
+    curve_edge_ramp_s = (tonumber(command.curveEdgeRampMs) or 80) / 1000,
     padding_s = (tonumber(command.paddingMs) or 8) / 1000,
     ramp_s = (tonumber(command.rampMs) or 0) / 1000
   }
@@ -1639,10 +1657,8 @@ local function detect_vocal_parts(accessor, sample_rate, channels, item_start, i
 
   if #parts == 0 then return nil, "no vocal parts" end
 
-  if settings.automation_mode ~= "smooth_curve" then
-    parts = snap_vocal_parts_to_zero_crossings(accessor, sample_rate, channels, parts, item_start, item_end, settings)
-    if #parts == 0 then return nil, "no vocal parts after zero crossing snap" end
-  end
+  parts = snap_vocal_parts_to_zero_crossings(accessor, sample_rate, channels, parts, item_start, item_end, settings)
+  if #parts == 0 then return nil, "no vocal parts after zero crossing snap" end
 
   return {
     parts = parts,
@@ -2416,7 +2432,9 @@ local function command_vocal_level_items(command)
         record_skip(item, reason)
       else
         local point_count = 0
-        if not settings.preview then
+        if settings.preview then
+          point_count = #build_vocal_level_points(analysis)
+        else
           local env, created_or_error = ensure_take_volume_envelope(item, take)
           if not env then
             record_skip(item, created_or_error)
@@ -2504,7 +2522,9 @@ local function command_vocal_level_items(command)
     detected_parts = total_detected_segments,
     parts = total_segments,
     segments = total_segments,
-    points = total_points,
+    estimated_points = total_points,
+    points = settings.preview and 0 or total_points,
+    envelope_points_written = settings.preview and 0 or total_points,
     selected_windows = total_selected_windows,
     excluded_windows = total_excluded_windows,
     transient_windows = total_transient_windows,
@@ -4663,6 +4683,10 @@ local function run_command(command)
   if command.type == "shutdown" then
     running = false
     return { bridge = "stopping" }
+  end
+
+  if command.type == "undo" then
+    return command_undo(command)
   end
 
   local handler = handlers[command.type]

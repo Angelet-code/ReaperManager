@@ -50,10 +50,25 @@ test("vocal-level preview cannot create or write take envelopes", () => {
 
   assert.match(
     body,
-    /if not settings\.preview then\s+local env, created_or_error = ensure_take_volume_envelope\(item, take\)[\s\S]+point_count = insert_vocal_level_points\(env, analysis, created_or_error == true or settings\.replace_envelope == true\)[\s\S]+end/
+    /else\s+local env, created_or_error = ensure_take_volume_envelope\(item, take\)[\s\S]+point_count = insert_vocal_level_points\(env, analysis, created_or_error == true or settings\.replace_envelope == true\)[\s\S]+end/
   );
-  assert.doesNotMatch(body, /if settings\.preview[\s\S]+ensure_take_volume_envelope/);
-  assert.doesNotMatch(body, /if settings\.preview[\s\S]+insert_vocal_level_points/);
+  const previewStart = body.indexOf("if settings.preview then");
+  const previewEnd = body.indexOf("else", previewStart);
+  const previewBranch = body.slice(previewStart, previewEnd);
+  assert.doesNotMatch(previewBranch, /ensure_take_volume_envelope/);
+  assert.doesNotMatch(previewBranch, /insert_vocal_level_points/);
+  assert.match(body, /if settings\.preview then\s+point_count = #build_vocal_level_points\(analysis\)/);
+  assert.match(body, /estimated_points = total_points/);
+  assert.match(body, /points = settings\.preview and 0 or total_points/);
+  assert.match(body, /envelope_points_written = settings\.preview and 0 or total_points/);
+});
+
+test("vocal-level snaps detected parts to zero crossings before curve generation", () => {
+  const source = readBridge();
+  const body = extractFunction(source, "detect_vocal_parts", "copy_vocal_segment");
+
+  assert.match(body, /parts = snap_vocal_parts_to_zero_crossings\(accessor, sample_rate, channels, parts, item_start, item_end, settings\)/);
+  assert.doesNotMatch(body, /settings\.automation_mode ~= "smooth_curve"[\s\S]+snap_vocal_parts_to_zero_crossings/);
 });
 
 test("vocal-level preview is dispatcher read-only and cannot rename tracks", () => {
@@ -94,4 +109,13 @@ test("gain-stage remains take-gain based and does not create take envelopes", ()
   assert.match(body, /applied = settings\.preview and 0 or processed/);
   assert.doesNotMatch(body, /ensure_take_volume_envelope/);
   assert.doesNotMatch(body, /insert_vocal_level_points/);
+});
+
+test("undo command bypasses normal undo wrapping", () => {
+  const source = readBridge();
+  const undoBody = extractFunction(source, "command_undo", "command_color_tracks");
+  const runBody = extractFunction(source, "run_command", "process_file");
+
+  assert.match(undoBody, /reaper\.Undo_DoUndo2\(0\)/);
+  assert.match(runBody, /if command\.type == "undo" then\s+return command_undo\(command\)\s+end/);
 });

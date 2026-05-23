@@ -33,3 +33,4 @@ Este proyecto usa un unico repositorio Git y cuatro areas de trabajo. El objetiv
 - Items MIDI, silenciosos o sin take se saltan con razon clara.
 - El resumen informa partes, puntos, rango de ganancia, limitaciones por pico/boost/cut y ejemplos.
 - El resultado auditivo prepara el compresor; no intenta mezclar la interpretacion.
+- Para nivelacion vocal, TESTER debe tratar como fallo cualquier default que multiplique puntos sin necesidad, levante respiraciones o ignore cruces por cero cuando estos estan activos.

@@ -41,6 +41,7 @@ node .\bin\reaper-manager.js create-tracks --count 2 --name FX
 node .\bin\reaper-manager.js folder --selected --name DRUMS
 node .\bin\reaper-manager.js route-to-bus --selected --bus DRUMS --disable-main
 node .\bin\reaper-manager.js fx-bypass --selected --fx RVerb --state toggle
+node .\bin\reaper-manager.js undo --count 1
 node .\bin\reaper-manager.js rock-template
 node .\bin\reaper-manager.js chat "baja guitarras 1 dB"
 ```

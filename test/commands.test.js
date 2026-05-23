@@ -24,6 +24,7 @@ import {
   buildSelectItemsCommand,
   buildSelectTracksCommand,
   buildTrackStateCommand,
+  buildUndoCommand,
   buildVocalLevelCommand,
   parseColor,
   parsePan
@@ -196,7 +197,7 @@ test("buildVocalLevelCommand targets selected items with safe defaults", () => {
   assert.equal(command.referencePercentile, 65);
   assert.equal(command.stabilizeBoostDb, 3.2);
   assert.equal(command.stabilizeCutDb, 7);
-  assert.equal(command.gainDeadbandDb, 1.5);
+  assert.equal(command.gainDeadbandDb, 3);
   assert.equal(command.preserveLoudness, 1);
   assert.equal(command.sustainLowPercent, 50);
   assert.equal(command.sustainHighPercent, 90);
@@ -204,19 +205,19 @@ test("buildVocalLevelCommand targets selected items with safe defaults", () => {
   assert.equal(command.detectWindowMs, 15);
   assert.equal(command.detectSilenceDb, -45);
   assert.equal(command.detectRangeDb, 35);
-  assert.equal(command.partMergeGapMs, 90);
-  assert.equal(command.minPartMs, 80);
-  assert.equal(command.syllableSplitDb, 8);
-  assert.equal(command.syllableSplitHoldMs, 45);
-  assert.equal(command.minGainChangeDb, 3);
+  assert.equal(command.partMergeGapMs, 350);
+  assert.equal(command.minPartMs, 300);
+  assert.equal(command.syllableSplitDb, 20);
+  assert.equal(command.syllableSplitHoldMs, 140);
+  assert.equal(command.minGainChangeDb, 5);
   assert.equal(command.gainMergeGapMs, 0);
   assert.equal(command.zeroCrossing, true);
   assert.equal(command.zeroCrossingSearchMs, 12);
-  assert.equal(command.curveSmoothMs, 120);
-  assert.equal(command.curveToleranceDb, 1.5);
-  assert.equal(command.curveMinPointGapMs, 90);
-  assert.equal(command.curveDetail, 0.75);
-  assert.equal(command.curveEdgeRampMs, 45);
+  assert.equal(command.curveSmoothMs, 320);
+  assert.equal(command.curveToleranceDb, 2);
+  assert.equal(command.curveMinPointGapMs, 240);
+  assert.equal(command.curveDetail, 0.5);
+  assert.equal(command.curveEdgeRampMs, 80);
   assert.equal(command.paddingMs, 8);
   assert.equal(command.rampMs, 0);
 });
@@ -485,6 +486,17 @@ test("buildRockTemplateCommand clears by default", () => {
   const command = buildRockTemplateCommand();
   assert.equal(command.type, "create_rock_template");
   assert.equal(command.clearExisting, true);
+});
+
+test("buildUndoCommand defaults to one undo step", () => {
+  const command = buildUndoCommand();
+  assert.deepEqual(command, { type: "undo", count: 1 });
+});
+
+test("buildUndoCommand validates the undo count", () => {
+  assert.throws(() => buildUndoCommand({ count: 0 }), /Undo count/);
+  assert.throws(() => buildUndoCommand({ count: 1.5 }), /Undo count/);
+  assert.deepEqual(buildUndoCommand({ count: "2" }), { type: "undo", count: 2 });
 });
 
 function writeTestWav(file) {

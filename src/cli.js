@@ -24,6 +24,7 @@ import {
   buildSelectTracksCommand,
   buildSelectItemsCommand,
   buildTrackStateCommand,
+  buildUndoCommand,
   buildVocalLevelCommand,
   normalizeCommand
 } from "./commands.js";
@@ -113,6 +114,8 @@ export async function main(argv) {
       return runBuiltCommand({ type: "ping" }, root);
     case "shutdown":
       return runBuiltCommand({ type: "shutdown" }, root);
+    case "undo":
+      return undoCommand(rest, root);
     case undefined:
     case "help":
     case "--help":
@@ -316,6 +319,11 @@ async function rockTemplateCommand(args, root) {
   return runBuiltCommand(buildRockTemplateCommand(options), root, options);
 }
 
+async function undoCommand(args, root) {
+  const options = parseOptions(args);
+  return runBuiltCommand(buildUndoCommand({ count: options.count || options._[0] || 1 }), root, options);
+}
+
 async function colorCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildColorTracksCommand(options), root, options);
@@ -434,6 +442,7 @@ function printHelp() {
   node ${bin} folder --selected --name DRUMS
   node ${bin} route-to-bus --selected --bus DRUMS --disable-main
   node ${bin} fx-bypass --selected --fx RVerb --state toggle
+  node ${bin} undo --count 1
   node ${bin} rock-template
   node ${bin} ask "Coloreame todas las pistas que contengan la palabra CLICK de rojo"
   node ${bin} chat "baja guitarras 1 dB"
