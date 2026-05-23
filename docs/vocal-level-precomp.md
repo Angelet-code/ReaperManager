@@ -45,3 +45,16 @@ Defaults de V1:
 ## Modos Expertos
 
 `relative`, `reference-percentile`, `preserve-loudness`, `steps`, `zero-crossing` y controles de deteccion siguen disponibles para pruebas y comparativas, pero no son el camino normal de V1.
+
+## Direccion V2 Pendiente
+
+AUDIODESIGN recomienda que la siguiente version audible deje de perseguir silabas y trabaje por frases vocales:
+
+- Unidad principal: frase vocal dentro de item, no palabra ni item completo.
+- Frase minima util: unos `350 ms`; pausas naturales de separacion: `180-350 ms`.
+- Medicion robusta por zonas activas de frase, usando percentiles como `P70`, no promedio total con silencio.
+- Correccion parcial hacia target: `applied = clamp((target - measured) * strength, -8, +6)`, con `strength` alrededor de `0.55`.
+- No levantar respiraciones, ruido de sala, consonantes aisladas ni micro-eventos.
+- Curva de clip gain humana: una base por frase, rampas suaves, preservar crescendos y finales.
+
+Esta direccion no debe activarse sin pruebas auditivas controladas. Mientras el usuario no este presente, el loop puede anadir tests, protecciones y documentacion, pero no cambiar mas el sonido por defecto.

@@ -166,6 +166,13 @@ test("buildVocalLevelCommand requires selected items", () => {
   );
 });
 
+test("buildVocalLevelCommand rejects broad targets even when requested", () => {
+  assert.throws(
+    () => buildVocalLevelCommand({ "all-items": true }),
+    /Use --selected-items/
+  );
+});
+
 test("buildVocalLevelCommand targets selected items with safe defaults", () => {
   const command = buildVocalLevelCommand({ "selected-items": true });
   assert.equal(command.type, "vocal_level_items");
@@ -288,10 +295,43 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
   assert.equal(command.paddingMs, 20);
 });
 
+test("buildVocalLevelCommand accepts legacy aliases for advanced options", () => {
+  const command = buildVocalLevelCommand({
+    "selected-items": true,
+    "max-cut": "7",
+    "gate-window-ms": "30",
+    "gate-range-db": "32",
+    "min-phrase-ms": "450"
+  });
+  assert.equal(command.maxCutDb, 7);
+  assert.equal(command.detectWindowMs, 30);
+  assert.equal(command.detectRangeDb, 32);
+  assert.equal(command.minPartMs, 450);
+});
+
 test("buildVocalLevelCommand rejects invalid sustain percentile band", () => {
   assert.throws(
     () => buildVocalLevelCommand({ "selected-items": true, "sustain-low-percent": "90", "sustain-high-percent": "50" }),
     /Sustain high percent/
+  );
+});
+
+test("buildVocalLevelCommand rejects unsafe numeric ranges", () => {
+  assert.throws(
+    () => buildVocalLevelCommand({ "selected-items": true, "curve-detail": "1.2" }),
+    /Curve detail/
+  );
+  assert.throws(
+    () => buildVocalLevelCommand({ "selected-items": true, "preserve-loudness": "1.5" }),
+    /Preserve loudness/
+  );
+  assert.throws(
+    () => buildVocalLevelCommand({ "selected-items": true, "reference-percentile": "0" }),
+    /Reference percentile/
+  );
+  assert.throws(
+    () => buildVocalLevelCommand({ "selected-items": true, "reference-percentile": "100" }),
+    /Reference percentile/
   );
 });
 

@@ -43,3 +43,46 @@ test("vocal-level clamps envelope gain after item and take compensation", () => 
   assert.match(analyzer, /if envelope\.unresolved_peak then\s+return nil, "peak ceiling requires more cut than max-cut"\s+end/);
   assert.match(analyzer, /limit_vocal_envelope_gain\(range_analysis\.target_take_db - ctx\.original_combined_db, ctx, range_analysis, settings\)/);
 });
+
+test("vocal-level preview cannot create or write take envelopes", () => {
+  const source = readBridge();
+  const body = extractFunction(source, "command_vocal_level_items", "normalize_words");
+
+  assert.match(
+    body,
+    /if not settings\.preview then\s+local env, created_or_error = ensure_take_volume_envelope\(item, take\)[\s\S]+point_count = insert_vocal_level_points\(env, analysis, created_or_error == true or settings\.replace_envelope == true\)[\s\S]+end/
+  );
+  assert.doesNotMatch(body, /if settings\.preview[\s\S]+ensure_take_volume_envelope/);
+  assert.doesNotMatch(body, /if settings\.preview[\s\S]+insert_vocal_level_points/);
+});
+
+test("vocal-level preview is dispatcher read-only and cannot rename tracks", () => {
+  const source = readBridge();
+  const readOnly = extractFunction(source, "is_read_only_command", "run_command");
+  const commandBody = extractFunction(source, "command_vocal_level_items", "normalize_words");
+
+  assert.match(readOnly, /command\.type == "vocal_level_items" and command\.preview == true/);
+  assert.match(
+    commandBody,
+    /if not settings\.preview and point_count > 0 and command\.variantLabel and tostring\(command\.variantLabel\) ~= "" then/
+  );
+});
+
+test("vocal-level skips existing take envelopes unless replace-envelope is explicit", () => {
+  const source = readBridge();
+  const body = extractFunction(source, "command_vocal_level_items", "normalize_words");
+
+  assert.match(body, /existing_env and envelope_point_count\(existing_env\) > 0 and not settings\.replace_envelope/);
+  assert.match(body, /record_skip\(item, "existing take volume envelope"\)/);
+  assert.match(body, /created_or_error == true or settings\.replace_envelope == true/);
+});
+
+test("gain-stage remains take-gain based and does not create take envelopes", () => {
+  const source = readBridge();
+  const body = extractFunction(source, "command_gain_stage_items", "vocal_level_settings");
+
+  assert.match(body, /gain_target = "take"/);
+  assert.match(body, /applied = settings\.preview and 0 or processed/);
+  assert.doesNotMatch(body, /ensure_take_volume_envelope/);
+  assert.doesNotMatch(body, /insert_vocal_level_points/);
+});
