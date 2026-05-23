@@ -40,6 +40,7 @@ Defaults de V1:
 - Los silencios vuelven a `0 dB` de envelope y no quedan levantados.
 - `--preview` no escribe envelopes, no renombra pistas y no cambia seleccion ni ganancias.
 - La aplicacion real respeta techo de pico, limites de boost/cut y queda deshecha con un undo.
+- Si un item necesita mas corte que `maxCutDb` para respetar el techo de pico, se salta en lugar de escribir una automatizacion extrema.
 
 ## Modos Expertos
 

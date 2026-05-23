@@ -955,6 +955,12 @@ local function analyze_audio_range_for_vocal_part(accessor, sample_rate, channel
     analysis.excluded_windows = 0
     analysis.transient_windows = 0
     analysis.measurement_mode = "gain_stage"
+    if settings.max_cut_db and analysis.target_take_db and analysis.target_take_db < -settings.max_cut_db then
+      analysis.target_take_db = -settings.max_cut_db
+      analysis.final_peak_db = (analysis.source_peak_db or -150) + analysis.target_take_db
+      analysis.final_vu = (analysis.source_rms_db or -150) + analysis.target_take_db - settings.calibration_db
+      analysis.limited_by_max_cut = true
+    end
     return analysis
   end
 
@@ -1036,6 +1042,7 @@ local function analyze_audio_range_for_vocal_part(accessor, sample_rate, channel
   local peak_limited_db = settings.peak_ceiling_db - raw_peak_db
   local limited_by_peak = false
   local limited_by_max_boost = false
+  local limited_by_max_cut = false
 
   if target_take_db > peak_limited_db then
     target_take_db = peak_limited_db
@@ -1045,6 +1052,11 @@ local function analyze_audio_range_for_vocal_part(accessor, sample_rate, channel
   if target_take_db > settings.max_boost_db then
     target_take_db = settings.max_boost_db
     limited_by_max_boost = true
+  end
+
+  if settings.max_cut_db and target_take_db < -settings.max_cut_db then
+    target_take_db = -settings.max_cut_db
+    limited_by_max_cut = true
   end
 
   return {
@@ -1062,7 +1074,8 @@ local function analyze_audio_range_for_vocal_part(accessor, sample_rate, channel
     transient_threshold_db = sustain.transient_threshold_db,
     measurement_mode = "sustain_robust",
     limited_by_peak = limited_by_peak,
-    limited_by_max_boost = limited_by_max_boost
+    limited_by_max_boost = limited_by_max_boost,
+    limited_by_max_cut = limited_by_max_cut
   }
 end
 
@@ -1237,12 +1250,14 @@ local function vocal_level_settings(command)
     calibration_db = tonumber(command.calibrationDb) or -18,
     target_vu = tonumber(command.targetVu) or 0,
     peak_ceiling_db = tonumber(command.peakCeilingDb) or -0.3,
-    max_boost_db = tonumber(command.maxBoostDb) or 24,
-    window_ms = tonumber(command.windowMs) or 300,
+    max_boost_db = tonumber(command.maxBoostDb) or 12,
+    max_cut_db = tonumber(command.maxCutDb) or 12,
+    replace_envelope = command.replaceEnvelope == true,
+    window_ms = tonumber(command.windowMs) or 120,
     silence_db = tonumber(command.silenceDb) or -60,
     top_window_fraction = (tonumber(command.topWindowPercent) or 5) / 100,
     measurement_mode = tostring(command.measurementMode or "sustain_robust"):gsub("-", "_"),
-    level_mode = tostring(command.levelMode or "relative"):gsub("-", "_"),
+    level_mode = tostring(command.levelMode or "absolute"):gsub("-", "_"),
     automation_mode = tostring(command.automationMode or "smooth_curve"):gsub("-", "_"),
     reference_percentile = tonumber(command.referencePercentile) or 65,
     stabilize_boost_db = tonumber(command.stabilizeBoostDb) or 3.2,
@@ -1252,22 +1267,22 @@ local function vocal_level_settings(command)
     sustain_low_fraction = (tonumber(command.sustainLowPercent) or 50) / 100,
     sustain_high_fraction = (tonumber(command.sustainHighPercent) or 90) / 100,
     transient_crest_db = tonumber(command.transientCrestDb) or 6,
-    detect_window_ms = tonumber(command.detectWindowMs) or tonumber(command.gateWindowMs) or 10,
-    detect_silence_db = tonumber(command.detectSilenceDb) or -50,
-    detect_range_db = tonumber(command.detectRangeDb) or tonumber(command.gateRangeDb) or 45,
-    part_merge_gap_s = (tonumber(command.partMergeGapMs) or tonumber(command.activationMergeGapMs) or 140) / 1000,
-    min_part_s = (tonumber(command.minPartMs) or tonumber(command.minActivationMs) or tonumber(command.minPhraseMs) or 90) / 1000,
-    syllable_split_db = tonumber(command.syllableSplitDb) or 10,
-    syllable_split_hold_s = (tonumber(command.syllableSplitHoldMs) or 60) / 1000,
-    min_gain_change_db = tonumber(command.minGainChangeDb) or 7,
+    detect_window_ms = tonumber(command.detectWindowMs) or tonumber(command.gateWindowMs) or 15,
+    detect_silence_db = tonumber(command.detectSilenceDb) or -45,
+    detect_range_db = tonumber(command.detectRangeDb) or tonumber(command.gateRangeDb) or 35,
+    part_merge_gap_s = (tonumber(command.partMergeGapMs) or tonumber(command.activationMergeGapMs) or 90) / 1000,
+    min_part_s = (tonumber(command.minPartMs) or tonumber(command.minActivationMs) or tonumber(command.minPhraseMs) or 80) / 1000,
+    syllable_split_db = tonumber(command.syllableSplitDb) or 8,
+    syllable_split_hold_s = (tonumber(command.syllableSplitHoldMs) or 45) / 1000,
+    min_gain_change_db = tonumber(command.minGainChangeDb) or 3,
     gain_merge_gap_s = (tonumber(command.gainMergeGapMs) or 0) / 1000,
     zero_crossing_enabled = command.zeroCrossing ~= false,
     zero_crossing_search_s = (tonumber(command.zeroCrossingSearchMs) or 12) / 1000,
-    curve_smooth_s = (tonumber(command.curveSmoothMs) or 800) / 1000,
-    curve_tolerance_db = tonumber(command.curveToleranceDb) or 7,
-    curve_min_point_gap_s = (tonumber(command.curveMinPointGapMs) or 800) / 1000,
-    curve_detail = tonumber(command.curveDetail) or 0.08,
-    curve_edge_ramp_s = (tonumber(command.curveEdgeRampMs) or 160) / 1000,
+    curve_smooth_s = (tonumber(command.curveSmoothMs) or 120) / 1000,
+    curve_tolerance_db = tonumber(command.curveToleranceDb) or 1.5,
+    curve_min_point_gap_s = (tonumber(command.curveMinPointGapMs) or 90) / 1000,
+    curve_detail = tonumber(command.curveDetail) or 0.75,
+    curve_edge_ramp_s = (tonumber(command.curveEdgeRampMs) or 45) / 1000,
     padding_s = (tonumber(command.paddingMs) or 8) / 1000,
     ramp_s = (tonumber(command.rampMs) or 0) / 1000
   }
@@ -1686,6 +1701,7 @@ local function merge_vocal_segment(previous, segment, settings)
   previous.detection_windows = (previous.detection_windows or 0) + (segment.detection_windows or 0)
   previous.limited_by_peak = previous.limited_by_peak or segment.limited_by_peak
   previous.limited_by_max_boost = previous.limited_by_max_boost or segment.limited_by_max_boost
+  previous.limited_by_max_cut = previous.limited_by_max_cut or segment.limited_by_max_cut
   previous.merged_parts = (previous.merged_parts or 1) + (segment.merged_parts or 1)
   previous.merge_weight = total_weight
 end
@@ -1924,6 +1940,30 @@ local function enforce_curve_point_gap(points, min_gap_s, tolerance_db)
   return spaced
 end
 
+local function merge_same_time_curve_points(points)
+  if not points or #points <= 1 then return points or {} end
+
+  local merged = {}
+  local current = nil
+  local current_count = 0
+  for _, point in ipairs(points) do
+    if current and math.abs((point.time or 0) - (current.time or 0)) < 0.000001 then
+      local next_count = current_count + 1
+      current.gain_db = (((current.gain_db or 0) * current_count) + (point.gain_db or 0)) / next_count
+      current_count = next_count
+    else
+      current = {
+        time = point.time,
+        gain_db = point.gain_db or 0
+      }
+      current_count = 1
+      merged[#merged + 1] = current
+    end
+  end
+
+  return merged
+end
+
 local function append_curve_phrase_points(points, phrase, settings, item_length)
   if not phrase or #phrase == 0 then return end
 
@@ -1938,10 +1978,22 @@ local function append_curve_phrase_points(points, phrase, settings, item_length)
   }
 
   for _, segment in ipairs(phrase) do
+    local gain_db = segment.curve_gain_db or segment.gain_db or 0
+    local start_rel = clamp(segment.start_rel or phrase_start, phrase_start, phrase_end)
     local center = clamp(vocal_segment_center(segment), phrase_start, phrase_end)
+    local end_rel = clamp(segment.end_rel or center, phrase_start, phrase_end)
+
+    anchors[#anchors + 1] = {
+      time = start_rel,
+      gain_db = gain_db
+    }
     anchors[#anchors + 1] = {
       time = center,
-      gain_db = segment.curve_gain_db or segment.gain_db or 0
+      gain_db = gain_db
+    }
+    anchors[#anchors + 1] = {
+      time = end_rel,
+      gain_db = gain_db
     }
   end
 
@@ -1951,6 +2003,7 @@ local function append_curve_phrase_points(points, phrase, settings, item_length)
   }
 
   table.sort(anchors, function(a, b) return (a.time or 0) < (b.time or 0) end)
+  anchors = merge_same_time_curve_points(anchors)
   local simplified = simplify_gain_curve_points(anchors, settings.curve_tolerance_db or 1.2)
   simplified = enforce_curve_point_gap(simplified, settings.curve_min_point_gap_s or 0.12, settings.curve_tolerance_db or 1.2)
 
@@ -1975,9 +2028,10 @@ local function build_vocal_level_curve_points(analysis)
     phrase = {}
   end
 
+  local phrase_gap_s = math.max(0.001, analysis.settings and analysis.settings.part_merge_gap_s or 0.07)
   for _, segment in ipairs(smoothed) do
     local previous = phrase[#phrase]
-    if previous and (segment.start_rel or 0) - (previous.end_rel or 0) > 0.001 then
+    if previous and (segment.start_rel or 0) - (previous.end_rel or 0) > phrase_gap_s then
       flush_phrase()
     end
     phrase[#phrase + 1] = segment
@@ -1988,13 +2042,59 @@ local function build_vocal_level_curve_points(analysis)
   return points
 end
 
+local function limit_vocal_envelope_gain(envelope_gain_db, ctx, range_analysis, settings)
+  local gain_db = envelope_gain_db or 0
+  local limited_by_peak = range_analysis.limited_by_peak == true
+  local limited_by_max_boost = range_analysis.limited_by_max_boost == true
+  local limited_by_max_cut = range_analysis.limited_by_max_cut == true
+  local raw_peak_db = range_analysis.source_peak_db or -150
+
+  local peak_limited_gain_db = (settings.peak_ceiling_db or -0.3) - raw_peak_db - (ctx.original_combined_db or 0)
+  if gain_db > peak_limited_gain_db then
+    gain_db = peak_limited_gain_db
+    limited_by_peak = true
+  end
+
+  local unresolved_peak = false
+
+  if settings.max_boost_db and gain_db > settings.max_boost_db then
+    gain_db = settings.max_boost_db
+    limited_by_max_boost = true
+  end
+
+  if settings.max_cut_db and gain_db < -settings.max_cut_db then
+    if limited_by_peak and peak_limited_gain_db < -settings.max_cut_db then
+      unresolved_peak = true
+    end
+    gain_db = -settings.max_cut_db
+    limited_by_max_cut = true
+  end
+
+  local take_gain_db = (ctx.original_combined_db or 0) + gain_db
+  local measured_db = range_analysis.source_rms_db or range_analysis.sustain_db or -150
+
+  return {
+    gain_db = gain_db,
+    take_gain_db = take_gain_db,
+    final_peak_db = raw_peak_db + take_gain_db,
+    final_vu = measured_db + take_gain_db - (settings.calibration_db or -18),
+    limited_by_peak = limited_by_peak,
+    limited_by_max_boost = limited_by_max_boost,
+    limited_by_max_cut = limited_by_max_cut,
+    unresolved_peak = unresolved_peak
+  }
+end
+
 local function analyze_item_for_vocal_level(item, settings)
   local ctx, context_error = item_audio_context(item)
   if not ctx then return nil, context_error end
 
+  local normalized_for_analysis = not settings.preview
   local ok_measure, result_or_error, reason_or_nil = pcall(function()
-    reaper.SetMediaItemInfo_Value(item, "D_VOL", 1)
-    reaper.SetMediaItemTakeInfo_Value(ctx.take, "D_VOL", ctx.take_sign)
+    if normalized_for_analysis then
+      reaper.SetMediaItemInfo_Value(item, "D_VOL", 1)
+      reaper.SetMediaItemTakeInfo_Value(ctx.take, "D_VOL", ctx.take_sign)
+    end
 
     local accessor = reaper.CreateTakeAudioAccessor(ctx.take)
     if not accessor then error("could not create audio accessor") end
@@ -2025,7 +2125,10 @@ local function analyze_item_for_vocal_level(item, settings)
         )
 
         if range_analysis then
-          local envelope_gain_db = range_analysis.target_take_db - ctx.original_combined_db
+          local envelope = limit_vocal_envelope_gain(range_analysis.target_take_db - ctx.original_combined_db, ctx, range_analysis, settings)
+          if envelope.unresolved_peak then
+            return nil, "peak ceiling requires more cut than max-cut"
+          end
           local ramp = math.min(settings.ramp_s, math.max(0, (part["end"] - part.start) / 4))
           local start_rel = math.max(0, part.start - analysis_start)
           local end_rel = math.min(ctx.item_length, part["end"] - analysis_start)
@@ -2041,13 +2144,13 @@ local function analyze_item_for_vocal_level(item, settings)
             end_rel = end_rel,
             length = part["end"] - part.start,
             ramp = ramp,
-            gain_db = envelope_gain_db,
-            take_gain_db = range_analysis.target_take_db,
+            gain_db = envelope.gain_db,
+            take_gain_db = envelope.take_gain_db,
             measured_db = range_analysis.source_rms_db,
             sustain_db = range_analysis.sustain_db,
             raw_peak_db = range_analysis.source_peak_db,
-            final_peak_db = range_analysis.final_peak_db,
-            final_vu = range_analysis.final_vu,
+            final_peak_db = envelope.final_peak_db,
+            final_vu = envelope.final_vu,
             windows = range_analysis.windows,
             selected_windows = range_analysis.selected_windows,
             excluded_windows = range_analysis.excluded_windows,
@@ -2055,8 +2158,9 @@ local function analyze_item_for_vocal_level(item, settings)
             median_crest_db = range_analysis.median_crest_db,
             transient_threshold_db = range_analysis.transient_threshold_db,
             detection_windows = part.windows,
-            limited_by_peak = range_analysis.limited_by_peak,
-            limited_by_max_boost = range_analysis.limited_by_max_boost
+            limited_by_peak = envelope.limited_by_peak,
+            limited_by_max_boost = envelope.limited_by_max_boost,
+            limited_by_max_cut = envelope.limited_by_max_cut
           }
         elseif range_reason and range_reason ~= "silent item" then
           -- Detection only sets boundaries; unusable ranges are skipped instead of guessed.
@@ -2099,8 +2203,10 @@ local function analyze_item_for_vocal_level(item, settings)
     return result, skip_reason
   end)
 
-  reaper.SetMediaItemTakeInfo_Value(ctx.take, "D_VOL", ctx.original_take_gain)
-  reaper.SetMediaItemInfo_Value(item, "D_VOL", ctx.original_item_gain)
+  if normalized_for_analysis then
+    reaper.SetMediaItemTakeInfo_Value(ctx.take, "D_VOL", ctx.original_take_gain)
+    reaper.SetMediaItemInfo_Value(item, "D_VOL", ctx.original_item_gain)
+  end
   if not ok_measure then error(result_or_error) end
   return result_or_error, reason_or_nil
 end
@@ -2295,7 +2401,7 @@ local function command_vocal_level_items(command)
     local existing_env = take and reaper.GetTakeEnvelopeByName and reaper.GetTakeEnvelopeByName(take, "Volume") or nil
     if command.leaveFirstSelected == true and item_index == 1 then
       record_skip(item, "left unedited control item")
-    elseif existing_env and envelope_point_count(existing_env) > 0 then
+    elseif existing_env and envelope_point_count(existing_env) > 0 and not settings.replace_envelope then
       record_skip(item, "existing take volume envelope")
     else
       local ok, analysis, reason = pcall(analyze_item_for_vocal_level, item, settings)
@@ -2310,13 +2416,13 @@ local function command_vocal_level_items(command)
           if not env then
             record_skip(item, created_or_error)
           else
-            point_count = insert_vocal_level_points(env, analysis, created_or_error == true)
+            point_count = insert_vocal_level_points(env, analysis, created_or_error == true or settings.replace_envelope == true)
           end
         end
 
         if settings.preview or point_count > 0 then
           processed = processed + 1
-          if command.variantLabel and tostring(command.variantLabel) ~= "" then
+          if not settings.preview and point_count > 0 and command.variantLabel and tostring(command.variantLabel) ~= "" then
             local track = reaper.GetMediaItemTrack(item)
             if track and reaper.GetSetMediaTrackInfo_String then
               reaper.GetSetMediaTrackInfo_String(track, "P_NAME", tostring(command.variantLabel), true)
@@ -2401,6 +2507,8 @@ local function command_vocal_level_items(command)
     target_vu = settings.target_vu,
     peak_ceiling_db = settings.peak_ceiling_db,
     max_boost_db = settings.max_boost_db,
+    max_cut_db = settings.max_cut_db,
+    replace_envelope = settings.replace_envelope,
     window_ms = settings.window_ms,
     silence_db = settings.silence_db,
     top_window_percent = settings.top_window_fraction * 100,

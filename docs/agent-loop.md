@@ -1,13 +1,14 @@
 # Bucle Multiagente
 
-Este proyecto usa un unico repositorio Git y tres roles de trabajo. El objetivo es iterar sin chats inconexos ni variantes perdidas.
+Este proyecto usa un unico repositorio Git y cuatro areas de trabajo. El objetivo es iterar sin chats inconexos ni variantes perdidas, separando el proyecto estable del laboratorio de funcionalidades.
 
-## Roles
+## Areas
 
-- Arquitecto/spec: mantiene el contrato musical y tecnico. Decide defaults, no-objetivos y criterios de aceptacion.
-- Implementador Codex: modifica codigo, tests y documentacion dentro de una rama de trabajo.
-- Revisor critico: revisa el diff y busca fallos sonoros, defaults peligrosos, mutaciones en preview, problemas de envelope y huecos de test.
-- Orquestador: integra resultados, ejecuta pruebas, hace commits/push y decide si hace falta otra vuelta.
+- REAPERMANAGER: el proyecto estable ya implementado, incluyendo bridge y comandos operativos como ordenar, colorear, seleccionar, rutear, gain staging y utilidades de mezcla. Se protege como producto en uso.
+- AUDIODESIGN: disena funcionalidades nuevas desde criterios de ingenieria de audio. Define objetivo sonoro, no-objetivos, defaults, riesgos y criterios de aceptacion.
+- PROGRAMER: implementa lo que pide AUDIODESIGN en codigo, tests y documentacion. Pregunta o devuelve dudas a AUDIODESIGN cuando el comportamiento tecnico no esta cerrado.
+- TESTER: prueba el resultado, busca fallos auditivos y tecnicos, y si algo no funciona pide a AUDIODESIGN una modificacion concreta para la siguiente iteracion.
+- Orquestador: coordina las cuatro areas, integra resultados, ejecuta pruebas, hace commits/push y decide si hace falta otra vuelta.
 
 ## Reglas De Rama
 
@@ -27,6 +28,7 @@ Este proyecto usa un unico repositorio Git y tres roles de trabajo. El objetivo 
 
 - `npm test` pasa.
 - `preview` es realmente no mutante.
+- REAPERMANAGER no pierde comportamiento estable mientras se experimenta con funcionalidades nuevas.
 - No se procesan items fuera de `--selected-items`.
 - Items MIDI, silenciosos o sin take se saltan con razon clara.
 - El resumen informa partes, puntos, rango de ganancia, limitaciones por pico/boost/cut y ejemplos.

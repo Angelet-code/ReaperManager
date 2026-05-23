@@ -426,7 +426,8 @@ function printHelp() {
   node ${bin} send-volume --selected --dest Reverb --db 2
   node ${bin} item-volume --selected --db -3
   node ${bin} gain-stage --all-items
-  node ${bin} vocal-level --selected-items
+  node ${bin} vocal-level --selected-items --preview
+  node ${bin} vocal-level --selected-items --replace-envelope
   node ${bin} track-state --contains VOX --mute on
   node ${bin} rename --contains CLICK --prefix REF_
   node ${bin} create-tracks --count 2 --name FX

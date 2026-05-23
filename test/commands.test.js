@@ -177,12 +177,14 @@ test("buildVocalLevelCommand targets selected items with safe defaults", () => {
   assert.equal(command.calibrationDb, -18);
   assert.equal(command.targetVu, 0);
   assert.equal(command.peakCeilingDb, -0.3);
-  assert.equal(command.maxBoostDb, 24);
-  assert.equal(command.windowMs, 300);
+  assert.equal(command.maxBoostDb, 12);
+  assert.equal(command.maxCutDb, 12);
+  assert.equal(command.replaceEnvelope, false);
+  assert.equal(command.windowMs, 120);
   assert.equal(command.silenceDb, -60);
   assert.equal(command.topWindowPercent, 5);
   assert.equal(command.measurementMode, "sustain_robust");
-  assert.equal(command.levelMode, "relative");
+  assert.equal(command.levelMode, "absolute");
   assert.equal(command.automationMode, "smooth_curve");
   assert.equal(command.referencePercentile, 65);
   assert.equal(command.stabilizeBoostDb, 3.2);
@@ -192,22 +194,22 @@ test("buildVocalLevelCommand targets selected items with safe defaults", () => {
   assert.equal(command.sustainLowPercent, 50);
   assert.equal(command.sustainHighPercent, 90);
   assert.equal(command.transientCrestDb, 6);
-  assert.equal(command.detectWindowMs, 10);
-  assert.equal(command.detectSilenceDb, -50);
-  assert.equal(command.detectRangeDb, 45);
-  assert.equal(command.partMergeGapMs, 140);
-  assert.equal(command.minPartMs, 90);
-  assert.equal(command.syllableSplitDb, 10);
-  assert.equal(command.syllableSplitHoldMs, 60);
-  assert.equal(command.minGainChangeDb, 7);
+  assert.equal(command.detectWindowMs, 15);
+  assert.equal(command.detectSilenceDb, -45);
+  assert.equal(command.detectRangeDb, 35);
+  assert.equal(command.partMergeGapMs, 90);
+  assert.equal(command.minPartMs, 80);
+  assert.equal(command.syllableSplitDb, 8);
+  assert.equal(command.syllableSplitHoldMs, 45);
+  assert.equal(command.minGainChangeDb, 3);
   assert.equal(command.gainMergeGapMs, 0);
   assert.equal(command.zeroCrossing, true);
   assert.equal(command.zeroCrossingSearchMs, 12);
-  assert.equal(command.curveSmoothMs, 800);
-  assert.equal(command.curveToleranceDb, 7);
-  assert.equal(command.curveMinPointGapMs, 800);
-  assert.equal(command.curveDetail, 0.08);
-  assert.equal(command.curveEdgeRampMs, 160);
+  assert.equal(command.curveSmoothMs, 120);
+  assert.equal(command.curveToleranceDb, 1.5);
+  assert.equal(command.curveMinPointGapMs, 90);
+  assert.equal(command.curveDetail, 0.75);
+  assert.equal(command.curveEdgeRampMs, 45);
   assert.equal(command.paddingMs, 8);
   assert.equal(command.rampMs, 0);
 });
@@ -220,6 +222,8 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
     "selected-item-index": "3",
     "variant-label": "ROBUST_REL",
     "max-boost": "12",
+    "max-cut-db": "9",
+    "replace-envelope": true,
     "peak-ceiling": "-1",
     "measurement-mode": "sustain-robust",
     "level-mode": "absolute",
@@ -253,6 +257,8 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
   assert.equal(command.selectedItemIndex, 3);
   assert.equal(command.variantLabel, "ROBUST_REL");
   assert.equal(command.maxBoostDb, 12);
+  assert.equal(command.maxCutDb, 9);
+  assert.equal(command.replaceEnvelope, true);
   assert.equal(command.peakCeilingDb, -1);
   assert.equal(command.measurementMode, "sustain_robust");
   assert.equal(command.levelMode, "absolute");
@@ -287,6 +293,18 @@ test("buildVocalLevelCommand rejects invalid sustain percentile band", () => {
     () => buildVocalLevelCommand({ "selected-items": true, "sustain-low-percent": "90", "sustain-high-percent": "50" }),
     /Sustain high percent/
   );
+});
+
+test("buildVocalLevelCommand keeps legacy relative mode explicit", () => {
+  const command = buildVocalLevelCommand({
+    "selected-items": true,
+    "level-mode": "relative",
+    "reference-percentile": "60",
+    "preserve-loudness": "0.25"
+  });
+  assert.equal(command.levelMode, "relative");
+  assert.equal(command.referencePercentile, 60);
+  assert.equal(command.preserveLoudness, 0.25);
 });
 
 test("buildSelectItemsCommand can select items from selected tracks", () => {
