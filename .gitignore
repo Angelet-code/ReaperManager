@@ -1,0 +1,19 @@
+node_modules/
+npm-debug.log*
+
+# Local REAPER bridge runtime state and generated local data
+.reaper-manager/
+
+# Build/test/cache output
+coverage/
+.nyc_output/
+.cache/
+dist/
+tmp/
+temp/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

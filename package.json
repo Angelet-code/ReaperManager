@@ -1,0 +1,21 @@
+{
+  "name": "reaper-manager",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local Codex-to-REAPER assistant bridge for mix setup tasks.",
+  "bin": {
+    "reaper-manager": "./bin/reaper-manager.js"
+  },
+  "scripts": {
+    "install:reaper": "node ./bin/reaper-manager.js install",
+    "status": "node ./bin/reaper-manager.js status",
+    "test": "node --test test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "openai": "^6.39.0"
+  }
+}
