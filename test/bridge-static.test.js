@@ -22,7 +22,7 @@ test("bridge reports runtime version and vocal-level capabilities", () => {
   const heartbeat = extractFunction(source, "heartbeat", "track_name");
   const ping = extractFunction(source, "command_ping", "command_undo");
 
-  assert.match(source, /local BRIDGE_VERSION = "vocal-level-macro-micro-2026-05-24"/);
+  assert.match(source, /local BRIDGE_VERSION = "vocal-level-phased-macro-micro-2026-05-24"/);
   assert.match(source, /vocal_level_estimated_points = true/);
   assert.match(source, /vocal_level_zero_crossing_curve = true/);
   assert.match(source, /vocal_level_phrase_safe_defaults = true/);
@@ -45,7 +45,13 @@ test("vocal-level macro_micro is the runtime default with V2 safety settings", (
   assert.match(settings, /macro_max_zones = math\.max\(1, math\.floor\(tonumber\(command\.macroMaxZones\) or 8\)\)/);
   assert.match(settings, /macro_deadband_db = tonumber\(command\.macroDeadbandDb\) or 1/);
   assert.match(settings, /macro_max_boost_db = tonumber\(command\.macroMaxBoostDb\) or 8/);
+  assert.match(settings, /meso_gap_s = \(tonumber\(command\.mesoGapMs\) or 350\) \/ 1000/);
+  assert.match(settings, /meso_min_zone_s = \(tonumber\(command\.mesoMinZoneMs\) or 450\) \/ 1000/);
+  assert.match(settings, /meso_max_zones_per_macro = math\.max\(1, math\.floor\(tonumber\(command\.mesoMaxZonesPerMacro\) or 24\)\)/);
   assert.match(settings, /micro_repair = command\.microRepair ~= false/);
+  assert.match(settings, /micro_clear_drop_db = tonumber\(command\.microClearDropDb\) or 4/);
+  assert.match(settings, /micro_boost_strength = clamp\(tonumber\(command\.microBoostStrength\) or 0\.45, 0, 1\)/);
+  assert.match(settings, /micro_cut_strength = clamp\(tonumber\(command\.microCutStrength\) or 0\.55, 0, 1\)/);
   assert.match(settings, /micro_max_boost_db = tonumber\(command\.microMaxBoostDb\) or 2\.5/);
   assert.match(settings, /protected_max_boost_db = tonumber\(command\.protectedMaxBoostDb\) or 0/);
   assert.match(settings, /point_density_reject_per_minute = tonumber\(command\.pointDensityRejectPerMinute\) or 100/);
@@ -84,12 +90,21 @@ test("vocal-level macro_micro levels macro zones before local detail", () => {
   const analyzer = extractFunction(source, "analyze_item_for_vocal_level", "envelope_point_count");
 
   assert.match(macro, /local zones = build_macro_zones\(segments, ctx, settings\)/);
+  assert.match(macro, /local meso_zones = build_meso_zones\(zone\.segments or \{\}, settings\)/);
   assert.match(macro, /item_gain_stage_db = vocal_deadband_gain/);
-  assert.match(macro, /zone\.macro_gain_db = clamp/);
-  assert.match(macro, /local_delta_db = \(zone\.reference_db/);
+  assert.match(macro, /zone\.macro_gain_db = vocal_deadband_gain/);
+  assert.match(macro, /meso_zone\.meso_gain_db = vocal_deadband_gain/);
+  assert.match(macro, /local_delta_db = \(meso_zone\.reference_db/);
   assert.match(macro, /settings\.micro_repair/);
+  assert.match(macro, /local_delta_db < -math\.max\(settings\.micro_deadband_db/);
+  assert.match(macro, /local_delta_db >= \(settings\.micro_clear_drop_db or 4\)/);
+  assert.match(macro, /settings\.micro_cut_strength/);
+  assert.match(macro, /settings\.micro_boost_strength/);
   assert.match(macro, /macro_micro_segment_is_protected/);
+  assert.match(macro, /if protected and detail_gain_db > \(settings\.protected_max_boost_db or 0\) then/);
   assert.match(macro, /settings\.protected_max_boost_db/);
+  assert.match(macro, /local segment_corrected = math\.abs\(effective_detail_gain_db\) > 0\.001/);
+  assert.match(macro, /segment\.protected = not segment_corrected/);
   assert.match(macro, /limit_vocal_envelope_gain\(requested_gain_db, ctx/);
   assert.match(analyzer, /elseif settings\.level_mode == "macro_micro" then\s+local macro_report, macro_reason = apply_macro_micro_vocal_leveling\(segments, ctx, settings\)/);
   assert.doesNotMatch(macro, /command_gain_stage_items/);
@@ -157,14 +172,24 @@ test("vocal-level report includes macro_micro telemetry and point density", () =
   const body = extractFunction(source, "command_vocal_level_items", "normalize_words");
 
   assert.match(body, /total_macro_zones = total_macro_zones \+ \(analysis\.macro_zone_count or 0\)/);
+  assert.match(body, /total_meso_zones = total_meso_zones \+ \(analysis\.meso_zone_count or 0\)/);
   assert.match(body, /total_protected_parts = total_protected_parts \+ \(analysis\.protected_parts or 0\)/);
   assert.match(body, /total_corrected_parts = total_corrected_parts \+ \(analysis\.corrected_parts or 0\)/);
   assert.match(body, /point_density_rejects = point_density_rejects \+ 1/);
   assert.match(body, /macro_zone_examples\[#macro_zone_examples \+ 1\]/);
   assert.match(body, /macro_zones = total_macro_zones/);
+  assert.match(body, /meso_zones = total_meso_zones/);
   assert.match(body, /macro_corrected_zones = total_macro_corrected_zones/);
+  assert.match(body, /meso_corrected_zones = total_meso_corrected_zones/);
+  assert.match(body, /macro_boost_zones = total_macro_boost_zones/);
+  assert.match(body, /macro_cut_zones = total_macro_cut_zones/);
+  assert.match(body, /meso_boost_zones = total_meso_boost_zones/);
+  assert.match(body, /meso_cut_zones = total_meso_cut_zones/);
   assert.match(body, /protected_parts = total_protected_parts/);
   assert.match(body, /corrected_parts = total_corrected_parts/);
+  assert.match(body, /micro_boost_parts = total_micro_boost_parts/);
+  assert.match(body, /micro_cut_parts = total_micro_cut_parts/);
+  assert.match(body, /phase_counts = \{/);
   assert.match(body, /point_density_per_minute = max_point_density_per_minute/);
   assert.match(body, /max_boost_db = settings\.max_boost_db/);
   assert.match(body, /limited_by_max_boost = limited_by_max_boost/);

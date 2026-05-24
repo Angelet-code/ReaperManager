@@ -206,11 +206,17 @@ test("buildVocalLevelCommand targets selected items with safe defaults", () => {
   assert.equal(command.macroDeadbandDb, 1);
   assert.equal(command.macroMaxBoostDb, 8);
   assert.equal(command.macroMaxCutDb, 8);
+  assert.equal(command.mesoGapMs, 350);
+  assert.equal(command.mesoMinZoneMs, 450);
+  assert.equal(command.mesoMaxZonesPerMacro, 24);
   assert.equal(command.mesoStrength, 0.75);
   assert.equal(command.mesoDeadbandDb, 1);
   assert.equal(command.mesoMaxBoostDb, 4);
   assert.equal(command.mesoMaxCutDb, 4);
   assert.equal(command.microRepair, true);
+  assert.equal(command.microClearDropDb, 4);
+  assert.equal(command.microBoostStrength, 0.45);
+  assert.equal(command.microCutStrength, 0.55);
   assert.equal(command.microDeadbandDb, 1.5);
   assert.equal(command.microMaxBoostDb, 2.5);
   assert.equal(command.microMaxCutDb, 3);
@@ -269,11 +275,17 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
     "macro-deadband-db": "1.2",
     "macro-max-boost-db": "7",
     "macro-max-cut-db": "6",
+    "meso-gap-ms": "280",
+    "meso-min-zone-ms": "600",
+    "meso-max-zones-per-macro": "12",
     "meso-strength": "0.6",
     "meso-deadband-db": "1.4",
     "meso-max-boost-db": "3.5",
     "meso-max-cut-db": "3.75",
     "micro-repair": "false",
+    "micro-clear-drop-db": "5",
+    "micro-boost-strength": "0.35",
+    "micro-cut-strength": "0.6",
     "micro-deadband-db": "1.8",
     "micro-max-boost-db": "2",
     "micro-max-cut-db": "2.8",
@@ -325,11 +337,17 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
   assert.equal(command.macroDeadbandDb, 1.2);
   assert.equal(command.macroMaxBoostDb, 7);
   assert.equal(command.macroMaxCutDb, 6);
+  assert.equal(command.mesoGapMs, 280);
+  assert.equal(command.mesoMinZoneMs, 600);
+  assert.equal(command.mesoMaxZonesPerMacro, 12);
   assert.equal(command.mesoStrength, 0.6);
   assert.equal(command.mesoDeadbandDb, 1.4);
   assert.equal(command.mesoMaxBoostDb, 3.5);
   assert.equal(command.mesoMaxCutDb, 3.75);
   assert.equal(command.microRepair, false);
+  assert.equal(command.microClearDropDb, 5);
+  assert.equal(command.microBoostStrength, 0.35);
+  assert.equal(command.microCutStrength, 0.6);
   assert.equal(command.microDeadbandDb, 1.8);
   assert.equal(command.microMaxBoostDb, 2);
   assert.equal(command.microMaxCutDb, 2.8);

@@ -32,8 +32,12 @@ The target `-18 dBFS = 0 VU` remains the gain-staging reference. Selected vocal 
 - Macro gap initial value: about `900 ms`
 - Minimum macro-zone length: about `1.2 s`
 - Macro correction cap: `+/-8 dB`
+- Meso gap initial value: about `350 ms`
+- Minimum meso-zone length: about `450 ms`
 - Meso phrase correction cap: about `+/-4 dB`
 - Micro word/syllable correction cap: about `+2.5 dB boost`, `-3 dB cut`
+- Micro boost only for clear drops: about `4 dB` below context
+- Micro strong-syllable cut strength: about half-way toward context
 - Total normal boost cap: `+8 dB`
 - Total normal cut cap: `-8 dB`
 - Macro deadband: about `1 dB`
@@ -53,6 +57,7 @@ Reject a design or test run when:
 - It raises parts that were already good.
 - It treats loud and soft macro zones with the same absolute rule.
 - It fails to lift clearly dropped syllables/words after macro gain staging.
+- It produces a long-take pass where every final segment is boosted and no phase reports meaningful cuts, unless the whole take is genuinely under-gain-staged and no segments are high relative to context.
 - It relies on `+12 dB` boosts as a normal path.
 - More than `10%` of parts hit max boost.
 - Breath, room tone or tails are boosted more than about `2 dB`.
@@ -63,6 +68,7 @@ Reject a design or test run when:
 - The compressor receives a steadier vocal after clip gain, but the performance still breathes.
 - Verses, choruses and phrase intent remain partially different when they were sung differently.
 - Main macro zones are gain-staged before syllable-level work.
+- Loud macro zones, subzones or syllables can be cut; the report should separate boosts and cuts by phase.
 - Syllables/words that are audibly low are corrected.
 - Parts already at a good level are protected.
 - No audible rise in noise, breaths or tails between lines.

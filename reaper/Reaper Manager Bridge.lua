@@ -11,7 +11,7 @@ local state_dir = root .. "/.reaper-manager/state"
 local response_dir = state_dir .. "/responses"
 local running = true
 local last_poll = 0
-local BRIDGE_VERSION = "vocal-level-macro-micro-2026-05-24"
+local BRIDGE_VERSION = "vocal-level-phased-macro-micro-2026-05-24"
 
 local function bridge_features()
   return {
@@ -1304,11 +1304,17 @@ local function vocal_level_settings(command)
     macro_deadband_db = tonumber(command.macroDeadbandDb) or 1,
     macro_max_boost_db = tonumber(command.macroMaxBoostDb) or 8,
     macro_max_cut_db = tonumber(command.macroMaxCutDb) or 8,
+    meso_gap_s = (tonumber(command.mesoGapMs) or 350) / 1000,
+    meso_min_zone_s = (tonumber(command.mesoMinZoneMs) or 450) / 1000,
+    meso_max_zones_per_macro = math.max(1, math.floor(tonumber(command.mesoMaxZonesPerMacro) or 24)),
     meso_strength = clamp(tonumber(command.mesoStrength) or 0.75, 0, 1),
     meso_deadband_db = tonumber(command.mesoDeadbandDb) or 1,
     meso_max_boost_db = tonumber(command.mesoMaxBoostDb) or 4,
     meso_max_cut_db = tonumber(command.mesoMaxCutDb) or 4,
     micro_repair = command.microRepair ~= false,
+    micro_clear_drop_db = tonumber(command.microClearDropDb) or 4,
+    micro_boost_strength = clamp(tonumber(command.microBoostStrength) or 0.45, 0, 1),
+    micro_cut_strength = clamp(tonumber(command.microCutStrength) or 0.55, 0, 1),
     micro_deadband_db = tonumber(command.microDeadbandDb) or 1.5,
     micro_max_boost_db = tonumber(command.microMaxBoostDb) or 2.5,
     micro_max_cut_db = tonumber(command.microMaxCutDb) or 3,
@@ -2271,6 +2277,120 @@ local function macro_micro_segment_is_protected(segment, zone, settings)
   return false, nil
 end
 
+local function merge_meso_zone(left, right)
+  if not left then return right end
+  if not right then return left end
+
+  for _, segment in ipairs(right.segments or {}) do
+    left.segments[#left.segments + 1] = segment
+  end
+  left.start_rel = math.min(left.start_rel or right.start_rel or 0, right.start_rel or left.start_rel or 0)
+  left.end_rel = math.max(left.end_rel or right.end_rel or 0, right.end_rel or left.end_rel or 0)
+  left.segment_count = #left.segments
+  return left
+end
+
+local function meso_zone_gap(left, right)
+  if not left or not right then return math.huge end
+  return math.max(0, (right.start_rel or 0) - (left.end_rel or 0))
+end
+
+local function finalize_meso_zone_stats(zone, settings)
+  local entries = {}
+  local weight_sum = 0
+  for _, segment in ipairs(zone.segments or {}) do
+    local weight = vocal_segment_weight(segment)
+    entries[#entries + 1] = {
+      value = segment.current_db or -150,
+      weight = weight
+    }
+    weight_sum = weight_sum + weight
+  end
+
+  zone.segment_count = #(zone.segments or {})
+  zone.duration_s = math.max(0, (zone.end_rel or 0) - (zone.start_rel or 0))
+  zone.reference_db = weighted_percentile(entries, settings.reference_percentile or 65)
+  zone.weight = weight_sum
+end
+
+local function build_meso_zones(segments, settings)
+  local zones = {}
+  local current = nil
+  local gap_s = settings.meso_gap_s or 0.35
+  local min_zone_s = settings.meso_min_zone_s or 0.45
+
+  for _, segment in ipairs(segments or {}) do
+    local start_rel = segment.start_rel or 0
+    local end_rel = segment.end_rel or start_rel
+    local gap = current and (start_rel - (current.end_rel or start_rel)) or 0
+    if current and gap > gap_s and ((current.end_rel or 0) - (current.start_rel or 0)) >= min_zone_s then
+      zones[#zones + 1] = current
+      current = nil
+    end
+
+    if not current then
+      current = {
+        start_rel = start_rel,
+        end_rel = end_rel,
+        segments = {}
+      }
+    end
+
+    current.segments[#current.segments + 1] = segment
+    current.end_rel = math.max(current.end_rel or end_rel, end_rel)
+  end
+
+  if current then zones[#zones + 1] = current end
+
+  local changed = true
+  while changed and #zones > 1 do
+    changed = false
+    for index, zone in ipairs(zones) do
+      local duration = math.max(0, (zone.end_rel or 0) - (zone.start_rel or 0))
+      if duration < min_zone_s then
+        local merge_with_previous = index > 1 and (index == #zones or meso_zone_gap(zones[index - 1], zone) <= meso_zone_gap(zone, zones[index + 1]))
+        if merge_with_previous then
+          merge_meso_zone(zones[index - 1], zone)
+          table.remove(zones, index)
+        else
+          merge_meso_zone(zone, zones[index + 1])
+          table.remove(zones, index + 1)
+        end
+        changed = true
+        break
+      end
+    end
+  end
+
+  local max_zones = settings.meso_max_zones_per_macro or 24
+  while #zones > max_zones do
+    local best_index = 1
+    local best_gap = math.huge
+    for index = 1, #zones - 1 do
+      local gap = meso_zone_gap(zones[index], zones[index + 1])
+      if gap < best_gap then
+        best_gap = gap
+        best_index = index
+      end
+    end
+    merge_meso_zone(zones[best_index], zones[best_index + 1])
+    table.remove(zones, best_index + 1)
+  end
+
+  for index, zone in ipairs(zones) do
+    zone.index = index
+    finalize_meso_zone_stats(zone, settings)
+  end
+
+  return zones
+end
+
+local function classify_gain_direction(gain_db)
+  if (gain_db or 0) > 0.001 then return "boost" end
+  if (gain_db or 0) < -0.001 then return "cut" end
+  return "none"
+end
+
 local function apply_macro_micro_vocal_leveling(segments, ctx, settings)
   local zones = build_macro_zones(segments, ctx, settings)
   if not zones or #zones == 0 then return nil, "no macro zones" end
@@ -2300,119 +2420,202 @@ local function apply_macro_micro_vocal_leveling(segments, ctx, settings)
     item_gain_stage_db = item_gain_stage_db,
     macro_zone_count = #zones,
     macro_zones = {},
+    meso_zone_count = 0,
     protected_parts = 0,
     corrected_parts = 0,
     meso_corrected_parts = 0,
     micro_corrected_parts = 0,
     macro_corrected_zones = 0,
+    meso_corrected_zones = 0,
+    macro_boost_zones = 0,
+    macro_cut_zones = 0,
+    meso_boost_zones = 0,
+    meso_cut_zones = 0,
+    micro_boost_parts = 0,
+    micro_cut_parts = 0,
     max_boost_hits = 0,
-    max_cut_hits = 0
+    max_cut_hits = 0,
+    phase_counts = {
+      macro = { boost = 0, cut = 0 },
+      meso = { boost = 0, cut = 0 },
+      micro = { boost = 0, cut = 0 }
+    }
   }
 
   for _, zone in ipairs(zones) do
-    local zone_delta = target_dbfs - ((zone.reference_db or target_dbfs) + item_gain_stage_db)
-    zone.zone_gain_db = vocal_deadband_gain(
-      zone_delta,
+    local macro_delta = target_dbfs - (zone.reference_db or target_dbfs)
+    zone.zone_gain_db = 0
+    zone.macro_gain_db = vocal_deadband_gain(
+      macro_delta,
       settings.macro_deadband_db,
       settings.macro_strength,
       settings.macro_max_boost_db,
       settings.macro_max_cut_db
     )
-    zone.macro_gain_db = clamp(
-      item_gain_stage_db + zone.zone_gain_db,
-      -(settings.macro_max_cut_db or settings.max_cut_db or 8),
-      settings.macro_max_boost_db or settings.max_boost_db or 8
-    )
     if math.abs(zone.macro_gain_db or 0) > 0.001 then
       report.macro_corrected_zones = report.macro_corrected_zones + 1
+      local direction = classify_gain_direction(zone.macro_gain_db)
+      if direction == "boost" then
+        report.macro_boost_zones = report.macro_boost_zones + 1
+        report.phase_counts.macro.boost = report.phase_counts.macro.boost + 1
+      elseif direction == "cut" then
+        report.macro_cut_zones = report.macro_cut_zones + 1
+        report.phase_counts.macro.cut = report.phase_counts.macro.cut + 1
+      end
     end
 
     zone.protected_parts = 0
     zone.corrected_parts = 0
     zone.meso_corrected_parts = 0
     zone.micro_corrected_parts = 0
+    zone.meso_zone_count = 0
+    zone.meso_corrected_zones = 0
+    zone.meso_boost_zones = 0
+    zone.meso_cut_zones = 0
+    zone.micro_boost_parts = 0
+    zone.micro_cut_parts = 0
 
-    for _, segment in ipairs(zone.segments or {}) do
-      segment.macro_zone_index = zone.index
-      segment.macro_reference_db = zone.reference_db
-      segment.item_gain_stage_db = item_gain_stage_db
-      segment.zone_gain_db = zone.zone_gain_db
-      segment.macro_gain_db = zone.macro_gain_db
+    local meso_zones = build_meso_zones(zone.segments or {}, settings)
+    zone.meso_zone_count = #meso_zones
+    report.meso_zone_count = report.meso_zone_count + #meso_zones
 
-      local local_delta_db = (zone.reference_db or segment.current_db or -150) - (segment.current_db or -150)
-      local wants_boost = local_delta_db > 0
-      local protected, protected_reason = macro_micro_segment_is_protected(segment, zone, settings)
-      local already_good = math.abs(local_delta_db) <= (settings.already_good_db or 1)
-      local short_repair = settings.micro_repair and (segment.length or 0) <= math.max(0.9, (settings.min_part_s or 0.3) * 2)
-      local detail_gain_db = 0
-      local correction_stage = "protected"
-
-      if already_good then
-        segment.already_good = true
-        correction_stage = "already_good"
-      else
-        local deadband = short_repair and (settings.micro_deadband_db or 1.5) or (settings.meso_deadband_db or 1)
-        if math.abs(local_delta_db) <= deadband then
-          correction_stage = "deadband"
-        else
-          local boost_cap = short_repair and (settings.micro_max_boost_db or 2.5) or (settings.meso_max_boost_db or 4)
-          local cut_cap = short_repair and (settings.micro_max_cut_db or 3) or (settings.meso_max_cut_db or 4)
-          detail_gain_db = clamp(local_delta_db * (settings.meso_strength or 0.75), -cut_cap, boost_cap)
-          correction_stage = short_repair and "micro" or "meso"
-
-          if protected and wants_boost then
-            detail_gain_db = math.min(detail_gain_db, settings.protected_max_boost_db or 0)
-            correction_stage = "protected"
-          end
+    for _, meso_zone in ipairs(meso_zones) do
+      local meso_delta_db = (zone.reference_db or meso_zone.reference_db or -150) - (meso_zone.reference_db or zone.reference_db or -150)
+      meso_zone.meso_gain_db = vocal_deadband_gain(
+        meso_delta_db,
+        settings.meso_deadband_db,
+        settings.meso_strength,
+        settings.meso_max_boost_db,
+        settings.meso_max_cut_db
+      )
+      if math.abs(meso_zone.meso_gain_db or 0) > 0.001 then
+        report.meso_corrected_zones = report.meso_corrected_zones + 1
+        zone.meso_corrected_zones = zone.meso_corrected_zones + 1
+        local direction = classify_gain_direction(meso_zone.meso_gain_db)
+        if direction == "boost" then
+          report.meso_boost_zones = report.meso_boost_zones + 1
+          report.phase_counts.meso.boost = report.phase_counts.meso.boost + 1
+          zone.meso_boost_zones = zone.meso_boost_zones + 1
+        elseif direction == "cut" then
+          report.meso_cut_zones = report.meso_cut_zones + 1
+          report.phase_counts.meso.cut = report.phase_counts.meso.cut + 1
+          zone.meso_cut_zones = zone.meso_cut_zones + 1
         end
       end
 
-      if correction_stage == "protected" or correction_stage == "already_good" or correction_stage == "deadband" then
-        report.protected_parts = report.protected_parts + 1
-        zone.protected_parts = zone.protected_parts + 1
-      end
+      for _, segment in ipairs(meso_zone.segments or {}) do
+        segment.macro_zone_index = zone.index
+        segment.meso_zone_index = meso_zone.index
+        segment.macro_reference_db = zone.reference_db
+        segment.meso_reference_db = meso_zone.reference_db
+        segment.item_gain_stage_db = item_gain_stage_db
+        segment.zone_gain_db = zone.zone_gain_db
+        segment.macro_gain_db = zone.macro_gain_db
+        segment.meso_gain_db = meso_zone.meso_gain_db
 
-      local requested_gain_db = (zone.macro_gain_db or 0) + detail_gain_db
-      local envelope = limit_vocal_envelope_gain(requested_gain_db, ctx, {
-        source_peak_db = segment.raw_peak_db,
-        source_rms_db = segment.measured_db,
-        sustain_db = segment.sustain_db,
-        limited_by_peak = segment.limited_by_peak,
-        limited_by_max_boost = segment.limited_by_max_boost,
-        limited_by_max_cut = segment.limited_by_max_cut
-      }, settings)
-      if envelope.unresolved_peak then
-        return nil, "peak ceiling requires more cut than max-cut"
-      end
+        local local_delta_db = (meso_zone.reference_db or segment.current_db or -150) - (segment.current_db or -150)
+        local protected, protected_reason = macro_micro_segment_is_protected(segment, zone, settings)
+        local already_good = math.abs(local_delta_db) <= (settings.already_good_db or 1)
+        local micro_gain_db = 0
+        local correction_stage = "deadband"
 
-      segment.detail_gain_db = envelope.gain_db - (zone.macro_gain_db or 0)
-      segment.requested_detail_gain_db = detail_gain_db
-      segment.gain_db = envelope.gain_db
-      segment.take_gain_db = envelope.take_gain_db
-      segment.final_peak_db = envelope.final_peak_db
-      segment.final_vu = envelope.final_vu
-      segment.limited_by_peak = envelope.limited_by_peak
-      segment.limited_by_max_boost = envelope.limited_by_max_boost
-      segment.limited_by_max_cut = envelope.limited_by_max_cut
-      segment.correction_stage = correction_stage
-      segment.protected = protected or already_good or correction_stage == "deadband"
-      segment.protected_reason = protected_reason
-      segment.local_delta_db = local_delta_db
+        if already_good then
+          segment.already_good = true
+          correction_stage = "already_good"
+        elseif settings.micro_repair ~= false then
+          if local_delta_db < -math.max(settings.micro_deadband_db or 1.5, 0) then
+            micro_gain_db = clamp(
+              local_delta_db * (settings.micro_cut_strength or 0.55),
+              -(settings.micro_max_cut_db or 3),
+              0
+            )
+            correction_stage = "micro_cut"
+          elseif local_delta_db >= (settings.micro_clear_drop_db or 4) then
+            micro_gain_db = clamp(
+              local_delta_db * (settings.micro_boost_strength or 0.45),
+              0,
+              settings.micro_max_boost_db or 2.5
+            )
+            correction_stage = "micro_boost"
+            if protected then
+              micro_gain_db = math.min(micro_gain_db, settings.protected_max_boost_db or 0)
+              correction_stage = "protected"
+            end
+          elseif local_delta_db > (settings.micro_deadband_db or 1.5) then
+            correction_stage = "low_not_clear"
+          end
+        end
 
-      if math.abs(segment.detail_gain_db or 0) > 0.001 then
-        report.corrected_parts = report.corrected_parts + 1
-        zone.corrected_parts = zone.corrected_parts + 1
-        if correction_stage == "micro" then
-          report.micro_corrected_parts = report.micro_corrected_parts + 1
-          zone.micro_corrected_parts = zone.micro_corrected_parts + 1
-        elseif correction_stage == "meso" then
+        local detail_gain_db = (meso_zone.meso_gain_db or 0) + micro_gain_db
+        if protected and detail_gain_db > (settings.protected_max_boost_db or 0) then
+          detail_gain_db = settings.protected_max_boost_db or 0
+          correction_stage = "protected"
+        end
+        local requested_gain_db = (zone.macro_gain_db or 0) + detail_gain_db
+        local envelope = limit_vocal_envelope_gain(requested_gain_db, ctx, {
+          source_peak_db = segment.raw_peak_db,
+          source_rms_db = segment.measured_db,
+          sustain_db = segment.sustain_db,
+          limited_by_peak = segment.limited_by_peak,
+          limited_by_max_boost = segment.limited_by_max_boost,
+          limited_by_max_cut = segment.limited_by_max_cut
+        }, settings)
+        if envelope.unresolved_peak then
+          return nil, "peak ceiling requires more cut than max-cut"
+        end
+
+        local effective_detail_gain_db = envelope.gain_db - (zone.macro_gain_db or 0)
+        segment.detail_gain_db = effective_detail_gain_db
+        segment.requested_detail_gain_db = detail_gain_db
+        segment.micro_gain_db = micro_gain_db
+        segment.gain_db = envelope.gain_db
+        segment.take_gain_db = envelope.take_gain_db
+        segment.final_peak_db = envelope.final_peak_db
+        segment.final_vu = envelope.final_vu
+        segment.limited_by_peak = envelope.limited_by_peak
+        segment.limited_by_max_boost = envelope.limited_by_max_boost
+        segment.limited_by_max_cut = envelope.limited_by_max_cut
+        segment.correction_stage = correction_stage
+        local meso_applied = math.abs(meso_zone.meso_gain_db or 0) > 0.001 and math.abs(effective_detail_gain_db) > 0.001
+        local micro_applied = math.abs(micro_gain_db or 0) > 0.001 and math.abs(effective_detail_gain_db) > 0.001
+        local segment_corrected = math.abs(effective_detail_gain_db) > 0.001
+        segment.protected = not segment_corrected and (protected or already_good or correction_stage == "deadband" or correction_stage == "low_not_clear")
+        segment.protected_reason = protected_reason
+        segment.local_delta_db = local_delta_db
+
+        if segment.protected then
+          report.protected_parts = report.protected_parts + 1
+          zone.protected_parts = zone.protected_parts + 1
+        end
+
+        if segment_corrected then
+          report.corrected_parts = report.corrected_parts + 1
+          zone.corrected_parts = zone.corrected_parts + 1
+        end
+
+        if meso_applied then
           report.meso_corrected_parts = report.meso_corrected_parts + 1
           zone.meso_corrected_parts = zone.meso_corrected_parts + 1
         end
-      end
 
-      if segment.limited_by_max_boost then report.max_boost_hits = report.max_boost_hits + 1 end
-      if segment.limited_by_max_cut then report.max_cut_hits = report.max_cut_hits + 1 end
+        if micro_applied then
+          report.micro_corrected_parts = report.micro_corrected_parts + 1
+          zone.micro_corrected_parts = zone.micro_corrected_parts + 1
+          local direction = classify_gain_direction(micro_gain_db)
+          if direction == "boost" then
+            report.micro_boost_parts = report.micro_boost_parts + 1
+            report.phase_counts.micro.boost = report.phase_counts.micro.boost + 1
+            zone.micro_boost_parts = zone.micro_boost_parts + 1
+          elseif direction == "cut" then
+            report.micro_cut_parts = report.micro_cut_parts + 1
+            report.phase_counts.micro.cut = report.phase_counts.micro.cut + 1
+            zone.micro_cut_parts = zone.micro_cut_parts + 1
+          end
+        end
+
+        if segment.limited_by_max_boost then report.max_boost_hits = report.max_boost_hits + 1 end
+        if segment.limited_by_max_cut then report.max_cut_hits = report.max_cut_hits + 1 end
+      end
     end
 
     report.macro_zones[#report.macro_zones + 1] = {
@@ -2425,10 +2628,16 @@ local function apply_macro_micro_vocal_leveling(segments, ctx, settings)
       item_gain_stage_db = item_gain_stage_db,
       zone_gain_db = zone.zone_gain_db,
       macro_gain_db = zone.macro_gain_db,
+      meso_zones = zone.meso_zone_count,
+      meso_corrected_zones = zone.meso_corrected_zones,
+      meso_boost_zones = zone.meso_boost_zones,
+      meso_cut_zones = zone.meso_cut_zones,
       protected_parts = zone.protected_parts,
       corrected_parts = zone.corrected_parts,
       meso_corrected_parts = zone.meso_corrected_parts,
-      micro_corrected_parts = zone.micro_corrected_parts
+      micro_corrected_parts = zone.micro_corrected_parts,
+      micro_boost_parts = zone.micro_boost_parts,
+      micro_cut_parts = zone.micro_cut_parts
     }
   end
 
@@ -2559,9 +2768,18 @@ local function analyze_item_for_vocal_level(item, settings)
         macro_micro = macro_micro_report,
         macro_zones = macro_micro_report and macro_micro_report.macro_zones or nil,
         macro_zone_count = macro_micro_report and macro_micro_report.macro_zone_count or 0,
+        meso_zone_count = macro_micro_report and macro_micro_report.meso_zone_count or 0,
         macro_item_reference_db = macro_micro_report and macro_micro_report.item_reference_db or nil,
         macro_item_gain_stage_db = macro_micro_report and macro_micro_report.item_gain_stage_db or nil,
         macro_corrected_zones = macro_micro_report and macro_micro_report.macro_corrected_zones or 0,
+        meso_corrected_zones = macro_micro_report and macro_micro_report.meso_corrected_zones or 0,
+        macro_boost_zones = macro_micro_report and macro_micro_report.macro_boost_zones or 0,
+        macro_cut_zones = macro_micro_report and macro_micro_report.macro_cut_zones or 0,
+        meso_boost_zones = macro_micro_report and macro_micro_report.meso_boost_zones or 0,
+        meso_cut_zones = macro_micro_report and macro_micro_report.meso_cut_zones or 0,
+        micro_boost_parts = macro_micro_report and macro_micro_report.micro_boost_parts or 0,
+        micro_cut_parts = macro_micro_report and macro_micro_report.micro_cut_parts or 0,
+        phase_counts = macro_micro_report and macro_micro_report.phase_counts or nil,
         protected_parts = macro_micro_report and macro_micro_report.protected_parts or 0,
         corrected_parts = macro_micro_report and macro_micro_report.corrected_parts or 0,
         meso_corrected_parts = macro_micro_report and macro_micro_report.meso_corrected_parts or 0,
@@ -2752,11 +2970,19 @@ local function command_vocal_level_items(command)
   local total_detected_segments = 0
   local total_segments = 0
   local total_macro_zones = 0
+  local total_meso_zones = 0
   local total_macro_corrected_zones = 0
+  local total_meso_corrected_zones = 0
+  local total_macro_boost_zones = 0
+  local total_macro_cut_zones = 0
+  local total_meso_boost_zones = 0
+  local total_meso_cut_zones = 0
   local total_protected_parts = 0
   local total_corrected_parts = 0
   local total_meso_corrected_parts = 0
   local total_micro_corrected_parts = 0
+  local total_micro_boost_parts = 0
+  local total_micro_cut_parts = 0
   local total_points = 0
   local total_selected_windows = 0
   local total_excluded_windows = 0
@@ -2839,11 +3065,19 @@ local function command_vocal_level_items(command)
             sum_average_final_correction_db = sum_average_final_correction_db + analysis.average_final_correction_db
           end
           total_macro_zones = total_macro_zones + (analysis.macro_zone_count or 0)
+          total_meso_zones = total_meso_zones + (analysis.meso_zone_count or 0)
           total_macro_corrected_zones = total_macro_corrected_zones + (analysis.macro_corrected_zones or 0)
+          total_meso_corrected_zones = total_meso_corrected_zones + (analysis.meso_corrected_zones or 0)
+          total_macro_boost_zones = total_macro_boost_zones + (analysis.macro_boost_zones or 0)
+          total_macro_cut_zones = total_macro_cut_zones + (analysis.macro_cut_zones or 0)
+          total_meso_boost_zones = total_meso_boost_zones + (analysis.meso_boost_zones or 0)
+          total_meso_cut_zones = total_meso_cut_zones + (analysis.meso_cut_zones or 0)
           total_protected_parts = total_protected_parts + (analysis.protected_parts or 0)
           total_corrected_parts = total_corrected_parts + (analysis.corrected_parts or 0)
           total_meso_corrected_parts = total_meso_corrected_parts + (analysis.meso_corrected_parts or 0)
           total_micro_corrected_parts = total_micro_corrected_parts + (analysis.micro_corrected_parts or 0)
+          total_micro_boost_parts = total_micro_boost_parts + (analysis.micro_boost_parts or 0)
+          total_micro_cut_parts = total_micro_cut_parts + (analysis.micro_cut_parts or 0)
           if analysis.macro_item_gain_stage_db then
             sum_macro_item_gain_stage_db = sum_macro_item_gain_stage_db + analysis.macro_item_gain_stage_db
             macro_item_gain_stage_count = macro_item_gain_stage_count + 1
@@ -2892,10 +3126,16 @@ local function command_vocal_level_items(command)
                   item_gain_stage_db = zone.item_gain_stage_db,
                   zone_gain_db = zone.zone_gain_db,
                   macro_gain_db = zone.macro_gain_db,
+                  meso_zones = zone.meso_zones,
+                  meso_corrected_zones = zone.meso_corrected_zones,
+                  meso_boost_zones = zone.meso_boost_zones,
+                  meso_cut_zones = zone.meso_cut_zones,
                   protected_parts = zone.protected_parts,
                   corrected_parts = zone.corrected_parts,
                   meso_corrected_parts = zone.meso_corrected_parts,
-                  micro_corrected_parts = zone.micro_corrected_parts
+                  micro_corrected_parts = zone.micro_corrected_parts,
+                  micro_boost_parts = zone.micro_boost_parts,
+                  micro_cut_parts = zone.micro_cut_parts
                 }
               end
             end
@@ -2929,10 +3169,14 @@ local function command_vocal_level_items(command)
                 relative_gain_db = segment.relative_gain_db,
                 absolute_gain_db = segment.absolute_gain_db,
                 macro_zone_index = segment.macro_zone_index,
+                meso_zone_index = segment.meso_zone_index,
                 macro_reference_db = segment.macro_reference_db,
+                meso_reference_db = segment.meso_reference_db,
                 item_gain_stage_db = segment.item_gain_stage_db,
                 zone_gain_db = segment.zone_gain_db,
                 macro_gain_db = segment.macro_gain_db,
+                meso_gain_db = segment.meso_gain_db,
+                micro_gain_db = segment.micro_gain_db,
                 detail_gain_db = segment.detail_gain_db,
                 requested_detail_gain_db = segment.requested_detail_gain_db,
                 correction_stage = segment.correction_stage,
@@ -2976,11 +3220,33 @@ local function command_vocal_level_items(command)
     parts = total_segments,
     segments = total_segments,
     macro_zones = total_macro_zones,
+    meso_zones = total_meso_zones,
     macro_corrected_zones = total_macro_corrected_zones,
+    meso_corrected_zones = total_meso_corrected_zones,
+    macro_boost_zones = total_macro_boost_zones,
+    macro_cut_zones = total_macro_cut_zones,
+    meso_boost_zones = total_meso_boost_zones,
+    meso_cut_zones = total_meso_cut_zones,
     protected_parts = total_protected_parts,
     corrected_parts = total_corrected_parts,
     meso_corrected_parts = total_meso_corrected_parts,
     micro_corrected_parts = total_micro_corrected_parts,
+    micro_boost_parts = total_micro_boost_parts,
+    micro_cut_parts = total_micro_cut_parts,
+    phase_counts = {
+      macro = {
+        boost = total_macro_boost_zones,
+        cut = total_macro_cut_zones
+      },
+      meso = {
+        boost = total_meso_boost_zones,
+        cut = total_meso_cut_zones
+      },
+      micro = {
+        boost = total_micro_boost_parts,
+        cut = total_micro_cut_parts
+      }
+    },
     estimated_points = total_points,
     points = settings.preview and 0 or total_points,
     envelope_points_written = settings.preview and 0 or total_points,
@@ -3014,11 +3280,17 @@ local function command_vocal_level_items(command)
     macro_deadband_db = settings.macro_deadband_db,
     macro_max_boost_db = settings.macro_max_boost_db,
     macro_max_cut_db = settings.macro_max_cut_db,
+    meso_gap_ms = settings.meso_gap_s * 1000,
+    meso_min_zone_ms = settings.meso_min_zone_s * 1000,
+    meso_max_zones_per_macro = settings.meso_max_zones_per_macro,
     meso_strength = settings.meso_strength,
     meso_deadband_db = settings.meso_deadband_db,
     meso_max_boost_db = settings.meso_max_boost_db,
     meso_max_cut_db = settings.meso_max_cut_db,
     micro_repair = settings.micro_repair,
+    micro_clear_drop_db = settings.micro_clear_drop_db,
+    micro_boost_strength = settings.micro_boost_strength,
+    micro_cut_strength = settings.micro_cut_strength,
     micro_deadband_db = settings.micro_deadband_db,
     micro_max_boost_db = settings.micro_max_boost_db,
     micro_max_cut_db = settings.micro_max_cut_db,

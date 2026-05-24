@@ -37,11 +37,17 @@ Defaults de V2 (`macro_micro`):
 - `macroDeadbandDb = 1`
 - `macroMaxBoostDb = 8`
 - `macroMaxCutDb = 8`
+- `mesoGapMs = 350`
+- `mesoMinZoneMs = 450`
+- `mesoMaxZonesPerMacro = 24`
 - `mesoStrength = 0.75`
 - `mesoDeadbandDb = 1`
 - `mesoMaxBoostDb = 4`
 - `mesoMaxCutDb = 4`
 - `microRepair = true`
+- `microClearDropDb = 4`
+- `microBoostStrength = 0.45`
+- `microCutStrength = 0.55`
 - `microDeadbandDb = 1.5`
 - `microMaxBoostDb = 2.5`
 - `microMaxCutDb = 3`
@@ -64,7 +70,7 @@ Defaults de V2 (`macro_micro`):
 - `curveEdgeRampMs = 80`
 - `zeroCrossing = true`
 
-El criterio por defecto es jerarquico: macrozonas primero, frase/meso despues, y micro solo como reparacion de palabras o silabas caidas. El splitter se conserva como detector de energia y solo separa cambios grandes; los bordes detectados se ajustan a cruces por cero cuando la opcion esta activa.
+El criterio por defecto es jerarquico: macrozonas primero, subzonas/frase despues, y micro solo como reparacion de palabras o silabas claramente caidas o golpes claramente altos. Las macrozonas usan silencios largos como separadores naturales y pueden hacer boost o cut hacia `-18 dBFS = 0 VU`. La fase meso vuelve a segmentar con silencios medios. La fase micro corta golpes fuertes parcialmente y solo boostea caidas claras. El splitter se conserva como detector de energia y solo separa cambios grandes; los bordes detectados se ajustan a cruces por cero cuando la opcion esta activa.
 
 ## No Objetivos
 
@@ -83,6 +89,7 @@ El criterio por defecto es jerarquico: macrozonas primero, frase/meso despues, y
 - `--preview` informa `estimated_points`, pero mantiene `points = 0` y `envelope_points_written = 0`.
 - La aplicacion real respeta techo de pico, limites de boost/cut y queda deshecha con un undo.
 - Si un item necesita mas corte que `maxCutDb` para respetar el techo de pico, se salta en lugar de escribir una automatizacion extrema.
+- En pistas largas desniveladas, la telemetria debe mostrar `macro_boost_zones`/`macro_cut_zones`, `meso_boost_zones`/`meso_cut_zones` y `micro_boost_parts`/`micro_cut_parts` para demostrar que no es un pase de solo boost.
 
 ## Modos Expertos
 
