@@ -185,20 +185,41 @@ test("buildVocalLevelCommand targets selected items with safe defaults", () => {
   assert.equal(command.calibrationDb, -18);
   assert.equal(command.targetVu, 0);
   assert.equal(command.peakCeilingDb, -0.3);
-  assert.equal(command.maxBoostDb, 12);
-  assert.equal(command.maxCutDb, 12);
+  assert.equal(command.maxBoostDb, 8);
+  assert.equal(command.maxCutDb, 8);
   assert.equal(command.replaceEnvelope, false);
   assert.equal(command.windowMs, 120);
   assert.equal(command.silenceDb, -60);
   assert.equal(command.topWindowPercent, 5);
   assert.equal(command.measurementMode, "sustain_robust");
-  assert.equal(command.levelMode, "absolute");
+  assert.equal(command.levelMode, "macro_micro");
   assert.equal(command.automationMode, "smooth_curve");
   assert.equal(command.referencePercentile, 65);
   assert.equal(command.stabilizeBoostDb, 3.2);
   assert.equal(command.stabilizeCutDb, 7);
   assert.equal(command.gainDeadbandDb, 3);
   assert.equal(command.preserveLoudness, 1);
+  assert.equal(command.macroGapMs, 900);
+  assert.equal(command.macroMinZoneMs, 1200);
+  assert.equal(command.macroMaxZones, 8);
+  assert.equal(command.macroStrength, 0.65);
+  assert.equal(command.macroDeadbandDb, 1);
+  assert.equal(command.macroMaxBoostDb, 8);
+  assert.equal(command.macroMaxCutDb, 8);
+  assert.equal(command.mesoStrength, 0.75);
+  assert.equal(command.mesoDeadbandDb, 1);
+  assert.equal(command.mesoMaxBoostDb, 4);
+  assert.equal(command.mesoMaxCutDb, 4);
+  assert.equal(command.microRepair, true);
+  assert.equal(command.microDeadbandDb, 1.5);
+  assert.equal(command.microMaxBoostDb, 2.5);
+  assert.equal(command.microMaxCutDb, 3);
+  assert.equal(command.alreadyGoodDb, 1);
+  assert.equal(command.protectedMaxBoostDb, 0);
+  assert.equal(command.protectedCrestDb, 18);
+  assert.equal(command.protectedLowRelativeDb, 12);
+  assert.equal(command.pointDensityWarnPerMinute, 70);
+  assert.equal(command.pointDensityRejectPerMinute, 100);
   assert.equal(command.sustainLowPercent, 50);
   assert.equal(command.sustainHighPercent, 90);
   assert.equal(command.transientCrestDb, 6);
@@ -241,6 +262,27 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
     "stabilize-cut-db": "8",
     "gain-deadband-db": "1",
     "preserve-loudness": "0.5",
+    "macro-gap-ms": "1000",
+    "macro-min-zone-ms": "1500",
+    "macro-max-zones": "6",
+    "macro-strength": "0.5",
+    "macro-deadband-db": "1.2",
+    "macro-max-boost-db": "7",
+    "macro-max-cut-db": "6",
+    "meso-strength": "0.6",
+    "meso-deadband-db": "1.4",
+    "meso-max-boost-db": "3.5",
+    "meso-max-cut-db": "3.75",
+    "micro-repair": "false",
+    "micro-deadband-db": "1.8",
+    "micro-max-boost-db": "2",
+    "micro-max-cut-db": "2.8",
+    "already-good-db": "0.75",
+    "protected-max-boost-db": "1",
+    "protected-crest-db": "16",
+    "protected-low-relative-db": "10",
+    "point-density-warn-per-minute": "60",
+    "point-density-reject-per-minute": "95",
     "sustain-low-percent": "40",
     "sustain-high-percent": "85",
     "transient-crest-db": "8",
@@ -276,6 +318,27 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
   assert.equal(command.stabilizeCutDb, 8);
   assert.equal(command.gainDeadbandDb, 1);
   assert.equal(command.preserveLoudness, 0.5);
+  assert.equal(command.macroGapMs, 1000);
+  assert.equal(command.macroMinZoneMs, 1500);
+  assert.equal(command.macroMaxZones, 6);
+  assert.equal(command.macroStrength, 0.5);
+  assert.equal(command.macroDeadbandDb, 1.2);
+  assert.equal(command.macroMaxBoostDb, 7);
+  assert.equal(command.macroMaxCutDb, 6);
+  assert.equal(command.mesoStrength, 0.6);
+  assert.equal(command.mesoDeadbandDb, 1.4);
+  assert.equal(command.mesoMaxBoostDb, 3.5);
+  assert.equal(command.mesoMaxCutDb, 3.75);
+  assert.equal(command.microRepair, false);
+  assert.equal(command.microDeadbandDb, 1.8);
+  assert.equal(command.microMaxBoostDb, 2);
+  assert.equal(command.microMaxCutDb, 2.8);
+  assert.equal(command.alreadyGoodDb, 0.75);
+  assert.equal(command.protectedMaxBoostDb, 1);
+  assert.equal(command.protectedCrestDb, 16);
+  assert.equal(command.protectedLowRelativeDb, 10);
+  assert.equal(command.pointDensityWarnPerMinute, 60);
+  assert.equal(command.pointDensityRejectPerMinute, 95);
   assert.equal(command.sustainLowPercent, 40);
   assert.equal(command.sustainHighPercent, 85);
   assert.equal(command.transientCrestDb, 8);
@@ -325,6 +388,14 @@ test("buildVocalLevelCommand rejects unsafe numeric ranges", () => {
   assert.throws(
     () => buildVocalLevelCommand({ "selected-items": true, "preserve-loudness": "1.5" }),
     /Preserve loudness/
+  );
+  assert.throws(
+    () => buildVocalLevelCommand({ "selected-items": true, "macro-strength": "1.5" }),
+    /Macro strength/
+  );
+  assert.throws(
+    () => buildVocalLevelCommand({ "selected-items": true, "level-mode": "micro" }),
+    /macro_micro/
   );
   assert.throws(
     () => buildVocalLevelCommand({ "selected-items": true, "reference-percentile": "0" }),

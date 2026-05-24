@@ -22,14 +22,33 @@ test("bridge reports runtime version and vocal-level capabilities", () => {
   const heartbeat = extractFunction(source, "heartbeat", "track_name");
   const ping = extractFunction(source, "command_ping", "command_undo");
 
-  assert.match(source, /local BRIDGE_VERSION = "vocal-level-precomp-2026-05-24"/);
+  assert.match(source, /local BRIDGE_VERSION = "vocal-level-macro-micro-2026-05-24"/);
   assert.match(source, /vocal_level_estimated_points = true/);
   assert.match(source, /vocal_level_zero_crossing_curve = true/);
   assert.match(source, /vocal_level_phrase_safe_defaults = true/);
+  assert.match(source, /vocal_level_macro_micro = true/);
   assert.match(heartbeat, /bridge_version = BRIDGE_VERSION/);
   assert.match(heartbeat, /features = bridge_features\(\)/);
   assert.match(ping, /bridge_version = BRIDGE_VERSION/);
   assert.match(ping, /features = bridge_features\(\)/);
+});
+
+test("vocal-level macro_micro is the runtime default with V2 safety settings", () => {
+  const source = readBridge();
+  const settings = extractFunction(source, "vocal_level_settings", "append_vocal_part");
+
+  assert.match(settings, /level_mode = tostring\(command\.levelMode or "macro_micro"\):gsub/);
+  assert.match(settings, /max_boost_db = tonumber\(command\.maxBoostDb\) or 8/);
+  assert.match(settings, /max_cut_db = tonumber\(command\.maxCutDb\) or 8/);
+  assert.match(settings, /macro_gap_s = \(tonumber\(command\.macroGapMs\) or 900\) \/ 1000/);
+  assert.match(settings, /macro_min_zone_s = \(tonumber\(command\.macroMinZoneMs\).*1200\) \/ 1000/);
+  assert.match(settings, /macro_max_zones = math\.max\(1, math\.floor\(tonumber\(command\.macroMaxZones\) or 8\)\)/);
+  assert.match(settings, /macro_deadband_db = tonumber\(command\.macroDeadbandDb\) or 1/);
+  assert.match(settings, /macro_max_boost_db = tonumber\(command\.macroMaxBoostDb\) or 8/);
+  assert.match(settings, /micro_repair = command\.microRepair ~= false/);
+  assert.match(settings, /micro_max_boost_db = tonumber\(command\.microMaxBoostDb\) or 2\.5/);
+  assert.match(settings, /protected_max_boost_db = tonumber\(command\.protectedMaxBoostDb\) or 0/);
+  assert.match(settings, /point_density_reject_per_minute = tonumber\(command\.pointDensityRejectPerMinute\) or 100/);
 });
 
 test("vocal-level preview does not normalize item or take gain", () => {
@@ -57,6 +76,23 @@ test("vocal-level clamps envelope gain after item and take compensation", () => 
   assert.match(limiter, /unresolved_peak = true/);
   assert.match(analyzer, /if envelope\.unresolved_peak then\s+return nil, "peak ceiling requires more cut than max-cut"\s+end/);
   assert.match(analyzer, /limit_vocal_envelope_gain\(range_analysis\.target_take_db - ctx\.original_combined_db, ctx, range_analysis, settings\)/);
+});
+
+test("vocal-level macro_micro levels macro zones before local detail", () => {
+  const source = readBridge();
+  const macro = extractFunction(source, "apply_macro_micro_vocal_leveling", "analyze_item_for_vocal_level");
+  const analyzer = extractFunction(source, "analyze_item_for_vocal_level", "envelope_point_count");
+
+  assert.match(macro, /local zones = build_macro_zones\(segments, ctx, settings\)/);
+  assert.match(macro, /item_gain_stage_db = vocal_deadband_gain/);
+  assert.match(macro, /zone\.macro_gain_db = clamp/);
+  assert.match(macro, /local_delta_db = \(zone\.reference_db/);
+  assert.match(macro, /settings\.micro_repair/);
+  assert.match(macro, /macro_micro_segment_is_protected/);
+  assert.match(macro, /settings\.protected_max_boost_db/);
+  assert.match(macro, /limit_vocal_envelope_gain\(requested_gain_db, ctx/);
+  assert.match(analyzer, /elseif settings\.level_mode == "macro_micro" then\s+local macro_report, macro_reason = apply_macro_micro_vocal_leveling\(segments, ctx, settings\)/);
+  assert.doesNotMatch(macro, /command_gain_stage_items/);
 });
 
 test("vocal-level preview cannot create or write take envelopes", () => {
@@ -114,6 +150,25 @@ test("vocal-level bridge rejects non-selected raw item filters", () => {
   assert.match(body, /local item_filter = command\.itemFilter or \{ type = "selected" \}/);
   assert.match(body, /if item_filter\.type ~= "selected" then\s+error\("vocal-level only supports selected items"\)\s+end/);
   assert.match(body, /local items = collect_items\(item_filter\)/);
+});
+
+test("vocal-level report includes macro_micro telemetry and point density", () => {
+  const source = readBridge();
+  const body = extractFunction(source, "command_vocal_level_items", "normalize_words");
+
+  assert.match(body, /total_macro_zones = total_macro_zones \+ \(analysis\.macro_zone_count or 0\)/);
+  assert.match(body, /total_protected_parts = total_protected_parts \+ \(analysis\.protected_parts or 0\)/);
+  assert.match(body, /total_corrected_parts = total_corrected_parts \+ \(analysis\.corrected_parts or 0\)/);
+  assert.match(body, /point_density_rejects = point_density_rejects \+ 1/);
+  assert.match(body, /macro_zone_examples\[#macro_zone_examples \+ 1\]/);
+  assert.match(body, /macro_zones = total_macro_zones/);
+  assert.match(body, /macro_corrected_zones = total_macro_corrected_zones/);
+  assert.match(body, /protected_parts = total_protected_parts/);
+  assert.match(body, /corrected_parts = total_corrected_parts/);
+  assert.match(body, /point_density_per_minute = max_point_density_per_minute/);
+  assert.match(body, /max_boost_db = settings\.max_boost_db/);
+  assert.match(body, /limited_by_max_boost = limited_by_max_boost/);
+  assert.match(body, /max_boost_hit_ratio = total_segments > 0 and \(limited_by_max_boost \/ total_segments\) or 0/);
 });
 
 test("gain-stage remains take-gain based and does not create take envelopes", () => {

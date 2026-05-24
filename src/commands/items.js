@@ -54,20 +54,41 @@ export function buildVocalLevelCommand(options = {}) {
     calibrationDb: parseNumberOption(options.calibration ?? options.cal ?? -18, "Calibration dB", -30, -6),
     targetVu: parseNumberOption(options.targetVu ?? options["target-vu"] ?? options.target ?? 0, "Target VU", -12, 12),
     peakCeilingDb: parseNumberOption(options.peakCeiling ?? options["peak-ceiling"] ?? options.ceiling ?? -0.3, "Peak ceiling dBFS", -24, 0),
-    maxBoostDb: parseNumberOption(options.maxBoost ?? options["max-boost"] ?? 12, "Max boost dB", 0, 60),
-    maxCutDb: parseNumberOption(options.maxCut ?? options["max-cut"] ?? options.maxCutDb ?? options["max-cut-db"] ?? 12, "Max cut dB", 0, 60),
+    maxBoostDb: parseNumberOption(options.maxBoost ?? options["max-boost"] ?? 8, "Max boost dB", 0, 60),
+    maxCutDb: parseNumberOption(options.maxCut ?? options["max-cut"] ?? options.maxCutDb ?? options["max-cut-db"] ?? 8, "Max cut dB", 0, 60),
     replaceEnvelope: parseBooleanOption(options.replaceEnvelope ?? options["replace-envelope"], "Replace envelope", false),
     windowMs: parseNumberOption(options.windowMs ?? options["window-ms"] ?? 120, "Window length ms", 30, 2000),
     silenceDb: parseNumberOption(options.silenceDb ?? options["silence-db"] ?? -60, "Silence threshold dBFS", -120, -20),
     topWindowPercent: parseNumberOption(options.topWindowPercent ?? options["top-window-percent"] ?? 5, "Top window percent", 1, 50),
     measurementMode: parseMeasurementMode(options.measurementMode ?? options["measurement-mode"] ?? "sustain_robust"),
-    levelMode: parseLevelMode(options.levelMode ?? options["level-mode"] ?? "absolute"),
+    levelMode: parseLevelMode(options.levelMode ?? options["level-mode"] ?? "macro_micro"),
     automationMode: parseAutomationMode(options.automationMode ?? options["automation-mode"] ?? "smooth_curve"),
     referencePercentile: parseNumberOption(options.referencePercentile ?? options["reference-percentile"] ?? 65, "Reference percentile", 1, 99),
     stabilizeBoostDb: parseNumberOption(options.stabilizeBoostDb ?? options["stabilize-boost-db"] ?? 3.2, "Stabilize boost dB", 0, 24),
     stabilizeCutDb: parseNumberOption(options.stabilizeCutDb ?? options["stabilize-cut-db"] ?? 7, "Stabilize cut dB", 0, 24),
     gainDeadbandDb: parseNumberOption(options.gainDeadbandDb ?? options["gain-deadband-db"] ?? 3, "Gain deadband dB", 0, 12),
     preserveLoudness: parseNumberOption(options.preserveLoudness ?? options["preserve-loudness"] ?? 1, "Preserve loudness", 0, 1),
+    macroGapMs: parseNumberOption(options.macroGapMs ?? options["macro-gap-ms"] ?? 900, "Macro gap ms", 100, 10000),
+    macroMinZoneMs: parseNumberOption(options.macroMinZoneMs ?? options["macro-min-zone-ms"] ?? options.macroMinBlockMs ?? options["macro-min-block-ms"] ?? 1200, "Macro minimum zone ms", 300, 60000),
+    macroMaxZones: parseNumberOption(options.macroMaxZones ?? options["macro-max-zones"] ?? 8, "Macro max zones", 1, 32),
+    macroStrength: parseNumberOption(options.macroStrength ?? options["macro-strength"] ?? 0.65, "Macro strength", 0, 1),
+    macroDeadbandDb: parseNumberOption(options.macroDeadbandDb ?? options["macro-deadband-db"] ?? 1, "Macro deadband dB", 0, 12),
+    macroMaxBoostDb: parseNumberOption(options.macroMaxBoostDb ?? options["macro-max-boost-db"] ?? 8, "Macro max boost dB", 0, 24),
+    macroMaxCutDb: parseNumberOption(options.macroMaxCutDb ?? options["macro-max-cut-db"] ?? 8, "Macro max cut dB", 0, 24),
+    mesoStrength: parseNumberOption(options.mesoStrength ?? options["meso-strength"] ?? 0.75, "Meso strength", 0, 1),
+    mesoDeadbandDb: parseNumberOption(options.mesoDeadbandDb ?? options["meso-deadband-db"] ?? 1, "Meso deadband dB", 0, 12),
+    mesoMaxBoostDb: parseNumberOption(options.mesoMaxBoostDb ?? options["meso-max-boost-db"] ?? 4, "Meso max boost dB", 0, 24),
+    mesoMaxCutDb: parseNumberOption(options.mesoMaxCutDb ?? options["meso-max-cut-db"] ?? 4, "Meso max cut dB", 0, 24),
+    microRepair: parseBooleanOption(options.microRepair ?? options["micro-repair"], "Micro repair", true),
+    microDeadbandDb: parseNumberOption(options.microDeadbandDb ?? options["micro-deadband-db"] ?? 1.5, "Micro deadband dB", 0, 12),
+    microMaxBoostDb: parseNumberOption(options.microMaxBoostDb ?? options["micro-max-boost-db"] ?? 2.5, "Micro max boost dB", 0, 24),
+    microMaxCutDb: parseNumberOption(options.microMaxCutDb ?? options["micro-max-cut-db"] ?? 3, "Micro max cut dB", 0, 24),
+    alreadyGoodDb: parseNumberOption(options.alreadyGoodDb ?? options["already-good-db"] ?? 1, "Already-good band dB", 0, 12),
+    protectedMaxBoostDb: parseNumberOption(options.protectedMaxBoostDb ?? options["protected-max-boost-db"] ?? 0, "Protected max boost dB", 0, 12),
+    protectedCrestDb: parseNumberOption(options.protectedCrestDb ?? options["protected-crest-db"] ?? 18, "Protected crest dB", 0, 40),
+    protectedLowRelativeDb: parseNumberOption(options.protectedLowRelativeDb ?? options["protected-low-relative-db"] ?? 12, "Protected low relative dB", 0, 40),
+    pointDensityWarnPerMinute: parseNumberOption(options.pointDensityWarnPerMinute ?? options["point-density-warn-per-minute"] ?? 70, "Point density warning per minute", 1, 300),
+    pointDensityRejectPerMinute: parseNumberOption(options.pointDensityRejectPerMinute ?? options["point-density-reject-per-minute"] ?? 100, "Point density reject per minute", 1, 300),
     sustainLowPercent,
     sustainHighPercent,
     transientCrestDb: parseNumberOption(options.transientCrestDb ?? options["transient-crest-db"] ?? 6, "Transient crest dB", 0, 30),
@@ -145,8 +166,8 @@ function parseMeasurementMode(value) {
 
 function parseLevelMode(value) {
   const mode = String(value || "relative").toLowerCase().replace(/-/g, "_");
-  if (["relative", "absolute"].includes(mode)) return mode;
-  throw new CommandError("Level mode must be relative or absolute.");
+  if (["macro_micro", "relative", "absolute"].includes(mode)) return mode;
+  throw new CommandError("Level mode must be macro_micro, relative, or absolute.");
 }
 
 function parseAutomationMode(value) {

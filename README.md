@@ -8,7 +8,7 @@ Local bridge between Codex and REAPER for mix assistant commands.
 - Adds a toolbar button that starts/stops the bridge.
 - Adds a `Gain Stage` toolbar button that applies deterministic gain staging to selected items.
 - Adds a `Select Items` toolbar button that selects every item in the project.
-- Adds `vocal-level` for pre-compressor vocal leveling on selected item take volume envelopes, targeting the `-18 dBFS = 0 VU` working point with conservative smooth automation.
+- Adds `vocal-level` for pre-compressor vocal clip gain on selected item take volume envelopes, using macro-to-micro leveling around the `-18 dBFS = 0 VU` working point.
 - Lets Codex send structured commands through `.reaper-manager/queue`.
 - Writes command responses and bridge heartbeat into `.reaper-manager/state`.
 

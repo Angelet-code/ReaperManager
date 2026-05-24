@@ -20,16 +20,37 @@ node .\bin\reaper-manager.js vocal-level --selected-items --preview
 node .\bin\reaper-manager.js vocal-level --selected-items
 ```
 
-Defaults de V1:
+Defaults de V2 (`macro_micro`):
 
 - `calibrationDb = -18`
 - `targetVu = 0`
 - `measurementMode = sustain_robust`
-- `levelMode = absolute`
+- `levelMode = macro_micro`
 - `automationMode = smooth_curve`
 - `peakCeilingDb = -0.3`
-- `maxBoostDb = 12`
-- `maxCutDb = 12`
+- `maxBoostDb = 8`
+- `maxCutDb = 8`
+- `macroGapMs = 900`
+- `macroMinZoneMs = 1200`
+- `macroMaxZones = 8`
+- `macroStrength = 0.65`
+- `macroDeadbandDb = 1`
+- `macroMaxBoostDb = 8`
+- `macroMaxCutDb = 8`
+- `mesoStrength = 0.75`
+- `mesoDeadbandDb = 1`
+- `mesoMaxBoostDb = 4`
+- `mesoMaxCutDb = 4`
+- `microRepair = true`
+- `microDeadbandDb = 1.5`
+- `microMaxBoostDb = 2.5`
+- `microMaxCutDb = 3`
+- `alreadyGoodDb = 1`
+- `protectedMaxBoostDb = 0`
+- `protectedCrestDb = 18`
+- `protectedLowRelativeDb = 12`
+- `pointDensityWarnPerMinute = 70`
+- `pointDensityRejectPerMinute = 100`
 - `minPartMs = 300`
 - `partMergeGapMs = 350`
 - `syllableSplitDb = 20`
@@ -43,7 +64,7 @@ Defaults de V1:
 - `curveEdgeRampMs = 80`
 - `zeroCrossing = true`
 
-El criterio por defecto es frase/energia sostenida, no silaba. El splitter se conserva como detector de energia y solo separa cambios grandes; los bordes detectados se ajustan a cruces por cero cuando la opcion esta activa.
+El criterio por defecto es jerarquico: macrozonas primero, frase/meso despues, y micro solo como reparacion de palabras o silabas caidas. El splitter se conserva como detector de energia y solo separa cambios grandes; los bordes detectados se ajustan a cruces por cero cuando la opcion esta activa.
 
 ## No Objetivos
 
@@ -83,9 +104,9 @@ En el banco de prueba del 2026-05-23, el lead largo bajo de unas 293 partes/597 
 
 La idea macro -> meso -> micro queda aceptada como direccion de diseno, con una condicion importante: la macro-dinamica debe ordenar la entrada al compresor sin borrar la intencion musical. Si un estribillo esta cantado mas fuerte que un verso, esa diferencia se debe preservar parcialmente; no se igualan secciones por regla fija.
 
-- Macro: regiones, marcadores, bloques contiguos o grupos de items separados por pausas largas. Correccion muy parcial: `strength 0.30-0.40`, `maxBoost +2 dB`, `maxCut -3 dB`, `deadband 1.5 dB`.
-- Meso: frases vocales dentro de cada zona. Es la escala principal de trabajo: pausa natural `180-350 ms`, frase minima `350 ms`, medicion robusta `P70`, `strength 0.55`.
-- Micro: reparacion opcional y apagada por defecto. Solo para palabras/silabas caidas claramente despues de macro y meso; no respiraciones, consonantes, ruido o expresividad natural.
+- Macro: zonas principales separadas por pausas largas. Correccion parcial pero suficiente para gain staging interno: `strength 0.65`, `maxBoost +8 dB`, `maxCut -8 dB`, `deadband 1 dB`.
+- Meso: frases vocales dentro de cada zona. Es la escala principal de trabajo local: pausa natural `180-350 ms`, frase minima `350 ms`, medicion robusta, `strength 0.75`, caps alrededor de `+/-4 dB`.
+- Micro: reparacion activa por defecto, pero solo para palabras/silabas caidas claramente despues de macro y meso; no respiraciones, consonantes, ruido o expresividad natural.
 - Stop temprano: si una escala ya deja la entrada al compresor estable, no se baja a una escala mas micro.
 - Preview debe reportar confianza por escala: frases utiles, duracion activa, correccion media/maxima, skips y motivos.
 - Si el item completo necesita mucho boost medio, preview debe avisar de posible offset macro/base gain antes de escribir automatizacion densa.
