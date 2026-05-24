@@ -10,12 +10,24 @@ Este proyecto usa un unico repositorio Git y cuatro areas de trabajo. El objetiv
 - TESTER: prueba el resultado, busca fallos auditivos y tecnicos, y si algo no funciona pide a AUDIODESIGN una modificacion concreta para la siguiente iteracion.
 - Orquestador: coordina las cuatro areas, integra resultados, ejecuta pruebas, hace commits/push y decide si hace falta otra vuelta.
 
+## Tipos De Subagente
+
+No todos los subagentes deben ser `explorer`.
+
+- AUDIODESIGN: usar `default`. Su trabajo es criterio de audio, producto, no-objetivos, decisiones de comportamiento y preguntas al usuario si hay una duda de mezcla real.
+- PROGRAMER: usar `worker` cuando haya que editar codigo. Debe tener ownership claro de archivos y no revertir cambios ajenos.
+- TESTER: usar `explorer` para revision critica sin tocar archivos ni REAPER. Usar `worker` solo si debe anadir tests o fixtures.
+- Orquestador: el chat principal. No delega el paso bloqueante inmediato, integra resultados, ejecuta `npm test`, commitea y sube hitos.
+
+Si el limite de hilos esta lleno, cerrar agentes viejos antes de empezar. No reutilizar un `explorer` como implementador salvo que la tarea sea solo inspeccion.
+
 ## Reglas De Rama
 
 - `main` conserva el baseline estable publicado.
 - El trabajo activo vive en `feature/vocal-level-precomp`.
 - Cada hito se commitea y se sube: spec, implementacion, fixes de revision.
 - No se hace force push salvo decision explicita.
+- Para abrir un chat limpio, usar `docs/new-chat-start-prompt.md`.
 
 ## Reglas De Seguridad
 
@@ -41,12 +53,14 @@ El ensayo del 2026-05-24 sobre `43_LeadVoxOD_UncompedTake01` invalida la direcci
 
 AUDIODESIGN debe partir de estos objetivos:
 
-- El primer objetivo es preparar la voz para que el compresor trabaje comodo, no normalizar cada fragmento a `0 VU`.
-- La dinamica macro de la interpretacion se conserva parcialmente; versos, estribillos y frases no se igualan por regla fija.
-- Si una toma completa esta demasiado baja, se trata primero como offset macro o aviso de gain base, no como muchos boosts locales a `+12 dB`.
-- La automatizacion debe ir de macro a micro: bloque/frase primero, reparacion corta solo si sigue siendo necesario.
-- Menos puntos es mejor si el resultado al compresor es estable; TESTER debe rechazar curvas densas que no aporten mejora audible.
-- Respiraciones, ruido bajo y consonantes aisladas no son material objetivo para levantar.
+- Es clip gain automatico precomp, no compresion ni riding interpretativo.
+- Debe funcionar con un comando. No depender de avisos o decisiones manuales para el camino normal.
+- Los clips llegan con gain staging hecho. Si una toma completa no esta en rango, `vocal-level` debe aplicar una fase interna equivalente a gain staging antes de nivelar.
+- Si el item se divide en macrozonas principales y alguna queda baja/alta, se aplica gain staging por macrozona antes de entrar al detalle.
+- No subir partes que ya estan bien. Esta fue una causa directa del fallo auditivo.
+- No tratar igual macrozonas altas y bajas. Cada decision micro usa el contexto de su macrozona.
+- La herramienta debe nivelar silabas/palabras caidas cuando sea audible, despues del ajuste macro.
+- Respiraciones, ruido bajo y consonantes aisladas se protegen contra boost por defecto.
 - Los cruces por cero y rampas son protecciones contra artefactos, no una licencia para escribir mas puntos.
 
 Regla de dudas: si AUDIODESIGN, PROGRAMER o TESTER necesitan decidir entre dos comportamientos auditivos razonables, deben devolver preguntas explicitas al usuario antes de implementar una nueva direccion.

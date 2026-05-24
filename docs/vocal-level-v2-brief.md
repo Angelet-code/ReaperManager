@@ -8,67 +8,77 @@ V2 must not continue by tuning that same absolute-per-part behavior. It must cha
 
 ## Product Goal
 
-Prepare the vocal before the compressor so the compressor reads more comfortably around the working point without flattening the performance. The tool should feel like careful clip-gain preparation by a senior mix engineer, not automatic final vocal riding.
+Automatic pre-compressor clip gain. This is not compression and not final vocal riding. It must do the manual clip-gain job in one command: stabilize macro areas first, then fix audible syllable/word drops without raising material that is already right.
 
-The target `-18 dBFS = 0 VU` remains a calibration reference, not a mandate that every phrase must land exactly at `0 VU`.
+The target `-18 dBFS = 0 VU` remains the gain-staging reference. Selected vocal clips are expected to arrive already gain-staged. If the complete item or one of its main macro areas is not in range, V2 should apply an internal gain-staging phase before detailed leveling, not ask the user to fix it manually.
 
 ## Processing Model
 
 1. Analyze only selected items.
 2. Detect reliable vocal activity and ignore low-confidence material: silence, room tone, breath-only regions, consonant-only events, tails and noise.
-3. Estimate item-level or block-level macro offset first.
-4. Split into long musical blocks or phrases after macro context is known.
-5. Apply meso phrase correction partially.
-6. Apply micro correction only when still needed, and keep it optional/off by default.
-7. Stop early if macro/meso already makes the compressor input stable enough.
+3. Check item-level gain stage. If the whole item is off, apply one internal macro baseline in the take-volume envelope.
+4. Split the item into main macro zones when the performance has clear level areas, normally about `3-8` zones and often `5-6` on a long take.
+5. Gain-stage each macro zone against the working reference before detailed leveling.
+6. Inside each macro zone, level phrases, words or syllables relative to that zone. Do not compare every part directly to the global target.
+7. Protect already-good parts: if a part is inside the local acceptable band, leave it alone or move it less than about `1 dB`.
+8. Correct audible syllable/word drops by default; the failed pass did not solve this.
+9. Write a take-volume envelope with enough points to do the clip-gain job, but not a nervous compressor-like curve.
 
 ## Defaults Direction
 
 - `levelMode = macro_micro`
-- Macro gap: about `900 ms`
-- Macro max correction: `+/-8 dB`
-- Normal max boost default: `+6 dB`
-- Permissive max boost ceiling: `+8 dB`
-- Max cut default: `-8 dB`
-- Micro correction default: `+/-3 dB`
-- Hard micro cap: `+/-4.5 dB`
-- Deadband: `1.5 dB`
-- Point target: under `40 points/minute`
-- Hard warning: over `80 points/minute`
-- Points per phrase target: `3-4`
-- Points per phrase warning: over `6`
+- Target reference: `-18 dBFS = 0 VU`
+- Macro zones per long take: normally `3-8`
+- Macro gap initial value: about `900 ms`
+- Minimum macro-zone length: about `1.2 s`
+- Macro correction cap: `+/-8 dB`
+- Meso phrase correction cap: about `+/-4 dB`
+- Micro word/syllable correction cap: about `+2.5 dB boost`, `-3 dB cut`
+- Total normal boost cap: `+8 dB`
+- Total normal cut cap: `-8 dB`
+- Macro deadband: about `1 dB`
+- Micro deadband: about `1.5 dB`
+- Already-good part maximum movement: about `1 dB`
+- Point density target: `35-70 points/minute` when syllable repair is active
+- Point density reject: over `100 points/minute` on normal vocal material
 - Keep zero-crossing/ramp protection, but do not use it to justify dense automation.
 
-## Warnings And Reject Conditions
+## Telemetry And Reject Conditions
 
-Preview should warn or reject the normal path when:
+The normal command should not ask the user to decide. It may report telemetry for review and tests.
 
-- Average gain needed is over `+4 dB` without first recommending macro offset.
-- More than `10%` of phrases hit max boost.
-- Any normal default needs `+12 dB`.
-- Breath or room tone would be boosted by more than about `+2 dB`.
-- Point density is above normal musical limits.
-- A take is globally low and would be solved by many local boosts instead of one macro/base move.
+Reject a design or test run when:
+
+- It makes the vocal obviously too loud.
+- It raises parts that were already good.
+- It treats loud and soft macro zones with the same absolute rule.
+- It fails to lift clearly dropped syllables/words after macro gain staging.
+- It relies on `+12 dB` boosts as a normal path.
+- More than `10%` of parts hit max boost.
+- Breath, room tone or tails are boosted more than about `2 dB`.
+- The envelope looks or sounds like compression instead of clip gain.
 
 ## Acceptance Criteria
 
-- The compressor receives a steadier vocal, but the performance still breathes.
+- The compressor receives a steadier vocal after clip gain, but the performance still breathes.
 - Verses, choruses and phrase intent remain partially different when they were sung differently.
+- Main macro zones are gain-staged before syllable-level work.
+- Syllables/words that are audibly low are corrected.
+- Parts already at a good level are protected.
 - No audible rise in noise, breaths or tails between lines.
 - No clicks, pumping, zippering or robotic envelope movement.
 - Existing take volume envelopes are skipped unless `--replace-envelope` is explicit.
 - Preview remains strictly non-mutating.
 - Undo restores the applied pass.
 
-## Questions For The User
+## User Decisions Captured
 
-These questions are product decisions, not implementation trivia:
-
-1. When a whole take is too low, should `vocal-level` write a simple macro offset in the take envelope, or should it only warn and ask the engineer to adjust clip/take gain first?
-2. Do you prefer conservative behavior with warning when the take remains below `-18`, instead of forcing it up to target?
-3. In the failed pass, what was the main audible problem: voice too loud, noise/breaths lifted, pumping, phrase intention lost, or compressor reacting worse?
-4. Should breaths be fully protected from boost by default, or can intentional loud breaths move with the surrounding phrase?
-5. Is the intended compressor behavior closer to smooth LA-2A/1176 preparation, or more surgical modern clip gain before compression?
+- The user does not want an interactive warning workflow. The command should level the vocal by itself.
+- The material is expected to arrive gain-staged. If it is not, V2 performs gain-stage logic internally before leveling.
+- If macro zones are detected and one is low/high, V2 gain-stages that zone first.
+- The failed pass sounded too loud, did not level syllables, raised parts that were already fine, and treated macro zones incorrectly.
+- Breath protection is desired by default, but the first priority is correct macro/micro gain logic.
+- This is clip gain before compression, not compression.
 
 ## Implementation Map
 
@@ -97,5 +107,7 @@ Lowest-risk route:
 
 1. Keep current `absolute` and `relative` modes as legacy expert modes.
 2. Add `macro_micro` as the new default builder/runtime mode.
-3. In preview, report macro suggestion and warnings before any apply path changes.
-4. Then implement conservative apply for `macro_micro`, with low point density and no micro by default.
+3. Implement internal macro gain-stage first, without calling or changing `command_gain_stage_items`.
+4. Add macro-zone grouping and per-zone baseline.
+5. Add local syllable/word repair active by default but tightly capped.
+6. Report telemetry for TESTER, not user-facing blockers.
