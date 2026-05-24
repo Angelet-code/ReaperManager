@@ -17,7 +17,7 @@ import {
   GAIN_STAGE_ACTION_ID,
   GAIN_STAGE_ACTION_KB_ID,
   GAIN_STAGE_FILE,
-  JSON_FILE,
+  REAPER_RUNTIME_FILES,
   SELECT_ALL_ITEMS_ACTION_ID,
   SELECT_ALL_ITEMS_ACTION_KB_ID,
   SELECT_ALL_ITEMS_FILE
@@ -49,14 +49,18 @@ export function install({ root = workspaceRoot(), resourcePath = reaperResourceP
   const gainStageTarget = path.join(scriptsDir, GAIN_STAGE_FILE);
   const selectAllItemsTarget = path.join(scriptsDir, SELECT_ALL_ITEMS_FILE);
   const detectArrangementTarget = path.join(scriptsDir, DETECT_ARRANGEMENT_FILE);
-  const jsonTarget = path.join(scriptsDir, JSON_FILE);
   copyFileAtomic(path.join(repoRoot, "reaper", BRIDGE_FILE), bridgeTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", CHAT_FILE), chatTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", GAIN_STAGE_FILE), gainStageTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", SELECT_ALL_ITEMS_FILE), selectAllItemsTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", DETECT_ARRANGEMENT_FILE), detectArrangementTarget);
-  copyFileAtomic(path.join(repoRoot, "reaper", JSON_FILE), jsonTarget);
-  installReport.installedFiles.push(bridgeTarget, chatTarget, gainStageTarget, selectAllItemsTarget, detectArrangementTarget, jsonTarget);
+  installReport.installedFiles.push(bridgeTarget, chatTarget, gainStageTarget, selectAllItemsTarget, detectArrangementTarget);
+
+  for (const file of REAPER_RUNTIME_FILES) {
+    const target = path.join(scriptsDir, file);
+    copyFileAtomic(path.join(repoRoot, "reaper", file), target);
+    installReport.installedFiles.push(target);
+  }
 
   const configTarget = path.join(scriptsDir, CONFIG_FILE);
   fs.writeFileSync(configTarget, renderLuaConfig(root), "utf8");

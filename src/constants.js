@@ -16,6 +16,17 @@ export const SELECT_ALL_ITEMS_FILE = "Reaper Manager Select All Items.lua";
 export const DETECT_ARRANGEMENT_FILE = "Reaper Manager Detect Arrangement.lua";
 export const JSON_FILE = "rm_json.lua";
 export const CONFIG_FILE = "rm_config.lua";
+export const REAPER_RUNTIME_FILES = [
+  JSON_FILE,
+  "rm_bridge.lua",
+  "rm_registry.lua",
+  "rm_fs.lua",
+  "rm_core.lua",
+  "rm_commands_basic.lua",
+  "rm_gain_stage.lua",
+  "rm_vocal_level.lua",
+  "rm_project_mix.lua"
+];
 
 export const COLOR_MAP = {
   red: [255, 0, 0],

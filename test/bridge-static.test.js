@@ -2,36 +2,93 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { BRIDGE_FILE, REAPER_RUNTIME_FILES } from "../src/constants.js";
 
-const bridgePath = path.resolve("reaper", "Reaper Manager Bridge.lua");
+const luaRuntimeFiles = [BRIDGE_FILE, ...REAPER_RUNTIME_FILES];
+
+function readLuaFile(file) {
+  return fs.readFileSync(path.resolve("reaper", file), "utf8");
+}
 
 function readBridge() {
-  return fs.readFileSync(bridgePath, "utf8");
+  return luaRuntimeFiles
+    .map((file) => `\n-- FILE: ${file}\n${readLuaFile(file)}`)
+    .join("\n");
 }
 
 function extractFunction(source, name, nextName) {
-  const start = source.indexOf(`local function ${name}`);
+  const startMatch = new RegExp(`(?:^|\\n)\\s*(?:local\\s+)?function\\s+${name}\\b`).exec(source);
+  const start = startMatch?.index ?? -1;
   assert.notEqual(start, -1, `${name} should exist`);
-  const end = source.indexOf(`local function ${nextName}`, start + 1);
+  const nextMatch = new RegExp(`(?:^|\\n)\\s*(?:local\\s+)?function\\s+${nextName}\\b`).exec(
+    source.slice(start + 1),
+  );
+  const end = nextMatch ? start + 1 + nextMatch.index : -1;
   assert.notEqual(end, -1, `${nextName} should follow ${name}`);
   return source.slice(start, end);
 }
 
+test("Lua runtime files stay below ReaScript Lua main local limit", () => {
+  for (const file of luaRuntimeFiles) {
+    const source = readLuaFile(file);
+    const topLevelLocals = source.match(/^(?:local function |local [A-Za-z_][A-Za-z0-9_]*\s*=)/gm) ?? [];
+
+    assert.ok(topLevelLocals.length <= 160, `${file} has ${topLevelLocals.length} top-level locals`);
+  }
+});
+
+test("Lua runtime avoids accidental global function declarations", () => {
+  for (const file of luaRuntimeFiles) {
+    const source = readLuaFile(file);
+    const globals = source.match(/^function\s+[A-Za-z_][A-Za-z0-9_]*\s*\(/gm) ?? [];
+
+    assert.deepEqual(globals, [], `${file} should not declare global functions`);
+  }
+});
+
+test("Lua rm_* requires are listed in the installer manifest", () => {
+  const installedModules = new Set(REAPER_RUNTIME_FILES.map((file) => file.replace(/\.lua$/, "")));
+
+  for (const file of luaRuntimeFiles) {
+    const source = readLuaFile(file);
+    const requiredModules = [...source.matchAll(/require\("(?<name>rm_[A-Za-z0-9_]+)"\)/g)]
+      .map((match) => match.groups.name);
+
+    for (const name of requiredModules) {
+      if (name === "rm_config") continue;
+      assert.ok(installedModules.has(name), `${file} requires ${name}, but it is not in REAPER_RUNTIME_FILES`);
+    }
+  }
+});
+
+test("bridge clears cached runtime modules before requiring rm_bridge", () => {
+  const bridge = readLuaFile(BRIDGE_FILE);
+  const clearIndex = bridge.indexOf("package.loaded[module_name] = nil");
+  const requireIndex = bridge.indexOf('pcall(require, "rm_bridge")');
+
+  assert.match(bridge, /local runtime_modules = \{/);
+  assert.ok(clearIndex > -1, "bridge should clear package.loaded entries");
+  assert.ok(clearIndex < requireIndex, "bridge should clear runtime module cache before requiring rm_bridge");
+});
+
 test("bridge reports runtime version and vocal-level capabilities", () => {
   const source = readBridge();
-  const heartbeat = extractFunction(source, "heartbeat", "track_name");
+  const bridge = readLuaFile("rm_bridge.lua");
+  const registry = readLuaFile("rm_registry.lua");
   const ping = extractFunction(source, "command_ping", "command_undo");
 
-  assert.match(source, /local BRIDGE_VERSION = "vocal-level-measured-macro-micro-2026-05-24"/);
-  assert.match(source, /vocal_level_estimated_points = true/);
-  assert.match(source, /vocal_level_zero_crossing_curve = true/);
-  assert.match(source, /vocal_level_phrase_safe_defaults = true/);
-  assert.match(source, /vocal_level_macro_micro = true/);
-  assert.match(source, /vocal_level_post_level_measurement = true/);
-  assert.match(heartbeat, /bridge_version = BRIDGE_VERSION/);
-  assert.match(heartbeat, /features = bridge_features\(\)/);
-  assert.match(ping, /bridge_version = BRIDGE_VERSION/);
-  assert.match(ping, /features = bridge_features\(\)/);
+  assert.match(registry, /local BRIDGE_VERSION = "vocal-level-measured-macro-micro-2026-05-24"/);
+  assert.match(registry, /vocal_level_estimated_points = true/);
+  assert.match(registry, /vocal_level_zero_crossing_curve = true/);
+  assert.match(registry, /vocal_level_phrase_safe_defaults = true/);
+  assert.match(registry, /vocal_level_macro_micro = true/);
+  assert.match(registry, /vocal_level_post_level_measurement = true/);
+  assert.match(bridge, /bridge_version = registry_module\.version\(\)/);
+  assert.match(bridge, /features = registry_module\.features\(\)/);
+  assert.match(bridge, /selected_item_count = reaper\.CountSelectedMediaItems\(0\)/);
+  assert.match(ping, /bridge_version = M\.version\(\)/);
+  assert.match(ping, /features = M\.features\(\)/);
+  assert.match(ping, /selected_item_count = reaper\.CountSelectedMediaItems\(0\)/);
 });
 
 test("vocal-level macro_micro is the runtime default with V2 safety settings", () => {
@@ -103,12 +160,20 @@ test("vocal-level macro_micro levels macro zones before local detail", () => {
   assert.match(macro, /settings\.micro_cut_strength/);
   assert.match(macro, /settings\.micro_boost_strength/);
   assert.match(macro, /macro_micro_segment_is_protected/);
-  assert.match(macro, /if protected and detail_gain_db > \(settings\.protected_max_boost_db or 0\) then/);
+  assert.match(macro, /if protected and requested_gain_db > \(settings\.protected_max_boost_db or 0\) then/);
+  assert.match(macro, /detail_gain_db = requested_gain_db - \(zone\.macro_gain_db or 0\)/);
+  assert.match(macro, /local safety_limited = false/);
   assert.match(macro, /settings\.protected_max_boost_db/);
-  assert.match(macro, /local segment_corrected = math\.abs\(effective_detail_gain_db\) > 0\.001/);
-  assert.match(macro, /segment\.protected = not segment_corrected/);
+  assert.match(macro, /segment\.safety_protected = protected/);
+  assert.match(macro, /segment\.safety_limited = safety_limited/);
+  assert.match(macro, /report\.safety_protected_parts = report\.safety_protected_parts \+ 1/);
+  assert.match(macro, /report\.safety_limited_parts = report\.safety_limited_parts \+ 1/);
+  assert.match(macro, /local segment_corrected = \(not safety_limited\) and math\.abs\(effective_detail_gain_db\) > 0\.001/);
+  assert.match(macro, /segment\.protected = protected or \(not segment_corrected and \(already_good or correction_stage == "deadband" or correction_stage == "low_not_clear"\)\)/);
   assert.match(macro, /limit_vocal_envelope_gain\(requested_gain_db, ctx/);
   assert.match(analyzer, /elseif settings\.level_mode == "macro_micro" then\s+local macro_report, macro_reason = apply_macro_micro_vocal_leveling\(segments, ctx, settings\)/);
+  assert.match(analyzer, /safety_protected_parts = macro_micro_report and macro_micro_report\.safety_protected_parts or 0/);
+  assert.match(analyzer, /safety_limited_parts = macro_micro_report and macro_micro_report\.safety_limited_parts or 0/);
   assert.doesNotMatch(macro, /command_gain_stage_items/);
 });
 
@@ -141,10 +206,12 @@ test("vocal-level snaps detected parts to zero crossings before curve generation
 
 test("vocal-level preview is dispatcher read-only and cannot rename tracks", () => {
   const source = readBridge();
-  const readOnly = extractFunction(source, "is_read_only_command", "run_command");
+  const registry = readLuaFile("rm_registry.lua");
+  const vocal = readLuaFile("rm_vocal_level.lua");
   const commandBody = extractFunction(source, "command_vocal_level_items", "normalize_words");
 
-  assert.match(readOnly, /command\.type == "vocal_level_items" and command\.preview == true/);
+  assert.match(registry, /function M\.is_read_only\(registry, command\)/);
+  assert.match(vocal, /registry\.command\("vocal_level_items", command_vocal_level_items, \{\s+read_only = function\(command\) return command\.preview == true end\s+\}\)/);
   assert.match(
     commandBody,
     /if not settings\.preview and point_count > 0 and command\.variantLabel and tostring\(command\.variantLabel\) ~= "" then/
@@ -176,6 +243,8 @@ test("vocal-level report includes macro_micro telemetry and point density", () =
   assert.match(body, /total_macro_zones = total_macro_zones \+ \(analysis\.macro_zone_count or 0\)/);
   assert.match(body, /total_meso_zones = total_meso_zones \+ \(analysis\.meso_zone_count or 0\)/);
   assert.match(body, /total_protected_parts = total_protected_parts \+ \(analysis\.protected_parts or 0\)/);
+  assert.match(body, /total_safety_protected_parts = total_safety_protected_parts \+ \(analysis\.safety_protected_parts or 0\)/);
+  assert.match(body, /total_safety_limited_parts = total_safety_limited_parts \+ \(analysis\.safety_limited_parts or 0\)/);
   assert.match(body, /total_corrected_parts = total_corrected_parts \+ \(analysis\.corrected_parts or 0\)/);
   assert.match(body, /point_density_rejects = point_density_rejects \+ 1/);
   assert.match(body, /macro_zone_examples\[#macro_zone_examples \+ 1\]/);
@@ -188,6 +257,8 @@ test("vocal-level report includes macro_micro telemetry and point density", () =
   assert.match(body, /meso_boost_zones = total_meso_boost_zones/);
   assert.match(body, /meso_cut_zones = total_meso_cut_zones/);
   assert.match(body, /protected_parts = total_protected_parts/);
+  assert.match(body, /safety_protected_parts = total_safety_protected_parts/);
+  assert.match(body, /safety_limited_parts = total_safety_limited_parts/);
   assert.match(body, /corrected_parts = total_corrected_parts/);
   assert.match(body, /micro_boost_parts = total_micro_boost_parts/);
   assert.match(body, /micro_cut_parts = total_micro_cut_parts/);
@@ -203,6 +274,7 @@ test("vocal-level report includes post-level audio balance measurements", () => 
   const analyzer = extractFunction(source, "analyze_item_for_vocal_level", "envelope_point_count");
   const body = extractFunction(source, "command_vocal_level_items", "normalize_words");
   const measurement = extractFunction(source, "measure_vocal_level_result", "vocal_segment_center");
+  const curveSmoothing = extractFunction(source, "smooth_vocal_segments_for_curve", "build_vocal_level_curve_points");
 
   assert.match(analyzer, /analysis\.post_level_measurement = measure_vocal_level_result\(analysis, settings\)/);
   assert.match(measurement, /take_envelope_segment_gain_db\(env, segment, analysis\.item_length\)/);
@@ -212,11 +284,19 @@ test("vocal-level report includes post-level audio balance measurements", () => 
   assert.match(measurement, /macro_balance = summarize_zone_balance\(macro_groups/);
   assert.match(measurement, /meso_balance = summarize_zone_balance\(meso_groups/);
   assert.match(measurement, /glottal_outliers = glottal_outliers/);
+  assert.match(measurement, /if segment\.safety_protected or segment\.protected_reason then/);
   assert.match(measurement, /silence_breath_safety = \{/);
+  assert.match(curveSmoothing, /if radius > 0 and not segment\.safety_protected then/);
+  assert.match(curveSmoothing, /segment\.safety_protected and desired_gain/);
   assert.match(body, /post_level_measurement = \{/);
   assert.match(body, /measure_vocal_level_result\(analysis, settings, env, "applied_take_envelope"\)/);
   assert.match(body, /stdev_improvement_db = post_level_items > 0/);
+  assert.match(body, /spread_improvement_db = post_level_items > 0/);
   assert.match(body, /peak_outliers = total_post_peak_outliers/);
+  assert.match(body, /glottal_outliers = total_post_glottal_outliers/);
+  assert.match(body, /unresolved_peak_outliers = total_post_unresolved_peak_outliers/);
+  assert.match(body, /boosted_protected_parts = total_post_boosted_protected_parts/);
+  assert.match(body, /boosted_low_energy_parts = total_post_boosted_low_energy_parts/);
   assert.match(body, /post_level_examples/);
 });
 
@@ -231,19 +311,55 @@ test("vocal-level applied measurement evaluates the written take envelope", () =
 
 test("gain-stage remains take-gain based and does not create take envelopes", () => {
   const source = readBridge();
+  const gainStage = readLuaFile("rm_gain_stage.lua");
   const body = extractFunction(source, "command_gain_stage_items", "vocal_level_settings");
 
   assert.match(body, /gain_target = "take"/);
   assert.match(body, /applied = settings\.preview and 0 or processed/);
   assert.doesNotMatch(body, /ensure_take_volume_envelope/);
   assert.doesNotMatch(body, /insert_vocal_level_points/);
+  assert.doesNotMatch(gainStage, /GetTakeEnvelopeByName|InsertEnvelopePoint|DeleteEnvelopePointRange|Main_OnCommand\(40693\)/);
 });
 
 test("undo command bypasses normal undo wrapping", () => {
   const source = readBridge();
   const undoBody = extractFunction(source, "command_undo", "command_color_tracks");
   const runBody = extractFunction(source, "run_command", "process_file");
+  const readOnlyIndex = runBody.indexOf("registry_module.is_read_only(registry, command)");
+  const undoBeginIndex = runBody.indexOf("reaper.Undo_BeginBlock2(0)");
 
   assert.match(undoBody, /reaper\.Undo_DoUndo2\(0\)/);
-  assert.match(runBody, /if command\.type == "undo" then\s+return command_undo\(command\)\s+end/);
+  assert.match(runBody, /registry_module\.bypasses_undo\(registry, command\)/);
+  assert.match(runBody, /reaper\.Undo_BeginBlock2\(0\)/);
+  assert.ok(readOnlyIndex > -1, "run_command should check read-only commands");
+  assert.ok(readOnlyIndex < undoBeginIndex, "read-only commands should bypass undo wrapping");
+});
+
+test("bridge claims queue files into processing before execution", () => {
+  const source = readBridge();
+  const claimBody = extractFunction(source, "claim_file", "process_file");
+  const processBody = extractFunction(source, "process_file", "poll");
+
+  assert.match(source, /processing_dir = state_dir \.\. "\/processing"/);
+  assert.match(claimBody, /os\.rename\(queue_path, processing_path\)/);
+  assert.ok(
+    processBody.indexOf("claim_file(filename)") < processBody.indexOf("pcall(run_command, command)"),
+    "queue file should be claimed before run_command executes",
+  );
+});
+
+test("registry reports the module name when a runtime module is invalid", () => {
+  const registry = readLuaFile("rm_registry.lua");
+
+  assert.match(registry, /local module_names = \{/);
+  assert.match(registry, /runtime module missing register: /);
+  assert.match(registry, /type\(module\.register\) ~= "function"/);
+});
+
+test("gain-stage toolbar reports empty item selection clearly", () => {
+  const source = readLuaFile("Reaper Manager Gain Stage.lua");
+
+  assert.match(source, /if matched == 0 then/);
+  assert.match(source, /No hay items seleccionados para gain staging/);
+  assert.match(source, /Select Items/);
 });
