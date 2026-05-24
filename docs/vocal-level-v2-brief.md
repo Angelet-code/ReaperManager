@@ -71,6 +71,7 @@ Reject a design or test run when:
 - Loud macro zones, subzones or syllables can be cut; the report should separate boosts and cuts by phase.
 - Syllables/words that are audibly low are corrected.
 - Parts already at a good level are protected.
+- Versions are accepted only after audio-result measurement, not by parameter telemetry alone: `post_level_measurement` must show reduced local dispersion, controlled peaks/outliers, and no boosted silence/breath regions. Applied runs should report `mode = applied_take_envelope`.
 - No audible rise in noise, breaths or tails between lines.
 - No clicks, pumping, zippering or robotic envelope movement.
 - Existing take volume envelopes are skipped unless `--replace-envelope` is explicit.

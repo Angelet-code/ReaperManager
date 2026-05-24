@@ -22,11 +22,12 @@ test("bridge reports runtime version and vocal-level capabilities", () => {
   const heartbeat = extractFunction(source, "heartbeat", "track_name");
   const ping = extractFunction(source, "command_ping", "command_undo");
 
-  assert.match(source, /local BRIDGE_VERSION = "vocal-level-phased-macro-micro-2026-05-24"/);
+  assert.match(source, /local BRIDGE_VERSION = "vocal-level-measured-macro-micro-2026-05-24"/);
   assert.match(source, /vocal_level_estimated_points = true/);
   assert.match(source, /vocal_level_zero_crossing_curve = true/);
   assert.match(source, /vocal_level_phrase_safe_defaults = true/);
   assert.match(source, /vocal_level_macro_micro = true/);
+  assert.match(source, /vocal_level_post_level_measurement = true/);
   assert.match(heartbeat, /bridge_version = BRIDGE_VERSION/);
   assert.match(heartbeat, /features = bridge_features\(\)/);
   assert.match(ping, /bridge_version = BRIDGE_VERSION/);
@@ -54,6 +55,7 @@ test("vocal-level macro_micro is the runtime default with V2 safety settings", (
   assert.match(settings, /micro_cut_strength = clamp\(tonumber\(command\.microCutStrength\) or 0\.55, 0, 1\)/);
   assert.match(settings, /micro_max_boost_db = tonumber\(command\.microMaxBoostDb\) or 2\.5/);
   assert.match(settings, /protected_max_boost_db = tonumber\(command\.protectedMaxBoostDb\) or 0/);
+  assert.match(settings, /post_level_report = command\.postLevelReport ~= false/);
   assert.match(settings, /point_density_reject_per_minute = tonumber\(command\.pointDensityRejectPerMinute\) or 100/);
 });
 
@@ -194,6 +196,37 @@ test("vocal-level report includes macro_micro telemetry and point density", () =
   assert.match(body, /max_boost_db = settings\.max_boost_db/);
   assert.match(body, /limited_by_max_boost = limited_by_max_boost/);
   assert.match(body, /max_boost_hit_ratio = total_segments > 0 and \(limited_by_max_boost \/ total_segments\) or 0/);
+});
+
+test("vocal-level report includes post-level audio balance measurements", () => {
+  const source = readBridge();
+  const analyzer = extractFunction(source, "analyze_item_for_vocal_level", "envelope_point_count");
+  const body = extractFunction(source, "command_vocal_level_items", "normalize_words");
+  const measurement = extractFunction(source, "measure_vocal_level_result", "vocal_segment_center");
+
+  assert.match(analyzer, /analysis\.post_level_measurement = measure_vocal_level_result\(analysis, settings\)/);
+  assert.match(measurement, /take_envelope_segment_gain_db\(env, segment, analysis\.item_length\)/);
+  assert.match(measurement, /mode = mode or \(env and "applied_take_envelope" or "estimated_envelope"\)/);
+  assert.match(measurement, /before = before_stats/);
+  assert.match(measurement, /after = after_stats/);
+  assert.match(measurement, /macro_balance = summarize_zone_balance\(macro_groups/);
+  assert.match(measurement, /meso_balance = summarize_zone_balance\(meso_groups/);
+  assert.match(measurement, /glottal_outliers = glottal_outliers/);
+  assert.match(measurement, /silence_breath_safety = \{/);
+  assert.match(body, /post_level_measurement = \{/);
+  assert.match(body, /measure_vocal_level_result\(analysis, settings, env, "applied_take_envelope"\)/);
+  assert.match(body, /stdev_improvement_db = post_level_items > 0/);
+  assert.match(body, /peak_outliers = total_post_peak_outliers/);
+  assert.match(body, /post_level_examples/);
+});
+
+test("vocal-level applied measurement evaluates the written take envelope", () => {
+  const source = readBridge();
+  const evaluator = extractFunction(source, "take_envelope_gain_db_at_time", "measure_vocal_level_result");
+
+  assert.match(evaluator, /reaper\.Envelope_Evaluate\(env, time, 0, 0\)/);
+  assert.match(evaluator, /reaper\.ScaleFromEnvelopeMode\(reaper\.GetEnvelopeScalingMode\(env\), value\)/);
+  assert.match(evaluator, /return gain_to_db\(gain\)/);
 });
 
 test("gain-stage remains take-gain based and does not create take envelopes", () => {

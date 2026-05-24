@@ -11,7 +11,7 @@ local state_dir = root .. "/.reaper-manager/state"
 local response_dir = state_dir .. "/responses"
 local running = true
 local last_poll = 0
-local BRIDGE_VERSION = "vocal-level-phased-macro-micro-2026-05-24"
+local BRIDGE_VERSION = "vocal-level-measured-macro-micro-2026-05-24"
 
 local function bridge_features()
   return {
@@ -19,7 +19,8 @@ local function bridge_features()
     vocal_level_estimated_points = true,
     vocal_level_zero_crossing_curve = true,
     vocal_level_phrase_safe_defaults = true,
-    vocal_level_macro_micro = true
+    vocal_level_macro_micro = true,
+    vocal_level_post_level_measurement = true
   }
 end
 
@@ -1344,7 +1345,8 @@ local function vocal_level_settings(command)
     curve_detail = tonumber(command.curveDetail) or 0.5,
     curve_edge_ramp_s = (tonumber(command.curveEdgeRampMs) or 80) / 1000,
     padding_s = (tonumber(command.paddingMs) or 8) / 1000,
-    ramp_s = (tonumber(command.rampMs) or 0) / 1000
+    ramp_s = (tonumber(command.rampMs) or 0) / 1000,
+    post_level_report = command.postLevelReport ~= false
   }
 end
 
@@ -1881,6 +1883,225 @@ local function apply_relative_vocal_stabilization(segments, ctx, settings)
     reference_db = reference_db,
     average_raw_correction_db = average_correction,
     average_final_correction_db = total_weight > 0 and (final_sum / total_weight) or 0
+  }
+end
+
+local function weighted_db_stats(entries, percentile)
+  if not entries or #entries == 0 then return nil end
+
+  local values = {}
+  local sum = 0
+  local total_weight = 0
+  for _, entry in ipairs(entries) do
+    local weight = math.max(0, entry.weight or 1)
+    if entry.value and weight > 0 then
+      values[#values + 1] = { value = entry.value, weight = weight }
+      sum = sum + (entry.value * weight)
+      total_weight = total_weight + weight
+    end
+  end
+  if #values == 0 or total_weight <= 0 then return nil end
+
+  local mean = sum / total_weight
+  local variance = 0
+  for _, entry in ipairs(values) do
+    local delta = (entry.value or 0) - mean
+    variance = variance + (delta * delta * (entry.weight or 1))
+  end
+  variance = variance / total_weight
+
+  local function percentile_value(p)
+    local copy = {}
+    for _, entry in ipairs(values) do
+      copy[#copy + 1] = { value = entry.value, weight = entry.weight }
+    end
+    return weighted_percentile(copy, p)
+  end
+
+  local p10 = percentile_value(10)
+  local p90 = percentile_value(90)
+  return {
+    count = #values,
+    average_db = mean,
+    stdev_db = math.sqrt(math.max(0, variance)),
+    reference_db = percentile_value(percentile or 65),
+    p10_db = p10,
+    p90_db = p90,
+    spread_db = (p10 and p90) and (p90 - p10) or nil
+  }
+end
+
+local function summarize_zone_balance(groups, percentile)
+  local entries = {}
+  local examples = {}
+  for _, group in pairs(groups or {}) do
+    if group.weight and group.weight > 0 then
+      local before_db = group.before_sum / group.weight
+      local after_db = group.after_sum / group.weight
+      entries[#entries + 1] = {
+        value = after_db,
+        weight = group.weight
+      }
+      if #examples < 12 then
+        examples[#examples + 1] = {
+          index = group.index,
+          parent_index = group.parent_index,
+          segments = group.segments,
+          before_db = before_db,
+          after_db = after_db,
+          delta_db = after_db - before_db,
+          weight_s = group.weight
+        }
+      end
+    end
+  end
+
+  return {
+    count = #entries,
+    stats = weighted_db_stats(entries, percentile),
+    examples = examples
+  }
+end
+
+local function take_envelope_gain_db_at_time(env, time)
+  if not env or not reaper.Envelope_Evaluate then return nil end
+  local ok, value = reaper.Envelope_Evaluate(env, time, 0, 0)
+  if not ok then return nil end
+
+  local gain = value
+  if reaper.GetEnvelopeScalingMode and reaper.ScaleFromEnvelopeMode then
+    gain = reaper.ScaleFromEnvelopeMode(reaper.GetEnvelopeScalingMode(env), value)
+  end
+  if not gain or gain <= 0 then return -150 end
+  return gain_to_db(gain)
+end
+
+local function take_envelope_segment_gain_db(env, segment, item_length)
+  if not env then return nil end
+  local start_rel = clamp(segment.start_rel or 0, 0, item_length or segment.end_rel or 0)
+  local end_rel = clamp(segment.end_rel or start_rel, 0, item_length or start_rel)
+  local length = math.max(0, end_rel - start_rel)
+  local center = start_rel + (length / 2)
+  local inset = math.min(0.04, length / 4)
+  local positions = { center }
+  if length > 0.08 then
+    positions[#positions + 1] = start_rel + inset
+    positions[#positions + 1] = end_rel - inset
+  end
+
+  local sum = 0
+  local count = 0
+  for _, position in ipairs(positions) do
+    local gain_db = take_envelope_gain_db_at_time(env, position)
+    if gain_db then
+      sum = sum + gain_db
+      count = count + 1
+    end
+  end
+  if count <= 0 then return nil end
+  return sum / count
+end
+
+local function measure_vocal_level_result(analysis, settings, env, mode)
+  if not analysis or not analysis.segments or #analysis.segments == 0 then return nil end
+
+  local before_entries = {}
+  local after_entries = {}
+  local macro_groups = {}
+  local meso_groups = {}
+  local peak_outliers = 0
+  local glottal_outliers = 0
+  local silence_or_breath_protected = 0
+  local boosted_protected = 0
+  local boosted_low_energy = 0
+  local unresolved_peak_outliers = 0
+  local max_after_peak_db = nil
+
+  for _, segment in ipairs(analysis.segments) do
+    local weight = vocal_segment_weight(segment)
+    local before_db = (segment.measured_db or segment.sustain_db or -150) + (analysis.original_combined_db or 0)
+    local applied_gain_db = take_envelope_segment_gain_db(env, segment, analysis.item_length) or (segment.gain_db or 0)
+    local after_db = before_db + applied_gain_db
+    local after_peak_db = (segment.raw_peak_db or segment.source_peak_db or -150) + (analysis.original_combined_db or 0) + applied_gain_db
+
+    before_entries[#before_entries + 1] = { value = before_db, weight = weight }
+    after_entries[#after_entries + 1] = { value = after_db, weight = weight }
+
+    max_after_peak_db = max_after_peak_db and math.max(max_after_peak_db, after_peak_db) or after_peak_db
+    if after_peak_db > (settings.peak_ceiling_db or -0.3) + 0.001 then
+      peak_outliers = peak_outliers + 1
+      unresolved_peak_outliers = unresolved_peak_outliers + 1
+    end
+
+    if (segment.median_crest_db or 0) >= (settings.protected_crest_db or 18) then
+      glottal_outliers = glottal_outliers + 1
+    end
+    if segment.protected or segment.protected_reason then
+      silence_or_breath_protected = silence_or_breath_protected + 1
+      if applied_gain_db > 0.001 then boosted_protected = boosted_protected + 1 end
+    end
+    if before_db < (settings.detect_silence_db or -45) and applied_gain_db > 0.001 then
+      boosted_low_energy = boosted_low_energy + 1
+    end
+
+    local macro_index = segment.macro_zone_index
+    if macro_index then
+      local key = tostring(macro_index)
+      local group = macro_groups[key] or {
+        index = macro_index,
+        before_sum = 0,
+        after_sum = 0,
+        weight = 0,
+        segments = 0
+      }
+      group.before_sum = group.before_sum + (before_db * weight)
+      group.after_sum = group.after_sum + (after_db * weight)
+      group.weight = group.weight + weight
+      group.segments = group.segments + 1
+      macro_groups[key] = group
+    end
+
+    local meso_index = segment.meso_zone_index
+    if macro_index and meso_index then
+      local key = tostring(macro_index) .. ":" .. tostring(meso_index)
+      local group = meso_groups[key] or {
+        index = meso_index,
+        parent_index = macro_index,
+        before_sum = 0,
+        after_sum = 0,
+        weight = 0,
+        segments = 0
+      }
+      group.before_sum = group.before_sum + (before_db * weight)
+      group.after_sum = group.after_sum + (after_db * weight)
+      group.weight = group.weight + weight
+      group.segments = group.segments + 1
+      meso_groups[key] = group
+    end
+  end
+
+  local before_stats = weighted_db_stats(before_entries, settings.reference_percentile or 65)
+  local after_stats = weighted_db_stats(after_entries, settings.reference_percentile or 65)
+  return {
+    mode = mode or (env and "applied_take_envelope" or "estimated_envelope"),
+    segment_count = #analysis.segments,
+    before = before_stats,
+    after = after_stats,
+    improvement = {
+      stdev_db = before_stats and after_stats and before_stats.stdev_db and after_stats.stdev_db and (before_stats.stdev_db - after_stats.stdev_db) or nil,
+      spread_db = before_stats and after_stats and before_stats.spread_db and after_stats.spread_db and (before_stats.spread_db - after_stats.spread_db) or nil
+    },
+    macro_balance = summarize_zone_balance(macro_groups, settings.reference_percentile or 65),
+    meso_balance = summarize_zone_balance(meso_groups, settings.reference_percentile or 65),
+    peak_outliers = peak_outliers,
+    glottal_outliers = glottal_outliers,
+    silence_breath_safety = {
+      protected_parts = silence_or_breath_protected,
+      boosted_protected_parts = boosted_protected,
+      boosted_low_energy_parts = boosted_low_energy
+    },
+    max_after_peak_db = max_after_peak_db,
+    unresolved_peak_outliers = unresolved_peak_outliers
   }
 end
 
@@ -2755,7 +2976,7 @@ local function analyze_item_for_vocal_level(item, settings)
         segments = consolidate_vocal_level_segments(segments, settings)
       end
 
-      return {
+      local analysis = {
         item_start = ctx.item_start,
         item_length = ctx.item_length,
         accessor_start = analysis_start,
@@ -2795,6 +3016,10 @@ local function analyze_item_for_vocal_level(item, settings)
         part_count = #segments,
         segments = segments
       }
+      if settings.post_level_report then
+        analysis.post_level_measurement = measure_vocal_level_result(analysis, settings)
+      end
+      return analysis
     end)
 
     reaper.DestroyAudioAccessor(accessor)
@@ -3004,7 +3229,22 @@ local function command_vocal_level_items(command)
   local warnings = {}
   local examples = {}
   local macro_zone_examples = {}
+  local post_level_examples = {}
   local skip_reasons = {}
+  local post_level_items = 0
+  local sum_post_before_stdev_db = 0
+  local sum_post_after_stdev_db = 0
+  local sum_post_before_spread_db = 0
+  local sum_post_after_spread_db = 0
+  local sum_post_stdev_improvement_db = 0
+  local sum_post_spread_improvement_db = 0
+  local total_post_peak_outliers = 0
+  local total_post_glottal_outliers = 0
+  local total_post_protected_parts = 0
+  local total_post_boosted_protected_parts = 0
+  local total_post_boosted_low_energy_parts = 0
+  local max_post_after_peak_db = nil
+  local post_level_mode = nil
 
   local function record_skip(item, reason)
     skipped = skipped + 1
@@ -3043,6 +3283,9 @@ local function command_vocal_level_items(command)
             record_skip(item, created_or_error)
           else
             point_count = insert_vocal_level_points(env, analysis, created_or_error == true or settings.replace_envelope == true)
+            if point_count > 0 and settings.post_level_report then
+              analysis.post_level_measurement = measure_vocal_level_result(analysis, settings, env, "applied_take_envelope")
+            end
           end
         end
 
@@ -3081,6 +3324,42 @@ local function command_vocal_level_items(command)
           if analysis.macro_item_gain_stage_db then
             sum_macro_item_gain_stage_db = sum_macro_item_gain_stage_db + analysis.macro_item_gain_stage_db
             macro_item_gain_stage_count = macro_item_gain_stage_count + 1
+          end
+          if analysis.post_level_measurement then
+            local measurement = analysis.post_level_measurement
+            post_level_items = post_level_items + 1
+            post_level_mode = post_level_mode or measurement.mode
+            sum_post_before_stdev_db = sum_post_before_stdev_db + ((measurement.before and measurement.before.stdev_db) or 0)
+            sum_post_after_stdev_db = sum_post_after_stdev_db + ((measurement.after and measurement.after.stdev_db) or 0)
+            sum_post_before_spread_db = sum_post_before_spread_db + ((measurement.before and measurement.before.spread_db) or 0)
+            sum_post_after_spread_db = sum_post_after_spread_db + ((measurement.after and measurement.after.spread_db) or 0)
+            sum_post_stdev_improvement_db = sum_post_stdev_improvement_db + ((measurement.improvement and measurement.improvement.stdev_db) or 0)
+            sum_post_spread_improvement_db = sum_post_spread_improvement_db + ((measurement.improvement and measurement.improvement.spread_db) or 0)
+            total_post_peak_outliers = total_post_peak_outliers + (measurement.peak_outliers or 0)
+            total_post_glottal_outliers = total_post_glottal_outliers + (measurement.glottal_outliers or 0)
+            total_post_protected_parts = total_post_protected_parts + ((measurement.silence_breath_safety and measurement.silence_breath_safety.protected_parts) or 0)
+            total_post_boosted_protected_parts = total_post_boosted_protected_parts + ((measurement.silence_breath_safety and measurement.silence_breath_safety.boosted_protected_parts) or 0)
+            total_post_boosted_low_energy_parts = total_post_boosted_low_energy_parts + ((measurement.silence_breath_safety and measurement.silence_breath_safety.boosted_low_energy_parts) or 0)
+            if measurement.max_after_peak_db then
+              max_post_after_peak_db = max_post_after_peak_db and math.max(max_post_after_peak_db, measurement.max_after_peak_db) or measurement.max_after_peak_db
+            end
+            if #post_level_examples < 12 then
+              local summary = item_summary(item)
+              post_level_examples[#post_level_examples + 1] = {
+                track = summary.track,
+                item_index = summary.item_index,
+                mode = measurement.mode,
+                before = measurement.before,
+                after = measurement.after,
+                improvement = measurement.improvement,
+                macro_balance = measurement.macro_balance,
+                meso_balance = measurement.meso_balance,
+                peak_outliers = measurement.peak_outliers,
+                glottal_outliers = measurement.glottal_outliers,
+                silence_breath_safety = measurement.silence_breath_safety,
+                max_after_peak_db = measurement.max_after_peak_db
+              }
+            end
           end
 
           local duration_minutes = math.max(analysis.item_length or 0, 0.001) / 60
@@ -3334,6 +3613,26 @@ local function command_vocal_level_items(command)
       min = min_gain_db,
       max = max_gain_db,
       average = total_segments > 0 and (sum_gain_db / total_segments) or nil
+    },
+    post_level_measurement = {
+      enabled = settings.post_level_report,
+      mode = post_level_mode or (settings.preview and "estimated_envelope" or nil),
+      items = post_level_items,
+      before_stdev_db = post_level_items > 0 and (sum_post_before_stdev_db / post_level_items) or nil,
+      after_stdev_db = post_level_items > 0 and (sum_post_after_stdev_db / post_level_items) or nil,
+      stdev_improvement_db = post_level_items > 0 and (sum_post_stdev_improvement_db / post_level_items) or nil,
+      before_spread_db = post_level_items > 0 and (sum_post_before_spread_db / post_level_items) or nil,
+      after_spread_db = post_level_items > 0 and (sum_post_after_spread_db / post_level_items) or nil,
+      spread_improvement_db = post_level_items > 0 and (sum_post_spread_improvement_db / post_level_items) or nil,
+      peak_outliers = total_post_peak_outliers,
+      glottal_outliers = total_post_glottal_outliers,
+      max_after_peak_db = max_post_after_peak_db,
+      silence_breath_safety = {
+        protected_parts = total_post_protected_parts,
+        boosted_protected_parts = total_post_boosted_protected_parts,
+        boosted_low_energy_parts = total_post_boosted_low_energy_parts
+      },
+      examples = post_level_examples
     },
     skip_reasons = skip_reasons,
     warnings = warnings,

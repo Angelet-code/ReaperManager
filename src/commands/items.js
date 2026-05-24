@@ -93,6 +93,7 @@ export function buildVocalLevelCommand(options = {}) {
     protectedMaxBoostDb: parseNumberOption(options.protectedMaxBoostDb ?? options["protected-max-boost-db"] ?? 0, "Protected max boost dB", 0, 12),
     protectedCrestDb: parseNumberOption(options.protectedCrestDb ?? options["protected-crest-db"] ?? 18, "Protected crest dB", 0, 40),
     protectedLowRelativeDb: parseNumberOption(options.protectedLowRelativeDb ?? options["protected-low-relative-db"] ?? 12, "Protected low relative dB", 0, 40),
+    postLevelReport: parseBooleanOption(options.postLevelReport ?? options["post-level-report"], "Post-level report", true),
     pointDensityWarnPerMinute: parseNumberOption(options.pointDensityWarnPerMinute ?? options["point-density-warn-per-minute"] ?? 70, "Point density warning per minute", 1, 300),
     pointDensityRejectPerMinute: parseNumberOption(options.pointDensityRejectPerMinute ?? options["point-density-reject-per-minute"] ?? 100, "Point density reject per minute", 1, 300),
     sustainLowPercent,

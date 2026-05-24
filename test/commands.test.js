@@ -224,6 +224,7 @@ test("buildVocalLevelCommand targets selected items with safe defaults", () => {
   assert.equal(command.protectedMaxBoostDb, 0);
   assert.equal(command.protectedCrestDb, 18);
   assert.equal(command.protectedLowRelativeDb, 12);
+  assert.equal(command.postLevelReport, true);
   assert.equal(command.pointDensityWarnPerMinute, 70);
   assert.equal(command.pointDensityRejectPerMinute, 100);
   assert.equal(command.sustainLowPercent, 50);
@@ -293,6 +294,7 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
     "protected-max-boost-db": "1",
     "protected-crest-db": "16",
     "protected-low-relative-db": "10",
+    "post-level-report": "false",
     "point-density-warn-per-minute": "60",
     "point-density-reject-per-minute": "95",
     "sustain-low-percent": "40",
@@ -355,6 +357,7 @@ test("buildVocalLevelCommand supports preview and safety overrides", () => {
   assert.equal(command.protectedMaxBoostDb, 1);
   assert.equal(command.protectedCrestDb, 16);
   assert.equal(command.protectedLowRelativeDb, 10);
+  assert.equal(command.postLevelReport, false);
   assert.equal(command.pointDensityWarnPerMinute, 60);
   assert.equal(command.pointDensityRejectPerMinute, 95);
   assert.equal(command.sustainLowPercent, 40);

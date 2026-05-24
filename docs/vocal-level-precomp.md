@@ -90,6 +90,7 @@ El criterio por defecto es jerarquico: macrozonas primero, subzonas/frase despue
 - La aplicacion real respeta techo de pico, limites de boost/cut y queda deshecha con un undo.
 - Si un item necesita mas corte que `maxCutDb` para respetar el techo de pico, se salta en lugar de escribir una automatizacion extrema.
 - En pistas largas desniveladas, la telemetria debe mostrar `macro_boost_zones`/`macro_cut_zones`, `meso_boost_zones`/`meso_cut_zones` y `micro_boost_parts`/`micro_cut_parts` para demostrar que no es un pase de solo boost.
+- La decision del loop no se toma por esos contadores. Cada version debe revisar `post_level_measurement`: dispersion antes/despues (`stdev_db`, `spread_db`), balance macro/meso, picos fuera de techo, outliers gloticos/crest y seguridad de respiraciones/silencios. En preview el modo es `estimated_envelope`; en aplicacion real debe ser `applied_take_envelope`, medido reevaluando la envolvente de take escrita.
 
 ## Modos Expertos
 
