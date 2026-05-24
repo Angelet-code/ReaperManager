@@ -11,6 +11,16 @@ local state_dir = root .. "/.reaper-manager/state"
 local response_dir = state_dir .. "/responses"
 local running = true
 local last_poll = 0
+local BRIDGE_VERSION = "vocal-level-precomp-2026-05-24"
+
+local function bridge_features()
+  return {
+    undo_command = true,
+    vocal_level_estimated_points = true,
+    vocal_level_zero_crossing_curve = true,
+    vocal_level_phrase_safe_defaults = true
+  }
+end
 
 local function join(a, b)
   return a .. "/" .. b
@@ -61,6 +71,8 @@ local function heartbeat()
   local payload = {
     ok = true,
     bridge = "running",
+    bridge_version = BRIDGE_VERSION,
+    features = bridge_features(),
     time = os.date("!%Y-%m-%dT%H:%M:%SZ"),
     project_path = project_path,
     track_count = reaper.CountTracks(0)
@@ -323,6 +335,8 @@ end
 local function command_ping()
   local _, project_path = reaper.EnumProjects(-1, "")
   return {
+    bridge_version = BRIDGE_VERSION,
+    features = bridge_features(),
     project_path = project_path,
     track_count = reaper.CountTracks(0),
     selected_track_count = reaper.CountSelectedTracks(0)
@@ -4762,6 +4776,7 @@ local function cleanup()
   local payload = {
     ok = true,
     bridge = "stopped",
+    bridge_version = BRIDGE_VERSION,
     time = os.date("!%Y-%m-%dT%H:%M:%SZ")
   }
   write_file(join(state_dir, "heartbeat.json"), json.encode(payload))

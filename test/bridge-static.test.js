@@ -17,6 +17,21 @@ function extractFunction(source, name, nextName) {
   return source.slice(start, end);
 }
 
+test("bridge reports runtime version and vocal-level capabilities", () => {
+  const source = readBridge();
+  const heartbeat = extractFunction(source, "heartbeat", "track_name");
+  const ping = extractFunction(source, "command_ping", "command_undo");
+
+  assert.match(source, /local BRIDGE_VERSION = "vocal-level-precomp-2026-05-24"/);
+  assert.match(source, /vocal_level_estimated_points = true/);
+  assert.match(source, /vocal_level_zero_crossing_curve = true/);
+  assert.match(source, /vocal_level_phrase_safe_defaults = true/);
+  assert.match(heartbeat, /bridge_version = BRIDGE_VERSION/);
+  assert.match(heartbeat, /features = bridge_features\(\)/);
+  assert.match(ping, /bridge_version = BRIDGE_VERSION/);
+  assert.match(ping, /features = bridge_features\(\)/);
+});
+
 test("vocal-level preview does not normalize item or take gain", () => {
   const source = readBridge();
   const body = extractFunction(source, "analyze_item_for_vocal_level", "envelope_point_count");
