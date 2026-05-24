@@ -34,3 +34,19 @@ Este proyecto usa un unico repositorio Git y cuatro areas de trabajo. El objetiv
 - El resumen informa partes, puntos, rango de ganancia, limitaciones por pico/boost/cut y ejemplos.
 - El resultado auditivo prepara el compresor; no intenta mezclar la interpretacion.
 - Para nivelacion vocal, TESTER debe tratar como fallo cualquier default que multiplique puntos sin necesidad, levante respiraciones o ignore cruces por cero cuando estos estan activos.
+
+## Contrato Actual Para Vocal-Level
+
+El ensayo del 2026-05-24 sobre `43_LeadVoxOD_UncompedTake01` invalida la direccion de "objetivo absoluto por trozos" como default musical: 48 partes, 175 puntos, promedio `+9.5 dB`, maximo `+12 dB` y 21 partes limitadas por `maxBoost` resultaron auditivamente mal. No se debe seguir refinando esa ruta como si fuera un simple problema de parametros.
+
+AUDIODESIGN debe partir de estos objetivos:
+
+- El primer objetivo es preparar la voz para que el compresor trabaje comodo, no normalizar cada fragmento a `0 VU`.
+- La dinamica macro de la interpretacion se conserva parcialmente; versos, estribillos y frases no se igualan por regla fija.
+- Si una toma completa esta demasiado baja, se trata primero como offset macro o aviso de gain base, no como muchos boosts locales a `+12 dB`.
+- La automatizacion debe ir de macro a micro: bloque/frase primero, reparacion corta solo si sigue siendo necesario.
+- Menos puntos es mejor si el resultado al compresor es estable; TESTER debe rechazar curvas densas que no aporten mejora audible.
+- Respiraciones, ruido bajo y consonantes aisladas no son material objetivo para levantar.
+- Los cruces por cero y rampas son protecciones contra artefactos, no una licencia para escribir mas puntos.
+
+Regla de dudas: si AUDIODESIGN, PROGRAMER o TESTER necesitan decidir entre dos comportamientos auditivos razonables, deben devolver preguntas explicitas al usuario antes de implementar una nueva direccion.

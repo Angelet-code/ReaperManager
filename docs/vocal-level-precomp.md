@@ -1,8 +1,14 @@
-# Vocal Level Precomp V1
+# Vocal Level Precomp
 
 ## Objetivo
 
 `vocal-level` prepara clips de voz antes del compresor escribiendo automatizacion en la envolvente de volumen de take. El objetivo es que el compresor reciba una senal vocal mas estable alrededor de `-18 dBFS = 0 VU`, sin hacer rides interpretativos ni decidir el plano final de la voz en la mezcla.
+
+## Estado Tras Escucha 2026-05-24
+
+La V1 phrase-safe redujo puntos frente al modo micro, pero el ensayo real sobre `43_LeadVoxOD_UncompedTake01` no fue aceptable auditivamente. La pasada genero 48 partes, 175 puntos, `+9.5 dB` de correccion media, maximo `+12 dB` y 21 partes limitadas por boost. Eso demuestra que el default no debe perseguir el objetivo absoluto por trozos cuando una toma esta globalmente baja.
+
+Direccion corregida para V2: primero resolver macro/meso de forma musical y parcial, despues aplicar micro solo como reparacion opcional. El objetivo no es que cada frase marque exactamente `0 VU`, sino que el compresor reciba una voz mas estable sin levantar ruido, respiraciones o partes debiles hasta sonar procesadas.
 
 ## Camino Normal
 
@@ -82,5 +88,7 @@ La idea macro -> meso -> micro queda aceptada como direccion de diseno, con una 
 - Micro: reparacion opcional y apagada por defecto. Solo para palabras/silabas caidas claramente despues de macro y meso; no respiraciones, consonantes, ruido o expresividad natural.
 - Stop temprano: si una escala ya deja la entrada al compresor estable, no se baja a una escala mas micro.
 - Preview debe reportar confianza por escala: frases utiles, duracion activa, correccion media/maxima, skips y motivos.
+- Si el item completo necesita mucho boost medio, preview debe avisar de posible offset macro/base gain antes de escribir automatizacion densa.
+- El default debe limitar micro automation: no perseguir `0 VU` exacto en cada trozo, no levantar respiraciones, no generar puntos si una correccion amplia ya basta.
 
 No implementar aun sin pruebas auditivas: clasificar verso/estribillo automaticamente, activar micro-leveling por defecto, procesar items no seleccionados para entender la cancion, o aplicar reglas fijas tipo "estribillo siempre +X dB".
