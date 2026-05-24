@@ -286,6 +286,11 @@ test("vocal-level report includes post-level audio balance measurements", () => 
   assert.match(measurement, /glottal_outliers = glottal_outliers/);
   assert.match(measurement, /if segment\.safety_protected or segment\.protected_reason then/);
   assert.match(measurement, /silence_breath_safety = \{/);
+  assert.match(measurement, /local post_level_segments = \{\}/);
+  assert.match(measurement, /residual_reference_db = residual_reference_db/);
+  assert.match(measurement, /worst_after_segments = ranked_post_level_segments\(post_level_segments, "risk_score_db", 8\)/);
+  assert.match(measurement, /largest_residual_deviations = ranked_post_level_segments\(post_level_segments, "absolute_residual_db", 8\)/);
+  assert.match(measurement, /high_gain_hits = ranked_post_level_segments\(post_level_segments, "gain_pressure_db", 8, is_high_gain_hit\)/);
   assert.match(curveSmoothing, /if radius > 0 and not segment\.safety_protected then/);
   assert.match(curveSmoothing, /segment\.safety_protected and desired_gain/);
   assert.match(body, /post_level_measurement = \{/);
@@ -297,6 +302,10 @@ test("vocal-level report includes post-level audio balance measurements", () => 
   assert.match(body, /unresolved_peak_outliers = total_post_unresolved_peak_outliers/);
   assert.match(body, /boosted_protected_parts = total_post_boosted_protected_parts/);
   assert.match(body, /boosted_low_energy_parts = total_post_boosted_low_energy_parts/);
+  assert.match(body, /append_ranked_post_level_segments\(post_level_worst_after_segments, measurement\.worst_after_segments/);
+  assert.match(body, /worst_after_segments = post_level_worst_after_segments/);
+  assert.match(body, /largest_residual_deviations = post_level_largest_residual_deviations/);
+  assert.match(body, /high_gain_hits = post_level_high_gain_hits/);
   assert.match(body, /post_level_examples/);
 });
 

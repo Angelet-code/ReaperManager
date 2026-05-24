@@ -752,6 +752,71 @@ local function take_envelope_segment_gain_db(env, segment, item_length)
   return sum / count
 end
 
+local function copy_post_level_value(value)
+  if type(value) ~= "table" then return value end
+
+  local copy = {}
+  for key, nested in pairs(value) do
+    copy[key] = copy_post_level_value(nested)
+  end
+  return copy
+end
+
+local function copy_post_level_segment(entry)
+  local copy = {}
+  for key, value in pairs(entry or {}) do
+    copy[key] = copy_post_level_value(value)
+  end
+  return copy
+end
+
+local function post_level_segment_score(entry, score_key)
+  local score = entry and entry[score_key] or 0
+  if type(score) ~= "number" then return 0 end
+  return score
+end
+
+local function sort_post_level_segments(entries, score_key)
+  table.sort(entries, function(left, right)
+    local left_score = post_level_segment_score(left, score_key)
+    local right_score = post_level_segment_score(right, score_key)
+    if left_score == right_score then
+      local left_peak = left.after_peak_db or -150
+      local right_peak = right.after_peak_db or -150
+      if left_peak == right_peak then
+        return (left.start or left.start_rel or 0) < (right.start or right.start_rel or 0)
+      end
+      return left_peak > right_peak
+    end
+    return left_score > right_score
+  end)
+end
+
+local function ranked_post_level_segments(entries, score_key, limit, predicate)
+  local ranked = {}
+  for _, entry in ipairs(entries or {}) do
+    if not predicate or predicate(entry) then
+      ranked[#ranked + 1] = copy_post_level_segment(entry)
+    end
+  end
+
+  sort_post_level_segments(ranked, score_key)
+  while #ranked > (limit or 8) do table.remove(ranked) end
+  return ranked
+end
+
+local function append_ranked_post_level_segments(target, entries, summary, score_key, limit)
+  for _, entry in ipairs(entries or {}) do
+    local copy = copy_post_level_segment(entry)
+    copy.track = summary.track
+    copy.item_index = summary.item_index
+    target[#target + 1] = copy
+  end
+
+  sort_post_level_segments(target, score_key)
+  while #target > (limit or 12) do table.remove(target) end
+end
+
 local function measure_vocal_level_result(analysis, settings, env, mode)
   if not analysis or not analysis.segments or #analysis.segments == 0 then return nil end
 
@@ -759,6 +824,7 @@ local function measure_vocal_level_result(analysis, settings, env, mode)
   local after_entries = {}
   local macro_groups = {}
   local meso_groups = {}
+  local post_level_segments = {}
   local peak_outliers = 0
   local glottal_outliers = 0
   local silence_or_breath_protected = 0
@@ -773,26 +839,66 @@ local function measure_vocal_level_result(analysis, settings, env, mode)
     local applied_gain_db = take_envelope_segment_gain_db(env, segment, analysis.item_length) or (segment.gain_db or 0)
     local after_db = before_db + applied_gain_db
     local after_peak_db = (segment.raw_peak_db or segment.source_peak_db or -150) + (analysis.original_combined_db or 0) + applied_gain_db
+    local peak_ceiling_db = settings.peak_ceiling_db or -0.3
+    local peak_over_ceiling_db = math.max(0, after_peak_db - peak_ceiling_db)
+    local high_crest = (segment.median_crest_db or 0) >= (settings.protected_crest_db or 18)
+    local low_energy_boosted = before_db < (settings.detect_silence_db or -45) and applied_gain_db > 0.001
 
     before_entries[#before_entries + 1] = { value = before_db, weight = weight }
     after_entries[#after_entries + 1] = { value = after_db, weight = weight }
 
     max_after_peak_db = max_after_peak_db and math.max(max_after_peak_db, after_peak_db) or after_peak_db
-    if after_peak_db > (settings.peak_ceiling_db or -0.3) + 0.001 then
+    if peak_over_ceiling_db > 0.001 then
       peak_outliers = peak_outliers + 1
       unresolved_peak_outliers = unresolved_peak_outliers + 1
     end
 
-    if (segment.median_crest_db or 0) >= (settings.protected_crest_db or 18) then
+    if high_crest then
       glottal_outliers = glottal_outliers + 1
     end
     if segment.safety_protected or segment.protected_reason then
       silence_or_breath_protected = silence_or_breath_protected + 1
       if applied_gain_db > 0.001 then boosted_protected = boosted_protected + 1 end
     end
-    if before_db < (settings.detect_silence_db or -45) and applied_gain_db > 0.001 then
+    if low_energy_boosted then
       boosted_low_energy = boosted_low_energy + 1
     end
+
+    post_level_segments[#post_level_segments + 1] = {
+      part_index = segment.part_index,
+      start = segment.start,
+      ["end"] = segment["end"],
+      start_rel = segment.start_rel,
+      end_rel = segment.end_rel,
+      duration_s = math.max(0, (segment.end_rel or 0) - (segment.start_rel or 0)),
+      before_db = before_db,
+      after_db = after_db,
+      gain_db = applied_gain_db,
+      requested_gain_db = segment.gain_db,
+      after_peak_db = after_peak_db,
+      peak_ceiling_db = peak_ceiling_db,
+      peak_over_ceiling_db = peak_over_ceiling_db,
+      macro_zone_index = segment.macro_zone_index,
+      meso_zone_index = segment.meso_zone_index,
+      correction_stage = segment.correction_stage,
+      local_delta_db = segment.local_delta_db,
+      final_vu = segment.final_vu,
+      median_crest_db = segment.median_crest_db,
+      selected_windows = segment.selected_windows,
+      transient_windows = segment.transient_windows,
+      protected_reason = segment.protected_reason,
+      safety_flags = {
+        protected = segment.protected == true,
+        safety_protected = segment.safety_protected == true,
+        safety_limited = segment.safety_limited == true,
+        limited_by_peak = segment.limited_by_peak == true,
+        limited_by_max_boost = segment.limited_by_max_boost == true,
+        limited_by_max_cut = segment.limited_by_max_cut == true,
+        peak_over_ceiling = peak_over_ceiling_db > 0.001,
+        high_crest = high_crest,
+        low_energy_boosted = low_energy_boosted
+      }
+    }
 
     local macro_index = segment.macro_zone_index
     if macro_index then
@@ -832,6 +938,39 @@ local function measure_vocal_level_result(analysis, settings, env, mode)
 
   local before_stats = weighted_db_stats(before_entries, settings.reference_percentile or 65)
   local after_stats = weighted_db_stats(after_entries, settings.reference_percentile or 65)
+  local residual_reference_db = after_stats and (after_stats.reference_db or after_stats.average_db) or nil
+  local target_dbfs = (settings.calibration_db or -18) + (settings.target_vu or 0)
+  local residual_limit_db = math.max(settings.gain_deadband_db or 3, settings.micro_deadband_db or 1.5)
+  for _, entry in ipairs(post_level_segments) do
+    local residual_db = residual_reference_db and ((entry.after_db or -150) - residual_reference_db) or 0
+    entry.residual_reference_db = residual_reference_db
+    entry.residual_db = residual_db
+    entry.absolute_residual_db = math.abs(residual_db)
+    entry.target_delta_db = (entry.after_db or -150) - target_dbfs
+    entry.gain_pressure_db = math.abs(entry.gain_db or 0)
+    entry.risk_score_db = math.max(entry.absolute_residual_db or 0, entry.peak_over_ceiling_db or 0)
+    if entry.safety_flags then
+      entry.safety_flags.large_residual = entry.absolute_residual_db >= residual_limit_db
+      if entry.safety_flags.safety_limited or entry.safety_flags.limited_by_max_boost or entry.safety_flags.limited_by_max_cut then
+        entry.risk_score_db = entry.risk_score_db + 0.001
+        entry.gain_pressure_db = entry.gain_pressure_db + 0.001
+      end
+    end
+  end
+
+  local high_boost_floor = math.max(0, (settings.max_boost_db or 0) - 0.25)
+  local high_cut_floor = math.max(0, (settings.max_cut_db or settings.max_boost_db or 0) - 0.25)
+  local function is_high_gain_hit(entry)
+    local gain_db = entry.gain_db or 0
+    local flags = entry.safety_flags or {}
+    return flags.limited_by_peak
+      or flags.limited_by_max_boost
+      or flags.limited_by_max_cut
+      or flags.safety_limited
+      or (high_boost_floor > 0 and gain_db >= high_boost_floor)
+      or (high_cut_floor > 0 and -gain_db >= high_cut_floor)
+  end
+
   return {
     mode = mode or (env and "applied_take_envelope" or "estimated_envelope"),
     segment_count = #analysis.segments,
@@ -850,6 +989,10 @@ local function measure_vocal_level_result(analysis, settings, env, mode)
       boosted_protected_parts = boosted_protected,
       boosted_low_energy_parts = boosted_low_energy
     },
+    residual_reference_db = residual_reference_db,
+    worst_after_segments = ranked_post_level_segments(post_level_segments, "risk_score_db", 8),
+    largest_residual_deviations = ranked_post_level_segments(post_level_segments, "absolute_residual_db", 8),
+    high_gain_hits = ranked_post_level_segments(post_level_segments, "gain_pressure_db", 8, is_high_gain_hit),
     max_after_peak_db = max_after_peak_db,
     unresolved_peak_outliers = unresolved_peak_outliers
   }
@@ -2009,6 +2152,9 @@ local function command_vocal_level_items(command)
   local examples = {}
   local macro_zone_examples = {}
   local post_level_examples = {}
+  local post_level_worst_after_segments = {}
+  local post_level_largest_residual_deviations = {}
+  local post_level_high_gain_hits = {}
   local skip_reasons = {}
   local post_level_items = 0
   local sum_post_before_stdev_db = 0
@@ -2109,6 +2255,7 @@ local function command_vocal_level_items(command)
           end
           if analysis.post_level_measurement then
             local measurement = analysis.post_level_measurement
+            local summary = nil
             post_level_items = post_level_items + 1
             post_level_mode = post_level_mode or measurement.mode
             sum_post_before_stdev_db = sum_post_before_stdev_db + ((measurement.before and measurement.before.stdev_db) or 0)
@@ -2126,8 +2273,14 @@ local function command_vocal_level_items(command)
             if measurement.max_after_peak_db then
               max_post_after_peak_db = max_post_after_peak_db and math.max(max_post_after_peak_db, measurement.max_after_peak_db) or measurement.max_after_peak_db
             end
+            if measurement.worst_after_segments or measurement.largest_residual_deviations or measurement.high_gain_hits then
+              summary = item_summary(item)
+              append_ranked_post_level_segments(post_level_worst_after_segments, measurement.worst_after_segments, summary, "risk_score_db", 12)
+              append_ranked_post_level_segments(post_level_largest_residual_deviations, measurement.largest_residual_deviations, summary, "absolute_residual_db", 12)
+              append_ranked_post_level_segments(post_level_high_gain_hits, measurement.high_gain_hits, summary, "gain_pressure_db", 12)
+            end
             if #post_level_examples < 12 then
-              local summary = item_summary(item)
+              summary = summary or item_summary(item)
               post_level_examples[#post_level_examples + 1] = {
                 track = summary.track,
                 item_index = summary.item_index,
@@ -2141,7 +2294,10 @@ local function command_vocal_level_items(command)
                 glottal_outliers = measurement.glottal_outliers,
                 unresolved_peak_outliers = measurement.unresolved_peak_outliers,
                 silence_breath_safety = measurement.silence_breath_safety,
-                max_after_peak_db = measurement.max_after_peak_db
+                max_after_peak_db = measurement.max_after_peak_db,
+                worst_after_segments = measurement.worst_after_segments,
+                largest_residual_deviations = measurement.largest_residual_deviations,
+                high_gain_hits = measurement.high_gain_hits
               }
             end
           end
@@ -2423,6 +2579,9 @@ local function command_vocal_level_items(command)
         boosted_protected_parts = total_post_boosted_protected_parts,
         boosted_low_energy_parts = total_post_boosted_low_energy_parts
       },
+      worst_after_segments = post_level_worst_after_segments,
+      largest_residual_deviations = post_level_largest_residual_deviations,
+      high_gain_hits = post_level_high_gain_hits,
       examples = post_level_examples
     },
     skip_reasons = skip_reasons,
