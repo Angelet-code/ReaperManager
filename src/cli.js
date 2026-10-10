@@ -24,6 +24,7 @@ import {
   buildSelectTracksCommand,
   buildSelectItemsCommand,
   buildTrackStateCommand,
+  buildUndoCommand,
   buildVocalLevelCommand,
   normalizeCommand
 } from "./commands.js";
@@ -35,6 +36,7 @@ import { loadPreferences, savePreferences } from "./preferences.js";
 import { parseNatural } from "./natural.js";
 import { pluginCachePath, reaperResourcePath, workspaceRoot } from "./paths.js";
 import { prepareReferenceHierarchy } from "./reference-stems.js";
+import { runDeclip } from "./declip.js";
 
 export async function main(argv) {
   const [command, ...rest] = argv;
@@ -95,6 +97,8 @@ export async function main(argv) {
       return gainStageCommand(rest, root);
     case "vocal-level":
       return vocalLevelCommand(rest, root);
+    case "declip":
+      return declipCommand(rest, root);
     case "track-state":
       return trackStateCommand(rest, root);
     case "rename":
@@ -113,6 +117,8 @@ export async function main(argv) {
       return runBuiltCommand({ type: "ping" }, root);
     case "shutdown":
       return runBuiltCommand({ type: "shutdown" }, root);
+    case "undo":
+      return undoCommand(rest, root);
     case undefined:
     case "help":
     case "--help":
@@ -281,6 +287,12 @@ async function vocalLevelCommand(args, root) {
   return runBuiltCommand(buildVocalLevelCommand(options), root, options);
 }
 
+async function declipCommand(args, root) {
+  const options = parseOptions(args);
+  const request = (command) => runCommandForResponse(normalizeCommand(command), root, { timeout: options.timeout || 120000 });
+  return printJson(await runDeclip(options, { request }));
+}
+
 async function trackStateCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildTrackStateCommand(options), root, options);
@@ -314,6 +326,11 @@ async function fxBypassCommand(args, root) {
 async function rockTemplateCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildRockTemplateCommand(options), root, options);
+}
+
+async function undoCommand(args, root) {
+  const options = parseOptions(args);
+  return runBuiltCommand(buildUndoCommand({ count: options.count || options._[0] || 1 }), root, options);
 }
 
 async function colorCommand(args, root) {
@@ -426,13 +443,18 @@ function printHelp() {
   node ${bin} send-volume --selected --dest Reverb --db 2
   node ${bin} item-volume --selected --db -3
   node ${bin} gain-stage --all-items
-  node ${bin} vocal-level --selected-items
+  node ${bin} vocal-level --selected-items --preview
+  node ${bin} declip --preview
+  node ${bin} declip
+  node ${bin} declip --item --keep 0.8 --slew-db 1.5
+  node ${bin} vocal-level --selected-items --replace-envelope
   node ${bin} track-state --contains VOX --mute on
   node ${bin} rename --contains CLICK --prefix REF_
   node ${bin} create-tracks --count 2 --name FX
   node ${bin} folder --selected --name DRUMS
   node ${bin} route-to-bus --selected --bus DRUMS --disable-main
   node ${bin} fx-bypass --selected --fx RVerb --state toggle
+  node ${bin} undo --count 1
   node ${bin} rock-template
   node ${bin} ask "Coloreame todas las pistas que contengan la palabra CLICK de rojo"
   node ${bin} chat "baja guitarras 1 dB"

@@ -10,6 +10,7 @@ import {
   DETECT_ARRANGEMENT_FILE,
   GAIN_STAGE_ACTION_ID,
   GAIN_STAGE_FILE,
+  REAPER_RUNTIME_FILES,
   SELECT_ALL_ITEMS_ACTION_ID,
   SELECT_ALL_ITEMS_FILE
 } from "../src/constants.js";
@@ -17,7 +18,7 @@ import { install } from "../src/installer.js";
 
 test("install registers toolbar actions", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "rm-install-root-"));
-  const resourcePath = fs.mkdtempSync(path.join(os.tmpdir(), "rm-install-resource-"));
+  const resourcePath = fs.mkdtempSync(path.join(os.tmpdir(), "rm install resource-"));
 
   const report = install({ root, resourcePath });
   const scriptsDir = path.join(resourcePath, "Scripts", "Reaper Manager");
@@ -29,6 +30,10 @@ test("install registers toolbar actions", () => {
   assert.ok(report.installedFiles.includes(path.join(scriptsDir, GAIN_STAGE_FILE)));
   assert.ok(report.installedFiles.includes(path.join(scriptsDir, SELECT_ALL_ITEMS_FILE)));
   assert.ok(report.installedFiles.includes(path.join(scriptsDir, DETECT_ARRANGEMENT_FILE)));
+  for (const file of REAPER_RUNTIME_FILES) {
+    assert.ok(report.installedFiles.includes(path.join(scriptsDir, file)), `${file} should be reported as installed`);
+    assert.ok(fs.existsSync(path.join(scriptsDir, file)), `${file} should exist in the REAPER scripts dir`);
+  }
   assert.ok(fs.existsSync(path.join(scriptsDir, GAIN_STAGE_FILE)));
   assert.ok(fs.existsSync(path.join(scriptsDir, SELECT_ALL_ITEMS_FILE)));
   assert.ok(fs.existsSync(path.join(scriptsDir, DETECT_ARRANGEMENT_FILE)));

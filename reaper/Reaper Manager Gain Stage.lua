@@ -124,6 +124,16 @@ local function summarize_success(response)
   local matched = tonumber(data.matched or applied) or applied
   local skipped = tonumber(data.skipped or 0) or 0
   local gain = data.gain_db or {}
+
+  if matched == 0 then
+    reaper.MB(
+      "No hay items seleccionados para gain staging.\n\nSelecciona uno o varios items, o pulsa primero el boton Select Items para seleccionar todo el proyecto.",
+      "Reaper Manager Gain Stage",
+      0
+    )
+    return
+  end
+
   notify("Gain staging seleccionados: " .. tostring(applied) .. " items procesados, " .. tostring(skipped) .. " saltados.")
 
   reaper.ShowConsoleMsg(

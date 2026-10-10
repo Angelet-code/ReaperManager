@@ -15,7 +15,7 @@ export { buildAddFxCommand, buildRemoveFxCommand, buildFxBypassCommand } from ".
 export { buildGainStageCommand, buildItemVolumeCommand, buildSelectItemsCommand, buildVocalLevelCommand } from "./items.js";
 export { buildAutoBalanceCommand, buildDetectArrangementCommand, buildInspectProjectCommand } from "./mix.js";
 export { buildFolderCommand } from "./folders.js";
-export { buildRockTemplateCommand } from "./project.js";
+export { buildRockTemplateCommand, buildUndoCommand } from "./project.js";
 
 export function normalizeCommand(command, context = {}) {
   if (!command || typeof command !== "object") {
@@ -25,9 +25,16 @@ export function normalizeCommand(command, context = {}) {
   switch (command.type) {
     case "ping":
     case "shutdown":
+    case "undo":
     case "inspect_project":
     case "set_project_regions":
     case "set_project_markers":
+    case "sample_edit_probe":
+      return command;
+    case "sample_edit_apply":
+      if (!Array.isArray(command.channels) || command.channels.length === 0) {
+        throw new CommandError("sample_edit_apply needs a non-empty channels array.");
+      }
       return command;
     case "detect_arrangement":
       return buildDetectArrangementCommand(command);

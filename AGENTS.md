@@ -21,6 +21,7 @@ node .\bin\reaper-manager.js pan --contains GTR --pan L50
 node .\bin\reaper-manager.js send-volume --selected --dest Reverb --db 2
 node .\bin\reaper-manager.js item-volume --selected --db -3
 node .\bin\reaper-manager.js gain-stage --all-items
+node .\bin\reaper-manager.js vocal-level --selected-items --preview
 node .\bin\reaper-manager.js vocal-level --selected-items
 node .\bin\reaper-manager.js gain-stage --contains FLAUTA --preview
 node .\bin\reaper-manager.js track-state --contains VOX --mute on
@@ -149,11 +150,26 @@ node .\bin\reaper-manager.js gain-stage --selected-tracks
 node .\bin\reaper-manager.js gain-stage --contains FLAUTA --preview
 ```
 
-Level selected vocal items by syllable-sized detected parts into take volume envelopes, using a simplified smooth curve by default:
+Level selected vocal items into take volume envelopes for pre-compressor gain staging, targeting the -18 dBFS working point with a smooth curve by default:
 
 ```powershell
-node .\bin\reaper-manager.js vocal-level --selected-items
 node .\bin\reaper-manager.js vocal-level --selected-items --preview
+node .\bin\reaper-manager.js vocal-level --selected-items
+node .\bin\reaper-manager.js vocal-level --selected-items --replace-envelope
+```
+
+Rebuild clipped peaks of the first selected item's active take as REAPER sample edits (non-destructive, one undo step). Works on the time selection by default, `--item` for the whole item. The take must have headroom (render it as a new take with lower gain first if it clips at 0 dBFS) and sample edits enabled in Take settings. Needs Python with numpy and scipy:
+
+```powershell
+node .\bin\reaper-manager.js declip --preview
+node .\bin\reaper-manager.js declip
+node .\bin\reaper-manager.js declip --item
+```
+
+Undo the last Reaper Manager action during bench tests:
+
+```powershell
+node .\bin\reaper-manager.js undo --count 1
 ```
 
 Set track states:
