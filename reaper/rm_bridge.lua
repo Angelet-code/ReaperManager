@@ -72,6 +72,23 @@ function M.start(options)
       return { bridge = "stopping" }
     end
 
+    -- Re-reads the command modules from disk so an updated install takes effect
+    -- without restarting the bridge. Plumbing modules (bridge, json, fs, config) stay.
+    if command.type == "reload_modules" then
+      local keep = { rm_bridge = true, rm_json = true, rm_fs = true, rm_config = true }
+      local reloaded = {}
+      for name in pairs(package.loaded) do
+        if name:match("^rm_") and not keep[name] then
+          package.loaded[name] = nil
+          reloaded[#reloaded + 1] = name
+        end
+      end
+      registry_module = require("rm_registry")
+      registry = registry_module.create()
+      table.sort(reloaded)
+      return { reloaded = reloaded, bridge_version = registry_module.version() }
+    end
+
     local handler = registry_module.handler(registry, command)
     if not handler then error("unsupported command type: " .. tostring(command.type)) end
 

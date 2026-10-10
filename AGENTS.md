@@ -158,12 +158,23 @@ node .\bin\reaper-manager.js vocal-level --selected-items
 node .\bin\reaper-manager.js vocal-level --selected-items --replace-envelope
 ```
 
-Rebuild clipped peaks of the first selected item's active take as REAPER sample edits (non-destructive, one undo step). Works on the time selection by default, `--item` for the whole item. The take must have headroom (render it as a new take with lower gain first if it clips at 0 dBFS) and sample edits enabled in Take settings. Needs Python with numpy and scipy:
+Rebuild clipped peaks (A-SPADE by default, plateau ripple aware) of the first selected item's active take as REAPER sample edits (non-destructive, one undo step). Works on the time selection by default, `--item` for the whole item. The take must have headroom (render it as a new take with lower gain first if it clips at 0 dBFS) and sample edits enabled in Take settings. Needs Python with numpy and scipy:
 
 ```powershell
 node .\bin\reaper-manager.js declip --preview
 node .\bin\reaper-manager.js declip
 node .\bin\reaper-manager.js declip --item
+```
+
+Mark vocal syllables that sound thin: `LEJOS` (quieter: singer moved away; `--fix` gives back the physically expected proximity bass plus level) or `FUERTE` (louder: shouted; `--fix` only lowers level). Analyses the first selected item's active take (whole item, or `--selection`), drops `PROX n` markers where each correction starts (re-running replaces them) and, with `--fix`, writes take automation on the original take (volume envelope + automated "Proximity EQ" ReaEQ low shelf; `--replace-envelope` to overwrite) or, with `--fix --render`, adds a corrected render as a new take. Refuses to run on a `prox-fix` take. Needs Python with numpy and scipy:
+
+```powershell
+node .in
+eaper-manager.js proximity-detect --preview
+node .in
+eaper-manager.js proximity-detect --fix
+node .in
+eaper-manager.js proximity-detect --fix --amount 0.7 --mic-cm 5
 ```
 
 Undo the last Reaper Manager action during bench tests:

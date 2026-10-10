@@ -1,11 +1,13 @@
 local M = {}
 
-local BRIDGE_VERSION = "vocal-level-measured-macro-micro-2026-05-24"
+local BRIDGE_VERSION = "arrangement-debug2-2026-08-20"
 
 local module_names = {
   "rm_commands_basic",
   "rm_gain_stage",
   "rm_vocal_level",
+  "rm_sibilant_split",
+  "rm_pluck_quantize",
   "rm_project_mix",
   "rm_sample_edit"
 }
@@ -21,7 +23,9 @@ function M.features()
     vocal_level_zero_crossing_curve = true,
     vocal_level_phrase_safe_defaults = true,
     vocal_level_macro_micro = true,
-    vocal_level_post_level_measurement = true
+    vocal_level_post_level_measurement = true,
+    separate_vocal_sibilants = true,
+    quantize_plucks = true
   }
 end
 

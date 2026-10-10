@@ -120,6 +120,67 @@ export function buildVocalLevelCommand(options = {}) {
   };
 }
 
+export function buildSeparateSibilantsCommand(options = {}) {
+  if (!options.selectedItems && !options["selected-items"]) {
+    throw new CommandError("Missing separate-sibilants target. Use --selected-items.");
+  }
+
+  const minSibilantMs = parseNumberOption(options.minSibilantMs ?? options["min-sibilant-ms"] ?? 5, "Minimum sibilant length ms", 1, 500);
+  const maxSibilantMs = parseNumberOption(options.maxSibilantMs ?? options["max-sibilant-ms"] ?? 220, "Maximum sibilant length ms", 20, 1000);
+  if (maxSibilantMs <= minSibilantMs) {
+    throw new CommandError("Maximum sibilant length ms must be greater than minimum sibilant length ms.");
+  }
+
+  const bandLowHz = parseNumberOption(options.bandLowHz ?? options["band-low-hz"] ?? 3500, "Sibilant band low Hz", 500, 16000);
+  const bandHighHz = parseNumberOption(options.bandHighHz ?? options["band-high-hz"] ?? 12000, "Sibilant band high Hz", 1000, 22000);
+  if (bandHighHz <= bandLowHz) {
+    throw new CommandError("Sibilant band high Hz must be greater than sibilant band low Hz.");
+  }
+
+  return {
+    type: "separate_vocal_sibilants",
+    itemFilter: { type: "selected" },
+    preview: Boolean(options.preview),
+    destinationTrackName: parseStringOption(
+      options.destinationTrackName ?? options["destination-track-name"] ?? options.destinationTrack ?? options["destination-track"] ?? options.dest ?? "VOX SIBILANTS",
+      "Destination track name"
+    ),
+    consonants: parseStringListOption(options.consonants ?? options["target-consonants"] ?? options.targets ?? "s", "Sibilant consonants"),
+    zeroCrossing: parseBooleanOption(options.zeroCrossing ?? options["zero-crossing"], "Zero crossing", true),
+    zeroCrossingSearchMs: parseNumberOption(options.zeroCrossingSearchMs ?? options["zero-crossing-search-ms"] ?? 8, "Zero crossing search ms", 0, 100),
+    paddingMs: parseNumberOption(options.paddingMs ?? options["padding-ms"] ?? 0, "Sibilant padding ms", 0, 100),
+    crossfadeMs: parseNumberOption(options.crossfadeMs ?? options["crossfade-ms"] ?? 0, "Sibilant crossfade ms", 0, 100),
+    mergeGapMs: parseNumberOption(options.mergeGapMs ?? options["merge-gap-ms"] ?? 12, "Sibilant merge gap ms", 0, 500),
+    detectionWindowMs: parseNumberOption(
+      options.detectionWindowMs ?? options["detection-window-ms"] ?? options.windowMs ?? options["window-ms"] ?? 4,
+      "Sibilant detection window ms",
+      1,
+      50
+    ),
+    minSibilantMs,
+    maxSibilantMs,
+    bandLowHz,
+    bandHighHz,
+    sensitivity: parseNumberOption(options.sensitivity ?? options["sensitivity"] ?? 0.65, "Sibilant detection sensitivity", 0, 1)
+  };
+}
+
+export function buildQuantizePlucksCommand(options = {}) {
+  if (!options.selectedItems && !options["selected-items"]) {
+    throw new CommandError("Missing quantize-plucks target. Use --selected-items.");
+  }
+
+  return {
+    type: "quantize_pluck_items",
+    itemFilter: { type: "selected" },
+    preview: Boolean(options.preview),
+    preRollMs: parseNumberOption(options.preRollMs ?? options["pre-roll-ms"] ?? 8, "Pre-roll ms", 0, 250),
+    fadeMs: parseNumberOption(options.fadeMs ?? options["fade-ms"] ?? 3, "Fade ms", 0, 100),
+    toleranceMs: parseNumberOption(options.toleranceMs ?? options["tolerance-ms"] ?? 2, "Tolerance ms", 0, 100),
+    minNoteGapMs: parseNumberOption(options.minNoteGapMs ?? options["min-note-gap-ms"] ?? 35, "Minimum note gap ms", 10, 2000)
+  };
+}
+
 function buildItemFilter(options, label) {
   if (options.allItems || options["all-items"]) return { type: "all" };
   if (options.selectedItems || options["selected-items"] || options.selected) return { type: "selected" };
@@ -163,6 +224,26 @@ function parseOptionalIntegerOption(value, label, min, max) {
 function parseOptionalStringOption(value) {
   if (value === undefined || value === null || value === false) return undefined;
   return String(value);
+}
+
+function parseStringOption(value, label) {
+  const normalized = String(value ?? "").trim();
+  if (!normalized) {
+    throw new CommandError(`${label} must not be empty.`);
+  }
+  return normalized;
+}
+
+function parseStringListOption(value, label) {
+  const list = (Array.isArray(value) ? value : String(value ?? "").split(","))
+    .map((entry) => String(entry).trim().toLowerCase())
+    .filter(Boolean);
+
+  if (list.length === 0) {
+    throw new CommandError(`${label} must include at least one value.`);
+  }
+
+  return list;
 }
 
 function parseMeasurementMode(value) {

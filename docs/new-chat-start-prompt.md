@@ -11,6 +11,7 @@ Objetivo: continuar la implementacion limpia de `vocal-level` V2 para ReaperMana
 - `docs/agent-loop.md`
 - `docs/vocal-level-v2-brief.md`
 - `docs/vocal-level-precomp.md`
+- `.codex/workflows/vocal-level-v2.md`
 
 Reglas duras:
 
@@ -26,9 +27,9 @@ Reglas duras:
 Modelo de agentes:
 
 - Orquestador: este chat principal. Coordina, integra, ejecuta tests, commitea y sube.
-- AUDIODESIGN: subagente `default`. Define criterio de audio y decisiones de producto.
-- PROGRAMER: subagente `worker`. Implementa codigo con ownership claro.
-- TESTER: subagente `explorer` para revision critica sin editar; `worker` solo si debe anadir tests.
+- AUDIODESIGN: cargar `.codex/agents/audiodesign.md` y lanzarlo como `default`.
+- PROGRAMER: cargar `.codex/agents/programer.md` y lanzarlo como `worker` con ownership claro.
+- TESTER: cargar `.codex/agents/tester.md` y lanzarlo como `explorer`; `worker` solo si debe anadir tests.
 
 Antes de crear agentes nuevos, revisa si hay hilos viejos abiertos y cierralos si estorban. No uses todos como `explorer`: PROGRAMER debe ser `worker` cuando vaya a editar codigo.
 
@@ -45,9 +46,9 @@ Primer paso:
 
 1. Ejecuta `git status --short --branch`.
 2. Ejecuta `npm test` para verificar baseline.
-3. Lanza AUDIODESIGN (`default`) para validar la spec V2 y cerrar dudas bloqueantes.
-4. Lanza TESTER (`explorer`) para convertir la spec en criterios de rechazo medibles.
-5. Haz localmente el mapa de implementacion o lanza PROGRAMER (`worker`) con ownership claro:
+3. Carga `.codex/agents/audiodesign.md` y lanza AUDIODESIGN (`default`) para validar la spec V2 y cerrar dudas bloqueantes.
+4. Carga `.codex/agents/tester.md` y lanza TESTER (`explorer`) para convertir la spec en criterios de rechazo medibles.
+5. Haz localmente el mapa de implementacion o carga `.codex/agents/programer.md` y lanza PROGRAMER (`worker`) con ownership claro:
    - `src/commands/items.js`
    - `reaper/Reaper Manager Bridge.lua`
    - `test/commands.test.js`

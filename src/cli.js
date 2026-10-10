@@ -16,6 +16,7 @@ import {
   buildInspectProjectCommand,
   buildItemVolumeCommand,
   buildPanCommand,
+  buildQuantizePlucksCommand,
   buildRemoveFxCommand,
   buildRenameCommand,
   buildRockTemplateCommand,
@@ -23,6 +24,7 @@ import {
   buildSendVolumeCommand,
   buildSelectTracksCommand,
   buildSelectItemsCommand,
+  buildSeparateSibilantsCommand,
   buildTrackStateCommand,
   buildUndoCommand,
   buildVocalLevelCommand,
@@ -37,6 +39,8 @@ import { parseNatural } from "./natural.js";
 import { pluginCachePath, reaperResourcePath, workspaceRoot } from "./paths.js";
 import { prepareReferenceHierarchy } from "./reference-stems.js";
 import { runDeclip } from "./declip.js";
+import { runProximityDetect } from "./proximity.js";
+import { runToolToReport } from "./tools.js";
 
 export async function main(argv) {
   const [command, ...rest] = argv;
@@ -95,10 +99,18 @@ export async function main(argv) {
       return itemVolumeCommand(rest, root);
     case "gain-stage":
       return gainStageCommand(rest, root);
+    case "quantize-plucks":
+      return quantizePlucksCommand(rest, root);
+    case "separate-sibilants":
+      return separateSibilantsCommand(rest, root);
     case "vocal-level":
       return vocalLevelCommand(rest, root);
     case "declip":
       return declipCommand(rest, root);
+    case "proximity-detect":
+      return proximityDetectCommand(rest, root);
+    case "tool":
+      return toolCommand(rest, root);
     case "track-state":
       return trackStateCommand(rest, root);
     case "rename":
@@ -117,6 +129,8 @@ export async function main(argv) {
       return runBuiltCommand({ type: "ping" }, root);
     case "shutdown":
       return runBuiltCommand({ type: "shutdown" }, root);
+    case "reload":
+      return runBuiltCommand({ type: "reload_modules" }, root);
     case "undo":
       return undoCommand(rest, root);
     case undefined:
@@ -282,6 +296,16 @@ async function gainStageCommand(args, root) {
   return runBuiltCommand(buildGainStageCommand(options), root, options);
 }
 
+async function quantizePlucksCommand(args, root) {
+  const options = parseOptions(args);
+  return runBuiltCommand(buildQuantizePlucksCommand(options), root, options);
+}
+
+async function separateSibilantsCommand(args, root) {
+  const options = parseOptions(args);
+  return runBuiltCommand(buildSeparateSibilantsCommand(options), root, options);
+}
+
 async function vocalLevelCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildVocalLevelCommand(options), root, options);
@@ -291,6 +315,19 @@ async function declipCommand(args, root) {
   const options = parseOptions(args);
   const request = (command) => runCommandForResponse(normalizeCommand(command), root, { timeout: options.timeout || 120000 });
   return printJson(await runDeclip(options, { request }));
+}
+
+async function proximityDetectCommand(args, root) {
+  const options = parseOptions(args);
+  const request = (command) => runCommandForResponse(normalizeCommand(command), root, { timeout: options.timeout || 120000 });
+  return printJson(await runProximityDetect(options, { request }));
+}
+
+// Entry point for the REAPER "Herramientas" menu: always writes --report, never throws.
+async function toolCommand(args, root) {
+  const options = parseOptions(args);
+  const request = (command) => runCommandForResponse(normalizeCommand(command), root, { timeout: options.timeout || 300000 });
+  return printJson(await runToolToReport(options._[0], options.report, request));
 }
 
 async function trackStateCommand(args, root) {
@@ -443,10 +480,18 @@ function printHelp() {
   node ${bin} send-volume --selected --dest Reverb --db 2
   node ${bin} item-volume --selected --db -3
   node ${bin} gain-stage --all-items
+  node ${bin} quantize-plucks --selected-items --preview
+  node ${bin} separate-sibilants --selected-items --preview
   node ${bin} vocal-level --selected-items --preview
   node ${bin} declip --preview
   node ${bin} declip
   node ${bin} declip --item --keep 0.8 --slew-db 1.5
+  node ${bin} proximity-detect --preview
+  node ${bin} proximity-detect
+  node ${bin} proximity-detect --fix
+  node ${bin} proximity-detect --fix --replace-envelope --amount 0.7 --fade-ms 30
+  node ${bin} proximity-detect --fix --render
+  node ${bin} reload
   node ${bin} vocal-level --selected-items --replace-envelope
   node ${bin} track-state --contains VOX --mute on
   node ${bin} rename --contains CLICK --prefix REF_

@@ -11,6 +11,7 @@ import {
   buildRockTemplateCommand,
   buildSendVolumeCommand,
   buildSelectTracksCommand,
+  buildSeparateSibilantsCommand,
   buildTrackStateCommand,
   buildVocalLevelCommand
 } from "./commands.js";
@@ -42,6 +43,14 @@ export function parseNatural(text, context = {}) {
     return buildGainStageCommand({
       ...extractGainStageTarget(input),
       preview: /(preview|previsual|solo\s+calcula|sin\s+aplicar)/i.test(lower)
+    });
+  }
+
+  if (/(separa|separar|saca|sacar|extrae|extraer|corta|cortar).*(eses?|sibilancias?|sibilantes?|consonantes?|ch\b)|\b(eses?|sibilancias?|sibilantes?|ch)\b.*(separa|separar|saca|extrae|corta)/i.test(lower)) {
+    return buildSeparateSibilantsCommand({
+      selectedItems: true,
+      preview: /(preview|previsual|solo\s+calcula|sin\s+aplicar)/i.test(lower),
+      destinationTrack: extractAfter(input, /\b(?:a|hacia|en)\s+(?:la\s+)?pista\s+["']?([A-Za-z0-9À-ÿ ._-]+?)["']?\s*$/i)
     });
   }
 
