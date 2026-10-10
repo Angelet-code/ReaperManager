@@ -25,7 +25,8 @@ export const REAPER_RUNTIME_FILES = [
   "rm_commands_basic.lua",
   "rm_gain_stage.lua",
   "rm_vocal_level.lua",
-  "rm_project_mix.lua"
+  "rm_project_mix.lua",
+  "rm_sample_edit.lua"
 ];
 
 export const COLOR_MAP = {

@@ -158,6 +158,14 @@ node .\bin\reaper-manager.js vocal-level --selected-items
 node .\bin\reaper-manager.js vocal-level --selected-items --replace-envelope
 ```
 
+Rebuild clipped peaks of the first selected item's active take as REAPER sample edits (non-destructive, one undo step). Works on the time selection by default, `--item` for the whole item. The take must have headroom (render it as a new take with lower gain first if it clips at 0 dBFS) and sample edits enabled in Take settings. Needs Python with numpy and scipy:
+
+```powershell
+node .\bin\reaper-manager.js declip --preview
+node .\bin\reaper-manager.js declip
+node .\bin\reaper-manager.js declip --item
+```
+
 Undo the last Reaper Manager action during bench tests:
 
 ```powershell

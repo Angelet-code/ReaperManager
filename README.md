@@ -46,6 +46,35 @@ node .\bin\reaper-manager.js rock-template
 node .\bin\reaper-manager.js chat "baja guitarras 1 dB"
 ```
 
+## Declip (clipped peak reconstruction)
+
+`declip` rebuilds the flat-topped peaks of a clipped recording as per-take
+sample edits (REAPER 7.70+), so the WAV is never modified and the whole repair is
+one undo step.
+
+```powershell
+node .\bin\reaper-manager.js declip --preview   # analysis only
+node .\bin\reaper-manager.js declip             # time selection of the selected item
+node .\bin\reaper-manager.js declip --item      # whole item
+```
+
+Before running it:
+
+1. The clipped take needs headroom: if it clips at 0 dBFS, lower the take gain
+   (e.g. -6 dB) and render it as a new take, then work on that take.
+2. Enable sample edits on the take (right click > Take settings).
+3. Python with `numpy` and `scipy` (`REAPER_MANAGER_PYTHON` or `--python` to choose
+   the interpreter).
+
+How it works (`scripts/declip.py`): plateaus at >= 97% of the clip level are
+detected (rippled plateaus included); each peak's target height averages the
+trend of the nearest intact peaks on each side, the continuation of the entry and
+exit slopes, and the opposite-polarity peak of the same period; the new crest is a
+minimum-jerk curve that joins the intact samples smoothly, is limited to the jerk
+seen in the intact audio, and is soft-compressed if it overshoots the envelope.
+Tuning: `--threshold`, `--edge`, `--anchor-ms`, `--slew-db`, `--knee-db`,
+`--max-db`, `--keep`.
+
 If REAPER is open while installing, restart REAPER once so it reloads the action list
 and toolbar configuration.
 

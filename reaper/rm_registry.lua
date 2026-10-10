@@ -6,7 +6,8 @@ local module_names = {
   "rm_commands_basic",
   "rm_gain_stage",
   "rm_vocal_level",
-  "rm_project_mix"
+  "rm_project_mix",
+  "rm_sample_edit"
 }
 
 function M.version()

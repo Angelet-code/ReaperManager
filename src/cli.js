@@ -36,6 +36,7 @@ import { loadPreferences, savePreferences } from "./preferences.js";
 import { parseNatural } from "./natural.js";
 import { pluginCachePath, reaperResourcePath, workspaceRoot } from "./paths.js";
 import { prepareReferenceHierarchy } from "./reference-stems.js";
+import { runDeclip } from "./declip.js";
 
 export async function main(argv) {
   const [command, ...rest] = argv;
@@ -96,6 +97,8 @@ export async function main(argv) {
       return gainStageCommand(rest, root);
     case "vocal-level":
       return vocalLevelCommand(rest, root);
+    case "declip":
+      return declipCommand(rest, root);
     case "track-state":
       return trackStateCommand(rest, root);
     case "rename":
@@ -284,6 +287,12 @@ async function vocalLevelCommand(args, root) {
   return runBuiltCommand(buildVocalLevelCommand(options), root, options);
 }
 
+async function declipCommand(args, root) {
+  const options = parseOptions(args);
+  const request = (command) => runCommandForResponse(normalizeCommand(command), root, { timeout: options.timeout || 120000 });
+  return printJson(await runDeclip(options, { request }));
+}
+
 async function trackStateCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildTrackStateCommand(options), root, options);
@@ -435,6 +444,9 @@ function printHelp() {
   node ${bin} item-volume --selected --db -3
   node ${bin} gain-stage --all-items
   node ${bin} vocal-level --selected-items --preview
+  node ${bin} declip --preview
+  node ${bin} declip
+  node ${bin} declip --item --keep 0.8 --slew-db 1.5
   node ${bin} vocal-level --selected-items --replace-envelope
   node ${bin} track-state --contains VOX --mute on
   node ${bin} rename --contains CLICK --prefix REF_

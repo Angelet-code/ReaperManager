@@ -29,6 +29,12 @@ export function normalizeCommand(command, context = {}) {
     case "inspect_project":
     case "set_project_regions":
     case "set_project_markers":
+    case "sample_edit_probe":
+      return command;
+    case "sample_edit_apply":
+      if (!Array.isArray(command.channels) || command.channels.length === 0) {
+        throw new CommandError("sample_edit_apply needs a non-empty channels array.");
+      }
       return command;
     case "detect_arrangement":
       return buildDetectArrangementCommand(command);
