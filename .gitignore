@@ -19,4 +19,4 @@ Thumbs.db
 *.swo
 
 # Local source material (copyrighted books/course PDFs); the distilled vault lives in knowledge/
-composition/
+/composition/

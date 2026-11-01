@@ -1,0 +1,4432 @@
+{
+  "generated": "2026-11-01T20:18:56.851Z",
+  "root": "knowledge/composition",
+  "count": 102,
+  "notes": [
+    {
+      "id": "film-scoring.action-ostinato-pedal-gallop",
+      "path": "film-scoring/action-ostinato-pedal-gallop.md",
+      "link": "[[action-ostinato-pedal-gallop]]",
+      "title": "Action cue engine (ostinato, pedal, gallop, hocket)",
+      "domain": "film-scoring",
+      "style_scope": "film (adventure/action scoring, John Powell-style; transferable to epic and trailer)",
+      "tags": [
+        "ostinato",
+        "pedal",
+        "gallop",
+        "hocket",
+        "action",
+        "motor-rhythm"
+      ],
+      "aliases": [
+        "ostinato",
+        "motor rítmico",
+        "galope",
+        "nota pedal",
+        "pedal de tónica",
+        "hocket",
+        "hoquetus",
+        "chug",
+        "música de acción",
+        "persecución",
+        "vuelo"
+      ],
+      "use_when": "Writing the rhythmic engine of an action, flight or chase cue, or keeping energy while the harmony moves.",
+      "summary": "Run the action engine on a fixed foundation. Hold a tonic pedal in the low instruments, re-attacked with an accent every 2–4 bars, and run a fixed-pitch ostinato or gallop on top while the harmony changes only in the upper brass and strings. Split fast woodwind figures in hocket, interlock violas and celli on one rising cell, and grow by adding octave layers, not by raising dynamics.",
+      "sources": [
+        "httyd-test-drive p.1-3, p.9-12"
+      ],
+      "related": [
+        "httyd-test-drive-case-study",
+        "five-elements-arrangement-checklist",
+        "bass-line-doubling",
+        "texture-complex-mosaic",
+        "harmony-emotion-mapping"
+      ],
+      "words": 732
+    },
+    {
+      "id": "film-scoring.film-percussion-phrase-marking",
+      "path": "film-scoring/film-percussion-phrase-marking.md",
+      "link": "[[film-percussion-phrase-marking]]",
+      "title": "Percussion as phrase punctuation in film cues",
+      "domain": "film-scoring",
+      "style_scope": "film (orchestral adventure scoring, HTTYD; transferable to trailer and epic)",
+      "tags": [
+        "percussion",
+        "phrasing",
+        "transitions",
+        "enhancers",
+        "timpani",
+        "cymbals"
+      ],
+      "aliases": [
+        "percusión orquestal",
+        "platos",
+        "plato suspendido",
+        "redoble",
+        "caja",
+        "bombo",
+        "gran cassa",
+        "timbales",
+        "tam-tam",
+        "golpes secos",
+        "secco",
+        "swell de platillo",
+        "marcar frases"
+      ],
+      "use_when": "Writing orchestral percussion for a cue, so it marks phrases, lifts sections and cuts off climaxes instead of playing a constant groove.",
+      "summary": "In orchestral film writing, percussion punctuates the form. A cymbal hits each phrase downbeat (every 2–4 bars) with a suspended-cymbal swell in the bar before; timpani play single strokes on downbeats and rolls on sustains; the snare plays lift rolls and saves its march figure for the climax. Secco hits cut a climax off cleanly, and celesta and glock sparkle only in lighter sections.",
+      "sources": [
+        "httyd-test-drive p.1-15",
+        "film-4day-challenge slide 8",
+        "unir-orq-tema7 p.4-16"
+      ],
+      "related": [
+        "building-and-releasing-climaxes",
+        "five-elements-arrangement-checklist",
+        "action-ostinato-pedal-gallop",
+        "timpani",
+        "percussion-unpitched",
+        "mallet-percussion",
+        "user-taste"
+      ],
+      "words": 686
+    },
+    {
+      "id": "film-scoring.five-elements-arrangement-checklist",
+      "path": "film-scoring/five-elements-arrangement-checklist.md",
+      "link": "[[five-elements-arrangement-checklist]]",
+      "title": "The five elements (direction, movement, background, enhancer, bass)",
+      "domain": "film-scoring",
+      "style_scope": "film (modern orchestral / media scoring)",
+      "tags": [
+        "arrangement",
+        "checklist",
+        "momentum",
+        "roles"
+      ],
+      "aliases": [
+        "cinco elementos",
+        "dirección",
+        "movimiento",
+        "fondo",
+        "pegamento",
+        "glue",
+        "potenciador",
+        "enhancer",
+        "bajo",
+        "momentum",
+        "impulso",
+        "arreglo estático"
+      ],
+      "use_when": "Planning the layers of a cue section, or diagnosing a passage that feels static, empty or unfinished.",
+      "summary": "A passage can contain up to five components: direction (goes from A to B), movement (flow, ostinato, call and response), background (glue that fills gaps), enhancer (runs, trills, swells and ear candy at transitions) and bass (a controlled low end). When a passage feels static, find which component is missing (usually movement or direction) and add it.",
+      "sources": [
+        "film-4day-challenge slide 10",
+        "httyd-test-drive p.1-15"
+      ],
+      "related": [
+        "orchestral-mockup-template",
+        "action-ostinato-pedal-gallop",
+        "bass-line-doubling",
+        "building-and-releasing-climaxes",
+        "texture-types"
+      ],
+      "words": 671
+    },
+    {
+      "id": "film-scoring.harmonic-rhythm-scene-dialogue",
+      "path": "film-scoring/harmonic-rhythm-scene-dialogue.md",
+      "link": "[[harmonic-rhythm-scene-dialogue]]",
+      "title": "Harmonic rhythm vs scene and dialogue",
+      "domain": "film-scoring",
+      "style_scope": "film",
+      "tags": [
+        "harmonic-rhythm",
+        "dialogue",
+        "scene",
+        "cue-design",
+        "pedal"
+      ],
+      "aliases": [
+        "ritmo armónico",
+        "música bajo diálogo",
+        "música de fondo bajo diálogo",
+        "cambios de acorde",
+        "sincronía con la imagen",
+        "pedal armónico"
+      ],
+      "use_when": "Deciding how often chords change in a cue, especially under dialogue, or how to raise emotion at a peak without dialogue.",
+      "summary": "Fast chord changes heighten emotion and draw attention, so use them at emotional peaks without dialogue. Slow changes support the scene without getting in its way, so use them under dialogue, changing orchestration instead of harmony. Under dialogue, keep the speech band clear and place harmonic changes in the pauses.",
+      "sources": [
+        "film-4day-challenge slides 2-3",
+        "httyd-test-drive p.1-15"
+      ],
+      "related": [
+        "harmonic-storytelling-chord-functions",
+        "harmony-emotion-mapping",
+        "five-elements-arrangement-checklist",
+        "reverb-strategy-orchestral"
+      ],
+      "words": 589
+    },
+    {
+      "id": "film-scoring.harmonic-storytelling-chord-functions",
+      "path": "film-scoring/harmonic-storytelling-chord-functions.md",
+      "link": "[[harmonic-storytelling-chord-functions]]",
+      "title": "Telling a story with chord functions",
+      "domain": "film-scoring",
+      "style_scope": "film (major-key cue writing; common-practice function names used descriptively)",
+      "tags": [
+        "harmony",
+        "storytelling",
+        "functions",
+        "cue-design"
+      ],
+      "aliases": [
+        "contar una historia con la armonía",
+        "funciones armónicas en cine",
+        "narrativa armónica",
+        "quinta vacía",
+        "acorde sin tercera",
+        "final de escena",
+        "esqueleto de cue"
+      ],
+      "use_when": "Planning the chord skeleton of a scene cue, deciding which chord opens, develops or ends a scene, or changing the mood without changing the melody.",
+      "summary": "I introduces the character or place (an open fifth keeps it neutral). IV starts the story positively, while vi, iii and ii tell the same story sadder. V makes a strong statement and ends a scene best without its third, and vii° is dark. Harmony doesn't always have to change: texture, timbre, rhythm and tempo can tell the story over a static chord.",
+      "sources": [
+        "film-4day-challenge slide 3",
+        "httyd-test-drive p.1-5, p.15"
+      ],
+      "related": [
+        "harmony-emotion-mapping",
+        "harmonic-rhythm-scene-dialogue",
+        "five-elements-arrangement-checklist",
+        "httyd-test-drive-case-study"
+      ],
+      "words": 642
+    },
+    {
+      "id": "film-scoring.harmony-emotion-mapping",
+      "path": "film-scoring/harmony-emotion-mapping.md",
+      "link": "[[harmony-emotion-mapping]]",
+      "title": "Harmony to emotion mapping (film)",
+      "domain": "film-scoring",
+      "style_scope": "film (media/trailer scoring with sample libraries; not common-practice rules)",
+      "tags": [
+        "harmony",
+        "emotion",
+        "chromatic-mediants",
+        "clusters",
+        "cue-design"
+      ],
+      "aliases": [
+        "armonía y emoción",
+        "emoción armónica",
+        "acordes y emociones",
+        "mediantes cromáticas",
+        "épico",
+        "mágico",
+        "oscuro",
+        "tensión",
+        "terror",
+        "clusters",
+        "acordes paralelos"
+      ],
+      "use_when": "Choosing chord qualities and progressions for an emotional brief (\"épico\", \"mágico\", \"triste\", \"oscuro\", \"tensión\", \"terror\") in a cue.",
+      "summary": "Diatonic major = love and warmth; diatonic minor = sadness. Non-diatonic motion (parallel chords, mediants a third apart, tritone pairs) gives magic, fantasy and grandeur in major, and menace and darkness in minor. Extensions colour major chords and add tension to minor ones (action, thriller); clusters mean horror.",
+      "sources": [
+        "film-4day-challenge slide 2",
+        "httyd-test-drive p.1-15"
+      ],
+      "related": [
+        "harmonic-storytelling-chord-functions",
+        "harmonic-rhythm-scene-dialogue",
+        "httyd-test-drive-case-study",
+        "five-elements-arrangement-checklist",
+        "chord-voicing-family-stacking"
+      ],
+      "words": 676
+    },
+    {
+      "id": "film-scoring.heroic-theme-orchestration",
+      "path": "film-scoring/heroic-theme-orchestration.md",
+      "link": "[[heroic-theme-orchestration]]",
+      "title": "Orchestrating a film theme across its statements",
+      "domain": "film-scoring",
+      "style_scope": "film (adventure/heroic scoring, John Powell-style)",
+      "tags": [
+        "theme",
+        "melody",
+        "horns",
+        "doubling",
+        "re-orchestration",
+        "folk"
+      ],
+      "aliases": [
+        "tema heroico",
+        "tema principal",
+        "leitmotiv",
+        "melodía de trompas",
+        "trompas al unísono",
+        "tema folk",
+        "reexposición del tema",
+        "variación orquestal del tema"
+      ],
+      "use_when": "Giving a main theme its first statement, a heroic or folk colour, or a new orchestration each time it returns.",
+      "summary": "State a heroic tune in all the horns in unison, doubled by Vln II, with trombones on close triads and tuba/basses on half-note roots. A folk tune goes to a solo colour instrument (whistle, flute) doubled plainly by oboes and high celli at the same pitch. Every return gets a new scoring: solo → tutti in octaves over a pedal; horns → oboes and trumpet triads with the violins turned into a 16th motor.",
+      "sources": [
+        "httyd-test-drive p.3-8, p.12-15"
+      ],
+      "related": [
+        "httyd-test-drive-case-study",
+        "texture-unison-and-tutti",
+        "doubling-colour-and-decay",
+        "texture-accompanied-melody",
+        "building-and-releasing-climaxes"
+      ],
+      "words": 688
+    },
+    {
+      "id": "film-scoring.httyd-test-drive-case-study",
+      "path": "film-scoring/httyd-test-drive-case-study.md",
+      "link": "[[httyd-test-drive-case-study]]",
+      "title": "Case study: How to Train Your Dragon, \\\"Test Drive\\\" (John Powell)",
+      "domain": "film-scoring",
+      "style_scope": "film (adventure/flight scoring, big brass, Celtic colour)",
+      "tags": [
+        "case-study",
+        "john-powell",
+        "adventure",
+        "action",
+        "theme",
+        "build-and-release"
+      ],
+      "aliases": [
+        "HTTYD",
+        "Cómo entrenar a tu dragón",
+        "Test Drive",
+        "John Powell",
+        "análisis de partitura de cine",
+        "caso de estudio"
+      ],
+      "use_when": "Writing an adventure, flight or heroic action cue, or needing a proven section plan (intro ostinato → theme → tutti → stall → gallop → key-lift recap) to model a cue on.",
+      "summary": "A 71-bar flight cue in D (then E), 4/4, whose click rises 111 → 117 in steps. It runs ostinato over a pedal, a folk solo theme, a horn unison theme on vi–IV–V–I, a tutti over a pedal, a bVI cluster stall, a gallop with mediant triads, and a recap a whole step up. Its lessons are multi-family unison themes, pedals re-attacked every 2–4 bars, growth by octave layers, trumpets held back, cymbals marking phrases, and a new scoring for every return.",
+      "sources": [
+        "httyd-test-drive p.1-15"
+      ],
+      "related": [
+        "action-ostinato-pedal-gallop",
+        "heroic-theme-orchestration",
+        "film-percussion-phrase-marking",
+        "building-and-releasing-climaxes",
+        "harmony-emotion-mapping",
+        "five-elements-arrangement-checklist",
+        "user-taste"
+      ],
+      "words": 1081
+    },
+    {
+      "id": "film-scoring.orchestral-mockup-template",
+      "path": "film-scoring/orchestral-mockup-template.md",
+      "link": "[[orchestral-mockup-template]]",
+      "title": "Orchestral mock-up template (tracks and patches for REAPER)",
+      "domain": "film-scoring",
+      "style_scope": "film (sample-library mock-ups; fast action sketching to detailed cues)",
+      "tags": [
+        "template",
+        "workflow",
+        "mock-up",
+        "patches",
+        "reaper",
+        "sample-libraries"
+      ],
+      "aliases": [
+        "plantilla orquestal",
+        "template",
+        "plantilla de maqueta",
+        "maqueta orquestal",
+        "mock-up",
+        "plantilla de cine",
+        "patches",
+        "pistas de orquesta"
+      ],
+      "use_when": "Creating the REAPER tracks for an orchestral cue or song section, or deciding which patch type (ensemble, section, long/short) a part should use.",
+      "summary": "Build the template in tiers. Tier 1 is full-orchestra and section long/short patches for fast sketching. Tier 2 is individual sections with long, short and legato articulations. Tier 3 is enhancers and percussion, plus piano, choir and a low-end layer. Two reverb returns finish it: Panoramic for longs and Impact for shorts. Sketch with tier 1, then move the parts down to sections. Name tracks by family and articulation, and fold them by family.",
+      "sources": [
+        "film-4day-challenge slides 4, 7, 8, 9",
+        "httyd-test-drive p.1",
+        "unir-orq-tema1 p.4-6"
+      ],
+      "related": [
+        "reverb-strategy-orchestral",
+        "stage-seating-pan-depth",
+        "five-elements-arrangement-checklist",
+        "orchestra-sizes-and-section-balance",
+        "dynamics-by-orchestration",
+        "_instruments"
+      ],
+      "words": 938
+    },
+    {
+      "id": "film-scoring.reverb-strategy-orchestral",
+      "path": "film-scoring/reverb-strategy-orchestral.md",
+      "link": "[[reverb-strategy-orchestral]]",
+      "title": "Reverb strategy for orchestral mock-ups (panoramic vs impact)",
+      "domain": "film-scoring",
+      "style_scope": "film (sample-library mock-ups)",
+      "tags": [
+        "reverb",
+        "mix",
+        "template",
+        "depth",
+        "routing"
+      ],
+      "aliases": [
+        "reverb",
+        "reverberación",
+        "reverb panorámica",
+        "reverb de impacto",
+        "envíos de reverb",
+        "profundidad",
+        "sala",
+        "returns"
+      ],
+      "use_when": "Setting up reverb returns and send levels for an orchestral or hybrid cue, or fixing a mock-up that is washy, dry or has a muddy low end.",
+      "summary": "Use two main reverb returns. \"Panoramic\" (long, wide, wet) takes sustained strings, sustained brass and choir; \"Impact\" (shorter, big-room, quick decay) takes spiccato, brass stabs and woodwinds. Group sends along two axes, high vs low and long vs short. Keep basses and the low end almost dry, and give low percussion, other percussion, synths and FX their own reverbs if needed.",
+      "sources": [
+        "film-4day-challenge slide 9",
+        "film-4day-challenge slide 5"
+      ],
+      "related": [
+        "orchestral-mockup-template",
+        "stage-seating-pan-depth",
+        "bass-line-doubling",
+        "line-separation-and-fusion"
+      ],
+      "words": 585
+    },
+    {
+      "id": "form.baroque-suite",
+      "path": "form/baroque-suite.md",
+      "link": "[[baroque-suite]]",
+      "title": "Suite, partita, divertimento — multi-dance plans",
+      "domain": "form",
+      "style_scope": "baroque",
+      "tags": [
+        "suite",
+        "partita",
+        "dance",
+        "baroque",
+        "divertimento"
+      ],
+      "aliases": [
+        "suite",
+        "suite antigua",
+        "suite moderna",
+        "partita",
+        "ordre",
+        "sonata da camera",
+        "intermedios",
+        "alemanda",
+        "corriente",
+        "zarabanda",
+        "giga",
+        "minué I y II",
+        "gavota I y II",
+        "casación",
+        "serenata",
+        "divertimento",
+        "Suite"
+      ],
+      "use_when": "When planning a set of dance movements (baroque suite/partita), a divertimento/serenade, or a modern suite of cues.",
+      "summary": "Old suite = (prelude/overture) – Allemande – Courante – Sarabande – (intermezzos - minuets, gavottes, bourrées…) – Gigue, all in one tonic (mode may change), each in repeated binary suite form; paired dances play I–II–I without repeats; a double is an ornamented repeat. Modern suites keep only the idea of a series of pieces.",
+      "sources": [
+        "zamacois-formas p.151-155 (§118-122)",
+        "zamacois-formas p.155-166 (§123-140)"
+      ],
+      "related": [
+        "binary-form",
+        "dance-types",
+        "theme-and-variations",
+        "minuet-scherzo-trio",
+        "multi-movement-cycle",
+        "overture-prelude-symphonic-poem"
+      ],
+      "words": 602
+    },
+    {
+      "id": "form.binary-form",
+      "path": "form/binary-form.md",
+      "link": "[[binary-form]]",
+      "title": "Binary forms (small binary, rounded binary / binary Lied, baroque suite binary)",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "binary",
+        "rounded-binary",
+        "suite",
+        "dance",
+        "small-forms"
+      ],
+      "aliases": [
+        "forma binaria",
+        "tipo binario",
+        "Lied binario",
+        "binario reexpositivo",
+        "rounded binary",
+        "tipo suite",
+        "forma binaria de suite",
+        "pequeño tipo binario",
+        "zweiteilige Liedform"
+      ],
+      "use_when": "When writing a short two-part piece, a baroque dance movement, or a 16-bar AABA-like theme.",
+      "summary": "Binary = two parts; part 1 states and usually modulates (V or III), part 2 returns home and closes. Variants - A-A' (second part never an exact repeat), A-B, rounded binary/binary Lied (B + partial return of A), and the repeated baroque ‖:I→V:‖:V→I:‖ suite type whose part 2 restarts with the opening motif.",
+      "sources": [
+        "zamacois-formas p.19-22 (§22-25)",
+        "zamacois-formas p.29-33 (§32)",
+        "zamacois-formas p.48-52 (§43-45)",
+        "zamacois-formas p.151-154 (§118-122)"
+      ],
+      "related": [
+        "ternary-form",
+        "key-plans-small-forms",
+        "baroque-suite",
+        "dance-types",
+        "suspensive-conclusive-endings",
+        "cadences"
+      ],
+      "words": 704
+    },
+    {
+      "id": "form.character-pieces",
+      "path": "form/character-pieces.md",
+      "link": "[[character-pieces]]",
+      "title": "Character pieces (nocturne, berceuse, barcarolle, fantasia, toccata, rhapsody…)",
+      "domain": "form",
+      "style_scope": "romantic",
+      "tags": [
+        "character-piece",
+        "romantic",
+        "miniature",
+        "texture"
+      ],
+      "aliases": [
+        "piezas de carácter",
+        "fantasía",
+        "capricho",
+        "tocata",
+        "pastoral",
+        "impromptu",
+        "romanza sin palabras",
+        "balada",
+        "leyenda",
+        "noveleta",
+        "elegía",
+        "nocturno",
+        "berceuse",
+        "canción de cuna",
+        "barcarola",
+        "rapsodia",
+        "momento musical",
+        "hoja de álbum",
+        "Charakterstück"
+      ],
+      "use_when": "When a request names a romantic piano/orchestral miniature by title (nocturno, berceuse, fantasía, rapsodia…) and you need its default form and texture.",
+      "summary": "The title names a mood, not a structure - default to ternary A–B–A (or rondo) and take texture from the title - rocking 6/8 accompaniment for berceuse/barcarolle, serene arpeggiated nocturne, free improvisatory alternation of themes and runs for fantasia/capriccio/toccata, slow–fast diptych for rhapsody, balanced A–B–A for impromptu.",
+      "sources": [
+        "zamacois-formas p.229-235 (§204-219)"
+      ],
+      "related": [
+        "ternary-form",
+        "rondo-form",
+        "dance-types",
+        "section-functions"
+      ],
+      "words": 624
+    },
+    {
+      "id": "form.concerto-form",
+      "path": "form/concerto-form.md",
+      "link": "[[concerto-form]]",
+      "title": "Concerto forms — ritornello, double exposition, cadenza",
+      "domain": "form",
+      "style_scope": "baroque-classical",
+      "tags": [
+        "concerto",
+        "ritornello",
+        "double-exposition",
+        "cadenza",
+        "solo-tutti"
+      ],
+      "aliases": [
+        "concierto",
+        "concerto grosso",
+        "concertino",
+        "ripieno",
+        "tutti",
+        "solo",
+        "ritornello",
+        "ritornelo",
+        "doble exposición",
+        "cadencia del solista",
+        "cadenza",
+        "sinfonía concertante",
+        "Konzert",
+        "Ritornellform"
+      ],
+      "use_when": "When writing for soloist(s) and ensemble — baroque ritornello movements, classical concerto first movements, or placing a cadenza.",
+      "summary": "Concertos are fast–slow–fast (only the middle movement may change key). Baroque first movements alternate an orchestral ritornello (tonic, then other keys, tonic at the end) with virtuoso solo episodes; classical first movements are sonata form with a double exposition (orchestra with B in the tonic, then soloist with B in V/III); the cadenza sits on the orchestra's cadential 6/4 and the orchestra re-enters on V7.",
+      "sources": [
+        "zamacois-formas p.206-213 (§169-176)"
+      ],
+      "related": [
+        "sonata-form",
+        "sonata-development-and-recap",
+        "rondo-form",
+        "multi-movement-cycle",
+        "cadences"
+      ],
+      "words": 799
+    },
+    {
+      "id": "form.dance-types",
+      "path": "form/dance-types.md",
+      "link": "[[dance-types]]",
+      "title": "Dance types — meter, tempo, upbeat and MIDI rhythm patterns",
+      "domain": "form",
+      "style_scope": "baroque-romantic",
+      "tags": [
+        "dance",
+        "rhythm",
+        "meter",
+        "upbeat",
+        "suite",
+        "baroque-dance",
+        "romantic-dance"
+      ],
+      "aliases": [
+        "danzas",
+        "alemanda",
+        "corriente",
+        "zarabanda",
+        "giga",
+        "gavota",
+        "bourrée",
+        "rigodón",
+        "loure",
+        "pavana",
+        "gallarda",
+        "minué",
+        "pasapié",
+        "siciliana",
+        "musette",
+        "hornpipe",
+        "marcha",
+        "polonesa",
+        "mazurca",
+        "vals",
+        "tarantela",
+        "pastoral",
+        "berceuse",
+        "barcarola",
+        "Tanz"
+      ],
+      "use_when": "When a request names a dance (gavota, zarabanda, vals, mazurca…) and you need its meter, tempo, pickup, cadence placement and a characteristic rhythm to write in MIDI.",
+      "summary": "Lookup table of baroque and 19th-century dances with meter, tempo, upbeat and a MIDI-ready characteristic rhythm (onsets/lengths in quarter-note beats from the bar start); dances are square (4+4, 8+8) and wrapped in binary suite form (baroque) or ternary/rondo form with optional intro and coda (19th c.).",
+      "sources": [
+        "zamacois-formas p.155-165 (§123-138)",
+        "zamacois-formas p.224-229 (§198-203)",
+        "zamacois-formas p.229-235 (§208, §216-217)"
+      ],
+      "related": [
+        "baroque-suite",
+        "binary-form",
+        "minuet-scherzo-trio",
+        "phrase-asymmetry",
+        "phrase-structure",
+        "character-pieces"
+      ],
+      "words": 1043
+    },
+    {
+      "id": "form.form-for-modern-songs",
+      "path": "form/form-for-modern-songs.md",
+      "link": "[[form-for-modern-songs]]",
+      "title": "Classical form concepts applied to pop, rock and film songs",
+      "domain": "form",
+      "style_scope": "pop-rock-film",
+      "tags": [
+        "song-form",
+        "pop",
+        "rock",
+        "film",
+        "arrangement",
+        "verse-chorus"
+      ],
+      "aliases": [
+        "estructura de canción",
+        "verso",
+        "estrofa",
+        "pre-estribillo",
+        "pre-coro",
+        "estribillo",
+        "coro",
+        "puente",
+        "middle 8",
+        "post-estribillo",
+        "intro",
+        "outro",
+        "drop",
+        "breakdown",
+        "AABA",
+        "verse-chorus",
+        "song structure",
+        "Songform"
+      ],
+      "use_when": "When planning a modern song or cue (verse/pre/chorus/bridge) and you want classical tools (open/closed endings, transitions, retransition, coda, varied returns) to make the structure work.",
+      "summary": "Verse–chorus is Zamacois's coplas y estribillo (changing verses + returning refrain, the rondo principle); AABA is the binary Lied. Use classical functions - verses as stable/periodic statements, pre-chorus as an open transition ending on V/IV, chorus as the principal (conclusive or loop-open) idea, bridge as the contrasting episode that ends on the dominant (retransition), last chorus as an amplified reexposition, outro as coda.",
+      "sources": [
+        "zamacois-formas p.236-239 (§223)",
+        "zamacois-formas p.48-52 (§45-46)",
+        "zamacois-formas p.22-48 (§26-42)",
+        "sonata-outline"
+      ],
+      "related": [
+        "section-functions",
+        "suspensive-conclusive-endings",
+        "phrase-asymmetry",
+        "rondo-form",
+        "binary-form",
+        "ternary-form",
+        "thematic-development",
+        "cadences",
+        "modulation"
+      ],
+      "words": 892
+    },
+    {
+      "id": "form.fugue-tonal-answer",
+      "path": "form/fugue-tonal-answer.md",
+      "link": "[[fugue-tonal-answer]]",
+      "title": "Fugue answer — real vs tonal, mutation algorithm",
+      "domain": "form",
+      "style_scope": "baroque",
+      "tags": [
+        "fugue",
+        "answer",
+        "mutation",
+        "counterpoint",
+        "algorithm"
+      ],
+      "aliases": [
+        "respuesta tonal",
+        "respuesta real",
+        "respuesta plagal",
+        "mutación",
+        "cabeza del sujeto",
+        "tono de la tónica",
+        "tono de la dominante",
+        "tonal answer",
+        "real answer",
+        "tonale Beantwortung",
+        "reale Beantwortung"
+      ],
+      "use_when": "When generating the answer to a fugue subject (or any fugal entry at the dominant) and deciding where to place mutations.",
+      "summary": "Default = real answer (+7 semitones). Make it tonal when the subject's head or ends involve tonic/dominant - scale degree 1 is answered by 5 and 5 by 1; bracket the subject into tonic-key (answer +7) and dominant-key (answer +5) fragments, mutate where the dominant-key fragment ends, never reverse an interval's direction, hide the mutation, verify by harmonising, and fall back to a real answer when the tonal one ruins a characteristic interval.",
+      "sources": [
+        "zamacois-formas p.87-117 (§84-92)",
+        "zamacois-formas p.269-275 (App. C-E)"
+      ],
+      "related": [
+        "fugue",
+        "school-fugue-plan",
+        "imitation-and-canon",
+        "modulation"
+      ],
+      "words": 834
+    },
+    {
+      "id": "form.fugue",
+      "path": "form/fugue.md",
+      "link": "[[fugue]]",
+      "title": "Fugue — elements and overall structure",
+      "domain": "form",
+      "style_scope": "baroque",
+      "tags": [
+        "fugue",
+        "counterpoint",
+        "subject",
+        "countersubject",
+        "episode",
+        "stretto"
+      ],
+      "aliases": [
+        "fuga",
+        "sujeto",
+        "respuesta",
+        "contrasujeto",
+        "contrarrespuesta",
+        "entrada",
+        "exposición de la fuga",
+        "contraexposición",
+        "episodio",
+        "divertimento",
+        "codetta",
+        "estrecho",
+        "stretto",
+        "pedal",
+        "fuga libre",
+        "fuga de escuela",
+        "Fuge",
+        "Durchführung der Fuge",
+        "Engführung"
+      ],
+      "use_when": "When writing a fugue, fughetta or fugato, or analysing/validating fugal entries, episodes and strettos.",
+      "summary": "A fugue has a fixed number of real voices built on a subject; Section 1 (exposition) gives each voice the subject or answer (S tonic, R dominant, S, R) with countersubjects, no voice re-entering before all have entered; Section 2 brings entries in neighbouring keys separated by sequential, imitative episodes; Section 3 returns to the tonic, usually with strettos and dominant then tonic pedals; cadences are rare and never stop all voices.",
+      "sources": [
+        "zamacois-formas p.57-89 (§53-84)",
+        "zamacois-formas p.117-127 (§93-96)"
+      ],
+      "related": [
+        "fugue-tonal-answer",
+        "school-fugue-plan",
+        "imitation-and-canon",
+        "thematic-development",
+        "cadences",
+        "modulation"
+      ],
+      "words": 817
+    },
+    {
+      "id": "form.imitation-and-canon",
+      "path": "form/imitation-and-canon.md",
+      "link": "[[imitation-and-canon]]",
+      "title": "Imitation and canon",
+      "domain": "form",
+      "style_scope": "universal",
+      "tags": [
+        "counterpoint",
+        "imitation",
+        "canon",
+        "texture"
+      ],
+      "aliases": [
+        "imitación",
+        "canon",
+        "antecedente",
+        "consecuente",
+        "dux",
+        "comes",
+        "propuesta",
+        "respuesta",
+        "movimiento contrario",
+        "inversión",
+        "retrógrado",
+        "cancrizante",
+        "aumentación",
+        "disminución",
+        "imitación rítmica",
+        "canon infinito",
+        "Kanon",
+        "Imitation"
+      ],
+      "use_when": "When one voice should echo another (call-and-response, canon, fugal entries, imitative episodes) or when choosing the interval/time distance of an imitation.",
+      "summary": "Imitation = a later voice (consequent) reproduces a melody stated by another (antecedent) at any interval and time distance — direct, inverted, retrograde, augmented, diminished or rhythm-only; a canon sustains it through a piece. Closer entries are tighter and more interesting; strict imitation keeps exact interval qualities; rhythmic imitation is one of the most fertile development tools.",
+      "sources": [
+        "zamacois-formas p.53-57 (§47-52bis)",
+        "zamacois-formas p.117-127 (§95)"
+      ],
+      "related": [
+        "fugue",
+        "thematic-development",
+        "school-fugue-plan",
+        "sacred-vocal-forms"
+      ],
+      "words": 569
+    },
+    {
+      "id": "form.key-plans-small-forms",
+      "path": "form/key-plans-small-forms.md",
+      "link": "[[key-plans-small-forms]]",
+      "title": "Key plans for phrases and small forms",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "key-plan",
+        "modulation",
+        "tonal-plan",
+        "small-forms"
+      ],
+      "aliases": [
+        "plan tonal",
+        "proceso tonal",
+        "proceso modulante",
+        "alejamiento",
+        "regreso",
+        "tonos vecinos",
+        "tono de la dominante",
+        "relativo mayor",
+        "tonal plan",
+        "Tonartenplan"
+      ],
+      "use_when": "When choosing where a phrase, binary, ternary or dance piece modulates and how it returns home.",
+      "summary": "Establish the home key, move away (major → V; minor → III or v), optionally digress further among neighbouring keys, then return and re-establish the home key; principal sections stay put, secondary ones modulate, and the move to the subdominant side near the end strengthens closure.",
+      "sources": [
+        "zamacois-formas p.19-22 (§22-25)",
+        "zamacois-formas p.42-52 (§42-46)",
+        "zamacois-formas p.151-154 (§122)"
+      ],
+      "related": [
+        "modulation",
+        "secondary-dominants",
+        "cadences",
+        "binary-form",
+        "ternary-form",
+        "section-functions"
+      ],
+      "words": 639
+    },
+    {
+      "id": "form.minuet-scherzo-trio",
+      "path": "form/minuet-scherzo-trio.md",
+      "link": "[[minuet-scherzo-trio]]",
+      "title": "Minuet, scherzo and trio",
+      "domain": "form",
+      "style_scope": "classical-romantic",
+      "tags": [
+        "minuet",
+        "scherzo",
+        "trio",
+        "da-capo",
+        "ternary",
+        "dance"
+      ],
+      "aliases": [
+        "minué",
+        "minueto",
+        "minué de sonata",
+        "scherzo",
+        "trío",
+        "da capo",
+        "D.C.",
+        "maggiore",
+        "minore",
+        "scherzo con dos tríos",
+        "Menuett",
+        "Scherzo und Trio"
+      ],
+      "use_when": "When writing the third movement of a sonata/symphony, any dance + trio piece, or a scherzo.",
+      "summary": "Compound ternary - Minuet (repeated a I→V, then repeated b + a' closing in I) – Trio (same shape in IV, the parallel mode or the relative; contrasting, may end on V7) – Minuet da capo without repeats. The scherzo keeps the plan but is fast (one beat per bar), longer, more contrapuntal, with a broad cantabile trio; romantics add a second trio (S T1 S T2 S).",
+      "sources": [
+        "zamacois-formas p.190-197 (§157bis-160)",
+        "zamacois-formas p.200-205 (§164)",
+        "zamacois-formas p.155-165 (§121, §133)",
+        "zamacois-formas p.269-275 (App. G)"
+      ],
+      "related": [
+        "ternary-form",
+        "binary-form",
+        "dance-types",
+        "multi-movement-cycle",
+        "key-plans-small-forms"
+      ],
+      "words": 704
+    },
+    {
+      "id": "form.multi-movement-cycle",
+      "path": "form/multi-movement-cycle.md",
+      "link": "[[multi-movement-cycle]]",
+      "title": "Multi-movement plans — sonata, quartet, symphony, cyclic works",
+      "domain": "form",
+      "style_scope": "classical",
+      "tags": [
+        "multi-movement",
+        "sonata-cycle",
+        "symphony",
+        "quartet",
+        "cyclic"
+      ],
+      "aliases": [
+        "sonata clásica",
+        "ciclo de sonata",
+        "movimientos",
+        "tiempo vivo inicial",
+        "tiempo lento",
+        "tiempo vivo final",
+        "sinfonía",
+        "cuarteto",
+        "trío",
+        "sonata cíclica",
+        "forma cíclica",
+        "Satzfolge",
+        "symphony plan"
+      ],
+      "use_when": "When planning a work of several movements (sonata, symphony, quartet, suite-like EP of cues) — movement order, forms, keys, tempos and thematic unity.",
+      "summary": "Classical cycle = fast sonata-form first movement (I) – slow movement (Lied, variations or sonata; IV, vi or relative) – minuet/scherzo + trio (I) – brilliant finale (rondo or sonata, I); 3-movement works usually drop the minuet or the slow movement; first and last movements share the home key; cyclic works recall one cell or theme across movements.",
+      "sources": [
+        "zamacois-formas p.167-169 (§141-143)",
+        "zamacois-formas p.183-205 (§154-165)",
+        "zamacois-formas p.204-207 (§166-168)"
+      ],
+      "related": [
+        "sonata-form",
+        "ternary-form",
+        "theme-and-variations",
+        "minuet-scherzo-trio",
+        "rondo-form",
+        "concerto-form",
+        "baroque-suite",
+        "thematic-development"
+      ],
+      "words": 660
+    },
+    {
+      "id": "form.ostinato-chaconne-passacaglia",
+      "path": "form/ostinato-chaconne-passacaglia.md",
+      "link": "[[ostinato-chaconne-passacaglia]]",
+      "title": "Ostinato forms — ground bass, chaconne, passacaglia",
+      "domain": "form",
+      "style_scope": "baroque",
+      "tags": [
+        "ostinato",
+        "chaconne",
+        "passacaglia",
+        "ground-bass",
+        "variation"
+      ],
+      "aliases": [
+        "ostinato",
+        "basso ostinato",
+        "bajo obstinado",
+        "chacona",
+        "pasacalle",
+        "passacaglia",
+        "ground bass",
+        "follia",
+        "Chaconne",
+        "Passacaglia"
+      ],
+      "use_when": "When building a piece or cue on a repeated bass line or harmonic loop with variations on top.",
+      "summary": "A short, severe, strongly tonal ostinato (often a descending tetrachord or cadential formula, 4–8 bars, usually slow 3/4 or 3/2) repeats unchanged while upper voices vary decoratively with growing density; passacaglia keeps the theme mostly in the bass, chaconne tends to vary over a harmonic frame or top-voice melody (sources disagree); key/mode changes and transfers to upper voices are licences.",
+      "sources": [
+        "zamacois-formas p.143-148 (§113-115)",
+        "zamacois-formas p.155-165 (§136)"
+      ],
+      "related": [
+        "theme-and-variations",
+        "dance-types",
+        "baroque-suite",
+        "form-for-modern-songs"
+      ],
+      "words": 616
+    },
+    {
+      "id": "form.overture-prelude-symphonic-poem",
+      "path": "form/overture-prelude-symphonic-poem.md",
+      "link": "[[overture-prelude-symphonic-poem]]",
+      "title": "Overture, prelude, symphonic poem, ballet, incidental music",
+      "domain": "form",
+      "style_scope": "baroque-romantic",
+      "tags": [
+        "overture",
+        "prelude",
+        "symphonic-poem",
+        "ballet",
+        "programmatic",
+        "incidental-music"
+      ],
+      "aliases": [
+        "obertura",
+        "obertura francesa",
+        "obertura italiana",
+        "sinfonía (obertura)",
+        "preludio",
+        "poema sinfónico",
+        "ballet",
+        "entradas",
+        "música incidental",
+        "ilustraciones musicales",
+        "música de escena",
+        "Ouvertüre",
+        "Vorspiel",
+        "symphonische Dichtung"
+      ],
+      "use_when": "When planning a one-movement orchestral opener, a programmatic piece that follows a story, a ballet number chain, or background music for theatre/film.",
+      "summary": "French overture = slow dotted – fast fugato – slow return; Italian = fast–slow–fast; classical opera overture = slow intro ending on V + sonata-form Allegro (with or without development); synthesis overture develops the drama's themes (mosaic medley = weak); symphonic poems invent a form from the programme but must keep musical returns; ballets are chains of self-contained numbers or one symphonic flow; incidental music sets atmosphere.",
+      "sources": [
+        "zamacois-formas p.214-223 (§177-197)"
+      ],
+      "related": [
+        "sonata-form",
+        "section-functions",
+        "thematic-development",
+        "baroque-suite",
+        "dance-types",
+        "form-for-modern-songs"
+      ],
+      "words": 588
+    },
+    {
+      "id": "form.phrase-asymmetry",
+      "path": "form/phrase-asymmetry.md",
+      "link": "[[phrase-asymmetry]]",
+      "title": "Square phrases and deliberate asymmetry",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "phrase-rhythm",
+        "hypermeter",
+        "elision",
+        "extension",
+        "contraction"
+      ],
+      "aliases": [
+        "frase cuadrada",
+        "frase simétrica",
+        "frase asimétrica",
+        "frase coja",
+        "elisión",
+        "doble función",
+        "contracción",
+        "dilatación",
+        "eco",
+        "apéndice",
+        "amplificación",
+        "extensión de frase",
+        "phrase extension",
+        "elision"
+      ],
+      "use_when": "When a section must be other than 4/8/16 bars, when two phrases should overlap, or when checking that dance/groove material stays square.",
+      "summary": "Keep dance and groove music square (2+2, 4+4, 8+8); elsewhere break monotony on purpose with elision (shared bar, −1), contraction (−1), dilatation, echo, appendices or amplification (+n, typically a deceptive cadence or detour before the final cadence) — never an unmotivated missing or extra bar.",
+      "sources": [
+        "zamacois-formas p.34-42 (§34-41)",
+        "zamacois-formas p.22-24 (§28)"
+      ],
+      "related": [
+        "phrase-structure",
+        "suspensive-conclusive-endings",
+        "section-functions",
+        "cadences",
+        "form-for-modern-songs"
+      ],
+      "words": 643
+    },
+    {
+      "id": "form.phrase-structure",
+      "path": "form/phrase-structure.md",
+      "link": "[[phrase-structure]]",
+      "title": "Phrase structure and bar counting",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "phrase",
+        "period",
+        "motif",
+        "anacrusis",
+        "meter",
+        "bar-counting"
+      ],
+      "aliases": [
+        "frase",
+        "período",
+        "periodo",
+        "subperíodo",
+        "miembro",
+        "semifrase",
+        "motivo",
+        "ictus",
+        "compás real",
+        "anacrusa",
+        "tético",
+        "anacrúsico",
+        "acéfalo",
+        "final masculino",
+        "final femenino",
+        "Periode",
+        "Satz"
+      ],
+      "use_when": "Before writing any melody or section, to size it in bars, decide pickups and endings, and label its internal units.",
+      "summary": "A phrase is a complete melodic cycle built from periods, subperiods and members (classical default 8 real bars = 2 periods of 4 = 4 subperiods of 2); count bars from initial to final ictus in REAL bars, ignore the opening pickup, and choose thetic/anacrustic starts and masculine/feminine endings on purpose.",
+      "sources": [
+        "zamacois-formas p.6-15 (§9-18)",
+        "zamacois-formas p.29-34 (§32-33)"
+      ],
+      "related": [
+        "suspensive-conclusive-endings",
+        "phrase-asymmetry",
+        "thematic-development",
+        "key-plans-small-forms",
+        "cadences"
+      ],
+      "words": 818
+    },
+    {
+      "id": "form.rondo-form",
+      "path": "form/rondo-form.md",
+      "link": "[[rondo-form]]",
+      "title": "Rondo and rondo-sonata",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "rondo",
+        "refrain",
+        "finale",
+        "rondo-sonata"
+      ],
+      "aliases": [
+        "rondó",
+        "rondeau",
+        "rondo",
+        "estribillo",
+        "copla",
+        "couplet",
+        "rondó-sonata",
+        "rondo desarrollado",
+        "ABACA",
+        "ABACABA",
+        "Rondoform",
+        "Sonatenrondo"
+      ],
+      "use_when": "When writing a lively finale or any piece built on a recurring refrain alternating with contrasting episodes.",
+      "summary": "A rondo alternates a strongly characterised refrain, always back in the tonic, with episodes (couplets) in other keys that end so each return gets maximum relief; the rondo-sonata (A B A C A B A + coda) re-exposes the first couplet in the tonic like a sonata's second theme and treats the middle couplet as a development.",
+      "sources": [
+        "zamacois-formas p.155-165 (§127)",
+        "zamacois-formas p.196-199 (§161-162)",
+        "zamacois-formas p.200-205 (§163)",
+        "zamacois-formas p.48-52 (§46bis)"
+      ],
+      "related": [
+        "ternary-form",
+        "sonata-form",
+        "section-functions",
+        "multi-movement-cycle",
+        "form-for-modern-songs",
+        "modulation"
+      ],
+      "words": 700
+    },
+    {
+      "id": "form.sacred-vocal-forms",
+      "path": "form/sacred-vocal-forms.md",
+      "link": "[[sacred-vocal-forms]]",
+      "title": "Sacred vocal forms — chorale, motet, Mass, cantus firmus",
+      "domain": "form",
+      "style_scope": "renaissance-baroque",
+      "tags": [
+        "sacred",
+        "chorale",
+        "motet",
+        "mass",
+        "cantus-firmus",
+        "choir"
+      ],
+      "aliases": [
+        "música religiosa",
+        "coral",
+        "motete",
+        "misa",
+        "Kyrie",
+        "Gloria",
+        "Credo",
+        "Sanctus",
+        "Benedictus",
+        "Agnus Dei",
+        "réquiem",
+        "misa brevis",
+        "canto llano",
+        "canto gregoriano",
+        "canto firme",
+        "cantus firmus",
+        "antífona",
+        "responsorio",
+        "salmo",
+        "himno",
+        "secuencia",
+        "Magnificat",
+        "alternatim",
+        "Choral",
+        "Messe"
+      ],
+      "use_when": "When writing a chorale harmonisation, motet, Mass movement, cantus-firmus texture or antiphonal choir piece.",
+      "summary": "Chorale = 4-part, melody in soprano, one text line per phrase with a fermata and cadence at each line end. Motet = a chain of imitative points, one per text phrase, no musical return unless the text repeats. Mass = Kyrie (ternary Kyrie–Christe–Kyrie) – Gloria – Credo (long texts, syllabic) – Sanctus+Benedictus (paired) – Agnus Dei (may recall the Kyrie); keep sober style, soloist/choir and monophony/polyphony alternations.",
+      "sources": [
+        "zamacois-formas p.253-268 (§252-273)"
+      ],
+      "related": [
+        "imitation-and-canon",
+        "fugue",
+        "song-aria-recitative",
+        "cadences",
+        "_harmony"
+      ],
+      "words": 638
+    },
+    {
+      "id": "form.school-fugue-plan",
+      "path": "form/school-fugue-plan.md",
+      "link": "[[school-fugue-plan]]",
+      "title": "School fugue plan, double fugue, fughetta and fugato",
+      "domain": "form",
+      "style_scope": "baroque",
+      "tags": [
+        "fugue",
+        "school-fugue",
+        "key-plan",
+        "stretto",
+        "fugato",
+        "double-fugue"
+      ],
+      "aliases": [
+        "fuga de escuela",
+        "fuga escolástica",
+        "fuga tipo francés",
+        "plan de fuga",
+        "doble fuga",
+        "fuga triple",
+        "fugueta",
+        "fughetta",
+        "fugado",
+        "fugato",
+        "estilo fugado",
+        "Schulfuge",
+        "Doppelfuge"
+      ],
+      "use_when": "When you need a ready-made, step-by-step section and key map for a whole fugue, a double fugue, or a short fugato inside another piece.",
+      "summary": "French school fugue (Gedalge/Dupré) - exposition S R S R → episode → S in the relative → its answer → longer episode → S in IV → (S/R in the relative of IV) → long episode → dominant pedal + half cadence → three S–R strettos in the tonic, each closer, with optional CS strettos between → tonic pedal. Fugato = 3–4 entries inside a larger movement, then dissolve.",
+      "sources": [
+        "zamacois-formas p.117-135 (§93-103)"
+      ],
+      "related": [
+        "fugue",
+        "fugue-tonal-answer",
+        "imitation-and-canon",
+        "sonata-development-and-recap",
+        "theme-and-variations"
+      ],
+      "words": 886
+    },
+    {
+      "id": "form.section-functions",
+      "path": "form/section-functions.md",
+      "link": "[[section-functions]]",
+      "title": "Section functions — principal, secondary, intro, transition, retransition, coda",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "form-function",
+        "transition",
+        "retransition",
+        "coda",
+        "introduction",
+        "episode"
+      ],
+      "aliases": [
+        "período principal",
+        "período secundario",
+        "frase principal",
+        "frase secundaria",
+        "introducción",
+        "coda",
+        "codetta",
+        "puente",
+        "transición",
+        "conducción",
+        "retransición",
+        "apéndice de dominante",
+        "episodio",
+        "soldadura",
+        "Überleitung",
+        "Rückführung"
+      ],
+      "use_when": "When deciding what job each section of a piece does (state, contrast, connect, prepare a return, close) and how its harmony and stability should behave.",
+      "summary": "Principal sections are tonally stable and get re-exposed; secondary sections (episodes, transitions) serve them — modulating, less characterful, ending open on V7 of home; intros prepare, codas affirm the tonic, retransitions prolong the dominant before a return, and welds fill gaps without adding bars.",
+      "sources": [
+        "zamacois-formas p.22-24 (§26-28)",
+        "zamacois-formas p.38-41 (§40)",
+        "zamacois-formas p.42-48 (§42)",
+        "sonata-outline"
+      ],
+      "related": [
+        "suspensive-conclusive-endings",
+        "key-plans-small-forms",
+        "phrase-asymmetry",
+        "thematic-development",
+        "sonata-form",
+        "form-for-modern-songs",
+        "modulation"
+      ],
+      "words": 682
+    },
+    {
+      "id": "form.sonata-development-and-recap",
+      "path": "form/sonata-development-and-recap.md",
+      "link": "[[sonata-development-and-recap]]",
+      "title": "Sonata form — development, retransition, recapitulation, coda",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "sonata-form",
+        "development",
+        "retransition",
+        "recapitulation",
+        "coda"
+      ],
+      "aliases": [
+        "desarrollo",
+        "reexposición",
+        "recapitulación",
+        "retransición",
+        "pedal de dominante",
+        "pedal de V",
+        "falsa reexposición",
+        "coda final",
+        "desarrollo codal",
+        "Durchführung",
+        "Reprise",
+        "Rückführung"
+      ],
+      "use_when": "When writing the second half of a sonata-form movement (development through coda) or any development section that must lead back to a return.",
+      "summary": "The development works exposition material (fragmentation, sequence, mode change, imitation, superposition) through keys not used in the exposition and ends on a carefully prepared dominant (pedal of V, or a key-area tonic reinterpreted as V); the recapitulation starts with A in the home key and original form, rewrites the bridge so B lands in the tonic, and may end with a larger coda.",
+      "sources": [
+        "zamacois-formas p.177-183 (§150-153)",
+        "zamacois-formas p.188-189 (§157)",
+        "zamacois-formas p.38-41 (§40)",
+        "sonata-outline"
+      ],
+      "related": [
+        "sonata-form",
+        "thematic-development",
+        "section-functions",
+        "phrase-asymmetry",
+        "modulation",
+        "secondary-dominants"
+      ],
+      "words": 864
+    },
+    {
+      "id": "form.sonata-form",
+      "path": "form/sonata-form.md",
+      "link": "[[sonata-form]]",
+      "title": "Sonata form — plan and exposition",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "sonata-form",
+        "exposition",
+        "bridge",
+        "key-plan",
+        "first-movement"
+      ],
+      "aliases": [
+        "forma sonata",
+        "tipo sonata",
+        "allegro de sonata",
+        "exposición",
+        "tema A",
+        "tema B",
+        "primer tema",
+        "segundo tema",
+        "puente",
+        "transición",
+        "grupo B",
+        "codetta",
+        "tono asociado",
+        "Sonatenhauptsatzform",
+        "sonata-allegro"
+      ],
+      "use_when": "When planning a first movement, overture, or any large piece with two contrasting key areas, a development and a recapitulation.",
+      "summary": "Exposition = (intro) A in I → modulating bridge → B group in V (major) or III (minor) with contrasting character → closing in B's key; development = free modulating work ending on a dominant pedal; recapitulation = A in I → bridge rewritten to stay home → B in I → coda. Use the fill-in table below.",
+      "sources": [
+        "zamacois-formas p.167-183 (§141-153)",
+        "zamacois-formas p.42-48 (§42)",
+        "sonata-outline"
+      ],
+      "related": [
+        "sonata-development-and-recap",
+        "section-functions",
+        "thematic-development",
+        "multi-movement-cycle",
+        "modulation",
+        "cadences",
+        "secondary-dominants"
+      ],
+      "words": 873
+    },
+    {
+      "id": "form.song-aria-recitative",
+      "path": "form/song-aria-recitative.md",
+      "link": "[[song-aria-recitative]]",
+      "title": "Secular vocal forms — song, Lied, madrigal, aria, recitative, opera numbers, cantata/oratorio",
+      "domain": "form",
+      "style_scope": "baroque-romantic",
+      "tags": [
+        "vocal",
+        "song",
+        "aria",
+        "recitative",
+        "opera",
+        "strophic",
+        "text-setting"
+      ],
+      "aliases": [
+        "canción",
+        "canción popular",
+        "coplas",
+        "coplas y estribillo",
+        "estrófica",
+        "Lied",
+        "madrigal",
+        "aria",
+        "aria da capo",
+        "arieta",
+        "arioso",
+        "cavatina",
+        "romanza",
+        "recitativo secco",
+        "recitativo acompañado",
+        "dúo",
+        "terceto",
+        "concertante",
+        "ópera",
+        "leitmotiv",
+        "cantata",
+        "oratorio",
+        "ritornello",
+        "strophisch",
+        "durchkomponiert"
+      ],
+      "use_when": "When setting words - strophic or verse-refrain songs, an aria, a recitative, an opera/oratorio scene - and you need the form and the role of each number.",
+      "summary": "Songs are strophic (one melody per stanza, repeated) or verse + refrain (coplas y estribillo); the Lied serves the text and may use any form. Opera/oratorio alternate recitative (speech-like, no phrase structure, carries the action, chord support) with closed numbers that comment - da capo aria A–B–A' (ornamented return), two-part slow–fast aria, duets, and a big concertato ensemble at act ends; leitmotifs are transformed, not repeated.",
+      "sources": [
+        "zamacois-formas p.236-252 (§220-251)"
+      ],
+      "related": [
+        "ternary-form",
+        "binary-form",
+        "sacred-vocal-forms",
+        "form-for-modern-songs",
+        "thematic-development",
+        "cadences"
+      ],
+      "words": 691
+    },
+    {
+      "id": "form.suspensive-conclusive-endings",
+      "path": "form/suspensive-conclusive-endings.md",
+      "link": "[[suspensive-conclusive-endings]]",
+      "title": "Suspensive vs conclusive endings",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "cadence",
+        "period",
+        "phrase-ending",
+        "open-closed"
+      ],
+      "aliases": [
+        "fórmula suspensiva",
+        "fórmula conclusiva",
+        "final suspensivo",
+        "final conclusivo",
+        "interrogativa",
+        "afirmativa",
+        "inconcreta",
+        "semicadencia",
+        "antecedente consecuente",
+        "Halbschluss",
+        "Ganzschluss"
+      ],
+      "use_when": "When deciding how a period, phrase or section should end (open or closed) and how to combine open and closed periods into a phrase.",
+      "summary": "A unit ends suspensive (open - melody off the tonic triad, half cadence, or ending in another key) or conclusive (closed - melody on the home tonic, strong beat, root-position V–I in the main key); the last period decides the phrase, and the second of two closed units must sound more final than the first.",
+      "sources": [
+        "zamacois-formas p.15-17 (§19-20)",
+        "zamacois-formas p.19-22 (§23-24)",
+        "zamacois-formas p.26-34 (§30-33)",
+        "zamacois-formas p.42-48 (§42)"
+      ],
+      "related": [
+        "phrase-structure",
+        "cadences",
+        "key-plans-small-forms",
+        "section-functions",
+        "form-for-modern-songs"
+      ],
+      "words": 659
+    },
+    {
+      "id": "form.ternary-form",
+      "path": "form/ternary-form.md",
+      "link": "[[ternary-form]]",
+      "title": "Ternary form and Lied forms (ABA, ternary Lied, five-section Lied)",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "ternary",
+        "lied",
+        "aba",
+        "slow-movement",
+        "small-forms"
+      ],
+      "aliases": [
+        "forma ternaria",
+        "Lied ternario",
+        "ABA",
+        "A-B-A",
+        "Lied desarrollado",
+        "Lied en cinco secciones",
+        "forma Lied",
+        "tipo Lied",
+        "dreiteilige Liedform",
+        "song form"
+      ],
+      "use_when": "When writing an A-B-A piece, a slow movement, a character piece, or any form with one contrasting middle and a return.",
+      "summary": "Ternary Lied = A (principal, often itself a small a-b-a) | B (episode in a neighbouring key or mode, transitional, ends on V7 of home) | A (total or partial return in the home key, enriched, closing). B should be neither too short nor too long; the five-section Lied (A B A C A) is its rondo-like extension.",
+      "sources": [
+        "zamacois-formas p.28-29 (§31)",
+        "zamacois-formas p.48-52 (§43-46)",
+        "zamacois-formas p.183-191 (§154-157)"
+      ],
+      "related": [
+        "binary-form",
+        "rondo-form",
+        "minuet-scherzo-trio",
+        "key-plans-small-forms",
+        "section-functions",
+        "character-pieces",
+        "modulation"
+      ],
+      "words": 697
+    },
+    {
+      "id": "form.thematic-development",
+      "path": "form/thematic-development.md",
+      "link": "[[thematic-development]]",
+      "title": "Building and developing themes",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "theme",
+        "motif",
+        "development",
+        "variation",
+        "sequence",
+        "repetition"
+      ],
+      "aliases": [
+        "tema",
+        "motivo",
+        "diseño",
+        "desarrollo temático",
+        "desenvolvimiento melódico",
+        "transformación temática",
+        "reexposición variada",
+        "motivic development",
+        "Motiv",
+        "thematische Arbeit",
+        "Fortspinnung"
+      ],
+      "use_when": "When inventing a theme, deriving secondary material from it, varying a return, or writing a development/episode/bridge from existing material.",
+      "summary": "A theme is a short, characterful idea that gets repeated and developed; its head (motif) is the generating cell. Repeat to make it stick, vary returns in ornament/key/mode/ending while keeping rhythm and contour, and develop by fragmentation, sequence, inversion, augmentation/diminution, re-harmonisation, imitation and superposition.",
+      "sources": [
+        "zamacois-formas p.6-12 (§9-13)",
+        "zamacois-formas p.17-19 (§21)",
+        "zamacois-formas p.42-48 (§42)",
+        "zamacois-formas p.53-57 (§50-51)",
+        "zamacois-formas p.169-183 (§148-150)",
+        "zamacois-formas p.200-205 (§165)"
+      ],
+      "related": [
+        "phrase-structure",
+        "section-functions",
+        "imitation-and-canon",
+        "theme-and-variations",
+        "sonata-development-and-recap",
+        "_harmony"
+      ],
+      "words": 610
+    },
+    {
+      "id": "form.theme-and-variations",
+      "path": "form/theme-and-variations.md",
+      "link": "[[theme-and-variations]]",
+      "title": "Theme and variations",
+      "domain": "form",
+      "style_scope": "common-practice",
+      "tags": [
+        "variation",
+        "theme-and-variations",
+        "double",
+        "ornamentation"
+      ],
+      "aliases": [
+        "tema con variaciones",
+        "variación",
+        "variación ornamental",
+        "variación melódica",
+        "variación decorativa",
+        "variación armónico-contrapuntística",
+        "variación amplificativa",
+        "gran variación",
+        "variación libre",
+        "doble",
+        "diferencias",
+        "canzona",
+        "Variationen"
+      ],
+      "use_when": "When writing a set of variations, a varied repeat (double), or deciding how far a returning theme may be changed.",
+      "summary": "State a plain, usually slow theme (8–32 bars) first; ornamental variations keep its bar count, cadences, harmony per bar and melodic basic points while changing surface rhythm/figuration; decorative variations keep the melody and change harmony/counterpoint around it; amplifying (free) variations build a new idea from one cell. Same key throughout, one variation in the opposite mode, optional fugal finale or coda.",
+      "sources": [
+        "zamacois-formas p.136-150 (§104-117)",
+        "zamacois-formas p.151-154 (§121)"
+      ],
+      "related": [
+        "ostinato-chaconne-passacaglia",
+        "thematic-development",
+        "phrase-structure",
+        "school-fugue-plan",
+        "_harmony"
+      ],
+      "words": 754
+    },
+    {
+      "id": "harmony.accompaniment-for-solo-line",
+      "path": "harmony/accompaniment-for-solo-line.md",
+      "link": "[[accompaniment-for-solo-line]]",
+      "title": "Writing an accompaniment for a solo line",
+      "domain": "harmony",
+      "style_scope": "common-practice (procedure and \"support, never dominate\" apply to any song/cue accompaniment)",
+      "tags": [
+        "accompaniment",
+        "piano",
+        "texture",
+        "procedure",
+        "song"
+      ],
+      "aliases": [
+        "acompañamiento",
+        "acompañamiento pianístico",
+        "escribir un acompañamiento",
+        "figuración de acordes rotos",
+        "acorde roto",
+        "voces de relleno",
+        "canción con piano",
+        "Begleitung",
+        "Klavierbegleitung",
+        "Akkordbrechung",
+        "Füllstimmen"
+      ],
+      "use_when": "A solo melody (flute, violin, voice, lead synth) exists and the task is to write the piano/pad/strings accompaniment under it.",
+      "summary": "Segment the solo into sections and decide each one's key (static or modulating) and style; write the bass from the main harmonic points first, then the connecting bass, then the full bass, then the harmony. Use idiomatic textures (broken chords, register contrast, thinning or filling chords), keep a top line in the accompaniment, avoid clashing with the melody, interrupt repetitive patterns, and grade chord fullness with the melody's dynamics.",
+      "sources": [
+        "hindemith-1 p.117-125",
+        "hindemith-2 p.11-18",
+        "hindemith-2 p.18-22",
+        "hindemith-2 p.29-33",
+        "hindemith-2 p.41-71"
+      ],
+      "related": [
+        "harmonizing-a-melody",
+        "harmonic-texture-and-voice-count",
+        "harmonic-planning-seven-factors",
+        "harmony-voicing-for-instruments",
+        "diatonic-seventh-chords",
+        "_form",
+        "_orchestration",
+        "_harmony"
+      ],
+      "words": 638
+    },
+    {
+      "id": "harmony.augmented-sixth-chords",
+      "path": "harmony/augmented-sixth-chords.md",
+      "link": "[[augmented-sixth-chords]]",
+      "title": "Augmented sixth chords and altered dominants (German, French, Italian, augmented fifth)",
+      "domain": "harmony",
+      "style_scope": "common-practice / romantic (in film the German sixth = dramatic pre-dominant; avoid continuous chains)",
+      "tags": [
+        "chromaticism",
+        "augmented-sixth",
+        "altered-dominant",
+        "resolution"
+      ],
+      "aliases": [
+        "sexta aumentada",
+        "sexta alemana",
+        "sexta francesa",
+        "sexta italiana",
+        "séptima de dominante alterada",
+        "quinta aumentada",
+        "alteración cromática",
+        "alteración ampliada",
+        "übermäßiger Quintsextakkord",
+        "übermäßiger Terzquartakkord",
+        "übermäßiger Sextakkord",
+        "alterierte Dominante"
+      ],
+      "use_when": "Writing a strong chromatic approach to V (or to a new key), or checking that a chromatic chord is a legitimate traditional chord and resolves correctly.",
+      "summary": "Hindemith derives these from V7 by respelling or shifting its fifth/seventh. German sixth = dominant-seventh sound on b6 (C minor: Ab–C–Eb–F#), French = Ab–C–D–F#, Italian = Ab–C–F#; the augmented sixth (Ab–F#) expands outward to the octave on V. Augmented-fifth dominant G–B–D#–F puts D# on top rising to E. Fifths German→V are tolerated; never double a leading-tone note.",
+      "sources": [
+        "hindemith-1 p.88-98",
+        "hindemith-1 p.109-116",
+        "hindemith-2 p.34-41"
+      ],
+      "related": [
+        "dominant-seventh",
+        "diminished-seventh-pivot",
+        "modulation",
+        "voice-leading-parallels",
+        "harmonic-planning-seven-factors",
+        "_harmony"
+      ],
+      "words": 669
+    },
+    {
+      "id": "harmony.cadences",
+      "path": "harmony/cadences.md",
+      "link": "[[cadences]]",
+      "title": "Cadences (authentic, plagal, half/Phrygian, deceptive, Picardy)",
+      "domain": "harmony",
+      "style_scope": "common-practice (strength ranking is useful in any tonal style; film often avoids full closure on purpose)",
+      "tags": [
+        "cadence",
+        "phrase-ending",
+        "key-definition"
+      ],
+      "aliases": [
+        "cadencia",
+        "cadencia perfecta",
+        "cadencia auténtica",
+        "cadencia plagal",
+        "semicadencia",
+        "cadencia frigia",
+        "cadencia rota",
+        "cadencia evitada",
+        "cadencia deceptiva",
+        "tercera de Picardía",
+        "seis cuatro cadencial",
+        "Kadenz",
+        "Ganzschluss",
+        "Halbschluss",
+        "Trugschluss",
+        "plagaler Schluss",
+        "phrygischer Halbschluss",
+        "pikardische Terz"
+      ],
+      "use_when": "Ending a phrase, section or piece, establishing a key (start of piece, after a modulation), or choosing how closed or open an ending should sound.",
+      "summary": "A cadence of at least three chords ending V–I establishes a key and is the strongest close; the further the penultimate chord is from the tonic, the weaker the cadence (IV–I plagal is softer). Half cadences end on V (Phrygian: iv6→V in minor) and sound open; V→VI is deceptive; the final chord of a piece is root-position tonic.",
+      "sources": [
+        "hindemith-1 p.18-24",
+        "hindemith-1 p.25-33",
+        "hindemith-1 p.48-52",
+        "hindemith-1 p.53-59",
+        "hindemith-1 p.73-81",
+        "hindemith-1 p.99-108",
+        "hindemith-2 p.11-18",
+        "hindemith-2 p.22-29"
+      ],
+      "related": [
+        "modulation",
+        "triads-and-inversions",
+        "dominant-seventh",
+        "diatonic-secondary-triads",
+        "mode-mixture-and-neapolitan",
+        "_form",
+        "_film-scoring",
+        "_harmony"
+      ],
+      "words": 602
+    },
+    {
+      "id": "harmony.diatonic-secondary-triads",
+      "path": "harmony/diatonic-secondary-triads.md",
+      "link": "[[diatonic-secondary-triads]]",
+      "title": "Secondary diatonic triads (II, III, VI, VII) and the deceptive cadence",
+      "domain": "harmony",
+      "style_scope": "common-practice (II/VI substitutions are universal in tonal pop and film)",
+      "tags": [
+        "diatonic",
+        "triads",
+        "deceptive-cadence",
+        "doubling"
+      ],
+      "aliases": [
+        "acordes secundarios",
+        "acordes sobre II III VI VII",
+        "supertónica",
+        "mediante",
+        "superdominante",
+        "submediante",
+        "acorde de sensible",
+        "cadencia rota",
+        "cadencia deceptiva",
+        "cadencia evitada",
+        "Nebendreiklänge",
+        "Trugschluss"
+      ],
+      "use_when": "Enriching a I–IV–V progression with II, III, VI or VII, writing a deceptive cadence, or handling the diminished and augmented triads of a key.",
+      "summary": "Treat minor/major triads on II, III, VI like I, IV, V; use diminished triads (VII, II in minor) in first inversion doubling their third; never double the leading tone of III+ in minor. V→VI instead of V→I gives the deceptive cadence; iv6→V in minor gives the Phrygian half cadence.",
+      "sources": [
+        "hindemith-1 p.53-59",
+        "hindemith-2 p.11-18"
+      ],
+      "related": [
+        "triads-and-inversions",
+        "cadences",
+        "doubling-rules",
+        "diatonic-seventh-chords",
+        "_harmony"
+      ],
+      "words": 509
+    },
+    {
+      "id": "harmony.diatonic-seventh-chords",
+      "path": "harmony/diatonic-seventh-chords.md",
+      "link": "[[diatonic-seventh-chords]]",
+      "title": "Diatonic (secondary) seventh chords and the II6/5",
+      "domain": "harmony",
+      "style_scope": "common-practice (7th preparation/resolution is a style law; maj7/m7 as static colour is normal in jazz, pop, film)",
+      "tags": [
+        "seventh-chords",
+        "sequences",
+        "preparation",
+        "predominant"
+      ],
+      "aliases": [
+        "acordes de séptima secundarios",
+        "séptimas diatónicas",
+        "preparación de la séptima",
+        "sexta agregada",
+        "II6/5",
+        "acorde de subdominante con sexta añadida",
+        "Nebenseptakkorde",
+        "Septakkord-Sequenz",
+        "sixte ajoutée"
+      ],
+      "use_when": "Using seventh chords on I, II, III, IV, VI, VII (e.g. ii7, IVmaj7, vii°7), writing circle-of-fifths seventh sequences, or the II6/5 pre-cadential chord.",
+      "summary": "Secondary sevenths sound best complete, with the seventh prepared (held over from the previous chord) and resolved down a step; if a note must go, drop the fifth (or third), double the root and put the seventh on top. Parallel fifths are tolerated around them when unavoidable, never between soprano and bass. II6/5 (in C: F–A–C–D) is the classic chord before I6/4 or V.",
+      "sources": [
+        "hindemith-1 p.48-52",
+        "hindemith-1 p.60-72",
+        "hindemith-2 p.18-22"
+      ],
+      "related": [
+        "diatonic-secondary-triads",
+        "voice-leading-parallels",
+        "cadences",
+        "doubling-rules",
+        "accompaniment-for-solo-line",
+        "_harmony"
+      ],
+      "words": 612
+    },
+    {
+      "id": "harmony.diminished-seventh-pivot",
+      "path": "harmony/diminished-seventh-pivot.md",
+      "link": "[[diminished-seventh-pivot]]",
+      "title": "Diminished seventh as a multi-target pivot",
+      "domain": "harmony",
+      "style_scope": "common-practice / romantic (film: suspense colour; overuse = melodrama cliché)",
+      "tags": [
+        "diminished-seventh",
+        "pivot",
+        "enharmonic",
+        "modulation",
+        "leading-tone-chords"
+      ],
+      "aliases": [
+        "séptima disminuida",
+        "acorde de séptima disminuida",
+        "séptima de sensible",
+        "VII7",
+        "acorde pivote",
+        "enarmonía",
+        "verminderter Septakkord",
+        "enharmonische Umdeutung"
+      ],
+      "use_when": "Moving quickly to a distant or ambiguous key, intensifying arrival on any chord with a leading-tone chord, or resolving a diminished seventh correctly.",
+      "summary": "The diminished seventh (stacked minor thirds, e.g. G#–B–D–F) can resolve directly to four different roots: treat any of its tones as leading tone and resolve it up a semitone to the new root (A, C, Eb, F#), major or minor. There are only three distinct dim7 sonorities; never double the note acting as leading tone.",
+      "sources": [
+        "hindemith-1 p.60-72",
+        "hindemith-1 p.73-81",
+        "hindemith-1 p.82-87",
+        "hindemith-1 p.88-98",
+        "hindemith-2 p.29-33"
+      ],
+      "related": [
+        "modulation",
+        "secondary-dominants",
+        "augmented-sixth-chords",
+        "mode-mixture-and-neapolitan",
+        "_harmony"
+      ],
+      "words": 506
+    },
+    {
+      "id": "harmony.dominant-ninth-and-thirteenth",
+      "path": "harmony/dominant-ninth-and-thirteenth.md",
+      "link": "[[dominant-ninth-and-thirteenth]]",
+      "title": "Dominant ninth (V9) and dominant seventh with thirteenth (V13/7)",
+      "domain": "harmony",
+      "style_scope": "common-practice (in jazz/film these are colour tones placed anywhere)",
+      "tags": [
+        "dominant",
+        "extended-chords",
+        "colour"
+      ],
+      "aliases": [
+        "novena de dominante",
+        "V9",
+        "acorde de novena",
+        "séptima de dominante con sexta",
+        "V13",
+        "trecena",
+        "Dominantnonakkord",
+        "Dominantseptakkord mit Sexte"
+      ],
+      "use_when": "Colouring a dominant with a 9th or 13th in a four-part or pad texture and resolving it like a V7.",
+      "summary": "V9 = V7 + 9th (major key: scale degree 6; minor: b6); in four parts drop the fifth, put the 9th on top, and do not let S–A form a second. V13/7 replaces the fifth with the 13th (scale degree 3), usually on top. Both resolve exactly like V7 and its inversions; check V13/7→I for parallel octaves.",
+      "sources": [
+        "hindemith-1 p.34-38",
+        "hindemith-2 p.11-18"
+      ],
+      "related": [
+        "dominant-seventh",
+        "voice-leading-parallels",
+        "harmonic-planning-seven-factors",
+        "diminished-seventh-pivot",
+        "_harmony"
+      ],
+      "words": 507
+    },
+    {
+      "id": "harmony.dominant-seventh",
+      "path": "harmony/dominant-seventh.md",
+      "link": "[[dominant-seventh]]",
+      "title": "Dominant seventh chord, inversions and resolutions",
+      "domain": "harmony",
+      "style_scope": "common-practice (leading tone up / seventh down = the classical sound; jazz, blues and pop leave sevenths unresolved)",
+      "tags": [
+        "dominant",
+        "seventh-chords",
+        "resolution",
+        "inversions"
+      ],
+      "aliases": [
+        "séptima de dominante",
+        "V7",
+        "acorde de quinta y sexta",
+        "acorde de sexta sensible",
+        "acorde de tercera y cuarta",
+        "acorde de segunda",
+        "tritono",
+        "sensible",
+        "Dominantseptakkord",
+        "Quintsextakkord",
+        "Terzquartakkord",
+        "Sekundakkord",
+        "Leitton",
+        "Tritonus"
+      ],
+      "use_when": "Placing a V7 or one of its inversions (V6/5, V4/3, V2) and resolving it, or checking that the leading tone and seventh move correctly.",
+      "summary": "V7 = dominant triad + minor seventh (in C: G–B–D–F). The leading tone rises a semitone to the tonic and the seventh falls a step; the tritone contracts (d5→3rd) or expands (A4→6th). Complete V7 goes to an incomplete I and vice versa; V6/5→I, V4/3→I or I6, V2→I6.",
+      "sources": [
+        "hindemith-1 p.18-24",
+        "hindemith-1 p.25-33"
+      ],
+      "related": [
+        "doubling-rules",
+        "voice-leading-parallels",
+        "dominant-ninth-and-thirteenth",
+        "cadences",
+        "secondary-dominants",
+        "_harmony"
+      ],
+      "words": 578
+    },
+    {
+      "id": "harmony.doubling-rules",
+      "path": "harmony/doubling-rules.md",
+      "link": "[[doubling-rules]]",
+      "title": "Doubling rules by chord type",
+      "domain": "harmony",
+      "style_scope": "common-practice (avoid doubling tendency tones = near-universal for exposed sustained parts)",
+      "tags": [
+        "four-part",
+        "doubling",
+        "voicing"
+      ],
+      "aliases": [
+        "duplicaciones",
+        "duplicar la fundamental",
+        "duplicar la tercera",
+        "nota duplicada",
+        "omitir la quinta",
+        "Verdopplung",
+        "Terzverdopplung"
+      ],
+      "use_when": "Deciding which chord member gets two (or more) voices when a 3-note chord is written for 4+ voices, or which note to drop from a 4-note chord.",
+      "summary": "Double the root by default, the fifth is fine, the third is fine in sixth chords and resolutions unless it is the leading tone. Never double the leading tone or a chordal seventh (they must resolve and would make parallel octaves); in 6/4 chords double the bass.",
+      "sources": [
+        "hindemith-1 p.1-3",
+        "hindemith-1 p.12-24",
+        "hindemith-1 p.25-38",
+        "hindemith-1 p.39-52",
+        "hindemith-1 p.53-72",
+        "hindemith-1 p.88-98"
+      ],
+      "related": [
+        "four-part-voices-and-spacing",
+        "voice-leading-parallels",
+        "dominant-seventh",
+        "harmony-voicing-for-instruments",
+        "_harmony"
+      ],
+      "words": 758
+    },
+    {
+      "id": "harmony.figured-bass-reading",
+      "path": "harmony/figured-bass-reading.md",
+      "link": "[[figured-bass-reading]]",
+      "title": "Harmonizing a bass and reading figured bass",
+      "domain": "harmony",
+      "style_scope": "common-practice (figures = baroque/classical notation; the bass-first realization method is general)",
+      "tags": [
+        "figured-bass",
+        "bass-line",
+        "procedure",
+        "notation"
+      ],
+      "aliases": [
+        "bajo cifrado",
+        "cifrado",
+        "bajete",
+        "bajo sin cifrar",
+        "realizar un bajo",
+        "armonizar un bajo",
+        "Generalbass",
+        "bezifferter Bass",
+        "Bezifferung",
+        "basso continuo"
+      ],
+      "use_when": "A request gives a bass line (with or without figures) and asks for the chords above it, or a source/score uses figured-bass numbers that must be turned into MIDI pitches.",
+      "summary": "Figures give intervals above the bass, counted diatonically in the key: no figure = 5/3, 6 = first inversion, 6/4 = second inversion, 7 / 6/5 / 4/3 / 2 = seventh chord in root position and inversions. A lone accidental alters the third; an accidental beside a figure alters that interval. Realize by writing a fluent top melody first, then inner voices.",
+      "sources": [
+        "hindemith-1 p.4-11",
+        "hindemith-1 p.12-17",
+        "hindemith-1 p.18-38",
+        "hindemith-1 p.48-52",
+        "hindemith-1 p.60-81",
+        "hindemith-1 p.88-98"
+      ],
+      "related": [
+        "triads-and-inversions",
+        "dominant-seventh",
+        "dominant-ninth-and-thirteenth",
+        "harmonizing-a-melody",
+        "voice-leading-basics",
+        "_harmony"
+      ],
+      "words": 616
+    },
+    {
+      "id": "harmony.four-part-voices-and-spacing",
+      "path": "harmony/four-part-voices-and-spacing.md",
+      "link": "[[four-part-voices-and-spacing]]",
+      "title": "Four-part voices, ranges and spacing",
+      "domain": "harmony",
+      "style_scope": "common-practice (the \"wide at the bottom, limited gaps above\" spacing principle is universal)",
+      "tags": [
+        "four-part",
+        "voicing",
+        "ranges",
+        "spacing"
+      ],
+      "aliases": [
+        "cuatro voces",
+        "SATB",
+        "tesituras",
+        "extensión de las voces",
+        "posición cerrada",
+        "posición abierta",
+        "posición de octava",
+        "posición de quinta",
+        "posición de tercera",
+        "cruce de voces",
+        "Stimmumfang",
+        "enge Lage",
+        "weite Lage",
+        "Stimmkreuzung"
+      ],
+      "use_when": "Laying out a chord progression as four concrete MIDI voices (choir, string quartet, chorale pad) before checking voice-leading.",
+      "summary": "Soprano 60–79, alto 55–74, tenor 48–67, bass 40–60 (MIDI); keep S>A>T>B, S–A and A–T no wider than 12 semitones, T–B free. A voicing is named by its top chord member (octave/fifth/third position) and by close or open spacing.",
+      "sources": [
+        "hindemith-1 p.1-3",
+        "hindemith-1 p.4-11",
+        "hindemith-1 p.12-17",
+        "hindemith-1 p.25-38",
+        "hindemith-1 p.53-59"
+      ],
+      "related": [
+        "doubling-rules",
+        "voice-leading-basics",
+        "voice-leading-parallels",
+        "harmony-voicing-for-instruments",
+        "harmonic-texture-and-voice-count",
+        "_harmony"
+      ],
+      "words": 607
+    },
+    {
+      "id": "harmony.harmonic-planning-seven-factors",
+      "path": "harmony/harmonic-planning-seven-factors.md",
+      "link": "[[harmonic-planning-seven-factors]]",
+      "title": "Harmonic planning with Hindemith's seven factors (per-bar plan)",
+      "domain": "harmony",
+      "style_scope": "universal (method); the tension scale is common-practice",
+      "tags": [
+        "planning",
+        "tension",
+        "harmonic-rhythm",
+        "tonal-plan",
+        "texture",
+        "form"
+      ],
+      "aliases": [
+        "plan armónico",
+        "ritmo armónico",
+        "densidad armónica",
+        "declive armónico",
+        "amplitud de oscilación tonal",
+        "estratificación",
+        "plan tonal",
+        "tensión armónica",
+        "harmonischer Rhythmus",
+        "harmonisches Gefälle",
+        "Tonalitätsplan"
+      ],
+      "use_when": "Before generating any multi-bar piece or cue: lay out form, keys, tension, harmonic rhythm, texture style and voice count bar by bar so that build-ups and releases are designed, not accidental.",
+      "summary": "Plan seven factors per bar before writing: form section, tonality (key or indeterminate), tonal oscillation (how far chords stray from the tonic), harmonic gradient (chord tension), harmonic density (harmonic rhythm), style (homophonic↔contrapuntal) and stratification (number of voices). If one factor peaks, reduce the others; tension must be planned, not produced by accident.",
+      "sources": [
+        "hindemith-2 p.11-18",
+        "hindemith-2 p.34-41",
+        "hindemith-2 p.41-71"
+      ],
+      "related": [
+        "harmonic-texture-and-voice-count",
+        "modulation",
+        "cadences",
+        "non-chord-tones",
+        "harmonizing-a-melody",
+        "harmonic-rhythm-scene-dialogue",
+        "_form",
+        "_film-scoring",
+        "_orchestration",
+        "_harmony"
+      ],
+      "words": 786
+    },
+    {
+      "id": "harmony.harmonic-texture-and-voice-count",
+      "path": "harmony/harmonic-texture-and-voice-count.md",
+      "link": "[[harmonic-texture-and-voice-count]]",
+      "title": "Texture decisions: number of voices, thickening and accent by density",
+      "domain": "harmony",
+      "style_scope": "universal (Hindemith's statements are tonal-era, but the density logic holds for film and pop arrangement)",
+      "tags": [
+        "texture",
+        "voice-count",
+        "dynamics",
+        "homophony",
+        "counterpoint"
+      ],
+      "aliases": [
+        "número de voces",
+        "textura",
+        "a tres voces",
+        "a cinco voces",
+        "densidad de la textura",
+        "plenitud del acorde",
+        "crescendo por acumulación",
+        "estilo mixto de teclado",
+        "homofonía",
+        "contrapunto",
+        "Stimmenzahl",
+        "Satzdichte",
+        "Akkordfülle"
+      ],
+      "use_when": "Deciding how many voices/notes a passage gets, how to build a crescendo or accent without (or besides) velocity, and whether a section should be chordal or contrapuntal.",
+      "summary": "Four voices is the default; three only when the harmony is simple (heavy chromaticism needs more voices to be clear); five or more real voices suit calm, vocal-style music, not busy instrumental music. Build crescendos and accents by adding chord tones and doublings (fullness), thin out at section starts, and keep only one active line at a time.",
+      "sources": [
+        "hindemith-1 p.34-38",
+        "hindemith-1 p.53-59",
+        "hindemith-1 p.109-116",
+        "hindemith-1 p.117-125",
+        "hindemith-2 p.11-22",
+        "hindemith-2 p.22-29",
+        "hindemith-2 p.34-41",
+        "hindemith-2 p.41-71"
+      ],
+      "related": [
+        "harmonic-planning-seven-factors",
+        "accompaniment-for-solo-line",
+        "harmony-voicing-for-instruments",
+        "four-part-voices-and-spacing",
+        "_orchestration",
+        "_harmony"
+      ],
+      "words": 559
+    },
+    {
+      "id": "harmony.harmonizing-a-melody",
+      "path": "harmony/harmonizing-a-melody.md",
+      "link": "[[harmonizing-a-melody]]",
+      "title": "Harmonizing a melody (procedure)",
+      "domain": "harmony",
+      "style_scope": "common-practice (procedure — bass first, main chords on accented bars, few chromatic chords — works for any tonal style)",
+      "tags": [
+        "melody",
+        "harmonization",
+        "procedure",
+        "bass-line"
+      ],
+      "aliases": [
+        "armonizar una melodía",
+        "armonización",
+        "armonizar un tiple",
+        "rearmonizar",
+        "Melodieharmonisierung",
+        "Harmonisierung"
+      ],
+      "use_when": "Given a melody (lead, vocal, theme) and asked to add chords, a bass line and inner voices or a pad underneath.",
+      "summary": "Decide the harmonic rhythm and which melody notes are non-chord tones, put the main chords of the key on the accented bars and the cadences at phrase ends, write the whole bass line first as a good line, then add secondary chords and only a few secondary dominants, then inner voices. Vary repeated bar groups and avoid main chords during a long crescendo.",
+      "sources": [
+        "hindemith-1 p.39-47",
+        "hindemith-1 p.48-52",
+        "hindemith-2 p.11-18",
+        "hindemith-2 p.22-29",
+        "hindemith-2 p.29-33",
+        "hindemith-2 p.41-56"
+      ],
+      "related": [
+        "non-chord-tones",
+        "cadences",
+        "secondary-dominants",
+        "voice-leading-basics",
+        "harmonic-planning-seven-factors",
+        "accompaniment-for-solo-line",
+        "_form",
+        "_harmony"
+      ],
+      "words": 760
+    },
+    {
+      "id": "harmony.harmony-voicing-for-instruments",
+      "path": "harmony/harmony-voicing-for-instruments.md",
+      "link": "[[harmony-voicing-for-instruments]]",
+      "title": "From four-part progression to idiomatic voicings (strings, brass, piano, pads, choir)",
+      "domain": "harmony",
+      "style_scope": "universal (spacing and low-interval limits); doubling details lean common-practice and orchestral film",
+      "tags": [
+        "voicing",
+        "orchestration",
+        "strings",
+        "brass",
+        "piano",
+        "pads",
+        "spacing"
+      ],
+      "aliases": [
+        "voicing",
+        "disposición de acordes",
+        "distribución de voces",
+        "voicing orquestal",
+        "voicing de cuerdas",
+        "voicing de metales",
+        "voicing de piano",
+        "pad",
+        "colchón armónico",
+        "límite grave de intervalos",
+        "Lage",
+        "Akkordlage",
+        "Instrumentierung des Satzes"
+      ],
+      "use_when": "A chord progression (four-part or symbols) must become MIDI notes for a string section, brass, piano, synth/choir pad, with good spacing and doubling.",
+      "summary": "Keep the four-part skeleton (good bass, smooth inner voices, melody on top) and then respace it for the instrument: wide intervals (octave/fifth) at the bottom, thirds and colour tones only above about C3 (MIDI 48), the melody alone on top. Double root and fifth for weight, never a leading tone or chordal seventh in exposed octaves; octave doublings of a line are not parallel errors.",
+      "sources": [
+        "hindemith-1 p.1-3",
+        "hindemith-1 p.53-59",
+        "hindemith-1 p.117-125",
+        "hindemith-2 p.18-22",
+        "hindemith-2 p.34-41"
+      ],
+      "related": [
+        "four-part-voices-and-spacing",
+        "doubling-rules",
+        "voice-leading-basics",
+        "voice-leading-parallels",
+        "harmonic-texture-and-voice-count",
+        "accompaniment-for-solo-line",
+        "orchestra-sizes-and-section-balance",
+        "_orchestration",
+        "_film-scoring",
+        "_harmony"
+      ],
+      "words": 658
+    },
+    {
+      "id": "harmony.mode-mixture-and-neapolitan",
+      "path": "harmony/mode-mixture-and-neapolitan.md",
+      "link": "[[mode-mixture-and-neapolitan]]",
+      "title": "Mode mixture and simple alteration (borrowed iv, bVI, Neapolitan, Picardy)",
+      "domain": "harmony",
+      "style_scope": "common-practice (borrowed iv, bVI and bVII are core film and pop colours)",
+      "tags": [
+        "mode-mixture",
+        "borrowed-chords",
+        "neapolitan",
+        "chromaticism"
+      ],
+      "aliases": [
+        "alteración simple",
+        "intercambio modal",
+        "préstamo modal",
+        "acordes prestados",
+        "subdominante menor",
+        "sexta napolitana",
+        "napolitana",
+        "tercera de Picardía",
+        "menor melódica",
+        "Moll-Dur",
+        "Mollsubdominante",
+        "Neapolitaner",
+        "Neapolitanischer Sextakkord",
+        "Variante"
+      ],
+      "use_when": "Darkening or colouring a major-key progression with minor-mode chords, using the Neapolitan sixth, or choosing extra chords in minor from the melodic minor scale.",
+      "summary": "In major, borrow from minor: iv (C: F–Ab–C), bVI (Ab–C–Eb), Neapolitan bII mostly as bII6 (Db–F–Ab over F), iiø7 (D–F–Ab–C), vii°7 (B–D–F–Ab). Neapolitan → V may use the diminished third b2→leading tone and a cross relation. Mix modes mostly mid-piece; a minor piece may end on a major tonic (Picardy).",
+      "sources": [
+        "hindemith-1 p.73-81",
+        "hindemith-2 p.22-29"
+      ],
+      "related": [
+        "cadences",
+        "secondary-dominants",
+        "diminished-seventh-pivot",
+        "modulation",
+        "harmony-emotion-mapping",
+        "_film-scoring",
+        "_harmony"
+      ],
+      "words": 590
+    },
+    {
+      "id": "harmony.modulation",
+      "path": "harmony/modulation.md",
+      "link": "[[modulation]]",
+      "title": "Modulation (pivot chord, direct, remote, chained)",
+      "domain": "harmony",
+      "style_scope": "common-practice (cadence-pivot-cadence logic is universal; direct shifts are idiomatic in pop and film)",
+      "tags": [
+        "modulation",
+        "key-change",
+        "pivot",
+        "tonal-plan"
+      ],
+      "aliases": [
+        "modulación",
+        "modular",
+        "acorde pivote",
+        "acorde común",
+        "zona intermedia",
+        "eje",
+        "modulación directa",
+        "modulación por terraza",
+        "tonalidad de destino",
+        "tonalidades vecinas",
+        "Modulation",
+        "Drehakkord",
+        "Umdeutung",
+        "Rückung"
+      ],
+      "use_when": "Changing key inside a piece or cue, planning a tonal route through several keys, or making a sudden key shift sound intentional.",
+      "summary": "Establish the old key with a cadence, pass through a pivot chord that makes sense in both keys (best: the old tonic, else its V or IV, or a chord that becomes a secondary dominant or borrowed/Neapolitan chord of the new key), then confirm the new key with its own cadence V–I. Direct (\"terrace\") shifts are a rare special effect; remote keys are reached fast via an altered dominant or diminished seventh.",
+      "sources": [
+        "hindemith-1 p.99-108",
+        "hindemith-1 p.109-116",
+        "hindemith-2 p.22-29",
+        "hindemith-2 p.41-71"
+      ],
+      "related": [
+        "cadences",
+        "secondary-dominants",
+        "mode-mixture-and-neapolitan",
+        "augmented-sixth-chords",
+        "diminished-seventh-pivot",
+        "harmonic-planning-seven-factors",
+        "key-plans-small-forms",
+        "_form",
+        "_film-scoring",
+        "_harmony"
+      ],
+      "words": 689
+    },
+    {
+      "id": "harmony.non-chord-tones",
+      "path": "harmony/non-chord-tones.md",
+      "link": "[[non-chord-tones]]",
+      "title": "Non-chord tones (passing, neighbour, suspension, appoggiatura, anticipation, escape)",
+      "domain": "harmony",
+      "style_scope": "common-practice (metric placement logic is universal for melodic writing over chords)",
+      "tags": [
+        "non-chord-tones",
+        "melody",
+        "suspension",
+        "metre"
+      ],
+      "aliases": [
+        "notas extrañas",
+        "notas extrañas al acorde",
+        "nota de paso",
+        "bordadura",
+        "floreo",
+        "retardo",
+        "apoyatura",
+        "anticipación",
+        "escapatoria",
+        "notas libres",
+        "akkordfremde Töne",
+        "Durchgangston",
+        "Wechselnote",
+        "Nebennote",
+        "Vorhalt",
+        "Antizipation",
+        "Échappée"
+      ],
+      "use_when": "Writing a melody or inner line faster than the harmonic rhythm, adding suspensions to a pad or string line, or deciding whether a dissonant note is legitimate.",
+      "summary": "Passing and neighbour tones move by step and sit on weaker positions than the chord tones they connect; suspensions are held over from the previous chord into a stronger beat and resolve down a step; appoggiaturas are unprepared suspensions; anticipations sound the next chord tone early on a weak position. Fifths NCT-to-chord-tone are fine, octaves are not.",
+      "sources": [
+        "hindemith-1 p.39-47",
+        "hindemith-1 p.48-52",
+        "hindemith-1 p.60-72",
+        "hindemith-2 p.41-56"
+      ],
+      "related": [
+        "voice-leading-parallels",
+        "harmonizing-a-melody",
+        "doubling-rules",
+        "harmonic-planning-seven-factors",
+        "_harmony"
+      ],
+      "words": 715
+    },
+    {
+      "id": "harmony.secondary-dominants",
+      "path": "harmony/secondary-dominants.md",
+      "link": "[[secondary-dominants]]",
+      "title": "Secondary (auxiliary) dominants and leading-tone chords",
+      "domain": "harmony",
+      "style_scope": "common-practice (also standard in pop, jazz and film; the \"use few\" advice is Hindemith's taste and holds broadly)",
+      "tags": [
+        "secondary-dominant",
+        "chromaticism",
+        "tonicization",
+        "leading-tone-chords"
+      ],
+      "aliases": [
+        "dominante secundaria",
+        "dominante auxiliar",
+        "dominante de la dominante",
+        "V/V",
+        "V7/ii",
+        "sensible artificial",
+        "acorde de sensible secundario",
+        "Zwischendominante",
+        "Doppeldominante",
+        "Wechseldominante"
+      ],
+      "use_when": "Intensifying the arrival on a non-tonic chord (V7/X → X), adding chromatic drive to a progression, or deciding how many secondary dominants a phrase can take.",
+      "summary": "Put the dominant (preferably dominant-seventh type: major triad + minor 7th, root a P5 above the target) of any major or minor chord other than the tonic before it; its third rises a semitone to the target root and its seventh falls. A leading-tone chord (dim/half-dim 7th a semitone below the target root) works the same way. Use few, at structural targets, preferably on short/weak positions — chains of them devalue the main harmonies.",
+      "sources": [
+        "hindemith-1 p.82-87",
+        "hindemith-2 p.29-33"
+      ],
+      "related": [
+        "dominant-seventh",
+        "diminished-seventh-pivot",
+        "modulation",
+        "harmonizing-a-melody",
+        "mode-mixture-and-neapolitan",
+        "_harmony"
+      ],
+      "words": 574
+    },
+    {
+      "id": "harmony.triads-and-inversions",
+      "path": "harmony/triads-and-inversions.md",
+      "link": "[[triads-and-inversions]]",
+      "title": "Triads, sixth chords and 6/4 chords",
+      "domain": "harmony",
+      "style_scope": "common-practice (6/4 restrictions are a style law; pop uses slash chords freely)",
+      "tags": [
+        "triads",
+        "inversions",
+        "six-four",
+        "scale-degrees"
+      ],
+      "aliases": [
+        "tríada",
+        "acorde perfecto",
+        "acorde de sexta",
+        "primera inversión",
+        "segunda inversión",
+        "acorde de cuarta y sexta",
+        "seis cuatro cadencial",
+        "6/4 de paso",
+        "6/4 de bordadura",
+        "Dreiklang",
+        "Sextakkord",
+        "Quartsextakkord"
+      ],
+      "use_when": "Choosing chord quality per scale degree and deciding whether a triad may stand in root position, first inversion (6) or second inversion (6/4) at a given beat.",
+      "summary": "Major key I, IV, V major; II, III, VI minor; VII diminished — minor key uses harmonic minor (V major, III augmented). Sixth chords are free and smooth; 6/4 chords only as cadential I6/4 before V (strong beat), passing or neighbour/pedal chords.",
+      "sources": [
+        "hindemith-1 p.1-3",
+        "hindemith-1 p.12-17",
+        "hindemith-1 p.48-52",
+        "hindemith-1 p.53-59"
+      ],
+      "related": [
+        "doubling-rules",
+        "cadences",
+        "diatonic-secondary-triads",
+        "figured-bass-reading",
+        "_harmony"
+      ],
+      "words": 533
+    },
+    {
+      "id": "harmony.voice-leading-basics",
+      "path": "harmony/voice-leading-basics.md",
+      "link": "[[voice-leading-basics]]",
+      "title": "Voice-leading basics (common tones, shortest path, contrary motion)",
+      "domain": "harmony",
+      "style_scope": "common-practice (common tones + shortest path = universal smoothness principle for pads, strings, choir)",
+      "tags": [
+        "voice-leading",
+        "four-part",
+        "smoothness"
+      ],
+      "aliases": [
+        "conducción de voces",
+        "enlace de acordes",
+        "nota común",
+        "movimiento contrario",
+        "movimiento directo",
+        "movimiento oblicuo",
+        "grado conjunto",
+        "salto",
+        "Stimmführung",
+        "Akkordverbindung",
+        "liegenbleibender Ton"
+      ],
+      "use_when": "Connecting one voiced chord to the next in any sustained multi-voice part (choir, strings, brass, pad) so the inner voices move smoothly.",
+      "summary": "Write the bass, keep common tones in the same voice, move the other upper voices to the nearest tone of the next chord (step, or leap ≤ P4); when bass and harmony have no common tone (IV–V) move the upper three against the bass. Never all four voices leaping the same way; leaps are fine when the harmony stays the same.",
+      "sources": [
+        "hindemith-1 p.4-11",
+        "hindemith-1 p.12-17",
+        "hindemith-1 p.18-24",
+        "hindemith-1 p.34-38",
+        "hindemith-1 p.48-52",
+        "hindemith-2 p.11-18"
+      ],
+      "related": [
+        "four-part-voices-and-spacing",
+        "voice-leading-parallels",
+        "doubling-rules",
+        "harmony-voicing-for-instruments",
+        "_harmony"
+      ],
+      "words": 675
+    },
+    {
+      "id": "harmony.voice-leading-parallels",
+      "path": "harmony/voice-leading-parallels.md",
+      "link": "[[voice-leading-parallels]]",
+      "title": "Parallel and hidden fifths and octaves (checker spec)",
+      "domain": "harmony",
+      "style_scope": "common-practice (style law in chorale/classical textures; NOT a law for rock, planing, or octave doubling of a line)",
+      "tags": [
+        "voice-leading",
+        "parallels",
+        "checker",
+        "four-part"
+      ],
+      "aliases": [
+        "quintas paralelas",
+        "octavas paralelas",
+        "quintas consecutivas",
+        "octavas consecutivas",
+        "quintas ocultas",
+        "octavas ocultas",
+        "quintas directas",
+        "Quintenparallelen",
+        "Oktavparallelen",
+        "verdeckte Quinten",
+        "verdeckte Oktaven"
+      ],
+      "use_when": "Validating generated multi-voice MIDI (choir, string/brass chorale, pad voicings) for forbidden parallel or hidden perfect intervals, and deciding which licences apply.",
+      "summary": "Between two independent voices, a P5 or P8/unison followed by the same interval with both voices moving the same direction is a parallel and is forbidden; outer voices also must not move in similar motion into a P5/P8 (hidden). Hindemith later tolerates hidden ones in inner/upper pairs, fifths near secondary sevenths and augmented sixths, and fifths involving one non-chord tone — never octaves.",
+      "sources": [
+        "hindemith-1 p.4-11",
+        "hindemith-1 p.25-33",
+        "hindemith-1 p.34-38",
+        "hindemith-1 p.39-47",
+        "hindemith-1 p.53-59",
+        "hindemith-1 p.60-72",
+        "hindemith-1 p.88-98"
+      ],
+      "related": [
+        "voice-leading-basics",
+        "non-chord-tones",
+        "diatonic-seventh-chords",
+        "augmented-sixth-chords",
+        "harmony-voicing-for-instruments",
+        "_harmony"
+      ],
+      "words": 786
+    },
+    {
+      "id": "orchestration.bass-line-doubling",
+      "path": "orchestration/bass-line-doubling.md",
+      "link": "[[bass-line-doubling]]",
+      "title": "Bass line doubling and the orchestral low end",
+      "domain": "orchestration",
+      "style_scope": "universal (classical Vc+Cb practice) + film (modern low-end layer)",
+      "tags": [
+        "doubling",
+        "bass",
+        "low-end",
+        "pedal",
+        "film"
+      ],
+      "aliases": [
+        "doblaje del bajo",
+        "bajo orquestal",
+        "línea de bajo",
+        "graves",
+        "low end",
+        "contrabajos y chelos",
+        "sub boom",
+        "pedal grave"
+      ],
+      "use_when": "Writing or reinforcing the bass line of any orchestral passage, or when the low end of a mock-up sounds weak, muddy or uncontrolled.",
+      "summary": "The classical bass is cellos with double basses an octave below, plus bassoon in the winds. The full film-orchestra bass is double basses + piano + harp + trombone + bassoon, with a separate controlled low-end layer (sub boom, low synth or well-recorded basses) and almost no reverb. Keep the lowest octave sparse: roots and fifths only.",
+      "sources": [
+        "film-4day-challenge slides 6, 9, 10",
+        "unir-orq-tema4 p.32-40",
+        "unir-orq-tema5 p.23-28",
+        "unir-orq-tema3 p.14-17",
+        "httyd-test-drive p.1, p.5, p.9-12"
+      ],
+      "related": [
+        "doubling-colour-and-decay",
+        "five-elements-arrangement-checklist",
+        "reverb-strategy-orchestral",
+        "chord-voicing-family-stacking",
+        "double-bass",
+        "tuba"
+      ],
+      "words": 629
+    },
+    {
+      "id": "orchestration.building-and-releasing-climaxes",
+      "path": "orchestration/building-and-releasing-climaxes.md",
+      "link": "[[building-and-releasing-climaxes]]",
+      "title": "Building and releasing orchestral climaxes",
+      "domain": "orchestration",
+      "style_scope": "film (HTTYD / modern adventure scoring) + universal principles (crescendo by instrumentation)",
+      "tags": [
+        "climax",
+        "build",
+        "release",
+        "transition",
+        "tempo",
+        "film"
+      ],
+      "aliases": [
+        "construir un clímax",
+        "clímax",
+        "build",
+        "subida",
+        "crescendo orquestal",
+        "tensión",
+        "liberación",
+        "rampa de tensión",
+        "acelerando",
+        "cambio de tonalidad",
+        "release"
+      ],
+      "use_when": "Writing a build-up to a big downbeat, a tension ramp, a key lift for a final statement, or the release after a climax.",
+      "summary": "Build in stages, each one adding layers, register and rhythmic activity. Hold the brightest colour (trumpets) and the widest register for the last stage. Mark the arrival with a one-bar sweep (runs, rolls, harp glissando) landing on the downbeat. Release with a subito drop (f instead of ff, thinner texture, secco hits) and rebuild from a higher key or tempo.",
+      "sources": [
+        "httyd-test-drive p.5-15",
+        "unir-orq-tema2 p.4-10",
+        "unir-orq-tema3 p.11",
+        "film-4day-challenge slide 10"
+      ],
+      "related": [
+        "dynamics-by-orchestration",
+        "texture-unison-and-tutti",
+        "film-percussion-phrase-marking",
+        "httyd-test-drive-case-study",
+        "five-elements-arrangement-checklist",
+        "user-taste"
+      ],
+      "words": 991
+    },
+    {
+      "id": "orchestration.chord-voicing-family-stacking",
+      "path": "orchestration/chord-voicing-family-stacking.md",
+      "link": "[[chord-voicing-family-stacking]]",
+      "title": "Chordal texture and the four ways of stacking families",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "texture",
+        "chords",
+        "voicing",
+        "blend",
+        "family-stacking"
+      ],
+      "aliases": [
+        "textura en acordes",
+        "superposición",
+        "concatenación",
+        "engranaje",
+        "inclusión",
+        "yuxtaposición",
+        "voicing orquestal",
+        "disposición de acordes",
+        "entrelazado"
+      ],
+      "use_when": "Voicing a sustained chord, stab or pad across two or more instrument families or pairs, or choosing between maximum blend and distinct family colours.",
+      "summary": "To orchestrate a chord, decide its colour, the vertical order of the instruments and the balance. Two families or pairs combine in four ways. Superposition keeps them apart (distinct colours); concatenation makes them touch on one shared pitch; interlocking alternates their notes for maximum blend; enclosure puts one pair inside the other. Watch extreme registers and special timbres (double reeds, mutes).",
+      "sources": [
+        "unir-orq-tema3 p.14-17",
+        "unir-orq-tema5 p.12-17",
+        "unir-orq-tema6 p.19-24"
+      ],
+      "related": [
+        "texture-types",
+        "texture-part-writing-chorale",
+        "doubling-colour-and-decay",
+        "line-separation-and-fusion",
+        "orchestration-errors-checklist"
+      ],
+      "words": 621
+    },
+    {
+      "id": "orchestration.doubling-colour-and-decay",
+      "path": "orchestration/doubling-colour-and-decay.md",
+      "link": "[[doubling-colour-and-decay]]",
+      "title": "Doubling by colour, construction and decay",
+      "domain": "orchestration",
+      "style_scope": "universal (method from film scoring; examples classical and film)",
+      "tags": [
+        "doubling",
+        "colour",
+        "decay",
+        "timbre",
+        "sparkle"
+      ],
+      "aliases": [
+        "doblajes",
+        "doblaje",
+        "octavación",
+        "doblar por color",
+        "doblar por envolvente",
+        "unísono de timbres",
+        "refuerzo",
+        "brillo"
+      ],
+      "use_when": "Deciding which instrument should double a line (melody, pizzicato, bell figure, ostinato), or checking whether a passage is over-doubled.",
+      "summary": "Double a layer only when it needs more definition, weight, colour or a specific emotion. Choose the doubler by colour (similar timbre), construction (brass-built, wood-built) or decay type (pizz with harp or piano, mid-decay bells with celesta or vibes), not by range. Over-doubling removes the colour changes that make an orchestration live.",
+      "sources": [
+        "film-4day-challenge slide 6",
+        "unir-orq-tema2 p.7-10",
+        "unir-orq-tema7 p.13-16",
+        "unir-orq-tema8 p.9-11, p.16",
+        "httyd-test-drive p.3-8"
+      ],
+      "related": [
+        "bass-line-doubling",
+        "line-separation-and-fusion",
+        "texture-unison-and-tutti",
+        "chord-voicing-family-stacking",
+        "_instruments"
+      ],
+      "words": 654
+    },
+    {
+      "id": "orchestration.dynamics-by-orchestration",
+      "path": "orchestration/dynamics-by-orchestration.md",
+      "link": "[[dynamics-by-orchestration]]",
+      "title": "Dynamics by orchestration (crescendo by adding instruments, arrival checks)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "dynamics",
+        "crescendo",
+        "cc1",
+        "cc11",
+        "velocity",
+        "balance"
+      ],
+      "aliases": [
+        "crescendo orquestal",
+        "diminuendo orquestal",
+        "dinámica por orquestación",
+        "llegada en forte",
+        "llegada en piano",
+        "matices",
+        "CC1",
+        "CC11",
+        "expresión"
+      ],
+      "use_when": "Writing any crescendo or diminuendo, setting CC1/CC11/velocity for a dynamic level, or checking that a forte or piano arrival is supported by the scoring.",
+      "summary": "The orchestra gets louder by adding instruments (and octaves) and softer by removing them, with the CC ramps inside each track only finishing the shape. A forte arrival needs many instruments and a piano arrival needs few; count the active tracks at every arrival. The table below is the vault's default dynamic-to-CC1/velocity map.",
+      "sources": [
+        "unir-orq-tema2 p.4-10",
+        "unir-orq-tema3 p.11",
+        "httyd-test-drive p.1-3, p.15"
+      ],
+      "related": [
+        "building-and-releasing-climaxes",
+        "orchestration-errors-checklist",
+        "orchestra-sizes-and-section-balance",
+        "texture-secondary-melody-countermelody"
+      ],
+      "words": 744
+    },
+    {
+      "id": "orchestration.bassoons",
+      "path": "orchestration/instruments/bassoons.md",
+      "link": "[[bassoons]]",
+      "title": "Bassoon and contrabassoon",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "woodwinds",
+        "instrument",
+        "ranges",
+        "registers",
+        "bass-line",
+        "double-reed"
+      ],
+      "aliases": [
+        "fagot",
+        "fagotes",
+        "contrafagot",
+        "Fagott",
+        "Kontrafagott",
+        "fagotto",
+        "controfagotto",
+        "basson",
+        "contrebasson"
+      ],
+      "use_when": "Writing, checking or doubling a bassoon or contrabassoon part (bass of the woodwinds, staccato lines, tender upper solos).",
+      "summary": "Bassoon Bb1–Eb5 (34–75): low register sonorous but no pp, soft and easily covered middle, tender upper-middle, thin and strained top (Rite of Spring). Effective staccato; bass of the woodwind choir. Contrabassoon sounds an octave below written, Bb0–A3 (22–57), needs regular rests.",
+      "sources": [
+        "unir-orq-tema5 p.24-28",
+        "unir-orq-tema1 p.8-11"
+      ],
+      "related": [
+        "clarinets",
+        "oboe-english-horn",
+        "cello",
+        "double-bass",
+        "horn",
+        "_instruments"
+      ],
+      "words": 499
+    },
+    {
+      "id": "orchestration.cello",
+      "path": "orchestration/instruments/cello.md",
+      "link": "[[cello]]",
+      "title": "Cello (violoncello)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "strings",
+        "instrument",
+        "ranges",
+        "registers",
+        "bass-line"
+      ],
+      "aliases": [
+        "violonchelo",
+        "violoncelo",
+        "chelo",
+        "violoncello",
+        "Violoncello",
+        "Cello",
+        "violoncelle"
+      ],
+      "use_when": "Writing, checking or voicing a cello part (bass, tenor melody, filler, pizz) in MIDI.",
+      "summary": "Cello sounds as written, C2–A5 (36–81); the A string (57–69 and up) is the expressive, powerful melody string, D (50–57) soft, G/C (36–50) full bass. Very versatile (bass, filler, melody); pizz is especially resonant within an octave above each open string.",
+      "sources": [
+        "unir-orq-tema4 p.5-7, 26-32",
+        "apuntes-orq-sesion1 scan p.3-4",
+        "unir-orq-tema1 p.8-11"
+      ],
+      "related": [
+        "string-techniques",
+        "orchestra-sizes-and-section-balance",
+        "viola",
+        "double-bass",
+        "bassoons",
+        "_instruments"
+      ],
+      "words": 612
+    },
+    {
+      "id": "orchestration.clarinets",
+      "path": "orchestration/instruments/clarinets.md",
+      "link": "[[clarinets]]",
+      "title": "Clarinets (Bb, A, Eb, bass)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "woodwinds",
+        "instrument",
+        "ranges",
+        "registers",
+        "transposition",
+        "single-reed"
+      ],
+      "aliases": [
+        "clarinete",
+        "clarinetes",
+        "clarinete en si bemol",
+        "clarinete en la",
+        "requinto",
+        "clarinete bajo",
+        "Klarinette",
+        "Bassklarinette",
+        "clarinetto",
+        "clarinette",
+        "chalumeau",
+        "clarín",
+        "sonidos de garganta"
+      ],
+      "use_when": "Writing, checking or doubling a clarinet or bass clarinet part, or choosing a woodwind for soft entries and low dark melodies.",
+      "summary": "Bb clarinet sounds D3–F6 (50–89): dark chalumeau 50–64, pale throat tones 65–68, bright clarino 69–82, shrill top 83–89. Most versatile woodwind, best at pp and niente entries. A clarinet sounds a m3 lower, Eb (requinto) a m3 higher and shrill, bass clarinet a 9th lower (34–77) and soft in its low register.",
+      "sources": [
+        "unir-orq-tema5 p.18-23",
+        "unir-orq-tema1 p.11-15"
+      ],
+      "related": [
+        "flute-piccolo",
+        "oboe-english-horn",
+        "bassoons",
+        "transposing-instruments",
+        "_instruments"
+      ],
+      "words": 570
+    },
+    {
+      "id": "orchestration.double-bass",
+      "path": "orchestration/instruments/double-bass.md",
+      "link": "[[double-bass]]",
+      "title": "Double bass (contrabass)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "strings",
+        "instrument",
+        "ranges",
+        "bass-line",
+        "transposition"
+      ],
+      "aliases": [
+        "contrabajo",
+        "contrabajos",
+        "Kontrabass",
+        "contrabbasso",
+        "contrebasse",
+        "bajo"
+      ],
+      "use_when": "Writing, checking or doubling a double-bass part, or deciding how low a bass line may go.",
+      "summary": "Double bass is written an octave above sounding; sounding E1 (28) is the bottom of a 4-string bass, C1 (24) with 5th string or C extension; practical top ≈ G3 (55). Slow to speak: default role is the bass line an octave below the cellos, often in pizzicato; never use exactly two basses.",
+      "sources": [
+        "unir-orq-tema4 p.5-7, 32-40",
+        "apuntes-orq-sesion1 scan p.1-2",
+        "unir-orq-tema1 p.8-11"
+      ],
+      "related": [
+        "cello",
+        "bass-line-doubling",
+        "string-techniques",
+        "orchestra-sizes-and-section-balance",
+        "tuba",
+        "bassoons",
+        "transposing-instruments",
+        "_instruments"
+      ],
+      "words": 603
+    },
+    {
+      "id": "orchestration.flute-piccolo",
+      "path": "orchestration/instruments/flute-piccolo.md",
+      "link": "[[flute-piccolo]]",
+      "title": "Flute, piccolo and alto flute",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "woodwinds",
+        "instrument",
+        "ranges",
+        "registers",
+        "transposition"
+      ],
+      "aliases": [
+        "flauta",
+        "flautas",
+        "flautín",
+        "piccolo",
+        "ottavino",
+        "flauta en sol",
+        "flauta alto",
+        "Flöte",
+        "Querflöte",
+        "kleine Flöte",
+        "Pikkolo",
+        "Altflöte",
+        "flûte"
+      ],
+      "use_when": "Writing, checking or doubling a flute, piccolo or alto-flute part in MIDI.",
+      "summary": "Flute B3/C4–C7 (59/60–96), weak and unable to play loud at 60–63, clear and melodic at 72–84, brilliant up to ≈ 94; the most agile wind. Piccolo sounds an octave above written (74–108), cuts through any tutti; alto flute in G sounds a 4th below written (55–91), best in its soft low octave.",
+      "sources": [
+        "unir-orq-tema5 p.4-11",
+        "unir-orq-tema1 p.8-15"
+      ],
+      "related": [
+        "oboe-english-horn",
+        "clarinets",
+        "violin",
+        "transposing-instruments",
+        "_instruments"
+      ],
+      "words": 638
+    },
+    {
+      "id": "orchestration.harp",
+      "path": "orchestration/instruments/harp.md",
+      "link": "[[harp]]",
+      "title": "Harp (pedal harp)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "harp",
+        "instrument",
+        "ranges",
+        "pedals",
+        "glissando"
+      ],
+      "aliases": [
+        "arpa",
+        "arpa de pedales",
+        "Harfe",
+        "arpa",
+        "harpe",
+        "glissando",
+        "pedales del arpa",
+        "étouffé",
+        "armónicos de arpa"
+      ],
+      "use_when": "Writing or checking a harp part: pedal settings, chromaticism, glissandi, arpeggios, harp doublings.",
+      "summary": "Pedal harp sounds as written, Cb1–G7 (23–103; top string Gb7 = 102, G7 with the G pedal natural), 47 strings tuned in Cb major; seven pedals (one per note name, flat/natural/sharp) mean each pitch class has one setting at a time. Avoid continuous chromaticism, plan pedal changes in rests and alternate feet, write glissandi through a pedal set, and use arpeggios and étouffés.",
+      "sources": [
+        "unir-orq-tema8 p.4-8"
+      ],
+      "related": [
+        "piano-celesta-keyboards",
+        "mallet-percussion",
+        "string-techniques",
+        "_instruments"
+      ],
+      "words": 639
+    },
+    {
+      "id": "orchestration.horn",
+      "path": "orchestration/instruments/horn.md",
+      "link": "[[horn]]",
+      "title": "Horn (French horn)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "brass",
+        "instrument",
+        "ranges",
+        "registers",
+        "transposition"
+      ],
+      "aliases": [
+        "trompa",
+        "trompas",
+        "corno",
+        "corno francés",
+        "Horn",
+        "Waldhorn",
+        "cor",
+        "notas tapadas",
+        "bouché",
+        "cuivré",
+        "schmetternd",
+        "gestopft"
+      ],
+      "use_when": "Writing, checking or voicing horn parts (sustained harmony, heroic melodies, stopped effects).",
+      "summary": "Horn in F sounds a 5th below written, B1–F5 (35–77); its home is concert F3–C5 (53–72), bright and heroic, with dark low notes and a brilliant, tiring top (72–77). It is the glue between woodwinds and strings: four horns in close mid-register harmony, unison horns for heroic tunes, rests after high passages.",
+      "sources": [
+        "unir-orq-tema6 p.4-12",
+        "unir-orq-tema1 p.11-15"
+      ],
+      "related": [
+        "trumpet",
+        "trombone",
+        "bassoons",
+        "transposing-instruments",
+        "_instruments"
+      ],
+      "words": 587
+    },
+    {
+      "id": "orchestration.mallet-percussion",
+      "path": "orchestration/instruments/mallet-percussion.md",
+      "link": "[[mallet-percussion]]",
+      "title": "Mallet percussion and bells",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "percussion",
+        "instrument",
+        "ranges",
+        "pitched-percussion",
+        "transposition"
+      ],
+      "aliases": [
+        "láminas",
+        "percusión de láminas",
+        "carrillón",
+        "glockenspiel",
+        "lira",
+        "xilófono",
+        "marimba",
+        "vibráfono",
+        "campanas",
+        "campanas tubulares",
+        "crótalos",
+        "Glockenspiel",
+        "Xylophon",
+        "Vibraphon",
+        "Röhrenglocken",
+        "crotales"
+      ],
+      "use_when": "Writing or checking glockenspiel, xylophone, marimba, vibraphone, tubular bells or crotales parts, or adding sparkle/dry doublings to a melody.",
+      "summary": "Glockenspiel sounds two octaves above written (79–108), xylophone an octave above (≈ 65–108), crotales two octaves above (≈ 84–108); marimba (≈ 45–96, 5-octave 36–96) and vibraphone (standard 3-octave F3–F6, 53–89; some 4-octave models to C7 = 96) and tubular bells (60–77, to 79) sound as written. Glock = sparkle doubling, xylophone = dry rhythmic doubling, vibes = soft sustained halo.",
+      "sources": [
+        "unir-orq-tema7 p.4-5, 12-16"
+      ],
+      "related": [
+        "percussion-unpitched",
+        "timpani",
+        "piano-celesta-keyboards",
+        "harp",
+        "transposing-instruments",
+        "_instruments"
+      ],
+      "words": 538
+    },
+    {
+      "id": "orchestration.oboe-english-horn",
+      "path": "orchestration/instruments/oboe-english-horn.md",
+      "link": "[[oboe-english-horn]]",
+      "title": "Oboe and English horn",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "woodwinds",
+        "instrument",
+        "ranges",
+        "registers",
+        "transposition",
+        "double-reed"
+      ],
+      "aliases": [
+        "oboe",
+        "oboes",
+        "corno inglés",
+        "cor anglais",
+        "corno inglese",
+        "Oboe",
+        "Englischhorn",
+        "hautbois",
+        "doble caña"
+      ],
+      "use_when": "Writing, checking or doubling an oboe or English horn part, especially exposed solos.",
+      "summary": "Oboe Bb3–F6 (58–89, A6 93 extreme) gets louder as it descends, cannot attack Bb3 softly, thins above A5 (81) and loses its colour above D6 (86). It is a solo colour that sticks out of woodwind chords. English horn (in F, sounds a 5th below written) E3–A5 (52–81) is the darker alternate soloist.",
+      "sources": [
+        "unir-orq-tema5 p.12-18",
+        "unir-orq-tema1 p.11-15"
+      ],
+      "related": [
+        "flute-piccolo",
+        "clarinets",
+        "bassoons",
+        "horn",
+        "transposing-instruments",
+        "_instruments"
+      ],
+      "words": 576
+    },
+    {
+      "id": "orchestration.percussion-unpitched",
+      "path": "orchestration/instruments/percussion-unpitched.md",
+      "link": "[[percussion-unpitched]]",
+      "title": "Unpitched orchestral percussion",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "percussion",
+        "instrument",
+        "unpitched",
+        "crescendo"
+      ],
+      "aliases": [
+        "percusión",
+        "percusión de altura indeterminada",
+        "tambor",
+        "caja",
+        "caja clara",
+        "bombo",
+        "gran cassa",
+        "platillos",
+        "plato suspendido",
+        "tam-tam",
+        "gong",
+        "triángulo",
+        "pandereta",
+        "caja china",
+        "castañuelas",
+        "pequeña percusión",
+        "Schlagzeug",
+        "kleine Trommel",
+        "große Trommel",
+        "Becken",
+        "Triangel"
+      ],
+      "use_when": "Adding or checking snare, bass drum, cymbals, suspended cymbal, tam-tam, triangle, tambourine, wood block, castanets or sound effects in an orchestral cue.",
+      "summary": "Unpitched percussion has no range: MIDI notes are library key maps. Bass drum is the most powerful instrument (slow speech; notated lengths matter via damping); cymbals ring unless damped and can play pp; the suspended-cymbal roll is the classic crescendo booster (don't overuse); triangle cuts through any tutti (use sparingly); tam-tam is dark and shuddering.",
+      "sources": [
+        "unir-orq-tema7 p.4-5, 8-12",
+        "unir-orq-tema1 p.4-6"
+      ],
+      "related": [
+        "timpani",
+        "mallet-percussion",
+        "_instruments"
+      ],
+      "words": 598
+    },
+    {
+      "id": "orchestration.piano-celesta-keyboards",
+      "path": "orchestration/instruments/piano-celesta-keyboards.md",
+      "link": "[[piano-celesta-keyboards]]",
+      "title": "Piano, celesta, harpsichord and organ in the orchestra",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "keyboards",
+        "instrument",
+        "ranges",
+        "doubling",
+        "continuo"
+      ],
+      "aliases": [
+        "piano",
+        "celesta",
+        "clave",
+        "clavecín",
+        "clavicémbalo",
+        "órgano",
+        "teclados",
+        "tecla",
+        "pedal de resonancia",
+        "una corda",
+        "Klavier",
+        "Cembalo",
+        "Orgel",
+        "Celesta",
+        "pianoforte"
+      ],
+      "use_when": "Adding or checking a piano, celesta, harpsichord or organ part inside an orchestral texture.",
+      "summary": "Piano A0–C8 (21–108) is used in modern orchestras mainly as a percussive doubler (octaves, ostinati), filler or accompaniment, with CC64 sustain. Celesta sounds an octave above written (60–108): soft magical sparkle with pizz or harp. Harpsichord F1–F6 (29–89) has no touch dynamics and little volume; organ manuals C2–C7 (36–96, stop footage shifts octaves) reinforces the bass with pedal notes.",
+      "sources": [
+        "unir-orq-tema8 p.9-16",
+        "unir-orq-tema1 p.8-11"
+      ],
+      "related": [
+        "harp",
+        "mallet-percussion",
+        "double-bass",
+        "_instruments"
+      ],
+      "words": 552
+    },
+    {
+      "id": "orchestration.string-techniques",
+      "path": "orchestration/instruments/string-techniques.md",
+      "link": "[[string-techniques]]",
+      "title": "String techniques and articulations",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "strings",
+        "articulation",
+        "sample-library",
+        "divisi",
+        "pizzicato",
+        "mute"
+      ],
+      "aliases": [
+        "técnicas de cuerda",
+        "articulaciones de cuerda",
+        "golpes de arco",
+        "arcos",
+        "pizzicato",
+        "sordina",
+        "con sordina",
+        "divisi",
+        "trémolo",
+        "armónicos",
+        "sul ponticello",
+        "sul tasto",
+        "col legno",
+        "spiccato",
+        "détaché",
+        "Bogenstriche",
+        "Dämpfer",
+        "geteilt"
+      ],
+      "use_when": "Choosing string articulations/patches, writing bowings, pizz, mutes, tremolo, harmonics, double stops or divisi for any string section.",
+      "summary": "Bowed strokes run legato → détaché (unmarked, the most common, fastest) → staccato/spiccato (dotted, bouncing at moderate tempo p–mf); fast runs are détaché, not legato. Pizz, mute and divisi changes need time; double stops need an open string; in sections prefer divisi to chords.",
+      "sources": [
+        "unir-orq-tema4 p.5-14, 15-21, 21-26, 26-32",
+        "unir-orq-tema1 p.6-8"
+      ],
+      "related": [
+        "violin",
+        "viola",
+        "cello",
+        "double-bass",
+        "orchestra-sizes-and-section-balance",
+        "_instruments"
+      ],
+      "words": 801
+    },
+    {
+      "id": "orchestration.timpani",
+      "path": "orchestration/instruments/timpani.md",
+      "link": "[[timpani]]",
+      "title": "Timpani",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "percussion",
+        "instrument",
+        "ranges",
+        "pitched-percussion"
+      ],
+      "aliases": [
+        "timbales",
+        "timbal",
+        "Pauken",
+        "timpani",
+        "timbales de pedal",
+        "redoble",
+        "baquetas",
+        "timbales sinfónicos"
+      ],
+      "use_when": "Writing or checking a timpani part: choosing pitches/drums, rolls, retuning time, Classical vs modern use.",
+      "summary": "Timpani sound as written, ≈ C2–C4 (36–60) across five drum sizes (30\" 38–45, 28\" 41–48, 25\" 46–53, 23\" 50–57, 21\" 53–59); tune each drum mid-range. Classical style uses two drums on tonic and dominant tied to the trumpets; modern pedal timpani can change pitch but need time, and you can never have more simultaneous pitches than drums.",
+      "sources": [
+        "unir-orq-tema7 p.5-8",
+        "unir-orq-tema1 p.6-8"
+      ],
+      "related": [
+        "trumpet",
+        "percussion-unpitched",
+        "mallet-percussion",
+        "_instruments"
+      ],
+      "words": 521
+    },
+    {
+      "id": "orchestration.transposing-instruments",
+      "path": "orchestration/instruments/transposing-instruments.md",
+      "link": "[[transposing-instruments]]",
+      "title": "Transposing instruments and clefs",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "transposition",
+        "notation",
+        "clefs",
+        "parts"
+      ],
+      "aliases": [
+        "instrumentos transpositores",
+        "transposición",
+        "nota real",
+        "sonido real",
+        "en si bemol",
+        "en la",
+        "en fa",
+        "en mi bemol",
+        "claves",
+        "clave de sol",
+        "clave de fa",
+        "clave de do",
+        "transponierende Instrumente",
+        "Schlüssel"
+      ],
+      "use_when": "Converting between written parts and concert-pitch MIDI, reading a score into MIDI, or producing parts/key signatures for players.",
+      "summary": "MIDI is always concert pitch; transpositions only matter when reading or producing parts. Written→sounding: Bb −2, A −3, F −7, G −5, Eb clarinet +3, Eb alto sax −9, bass clarinet and tenor sax −14, baritone sax −21, piccolo/celesta/xylophone +12, glockenspiel/crotales +24, double bass/contrabassoon −12. A transposing part's key signature is the concert key moved up by the instrument's interval.",
+      "sources": [
+        "unir-orq-tema1 p.8-15",
+        "apuntes-orq-sesion1 scan p.2-4",
+        "unir-orq-tema5 p.10-28",
+        "unir-orq-tema6 p.4-19",
+        "unir-orq-tema7 p.13-16",
+        "unir-orq-tema8 p.16"
+      ],
+      "related": [
+        "clarinets",
+        "horn",
+        "trumpet",
+        "flute-piccolo",
+        "double-bass",
+        "mallet-percussion",
+        "_instruments"
+      ],
+      "words": 693
+    },
+    {
+      "id": "orchestration.trombone",
+      "path": "orchestration/instruments/trombone.md",
+      "link": "[[trombone]]",
+      "title": "Trombone (tenor and bass)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "brass",
+        "instrument",
+        "ranges",
+        "registers",
+        "bass-line"
+      ],
+      "aliases": [
+        "trombón",
+        "trombones",
+        "trombón tenor",
+        "trombón bajo",
+        "Posaune",
+        "Bassposaune",
+        "trombone basso",
+        "vara",
+        "posiciones"
+      ],
+      "use_when": "Writing, checking or voicing tenor or bass trombone parts (chorales, bass lines, climaxes).",
+      "summary": "Tenor trombone E2–Bb4 (40–70), non-transposing, with extension to F5 and insecure pedals; very strong across A2–F4 (45–65), soft and delicate possible low, crushing ff low. Avoid fast passages with extreme slide jumps and three trombones in unison unless they must dominate. Bass trombone extends the bottom (general knowledge).",
+      "sources": [
+        "unir-orq-tema6 p.19-24",
+        "unir-orq-tema1 p.8-11"
+      ],
+      "related": [
+        "tuba",
+        "horn",
+        "trumpet",
+        "orchestra-sizes-and-section-balance",
+        "_instruments"
+      ],
+      "words": 566
+    },
+    {
+      "id": "orchestration.trumpet",
+      "path": "orchestration/instruments/trumpet.md",
+      "link": "[[trumpet]]",
+      "title": "Trumpet (C, Bb, small D/Eb, bass trumpet)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "brass",
+        "instrument",
+        "ranges",
+        "registers",
+        "transposition"
+      ],
+      "aliases": [
+        "trompeta",
+        "trompetas",
+        "trompeta en do",
+        "trompeta en si bemol",
+        "trompeta piccolo",
+        "trompeta baja",
+        "Trompete",
+        "tromba",
+        "trompette",
+        "fliscorno",
+        "flugelhorn"
+      ],
+      "use_when": "Writing, checking or voicing trumpet parts (melody, fanfare, tutti punctuation, muted colour).",
+      "summary": "C trumpet F#3–C6 (54–84), Bb trumpet E3–C6 (52–84, sounds a tone below written); dull low, clear and most articulate middle (≈ 60–77), brilliant strident top that cannot play softly. Most incisive brass attack: staccato and repeated notes, fanfares with timpani; tonguing bursts need rests.",
+      "sources": [
+        "unir-orq-tema6 p.13-19",
+        "unir-orq-tema1 p.11-15"
+      ],
+      "related": [
+        "horn",
+        "trombone",
+        "timpani",
+        "transposing-instruments",
+        "_instruments"
+      ],
+      "words": 569
+    },
+    {
+      "id": "orchestration.tuba",
+      "path": "orchestration/instruments/tuba.md",
+      "link": "[[tuba]]",
+      "title": "Tuba",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "brass",
+        "instrument",
+        "ranges",
+        "registers",
+        "bass-line"
+      ],
+      "aliases": [
+        "tuba",
+        "tubas",
+        "tuba en fa",
+        "Basstuba",
+        "Tuba",
+        "tuba contrabbasso",
+        "tuba tenor",
+        "bombardino"
+      ],
+      "use_when": "Writing, checking or doubling a tuba part (brass bass, sub-octave reinforcement, lyrical solo).",
+      "summary": "Orchestral F tuba, non-transposing, ≈ D1–G4 (26–67) [range approximate]; very strong in D2–D3 (38–50), heavy and slow at the very bottom, thin and hard to control at the top. Lowest notes only in slow motion; the middle is surprisingly agile but needs frequent breaths; the most beautiful sound is soft legato in the middle.",
+      "sources": [
+        "unir-orq-tema6 p.24-27"
+      ],
+      "related": [
+        "trombone",
+        "double-bass",
+        "bassoons",
+        "horn",
+        "_instruments"
+      ],
+      "words": 476
+    },
+    {
+      "id": "orchestration.viola",
+      "path": "orchestration/instruments/viola.md",
+      "link": "[[viola]]",
+      "title": "Viola",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "strings",
+        "instrument",
+        "ranges",
+        "registers",
+        "divisi"
+      ],
+      "aliases": [
+        "viola",
+        "violas",
+        "Bratsche",
+        "alto",
+        "viola da braccio"
+      ],
+      "use_when": "Writing, checking or voicing a viola part (inner voice, filler, or melody) in MIDI.",
+      "summary": "Viola sounds as written (alto clef), C3–A5 (48–81) orchestrally, rarely higher; dark, warm, less powerful than the violin. Its C string (48–55) is unique and ominous, its A string (69–81) nasal and penetrating. Classic role is the alto voice and accompaniment; write double notes as divisi.",
+      "sources": [
+        "unir-orq-tema4 p.5-7, 21-26",
+        "apuntes-orq-sesion1 scan p.5-6",
+        "unir-orq-tema1 p.8-11"
+      ],
+      "related": [
+        "string-techniques",
+        "orchestra-sizes-and-section-balance",
+        "violin",
+        "cello",
+        "_instruments"
+      ],
+      "words": 630
+    },
+    {
+      "id": "orchestration.violin",
+      "path": "orchestration/instruments/violin.md",
+      "link": "[[violin]]",
+      "title": "Violin (Vln I / Vln II)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "strings",
+        "instrument",
+        "ranges",
+        "registers"
+      ],
+      "aliases": [
+        "violín",
+        "violines",
+        "violín primero",
+        "violín segundo",
+        "Violine",
+        "Geige",
+        "violino",
+        "violon"
+      ],
+      "use_when": "Writing, checking or voicing a violin I / violin II part (section or solo) in MIDI.",
+      "summary": "Violin sounds as written, G3–E7 (55–100) orchestrally, comfortable 55–88; the E string (76–88) is the brightest and strongest, the D string (62–74) the weakest, the G string (55–74) dark and powerful for broad melodies. Most agile string; use détaché/spiccato for fast notes and divisi rather than chords in sections.",
+      "sources": [
+        "unir-orq-tema4 p.5-7, 15-21",
+        "apuntes-orq-sesion1 scan p.5-6",
+        "unir-orq-tema1 p.8-11"
+      ],
+      "related": [
+        "string-techniques",
+        "orchestra-sizes-and-section-balance",
+        "stage-seating-pan-depth",
+        "viola",
+        "cello",
+        "flute-piccolo",
+        "_instruments"
+      ],
+      "words": 761
+    },
+    {
+      "id": "orchestration.line-separation-and-fusion",
+      "path": "orchestration/line-separation-and-fusion.md",
+      "link": "[[line-separation-and-fusion]]",
+      "title": "Separation vs fusion of lines",
+      "domain": "orchestration",
+      "style_scope": "universal (method from film scoring)",
+      "tags": [
+        "separation",
+        "fusion",
+        "counterpoint",
+        "clarity",
+        "mix"
+      ],
+      "aliases": [
+        "separación de líneas",
+        "fusión",
+        "asociación",
+        "independencia de voces",
+        "claridad",
+        "enmascaramiento",
+        "contrapunto separación asociación"
+      ],
+      "use_when": "Two or more simultaneous lines must be heard as different things (melody vs countermelody, theme vs ostinato), or several instruments must fuse into one gesture.",
+      "summary": "Lines separate when they differ in the main parameters (rhythm/articulation, register, timbre) and fuse when they share them. Dynamics, contour and articulation are secondary, and pan and depth are a mix-stage extra. The fewer parameters two lines share, the more independent they sound; to make lines independent, change at least one main parameter, ideally two.",
+      "sources": [
+        "film-4day-challenge slide 5",
+        "unir-orq-tema3 p.13-14",
+        "unir-orq-tema2 p.7-10"
+      ],
+      "related": [
+        "texture-counterpoint",
+        "texture-secondary-melody-countermelody",
+        "doubling-colour-and-decay",
+        "stage-seating-pan-depth",
+        "texture-complex-mosaic"
+      ],
+      "words": 538
+    },
+    {
+      "id": "orchestration.orchestra-sizes-and-section-balance",
+      "path": "orchestration/orchestra-sizes-and-section-balance.md",
+      "link": "[[orchestra-sizes-and-section-balance]]",
+      "title": "Orchestra sizes, section balance and sample patch size",
+      "domain": "orchestration",
+      "style_scope": "universal (line-ups = classical to 20th c.; section table = modern recording practice)",
+      "tags": [
+        "line-up",
+        "section-size",
+        "balance",
+        "patch-choice",
+        "template"
+      ],
+      "aliases": [
+        "plantilla orquestal",
+        "orquesta a dos",
+        "orquesta a tres",
+        "orquesta a cuatro",
+        "tamaño de sección",
+        "balance de cuerdas",
+        "número de músicos",
+        "plantilla de cuerda"
+      ],
+      "use_when": "Choosing the line-up of a piece or cue, deciding how many players a string part stands for, or picking solo / chamber / full-section sample patches.",
+      "summary": "Line-ups are named by woodwinds per family (a2 classical, a3 romantic, a4 20th c. and film); string sections are sized for loudness AND type of sound and decrease from Vln I to Cb (e.g. 14/12/10/9/6). Solo patch = 1–3 players, chamber = about 4–8, full section = 9+; never fake a section with stacked solo patches and never use exactly 2 basses.",
+      "sources": [
+        "unir-orq-tema1 p.4-6",
+        "unir-orq-tema4 p.5-7",
+        "unir-orq-tema5 p.12-17",
+        "unir-orq-tema6 p.19-27",
+        "apuntes-orq-sesion1 scan p.1-2 + PDF1"
+      ],
+      "related": [
+        "stage-seating-pan-depth",
+        "orchestral-mockup-template",
+        "dynamics-by-orchestration",
+        "_instruments"
+      ],
+      "words": 858
+    },
+    {
+      "id": "orchestration.orchestrate-from-piano-sketch",
+      "path": "orchestration/orchestrate-from-piano-sketch.md",
+      "link": "[[orchestrate-from-piano-sketch]]",
+      "title": "Orchestrating from a piano sketch or MIDI reduction (step by step)",
+      "domain": "orchestration",
+      "style_scope": "universal (UNIR method for orchestrating an existing piano piece; also fits original sketches)",
+      "tags": [
+        "method",
+        "workflow",
+        "piano-reduction",
+        "melody-bass-filler",
+        "spacing"
+      ],
+      "aliases": [
+        "cómo orquestar una obra",
+        "orquestar una obra de piano",
+        "orquestar desde reducción",
+        "reducción de piano",
+        "boceto",
+        "elaboración sonora",
+        "plantilla",
+        "líneas discursivas",
+        "factura"
+      ],
+      "use_when": "Turning a piano piece, a piano-roll sketch or a one-track MIDI reduction into an orchestral MIDI arrangement in REAPER.",
+      "summary": "Analyse from the top down (form, then phrases, then motives), tag every voice as melody, bass or filler, measure the original's spacing, then pick the line-up and assign each line by range, agility and colour. Write dynamics per line, build crescendi with instrumentation, and finish with ensemble checks. For an existing piece, never invent notes, sections or dynamics.",
+      "sources": [
+        "unir-orq-tema2 p.4-10",
+        "unir-orq-tema3 p.5",
+        "unir-orq-tema1 p.4-15"
+      ],
+      "related": [
+        "texture-types",
+        "texture-accompanied-melody",
+        "orchestra-sizes-and-section-balance",
+        "orchestration-errors-checklist",
+        "dynamics-by-orchestration",
+        "transposing-instruments",
+        "_instruments"
+      ],
+      "words": 664
+    },
+    {
+      "id": "orchestration.orchestration-errors-checklist",
+      "path": "orchestration/orchestration-errors-checklist.md",
+      "link": "[[orchestration-errors-checklist]]",
+      "title": "Common orchestration errors (final checklist)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "checklist",
+        "errors",
+        "lint",
+        "validation"
+      ],
+      "aliases": [
+        "errores de orquestación",
+        "errores instrumentales",
+        "errores discursivos",
+        "comprobaciones de conjunto",
+        "revisión de orquestación",
+        "lista de comprobación"
+      ],
+      "use_when": "Validating any generated orchestral MIDI before handing it to the user, or diagnosing why a mock-up sounds unclear, thin or unbalanced.",
+      "summary": "Check two classes of error. Instrumental errors belong to one track: out of range, unplayable leaps or tremolos, extreme notes at the wrong dynamic, no breaths. Discursive errors belong to the ensemble: cut lines, phrases split badly, a melody covered by doublings, forte arrivals with few instruments, piano arrivals with many. Run every check vertically (chords) and horizontally (lines).",
+      "sources": [
+        "unir-orq-tema2 p.7-10",
+        "unir-orq-tema3 p.5-8, p.14-17",
+        "film-4day-challenge slides 5-6",
+        "apuntes-orq-sesion1 scan p.3-4"
+      ],
+      "related": [
+        "orchestrate-from-piano-sketch",
+        "dynamics-by-orchestration",
+        "line-separation-and-fusion",
+        "doubling-colour-and-decay",
+        "_instruments"
+      ],
+      "words": 759
+    },
+    {
+      "id": "orchestration.stage-seating-pan-depth",
+      "path": "orchestration/stage-seating-pan-depth.md",
+      "link": "[[stage-seating-pan-depth]]",
+      "title": "Stage seating to pan and depth map",
+      "domain": "orchestration",
+      "style_scope": "universal (seating = orchestral practice; pan values = mock-up practice)",
+      "tags": [
+        "seating",
+        "pan",
+        "depth",
+        "mix",
+        "template"
+      ],
+      "aliases": [
+        "disposición de la orquesta",
+        "colocación en el escenario",
+        "panorama orquestal",
+        "paneo de orquesta",
+        "profundidad",
+        "violines antifonales"
+      ],
+      "use_when": "Setting pan and depth for orchestral tracks in REAPER, or deciding whether a library's baked-in hall position should be kept.",
+      "summary": "Pan follows the audience's view of the stage. Strings sit in front from left to right, woodwinds in the centre, horns and brass behind, and percussion at the back. Libraries recorded in place (Spitfire/Albion) already contain that position, so leave them near centre. Dry libraries get the pan values and depth sends from the table. Choose one seating (modern or antiphonal) for the whole cue.",
+      "sources": [
+        "unir-orq-tema1 p.4-6",
+        "unir-orq-tema4 p.15-21",
+        "film-4day-challenge slide 5"
+      ],
+      "related": [
+        "reverb-strategy-orchestral",
+        "orchestral-mockup-template",
+        "line-separation-and-fusion",
+        "orchestra-sizes-and-section-balance"
+      ],
+      "words": 774
+    },
+    {
+      "id": "orchestration.texture-accompanied-melody",
+      "path": "orchestration/texture-accompanied-melody.md",
+      "link": "[[texture-accompanied-melody]]",
+      "title": "Accompanied melody (melody, bass, filler)",
+      "domain": "orchestration",
+      "style_scope": "universal",
+      "tags": [
+        "texture",
+        "accompanied-melody",
+        "melody-handoff",
+        "balance"
+      ],
+      "aliases": [
+        "melodía acompañada",
+        "melodía y acompañamiento",
+        "relleno",
+        "material de relleno",
+        "acompañamiento",
+        "homofonía",
+        "traspaso de melodía"
+      ],
+      "use_when": "Orchestrating a tune with accompaniment (the most common texture), or moving a melody from one instrument to another.",
+      "summary": "Split the music into melody, bass and filler and give each its own instruments. The melody sits one dynamic level above the accompaniment and in a distinct colour, while the filler stays subtle (short repeated chords or soft sustains). When the melody moves to another group, keep one instrument common to both groups and switch only at phrase or motif boundaries.",
+      "sources": [
+        "unir-orq-tema3 p.8-10",
+        "unir-orq-tema2 p.4-10",
+        "httyd-test-drive p.3-4"
+      ],
+      "related": [
+        "texture-types",
+        "orchestrate-from-piano-sketch",
+        "line-separation-and-fusion",
+        "texture-secondary-melody-countermelody",
+        "bass-line-doubling"
+      ],
+      "words": 554
+    },
+    {
+      "id": "orchestration.texture-complex-mosaic",
+      "path": "orchestration/texture-complex-mosaic.md",
+      "link": "[[texture-complex-mosaic]]",
+      "title": "Complex texture, mosaic and micropolyphony",
+      "domain": "orchestration",
+      "style_scope": "universal (Stravinsky, Ligeti, film action and suspense)",
+      "tags": [
+        "texture",
+        "complex",
+        "layering",
+        "micropolyphony",
+        "ostinato"
+      ],
+      "aliases": [
+        "textura compleja",
+        "forma de mosaico",
+        "mosaico",
+        "micropolifonía",
+        "capas",
+        "superposición de texturas",
+        "cluster textural",
+        "nube sonora"
+      ],
+      "use_when": "Building a busy layered texture (magic shimmer, action bed, suspense cloud), or a section where no single element is primary.",
+      "summary": "A complex texture is either several simple textures stacked or a mosaic of many elements with none primary. Build it from independent layers, each with its own register band, timbre and rhythmic grid, so the layers stay readable. For a micropolyphonic cloud, copy one line across many divisi tracks with small onset offsets so it fuses into a texture.",
+      "sources": [
+        "unir-orq-tema3 p.17-19",
+        "httyd-test-drive p.1-3, p.9"
+      ],
+      "related": [
+        "texture-types",
+        "line-separation-and-fusion",
+        "five-elements-arrangement-checklist",
+        "action-ostinato-pedal-gallop"
+      ],
+      "words": 554
+    },
+    {
+      "id": "orchestration.texture-counterpoint",
+      "path": "orchestration/texture-counterpoint.md",
+      "link": "[[texture-counterpoint]]",
+      "title": "Contrapuntal texture in the orchestra",
+      "domain": "orchestration",
+      "style_scope": "universal (Mozart to film)",
+      "tags": [
+        "texture",
+        "counterpoint",
+        "doubling",
+        "separation"
+      ],
+      "aliases": [
+        "textura contrapuntística",
+        "contrapunto orquestal",
+        "polifonía",
+        "fuga orquestal",
+        "líneas independientes",
+        "imitación"
+      ],
+      "use_when": "Orchestrating two or more independent lines of similar importance (fugue, canon, combined themes, a theme set against another theme).",
+      "summary": "Contrapuntal lines must stay independent in rhythm and harmony, so give each line its own mixed group of instruments and a distinct colour. Octave-double each line widely to get a big sound from only two lines. Break routine pairings, such as bassoons with cellos, when that keeps lines separate.",
+      "sources": [
+        "unir-orq-tema3 p.13-14",
+        "film-4day-challenge slide 5"
+      ],
+      "related": [
+        "texture-types",
+        "line-separation-and-fusion",
+        "texture-secondary-melody-countermelody",
+        "doubling-colour-and-decay"
+      ],
+      "words": 499
+    },
+    {
+      "id": "orchestration.texture-part-writing-chorale",
+      "path": "orchestration/texture-part-writing-chorale.md",
+      "link": "[[texture-part-writing-chorale]]",
+      "title": "Part writing and chorale textures",
+      "domain": "orchestration",
+      "style_scope": "universal (tonal harmonic writing)",
+      "tags": [
+        "texture",
+        "part-writing",
+        "chorale",
+        "blend",
+        "brass-chorale"
+      ],
+      "aliases": [
+        "escritura en partes",
+        "coral",
+        "textura coral",
+        "coral de metales",
+        "coral de maderas",
+        "cuatro voces",
+        "SATB orquestal"
+      ],
+      "use_when": "Scoring 3–4 voice harmonic writing (a chorale, a hymn-like passage, a brass or woodwind choir) for orchestra.",
+      "summary": "Part writing is harmonic writing in 3–4 voices that move mostly together. Give each voice a mixed-timbre group rather than one instrument per voice; the bass voice can be a single dark instrument. Keep the spacing close in the upper voices and open at the bottom, and keep each group within its family's blending register.",
+      "sources": [
+        "unir-orq-tema3 p.12",
+        "unir-orq-tema6 p.19-24",
+        "unir-orq-tema5 p.12-17",
+        "unir-orq-tema4 p.21-26"
+      ],
+      "related": [
+        "texture-types",
+        "chord-voicing-family-stacking",
+        "doubling-colour-and-decay",
+        "orchestra-sizes-and-section-balance"
+      ],
+      "words": 622
+    },
+    {
+      "id": "orchestration.texture-secondary-melody-countermelody",
+      "path": "orchestration/texture-secondary-melody-countermelody.md",
+      "link": "[[texture-secondary-melody-countermelody]]",
+      "title": "Secondary melody and countermelody",
+      "domain": "orchestration",
+      "style_scope": "universal (examples from Beethoven and film)",
+      "tags": [
+        "texture",
+        "countermelody",
+        "secondary-melody",
+        "call-and-response"
+      ],
+      "aliases": [
+        "melodía secundaria",
+        "contramelodía",
+        "contracanto",
+        "segunda voz melódica",
+        "respuesta",
+        "pregunta y respuesta"
+      ],
+      "use_when": "Adding a countermelody under or around a main tune, or writing a horn/cello answer in the gaps of a melody.",
+      "summary": "The texture has three elements: main melody, secondary melody and accompaniment. A countermelody must differ from the main tune in register and rhythm (ideally in colour too) and moves mostly when the tune holds. In film writing the classic places are horns answering in the tune's gaps and a tenor-register bassoon/cello line under high violins.",
+      "sources": [
+        "unir-orq-tema3 p.11",
+        "film-4day-challenge slide 5",
+        "httyd-test-drive p.2, p.6-8, p.14"
+      ],
+      "related": [
+        "texture-types",
+        "line-separation-and-fusion",
+        "texture-accompanied-melody",
+        "texture-counterpoint",
+        "dynamics-by-orchestration"
+      ],
+      "words": 557
+    },
+    {
+      "id": "orchestration.texture-types",
+      "path": "orchestration/texture-types.md",
+      "link": "[[texture-types]]",
+      "title": "Orchestral texture types (classifier)",
+      "domain": "orchestration",
+      "style_scope": "universal (Piston's typology, applies to tonal orchestral and film music)",
+      "tags": [
+        "texture",
+        "analysis",
+        "classifier"
+      ],
+      "aliases": [
+        "tipos de textura",
+        "textura orquestal",
+        "análisis de orquestación",
+        "texturas de Piston",
+        "homofonía",
+        "polifonía"
+      ],
+      "use_when": "Before orchestrating a section, to decide which texture recipe to apply; or when analysing a reference to say what each instrument is doing.",
+      "summary": "Classify every section into one of Piston's seven textures: unison, accompanied melody, secondary melody, part writing, counterpoint, chords, or complex/mosaic. Then load the recipe note for that type. A cue changes texture by section, and the texture links the global analysis to the bar-by-bar orchestration.",
+      "sources": [
+        "unir-orq-tema3 p.5-19",
+        "unir-orq-tema2 p.4-6"
+      ],
+      "related": [
+        "texture-unison-and-tutti",
+        "texture-accompanied-melody",
+        "texture-secondary-melody-countermelody",
+        "texture-part-writing-chorale",
+        "texture-counterpoint",
+        "chord-voicing-family-stacking",
+        "texture-complex-mosaic",
+        "orchestrate-from-piano-sketch"
+      ],
+      "words": 546
+    },
+    {
+      "id": "orchestration.texture-unison-and-tutti",
+      "path": "orchestration/texture-unison-and-tutti.md",
+      "link": "[[texture-unison-and-tutti]]",
+      "title": "Orchestral unison and tutti",
+      "domain": "orchestration",
+      "style_scope": "universal (Beethoven to film)",
+      "tags": [
+        "texture",
+        "unison",
+        "tutti",
+        "brass-support",
+        "register"
+      ],
+      "aliases": [
+        "unísono orquestal",
+        "tutti orquestal",
+        "tutti",
+        "todos",
+        "a2",
+        "a3",
+        "unísono de colores",
+        "octavas"
+      ],
+      "use_when": "A request says \"unison\", \"all together\", \"tutti\", \"full orchestra\", \"épico todos juntos\", or a climax needs the whole orchestra.",
+      "summary": "A unison gives one line to several timbres to blend colours, at moderate dynamics. A tutti gives everyone different material, each instrument in its best register, spread over about four octaves. Strings and woodwinds carry the line in octaves while brass and timpani play broken harmonic punctuation instead of the tune.",
+      "sources": [
+        "unir-orq-tema3 p.5-8",
+        "httyd-test-drive p.5-8"
+      ],
+      "related": [
+        "texture-types",
+        "doubling-colour-and-decay",
+        "building-and-releasing-climaxes",
+        "heroic-theme-orchestration",
+        "dynamics-by-orchestration"
+      ],
+      "words": 617
+    },
+    {
+      "id": "workflow.arrange-modern-song",
+      "path": "workflows/arrange-modern-song.md",
+      "link": "[[arrange-modern-song]]",
+      "title": "Compose or arrange a modern song (pop, rock, folk, metal, hip hop, ballad)",
+      "domain": "workflow",
+      "style_scope": "pop/rock/hip-hop/folk",
+      "tags": [
+        "workflow",
+        "song",
+        "arrangement",
+        "modern"
+      ],
+      "aliases": [
+        "canción",
+        "arreglo",
+        "componer una canción",
+        "balada",
+        "rock",
+        "pop",
+        "beat",
+        "folk metal"
+      ],
+      "use_when": "The user asks for a song, beat, cover or arrangement in a modern popular style (the usual case in this project).",
+      "summary": "The user's taste rules first. Then use the books where they add craft: song form with real contrast, voice-led pads and strings, purposeful harmonic colour, doublings and orchestral layers on choruses.",
+      "sources": [
+        "zamacois-formas",
+        "hindemith-1",
+        "unir-orquestacion",
+        "film-4day-challenge"
+      ],
+      "related": [
+        "user-taste",
+        "compose-film-cue",
+        "harmonize-and-voice"
+      ],
+      "words": 210
+    },
+    {
+      "id": "workflow.compose-film-cue",
+      "path": "workflows/compose-film-cue.md",
+      "link": "[[compose-film-cue]]",
+      "title": "Compose an orchestral / film cue in REAPER",
+      "domain": "workflow",
+      "style_scope": "film",
+      "tags": [
+        "workflow",
+        "film",
+        "orchestral",
+        "planning"
+      ],
+      "aliases": [
+        "componer un cue",
+        "música para imagen",
+        "banda sonora",
+        "pieza épica",
+        "música orquestal",
+        "música de aventura",
+        "tema heroico"
+      ],
+      "use_when": "The user asks for an original orchestral, cinematic, epic, trailer-like or \"soundtrack\" piece or section.",
+      "summary": "Eight stages: brief, harmonic plan, section map with tension curve, template tracks, the five elements written per section, orchestration and doubling, validation, then hand-over for listening. Each stage has one required note; open the others only when that stage needs them. Total is about 8–12 notes.",
+      "sources": [
+        "film-4day-challenge",
+        "httyd-test-drive",
+        "hindemith-2",
+        "unir-orquestacion"
+      ],
+      "related": [
+        "user-taste",
+        "plan-a-piece",
+        "validate-generated-midi"
+      ],
+      "words": 412
+    },
+    {
+      "id": "workflow.harmonize-and-voice",
+      "path": "workflows/harmonize-and-voice.md",
+      "link": "[[harmonize-and-voice]]",
+      "title": "Harmonize a melody or turn a progression into voiced parts",
+      "domain": "workflow",
+      "style_scope": "common-practice core, adaptable to film/pop",
+      "tags": [
+        "workflow",
+        "harmony",
+        "voicing",
+        "voice-leading"
+      ],
+      "aliases": [
+        "armonizar",
+        "armonizar una melodía",
+        "voicings",
+        "voces",
+        "coral a cuatro voces",
+        "progresión de acordes",
+        "acordes para cuerdas",
+        "pad"
+      ],
+      "use_when": "The user gives a melody to harmonize, a chord progression to voice for instruments, a bass to realise, or asks for a chorale/pad/brass chord part.",
+      "summary": "Choose the harmony (melody → chords via cadence points first), then voice it in four real parts with correct spacing and voice leading, then adapt the voicing to the target instruments and check parallels and ranges.",
+      "sources": [
+        "hindemith-1",
+        "hindemith-2"
+      ],
+      "related": [
+        "plan-a-piece",
+        "validate-generated-midi",
+        "_harmony"
+      ],
+      "words": 277
+    },
+    {
+      "id": "workflow.orchestrate-existing-material",
+      "path": "workflows/orchestrate-existing-material.md",
+      "link": "[[orchestrate-existing-material]]",
+      "title": "Orchestrate existing material (piano sketch, MIDI, song)",
+      "domain": "workflow",
+      "style_scope": "universal",
+      "tags": [
+        "workflow",
+        "orchestration",
+        "arrangement"
+      ],
+      "aliases": [
+        "orquestar",
+        "orquestar una pieza",
+        "arreglo orquestal",
+        "pasar a orquesta",
+        "orquestación de un boceto"
+      ],
+      "use_when": "The user has a piano sketch, a MIDI reduction, a lead sheet or an existing song section and wants it played by orchestra or by a larger ensemble.",
+      "summary": "Dump the source MIDI, analyse it into melody / bass / harmonic filler per section, choose a texture per section, assign families and doublings, write idiomatic parts per instrument, then check balance and ranges.",
+      "sources": [
+        "unir-orquestacion",
+        "film-4day-challenge"
+      ],
+      "related": [
+        "compose-film-cue",
+        "validate-generated-midi",
+        "_orchestration"
+      ],
+      "words": 166
+    },
+    {
+      "id": "workflow.plan-a-piece",
+      "path": "workflows/plan-a-piece.md",
+      "link": "[[plan-a-piece]]",
+      "title": "Plan a piece in a given form (before writing notes)",
+      "domain": "workflow",
+      "style_scope": "common-practice (adaptable)",
+      "tags": [
+        "workflow",
+        "form",
+        "planning",
+        "key-plan"
+      ],
+      "aliases": [
+        "planificar una obra",
+        "estructura",
+        "forma musical",
+        "plan tonal",
+        "componer un minueto",
+        "componer una sonata",
+        "tema con variaciones",
+        "rondó",
+        "fuga"
+      ],
+      "use_when": "The user names a form (minuet, sonata, rondo, variations, fugue, waltz, march, chorale…) or asks for a piece whose structure must be decided before writing.",
+      "summary": "Choose the form note, fill its planning template (sections, bars, keys, material, cadence), check the phrase grammar, then turn the plan into REAPER regions and a per-bar harmony plan before writing any melody.",
+      "sources": [
+        "zamacois-formas",
+        "hindemith-2",
+        "sonata-outline"
+      ],
+      "related": [
+        "compose-film-cue",
+        "harmonize-and-voice",
+        "_form"
+      ],
+      "words": 330
+    },
+    {
+      "id": "workflow.user-taste",
+      "path": "workflows/user-taste.md",
+      "link": "[[user-taste]]",
+      "title": "The user's validated taste (overrides the books)",
+      "domain": "workflow",
+      "style_scope": "universal",
+      "tags": [
+        "preferences",
+        "precedence",
+        "arrangement",
+        "midi-expression"
+      ],
+      "aliases": [
+        "preferencias del usuario",
+        "gusto",
+        "criterio del usuario"
+      ],
+      "use_when": "Before writing any music for this user, in any style. Read it with every workflow.",
+      "summary": "The user is a sound engineer who judges by ear. Their validated preferences beat any book rule. Write idiomatic parts per instrument, make the MIDI expressive, mark sections with space and contrast, and get the real chart/reference before writing a cover.",
+      "sources": [
+        "user feedback sessions Oct 2026 (Claude memory: music-arrangement-principles, beat-making-preferences)"
+      ],
+      "related": [
+        "START-HERE",
+        "compose-film-cue",
+        "arrange-modern-song"
+      ],
+      "words": 582
+    },
+    {
+      "id": "workflow.validate-generated-midi",
+      "path": "workflows/validate-generated-midi.md",
+      "link": "[[validate-generated-midi]]",
+      "title": "Validate generated MIDI before handing it to the user",
+      "domain": "workflow",
+      "style_scope": "universal",
+      "tags": [
+        "workflow",
+        "validation",
+        "ranges",
+        "voice-leading",
+        "qa"
+      ],
+      "aliases": [
+        "validar",
+        "revisar midi",
+        "comprobar rangos",
+        "checklist final"
+      ],
+      "use_when": "After writing or editing any MIDI part, before telling the user it is ready.",
+      "summary": "Check ranges against data/instruments.json (full = error, practical = warning), then idiom limits, voice leading in chorale-like textures, balance and dynamics at arrivals, CC smoothness, and the build response.",
+      "sources": [
+        "unir-orquestacion",
+        "hindemith-1"
+      ],
+      "related": [
+        "orchestration-errors-checklist",
+        "voice-leading-parallels",
+        "user-taste"
+      ],
+      "words": 285
+    }
+  ]
+}

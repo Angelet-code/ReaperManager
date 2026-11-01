@@ -1,0 +1,907 @@
+[
+  {
+    "id": "violin",
+    "name_en": "Violin",
+    "name_es": "Violín",
+    "family": "strings",
+    "note": "violin",
+    "transposition_semitones": 0,
+    "range_full": [55, 100],
+    "range_practical": [55, 88],
+    "registers": [
+      { "name": "G string", "range": [55, 67], "character": "dark, powerful; sul G melodies up to D5 (74)" },
+      { "name": "D string", "range": [62, 74], "character": "weakest string: gentle, grey, soft" },
+      { "name": "A string", "range": [69, 81], "character": "strong in 1st position, loses brilliance higher" },
+      { "name": "E string", "range": [76, 88], "character": "most brilliant and strongest; ethereal when soft" },
+      { "name": "high extension", "range": [89, 93], "character": "6th-7th position: harder intonation, less power" },
+      { "name": "extreme", "range": [94, 100], "character": "orchestral ceiling; short, exposed, supported only" }
+    ],
+    "weak_dynamics": [
+      { "range": [62, 74], "issue": "a line kept on the D string is soft; double it or thin winds when at f" },
+      { "range": [89, 100], "issue": "power and accuracy drop; avoid long or unsupported section notes" }
+    ],
+    "notes": "Open strings 55/62/69/76. Solo violin reaches ~107 (harmonics ~110); not for sections. Triple/quad stops need an open-string pitch; prefer divisi in sections."
+  },
+  {
+    "id": "viola",
+    "name_en": "Viola",
+    "name_es": "Viola",
+    "family": "strings",
+    "note": "viola",
+    "transposition_semitones": 0,
+    "range_full": [48, 88],
+    "range_practical": [48, 81],
+    "registers": [
+      { "name": "C string", "range": [48, 55], "character": "dark, ominous; below violin range" },
+      { "name": "G string", "range": [55, 62], "character": "rich and warm" },
+      { "name": "D string", "range": [62, 69], "character": "discreet, gentle; accompaniment or melody" },
+      { "name": "A string", "range": [69, 81], "character": "nasal, penetrating, a bit unstable higher" },
+      { "name": "extension", "range": [82, 88], "character": "rare, strained; violins cover this register" }
+    ],
+    "weak_dynamics": [
+      { "range": [48, 81], "issue": "least powerful string section per player; exposed melody against brass needs doubling" },
+      { "range": [82, 88], "issue": "nasal and strained; avoid in orchestral writing" }
+    ],
+    "notes": "Open strings 48/55/62/69. Write dyads as divisi tracks; avoid triple/quad stops. Solo figure reaches ~98."
+  },
+  {
+    "id": "cello",
+    "name_en": "Cello",
+    "name_es": "Violonchelo",
+    "family": "strings",
+    "note": "cello",
+    "transposition_semitones": 0,
+    "range_full": [36, 81],
+    "range_practical": [36, 76],
+    "registers": [
+      { "name": "C and G strings", "range": [36, 49], "character": "full, deep bass; little difference between C and G" },
+      { "name": "D string", "range": [50, 56], "character": "soft, discreet" },
+      { "name": "A string", "range": [57, 69], "character": "expressive and powerful: main melody zone" },
+      { "name": "high / thumb position", "range": [70, 81], "character": "intense singing tenor/alto colour" }
+    ],
+    "weak_dynamics": [
+      { "range": [36, 49], "issue": "low melodies muddy and covered under dense mid-range scoring" },
+      { "range": [70, 81], "issue": "pizzicato loses resonance above about an octave over the open strings" }
+    ],
+    "notes": "Open strings 36/43/50/57. Best pizz 36-69. No seconds in double stops. Solo literature goes higher (~93)."
+  },
+  {
+    "id": "double_bass",
+    "name_en": "Double bass",
+    "name_es": "Contrabajo",
+    "family": "strings",
+    "note": "double-bass",
+    "transposition_semitones": -12,
+    "range_full": [24, 67],
+    "range_practical": [28, 55],
+    "registers": [
+      { "name": "extension", "range": [24, 27], "character": "C1-Eb1, only 5-string or C-extension basses" },
+      { "name": "low", "range": [28, 40], "character": "foundation; slow speech, heavy" },
+      { "name": "middle", "range": [41, 55], "character": "clearer, defined bass lines" },
+      { "name": "high", "range": [56, 67], "character": "thin, soloistic" }
+    ],
+    "weak_dynamics": [
+      { "range": [24, 27], "issue": "only with 5-string/extension patch; otherwise out of range" },
+      { "range": [28, 40], "issue": "slow response: avoid fast figuration" }
+    ],
+    "notes": "Open strings 28/33/38/43 (fourths). Written an octave above sounding. Source figure: top stopped note sounding G3 (55), harmonics ~79. Never exactly 2 basses."
+  },
+  {
+    "id": "flute",
+    "name_en": "Flute",
+    "name_es": "Flauta",
+    "family": "woodwinds",
+    "note": "flute-piccolo",
+    "transposition_semitones": 0,
+    "range_full": [59, 96],
+    "range_practical": [60, 93],
+    "registers": [
+      { "name": "low", "range": [59, 71], "character": "velvety, soft, easily covered; 60-63 cannot play loud" },
+      { "name": "middle", "range": [72, 83], "character": "clear; default melodic zone" },
+      { "name": "high", "range": [84, 94], "character": "brilliant without shrillness" },
+      { "name": "extreme", "range": [95, 96], "character": "loud only, shrill" }
+    ],
+    "weak_dynamics": [
+      { "range": [59, 63], "issue": "cannot play forte; covered by almost anything" },
+      { "range": [64, 71], "issue": "soft; needs thin accompaniment" },
+      { "range": [94, 96], "issue": "pp hard to produce (general knowledge)" }
+    ],
+    "notes": "59 only with B foot. An extreme note ~F7 (101) is printed but unreadable [?]. Most agile wind. Avoid trills on 59-63 foot notes; tremolo width <= 7 st low, <= 4 st high."
+  },
+  {
+    "id": "piccolo",
+    "name_en": "Piccolo",
+    "name_es": "Flautín",
+    "family": "woodwinds",
+    "note": "flute-piccolo",
+    "transposition_semitones": 12,
+    "range_full": [74, 108],
+    "range_practical": [74, 103],
+    "registers": [
+      { "name": "low", "range": [74, 83], "character": "weak, breathy (general knowledge)" },
+      { "name": "middle", "range": [84, 95], "character": "blends well, delicate colours" },
+      { "name": "high", "range": [96, 108], "character": "piercing, cuts through the whole orchestra" }
+    ],
+    "weak_dynamics": [
+      { "range": [74, 79], "issue": "weak, easily covered (general knowledge)" },
+      { "range": [100, 108], "issue": "cannot play softly; shrill (general knowledge)" }
+    ],
+    "notes": "Written D4-C7, sounds an octave higher. Some instruments have written C4 (sounding 72). Check whether the patch maps sounding pitch."
+  },
+  {
+    "id": "alto_flute",
+    "name_en": "Alto flute in G",
+    "name_es": "Flauta en sol",
+    "family": "woodwinds",
+    "note": "flute-piccolo",
+    "transposition_semitones": -5,
+    "range_full": [55, 91],
+    "range_practical": [55, 86],
+    "registers": [
+      { "name": "low", "range": [55, 67], "character": "most characteristic: soft, warm, breathy" },
+      { "name": "middle", "range": [68, 79], "character": "subtler than the C flute" },
+      { "name": "high", "range": [80, 91], "character": "less characteristic (general knowledge)" }
+    ],
+    "weak_dynamics": [
+      { "range": [55, 79], "issue": "soft instrument: keep accompaniment very light, never against loud brass" }
+    ],
+    "notes": "Written C4-C7, sounds a P4 lower."
+  },
+  {
+    "id": "oboe",
+    "name_en": "Oboe",
+    "name_es": "Oboe",
+    "family": "woodwinds",
+    "note": "oboe-english-horn",
+    "transposition_semitones": 0,
+    "range_full": [58, 93],
+    "range_practical": [60, 86],
+    "registers": [
+      { "name": "low", "range": [58, 64], "character": "strongest, coarse; louder as it descends" },
+      { "name": "middle", "range": [65, 81], "character": "characteristic nasal, penetrating solo zone" },
+      { "name": "high", "range": [82, 89], "character": "thins; above 86 loses its character, mainly doubling" },
+      { "name": "extreme", "range": [90, 93], "character": "hard to produce; approach by step" }
+    ],
+    "weak_dynamics": [
+      { "range": [58, 60], "issue": "cannot attack softly (no p/pp entries)" },
+      { "range": [82, 93], "issue": "thin, uncharacteristic; hard above 90" }
+    ],
+    "notes": "Double reed. Not agile in arpeggios. Avoid tremolos wider than 5 st. Sticks out of woodwind chords: solo colour."
+  },
+  {
+    "id": "english_horn",
+    "name_en": "English horn",
+    "name_es": "Corno inglés",
+    "family": "woodwinds",
+    "note": "oboe-english-horn",
+    "transposition_semitones": -7,
+    "range_full": [52, 84],
+    "range_practical": [52, 79],
+    "registers": [
+      { "name": "low", "range": [52, 59], "character": "dark, strong (general knowledge)" },
+      { "name": "middle", "range": [60, 74], "character": "characteristic melancholy solo zone" },
+      { "name": "high", "range": [75, 84], "character": "thinner; 82-84 extreme" }
+    ],
+    "weak_dynamics": [
+      { "range": [52, 54], "issue": "soft attacks difficult (general knowledge, as oboe)" },
+      { "range": [79, 84], "issue": "thin, less characteristic" }
+    ],
+    "notes": "In F: written B3-E6 (G6 extreme), sounds a P5 lower."
+  },
+  {
+    "id": "clarinet_bb",
+    "name_en": "Clarinet in Bb",
+    "name_es": "Clarinete en si bemol",
+    "family": "woodwinds",
+    "note": "clarinets",
+    "transposition_semitones": -2,
+    "range_full": [50, 89],
+    "range_practical": [50, 84],
+    "registers": [
+      { "name": "chalumeau", "range": [50, 64], "character": "dark, deep, rich, dramatic" },
+      { "name": "throat tones", "range": [65, 68], "character": "pale, dull" },
+      { "name": "clarino", "range": [69, 82], "character": "bright, incisive, warm, expressive" },
+      { "name": "top", "range": [83, 89], "character": "piercing, shrill" }
+    ],
+    "weak_dynamics": [
+      { "range": [65, 68], "issue": "pale throat tones: avoid exposed melodies sitting here" },
+      { "range": [83, 89], "issue": "shrill; hard to keep soft" }
+    ],
+    "notes": "Written E3-G6. Best woodwind for pp and niente entries. Tremolo up to 9 st chalumeau, 5 st clarino, 4 st above the staff."
+  },
+  {
+    "id": "clarinet_a",
+    "name_en": "Clarinet in A",
+    "name_es": "Clarinete en la",
+    "family": "woodwinds",
+    "note": "clarinets",
+    "transposition_semitones": -3,
+    "range_full": [49, 88],
+    "range_practical": [49, 83],
+    "registers": [
+      { "name": "chalumeau", "range": [49, 63], "character": "dark, deep, rich" },
+      { "name": "throat tones", "range": [64, 67], "character": "pale, dull" },
+      { "name": "clarino", "range": [68, 81], "character": "bright, warm, expressive" },
+      { "name": "top", "range": [82, 88], "character": "piercing, shrill" }
+    ],
+    "weak_dynamics": [
+      { "range": [64, 67], "issue": "pale throat tones: avoid exposed melodies" },
+      { "range": [82, 88], "issue": "shrill" }
+    ],
+    "notes": "Same written range as Bb clarinet, sounds a m3 lower. Registers inferred from the Bb chart shifted by -1."
+  },
+  {
+    "id": "clarinet_eb",
+    "name_en": "Eb clarinet",
+    "name_es": "Requinto",
+    "family": "woodwinds",
+    "note": "clarinets",
+    "transposition_semitones": 3,
+    "range_full": [55, 94],
+    "range_practical": [55, 91],
+    "registers": [
+      { "name": "chalumeau", "range": [55, 69], "character": "thin dark low (inferred)" },
+      { "name": "throat tones", "range": [70, 73], "character": "pale (inferred)" },
+      { "name": "clarino", "range": [74, 87], "character": "bright, cutting" },
+      { "name": "top", "range": [88, 94], "character": "shrill, piercing, grotesque" }
+    ],
+    "weak_dynamics": [
+      { "range": [88, 94], "issue": "cannot play softly; very shrill (general knowledge)" }
+    ],
+    "notes": "Sounds a m3 ABOVE written (the exception). Range is general knowledge (written E3-G6); registers inferred by +5 from Bb clarinet."
+  },
+  {
+    "id": "bass_clarinet",
+    "name_en": "Bass clarinet",
+    "name_es": "Clarinete bajo",
+    "family": "woodwinds",
+    "note": "clarinets",
+    "transposition_semitones": -14,
+    "range_full": [34, 82],
+    "range_practical": [38, 72],
+    "registers": [
+      { "name": "low", "range": [34, 52], "character": "dark, rich; soft attacks and pp possible" },
+      { "name": "middle", "range": [53, 64], "character": "hollow, warm (general knowledge)" },
+      { "name": "high", "range": [65, 82], "character": "thinner, less characteristic; 78-82 extreme" }
+    ],
+    "weak_dynamics": [
+      { "range": [34, 37], "issue": "only on low-C instruments (others bottom at 37 or 38)" },
+      { "range": [70, 82], "issue": "upper register weaker, rarely used (general knowledge)" }
+    ],
+    "notes": "Treble-clef (French) notation sounds a M9 lower (-14); bass-clef (German) notation sounds a M2 lower (-2). Bass lines with bassoon/double bass."
+  },
+  {
+    "id": "bassoon",
+    "name_en": "Bassoon",
+    "name_es": "Fagot",
+    "family": "woodwinds",
+    "note": "bassoons",
+    "transposition_semitones": 0,
+    "range_full": [34, 75],
+    "range_practical": [34, 72],
+    "registers": [
+      { "name": "low", "range": [34, 44], "character": "sonorous, dark, vibrant, a bit rough" },
+      { "name": "middle", "range": [45, 61], "character": "sweet, subdued, expressive; easily covered" },
+      { "name": "upper", "range": [62, 70], "character": "thin but intense; tender solos" },
+      { "name": "top", "range": [71, 75], "character": "thin, pinched; strained effect" }
+    ],
+    "weak_dynamics": [
+      { "range": [34, 44], "issue": "no pp or soft attacks (use bass clarinet)" },
+      { "range": [45, 61], "issue": "soft: neutralised under heavy scoring unless doubled" }
+    ],
+    "notes": "Register boundaries approximate [?]. Staccato especially effective. Bass of the woodwind choir."
+  },
+  {
+    "id": "contrabassoon",
+    "name_en": "Contrabassoon",
+    "name_es": "Contrafagot",
+    "family": "woodwinds",
+    "note": "bassoons",
+    "transposition_semitones": -12,
+    "range_full": [21, 60],
+    "range_practical": [22, 53],
+    "registers": [
+      { "name": "sub-bass", "range": [21, 33], "character": "very low; audible slow vibrations" },
+      { "name": "foundation", "range": [34, 47], "character": "solid bass" },
+      { "name": "upper", "range": [48, 60], "character": "weak, little used (general knowledge); 58-60 extreme" }
+    ],
+    "weak_dynamics": [
+      { "range": [48, 60], "issue": "weak upper register (general knowledge)" }
+    ],
+    "notes": "Sounds an octave below written. 21 (A0) only on extended instruments [?]. Needs regular rests (breath)."
+  },
+  {
+    "id": "sax_alto",
+    "name_en": "Alto saxophone",
+    "name_es": "Saxofón alto",
+    "family": "woodwinds",
+    "note": "transposing-instruments",
+    "transposition_semitones": -9,
+    "range_full": [49, 81],
+    "range_practical": [51, 77],
+    "registers": [
+      { "name": "low", "range": [49, 56], "character": "honky, loud-ish, hard to keep soft (general knowledge)" },
+      { "name": "middle", "range": [57, 74], "character": "warm, vocal (general knowledge)" },
+      { "name": "high", "range": [75, 81], "character": "thin, intense (general knowledge)" }
+    ],
+    "weak_dynamics": [
+      { "range": [49, 52], "issue": "soft attacks difficult (general knowledge)" }
+    ],
+    "notes": "General knowledge only (no instrument note): Eb, written Bb3-F#6, sounds a M6 lower."
+  },
+  {
+    "id": "sax_tenor",
+    "name_en": "Tenor saxophone",
+    "name_es": "Saxofón tenor",
+    "family": "woodwinds",
+    "note": "transposing-instruments",
+    "transposition_semitones": -14,
+    "range_full": [44, 76],
+    "range_practical": [46, 72],
+    "registers": [
+      { "name": "low", "range": [44, 51], "character": "thick, honky (general knowledge)" },
+      { "name": "middle", "range": [52, 69], "character": "warm, vocal (general knowledge)" },
+      { "name": "high", "range": [70, 76], "character": "intense, edgy (general knowledge)" }
+    ],
+    "weak_dynamics": [
+      { "range": [44, 47], "issue": "soft attacks difficult (general knowledge)" }
+    ],
+    "notes": "General knowledge only: Bb, written Bb3-F#6, sounds a M9 lower."
+  },
+  {
+    "id": "sax_baritone",
+    "name_en": "Baritone saxophone",
+    "name_es": "Saxofón barítono",
+    "family": "woodwinds",
+    "note": "transposing-instruments",
+    "transposition_semitones": -21,
+    "range_full": [37, 69],
+    "range_practical": [37, 64],
+    "registers": [
+      { "name": "low", "range": [37, 45], "character": "heavy, gritty (general knowledge)" },
+      { "name": "middle", "range": [46, 60], "character": "full, round (general knowledge)" },
+      { "name": "high", "range": [61, 69], "character": "thin (general knowledge)" }
+    ],
+    "weak_dynamics": [
+      { "range": [37, 40], "issue": "soft attacks difficult (general knowledge)" }
+    ],
+    "notes": "General knowledge only: Eb, written Bb3-F#6, sounds an octave + M6 lower. Tema 1 table lists -9 [?]; -21 is standard."
+  },
+  {
+    "id": "horn",
+    "name_en": "Horn in F",
+    "name_es": "Trompa",
+    "family": "brass",
+    "note": "horn",
+    "transposition_semitones": -7,
+    "range_full": [35, 77],
+    "range_practical": [41, 74],
+    "registers": [
+      { "name": "very low", "range": [35, 40], "character": "weak, foggy (general knowledge)" },
+      { "name": "low", "range": [41, 49], "character": "dark, a bit unfocused" },
+      { "name": "low-middle", "range": [50, 52], "character": "deep and solid" },
+      { "name": "middle-high", "range": [53, 71], "character": "bright and heroic: home register" },
+      { "name": "top", "range": [72, 77], "character": "brilliant and loud, tiring" }
+    ],
+    "weak_dynamics": [
+      { "range": [35, 49], "issue": "weak projection, intonation risk; double with trombone/bassoon to be heard (pedals 31-34 below the full range are worse still: see notes)" },
+      { "range": [72, 77], "issue": "loud only; soft is hard; rest afterwards" }
+    ],
+    "notes": "Written F#2-C6. Pedals (Bb side) 31-34 (written D2-F2) lie outside range_full: insecure, hard to tune, rare; use only as an occasional effect. Pads in 53-72. Rests after top-register passages."
+  },
+  {
+    "id": "trumpet_c",
+    "name_en": "Trumpet in C",
+    "name_es": "Trompeta en do",
+    "family": "brass",
+    "note": "trumpet",
+    "transposition_semitones": 0,
+    "range_full": [54, 84],
+    "range_practical": [57, 81],
+    "registers": [
+      { "name": "low", "range": [54, 61], "character": "rather dull; solemn, sombre" },
+      { "name": "middle", "range": [62, 79], "character": "clear, bright, most articulate" },
+      { "name": "high", "range": [80, 84], "character": "brilliant but strident" }
+    ],
+    "weak_dynamics": [
+      { "range": [54, 61], "issue": "weak projection" },
+      { "range": [80, 84], "issue": "cannot play softly" }
+    ],
+    "notes": "Non-transposing. More intensity and delicacy than Bb. Practical range is general knowledge."
+  },
+  {
+    "id": "trumpet_bb",
+    "name_en": "Trumpet in Bb",
+    "name_es": "Trompeta en si bemol",
+    "family": "brass",
+    "note": "trumpet",
+    "transposition_semitones": -2,
+    "range_full": [52, 84],
+    "range_practical": [55, 79],
+    "registers": [
+      { "name": "low", "range": [52, 59], "character": "rather dull; solemn, sombre" },
+      { "name": "middle", "range": [60, 77], "character": "clear, bright, most articulate" },
+      { "name": "high", "range": [78, 84], "character": "brilliant but strident" }
+    ],
+    "weak_dynamics": [
+      { "range": [52, 59], "issue": "weak projection" },
+      { "range": [78, 84], "issue": "cannot play softly" }
+    ],
+    "notes": "Written F#3-D6. Long double/triple tonguing tiring: rests between bursts."
+  },
+  {
+    "id": "trumpet_d",
+    "name_en": "Small trumpet in D",
+    "name_es": "Trompeta en re",
+    "family": "brass",
+    "note": "trumpet",
+    "transposition_semitones": 2,
+    "range_full": [56, 86],
+    "range_practical": [58, 84],
+    "registers": [
+      { "name": "low", "range": [56, 63], "character": "weak (general knowledge)" },
+      { "name": "middle", "range": [64, 81], "character": "bright, Baroque-like" },
+      { "name": "high", "range": [82, 86], "character": "shrill" }
+    ],
+    "weak_dynamics": [
+      { "range": [82, 86], "issue": "shrill, cannot play softly" }
+    ],
+    "notes": "Convertible to Eb (+3, sounding ~57-87). Top notes of figure approximate [?]."
+  },
+  {
+    "id": "trumpet_eb",
+    "name_en": "Small trumpet in Eb",
+    "name_es": "Trompeta en mi bemol",
+    "family": "brass",
+    "note": "trumpet",
+    "transposition_semitones": 3,
+    "range_full": [57, 87],
+    "range_practical": [59, 85],
+    "registers": [
+      { "name": "low", "range": [57, 64], "character": "weak (general knowledge)" },
+      { "name": "middle", "range": [65, 82], "character": "bright" },
+      { "name": "high", "range": [83, 87], "character": "shrill" }
+    ],
+    "weak_dynamics": [
+      { "range": [83, 87], "issue": "shrill, cannot play softly" }
+    ],
+    "notes": "Same instrument as the D trumpet with an Eb slide/crook. Top notes approximate [?]."
+  },
+  {
+    "id": "bass_trumpet",
+    "name_en": "Bass trumpet",
+    "name_es": "Trompeta baja",
+    "family": "brass",
+    "note": "trumpet",
+    "transposition_semitones": -12,
+    "range_full": [40, 72],
+    "range_practical": [42, 70],
+    "registers": [
+      { "name": "low", "range": [40, 49], "character": "dark, trombone-like" },
+      { "name": "middle", "range": [50, 66], "character": "solid valve-trombone timbre" },
+      { "name": "high", "range": [67, 72], "character": "intense" }
+    ],
+    "weak_dynamics": [],
+    "notes": "In C sounds an octave lower (42-72); in Bb sounds a M9 lower (-14, 40-70). Played by trombonists. Register split is inferred."
+  },
+  {
+    "id": "flugelhorn",
+    "name_en": "Flugelhorn",
+    "name_es": "Fliscorno",
+    "family": "brass",
+    "note": "trumpet",
+    "transposition_semitones": -2,
+    "range_full": [52, 82],
+    "range_practical": [55, 77],
+    "registers": [
+      { "name": "low", "range": [52, 59], "character": "dark, soft (general knowledge)" },
+      { "name": "middle", "range": [60, 74], "character": "round, mellow (general knowledge)" },
+      { "name": "high", "range": [75, 82], "character": "less secure (general knowledge)" }
+    ],
+    "weak_dynamics": [
+      { "range": [75, 82], "issue": "loses mellowness; trumpet is better here (general knowledge)" }
+    ],
+    "notes": "Only listed as Bb transposing in tema 1; range and registers are general knowledge."
+  },
+  {
+    "id": "trombone_tenor",
+    "name_en": "Tenor trombone",
+    "name_es": "Trombón tenor",
+    "family": "brass",
+    "note": "trombone",
+    "transposition_semitones": 0,
+    "range_full": [34, 77],
+    "range_practical": [40, 70],
+    "registers": [
+      { "name": "pedal / gap", "range": [34, 39], "character": "Bb1 (34) pedal usable; 35-39 need an F attachment (general knowledge)" },
+      { "name": "low", "range": [40, 44], "character": "dark, rather nondescript" },
+      { "name": "middle", "range": [45, 66], "character": "very strong; horn-like but harder in the middle" },
+      { "name": "high", "range": [67, 70], "character": "very intense" },
+      { "name": "extension", "range": [71, 77], "character": "strained; solo/jazz" }
+    ],
+    "weak_dynamics": [
+      { "range": [34, 39], "issue": "insecure pedals / unavailable without F attachment" },
+      { "range": [71, 77], "issue": "extension: cannot sustain soft reliably" }
+    ],
+    "notes": "Pedals down to 28 exist but are insecure, esp. below 31. Avoid fast passages forcing slide positions VII<->I. Three in unison dominate the orchestra."
+  },
+  {
+    "id": "trombone_bass",
+    "name_en": "Bass trombone",
+    "name_es": "Trombón bajo",
+    "family": "brass",
+    "note": "trombone",
+    "transposition_semitones": 0,
+    "range_full": [24, 70],
+    "range_practical": [31, 65],
+    "registers": [
+      { "name": "trigger / pedal zone", "range": [24, 33], "character": "heavy; slow notes only (general knowledge)" },
+      { "name": "low", "range": [34, 45], "character": "dark, powerful: signature zone (general knowledge)" },
+      { "name": "middle", "range": [46, 65], "character": "like the tenor trombone" },
+      { "name": "high", "range": [66, 70], "character": "strained" }
+    ],
+    "weak_dynamics": [
+      { "range": [24, 30], "issue": "slow speech, insecure fast notes (general knowledge)" }
+    ],
+    "notes": "Range is general knowledge (source gives only the tenor). Concert pitch: tema 1's 'reads an octave lower' is doubtful."
+  },
+  {
+    "id": "tuba",
+    "name_en": "Tuba (F)",
+    "name_es": "Tuba",
+    "family": "brass",
+    "note": "tuba",
+    "transposition_semitones": 0,
+    "range_full": [26, 67],
+    "range_practical": [31, 60],
+    "registers": [
+      { "name": "very low", "range": [26, 37], "character": "deep, heavy; slow notes only" },
+      { "name": "strong", "range": [38, 51], "character": "very strong core bass" },
+      { "name": "upper", "range": [52, 62], "character": "weaker but intense; lyrical" },
+      { "name": "top", "range": [63, 67], "character": "thin, shrill, hard to control" }
+    ],
+    "weak_dynamics": [
+      { "range": [26, 37], "issue": "slow motion only (any dynamic works if slow)" },
+      { "range": [63, 67], "issue": "thin, hard to control" }
+    ],
+    "notes": "Both range ends read from a small figure [?]. CC/BBb tubas reach ~22-28 (general knowledge). Needs frequent breaths."
+  },
+  {
+    "id": "timpani",
+    "name_en": "Timpani",
+    "name_es": "Timbales",
+    "family": "percussion-pitched",
+    "note": "timpani",
+    "transposition_semitones": 0,
+    "range_full": [36, 60],
+    "range_practical": [38, 57],
+    "registers": [
+      { "name": "30-inch drum", "range": [38, 45], "character": "deepest standard drum, D2-A2" },
+      { "name": "28-inch drum", "range": [41, 48], "character": "low" },
+      { "name": "25-inch drum", "range": [46, 53], "character": "middle" },
+      { "name": "23-inch drum", "range": [50, 57], "character": "upper" },
+      { "name": "21-inch drum", "range": [53, 60], "character": "highest; top notes approximate" }
+    ],
+    "weak_dynamics": [
+      { "range": [36, 37], "issue": "below the 30-inch drum (D2-A2): C2-C#2 need a 32-inch or larger drum, not always available" },
+      { "range": [58, 60], "issue": "over-tight head: thin tone" }
+    ],
+    "notes": "Max simultaneous distinct pitches = number of drums (usually 4). Classical style: 2 drums, tonic + dominant. Retuning needs 1-2 beats. C2 (36) and C#2 (37) only with a 32-inch+ drum."
+  },
+  {
+    "id": "glockenspiel",
+    "name_en": "Glockenspiel",
+    "name_es": "Carrillón (glockenspiel)",
+    "family": "percussion-pitched",
+    "note": "mallet-percussion",
+    "transposition_semitones": 24,
+    "range_full": [79, 108],
+    "range_practical": [79, 105],
+    "registers": [
+      { "name": "whole range", "range": [79, 108], "character": "bright, bell-like sparkle; long ring" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Written G3-C6, sounds two octaves higher. Check patch mapping (written vs sounding). Usually single lines."
+  },
+  {
+    "id": "xylophone",
+    "name_en": "Xylophone",
+    "name_es": "Xilófono",
+    "family": "percussion-pitched",
+    "note": "mallet-percussion",
+    "transposition_semitones": 12,
+    "range_full": [65, 108],
+    "range_practical": [65, 103],
+    "registers": [
+      { "name": "whole range", "range": [65, 108], "character": "dry, cutting, little resonance" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Range varies by model; 3.5-octave written F3-C7 is general knowledge. Sounds an octave higher."
+  },
+  {
+    "id": "marimba",
+    "name_en": "Marimba",
+    "name_es": "Marimba",
+    "family": "percussion-pitched",
+    "note": "mallet-percussion",
+    "transposition_semitones": 0,
+    "range_full": [36, 96],
+    "range_practical": [45, 96],
+    "registers": [
+      { "name": "low (5-octave models)", "range": [36, 44], "character": "deep, soft, resonant" },
+      { "name": "low-middle", "range": [45, 71], "character": "warm, round" },
+      { "name": "high", "range": [72, 96], "character": "brighter, drier" }
+    ],
+    "weak_dynamics": [
+      { "range": [36, 56], "issue": "soft low register; keep texture light (general knowledge)" }
+    ],
+    "notes": "Source typical range A2-C7 (45-96); 5-octave instruments reach C2 (36)."
+  },
+  {
+    "id": "vibraphone",
+    "name_en": "Vibraphone",
+    "name_es": "Vibráfono",
+    "family": "percussion-pitched",
+    "note": "mallet-percussion",
+    "transposition_semitones": 0,
+    "range_full": [53, 89],
+    "range_practical": [53, 89],
+    "registers": [
+      { "name": "standard 3-octave", "range": [53, 89], "character": "metallic, sustaining; motor vibrato" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Standard 3-octave F3-F6 (53-89). Other models: C4-F6 (60-89); some 4-octave models reach C7 (53-96), so use 90-96 only if the patch/player has them. Damper pedal = CC64."
+  },
+  {
+    "id": "tubular_bells",
+    "name_en": "Tubular bells",
+    "name_es": "Campanas tubulares",
+    "family": "percussion-pitched",
+    "note": "mallet-percussion",
+    "transposition_semitones": 0,
+    "range_full": [60, 79],
+    "range_practical": [60, 77],
+    "registers": [
+      { "name": "whole range", "range": [60, 79], "character": "church-bell; long complex ring; 78-79 extension" }
+    ],
+    "weak_dynamics": [],
+    "notes": "No fast passages; often in octaves. Perceived pitch can seem an octave off because of the strike tone (general knowledge)."
+  },
+  {
+    "id": "crotales",
+    "name_en": "Crotales",
+    "name_es": "Crótalos",
+    "family": "percussion-pitched",
+    "note": "mallet-percussion",
+    "transposition_semitones": 24,
+    "range_full": [84, 108],
+    "range_practical": [84, 108],
+    "registers": [
+      { "name": "whole range", "range": [84, 108], "character": "pure, piercing, long ring" }
+    ],
+    "weak_dynamics": [],
+    "notes": "General knowledge (not in source): 2-octave set written C4-C6, sounds two octaves higher."
+  },
+  {
+    "id": "snare_drum",
+    "name_en": "Snare drum",
+    "name_es": "Caja / tambor",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched: MIDI note = library key map (GM 38). Ostinati, rolls."
+  },
+  {
+    "id": "bass_drum",
+    "name_en": "Bass drum",
+    "name_es": "Bombo",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched (GM 35/36). Most powerful instrument; speaks slightly late; damping makes durations meaningful."
+  },
+  {
+    "id": "clash_cymbals",
+    "name_en": "Clash cymbals",
+    "name_es": "Platillos",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched (GM crash 49/57). Let ring or damp; pp possible."
+  },
+  {
+    "id": "suspended_cymbal",
+    "name_en": "Suspended cymbal",
+    "name_es": "Plato suspendido",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched; library key map. Two-mallet roll crescendo booster; do not overuse."
+  },
+  {
+    "id": "tam_tam",
+    "name_en": "Tam-tam",
+    "name_es": "Tam-tam (gong)",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched; dark, shuddering, long decay; violent when struck hard."
+  },
+  {
+    "id": "triangle",
+    "name_en": "Triangle",
+    "name_es": "Triángulo",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched (GM 80 muted / 81 open). Audible over the tutti; use sparingly."
+  },
+  {
+    "id": "tambourine",
+    "name_en": "Tambourine",
+    "name_es": "Pandereta",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched (GM 54). Hits, shakes, rolls."
+  },
+  {
+    "id": "wood_block",
+    "name_en": "Wood block",
+    "name_es": "Caja china",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched (GM 76 high / 77 low). High, hard, dry; usually three sizes."
+  },
+  {
+    "id": "castanets",
+    "name_en": "Castanets",
+    "name_es": "Castañuelas",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Unpitched; library key map. Orchestral machine castanets on a handle."
+  },
+  {
+    "id": "harp",
+    "name_en": "Harp",
+    "name_es": "Arpa",
+    "family": "harp",
+    "note": "harp",
+    "transposition_semitones": 0,
+    "range_full": [23, 103],
+    "range_practical": [24, 96],
+    "registers": [
+      { "name": "lowest", "range": [23, 35], "character": "deep, long ring; muddy in close chords (general knowledge)" },
+      { "name": "low-middle", "range": [36, 59], "character": "full, warm; bass notes, open arpeggios" },
+      { "name": "middle", "range": [60, 83], "character": "richest, most resonant" },
+      { "name": "high", "range": [84, 95], "character": "bright, clear, shorter ring" },
+      { "name": "top", "range": [96, 103], "character": "dry, short, little sustain" }
+    ],
+    "weak_dynamics": [
+      { "range": [96, 103], "issue": "short and weak (general knowledge)" },
+      { "range": [23, 103], "issue": "covered by brass/tutti except glissandi and middle-register ff chords" }
+    ],
+    "notes": "47 strings in Cb major, Cb1 (23) to Gb7 (102); top note G7 (103) with the G pedal natural (Gb7/F#7 = 102). 7 pedals (D C B | E F G A), flat/natural/sharp. One spelling per note name at a time; no continuous chromaticism. Max 4 notes per hand."
+  },
+  {
+    "id": "piano",
+    "name_en": "Piano",
+    "name_es": "Piano",
+    "family": "keyboards",
+    "note": "piano-celesta-keyboards",
+    "transposition_semitones": 0,
+    "range_full": [21, 108],
+    "range_practical": [28, 103],
+    "registers": [
+      { "name": "bass", "range": [21, 39], "character": "rumbling, percussive octaves (general knowledge)" },
+      { "name": "middle", "range": [40, 83], "character": "full, singing (general knowledge)" },
+      { "name": "treble", "range": [84, 108], "character": "bright, bell-like, short decay (general knowledge)" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Orchestral use: percussive doubler, filler, accompaniment. CC64 sustain. Per hand <= 5 notes, <= ~16 st span."
+  },
+  {
+    "id": "celesta",
+    "name_en": "Celesta",
+    "name_es": "Celesta",
+    "family": "keyboards",
+    "note": "piano-celesta-keyboards",
+    "transposition_semitones": 12,
+    "range_full": [60, 108],
+    "range_practical": [72, 103],
+    "registers": [
+      { "name": "low", "range": [60, 71], "character": "soft, muffled (general knowledge)" },
+      { "name": "main", "range": [72, 96], "character": "magical sparkle" },
+      { "name": "top", "range": [97, 108], "character": "tiny, glassy (general knowledge)" }
+    ],
+    "weak_dynamics": [
+      { "range": [60, 108], "issue": "soft instrument: disappears in loud textures" }
+    ],
+    "notes": "Written C3-C7, sounds an octave higher. Pairs with pizz strings and harp."
+  },
+  {
+    "id": "harpsichord",
+    "name_en": "Harpsichord",
+    "name_es": "Clave (clavecín)",
+    "family": "keyboards",
+    "note": "piano-celesta-keyboards",
+    "transposition_semitones": 0,
+    "range_full": [29, 89],
+    "range_practical": [29, 89],
+    "registers": [
+      { "name": "whole range", "range": [29, 89], "character": "plucked, bright; no touch dynamics" }
+    ],
+    "weak_dynamics": [
+      { "range": [29, 89], "issue": "very limited volume: thin the orchestration around it" }
+    ],
+    "notes": "Dynamics only via registers/stops and texture. Baroque continuo."
+  },
+  {
+    "id": "organ_manual",
+    "name_en": "Organ (manuals)",
+    "name_es": "Órgano (manuales)",
+    "family": "keyboards",
+    "note": "piano-celesta-keyboards",
+    "transposition_semitones": 0,
+    "range_full": [36, 96],
+    "range_practical": [36, 96],
+    "registers": [
+      { "name": "manual key range", "range": [36, 96], "character": "colour and loudness set by registration" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Ranges are KEY numbers at 8' pitch; 16' stops sound -12, 4' +12. No touch dynamics."
+  },
+  {
+    "id": "organ_pedal",
+    "name_en": "Organ (pedalboard)",
+    "name_es": "Órgano (pedalero)",
+    "family": "keyboards",
+    "note": "piano-celesta-keyboards",
+    "transposition_semitones": 0,
+    "range_full": [36, 67],
+    "range_practical": [36, 55],
+    "registers": [
+      { "name": "pedal key range", "range": [36, 67], "character": "bass reinforcement under tutti" }
+    ],
+    "weak_dynamics": [],
+    "notes": "KEY numbers; with a 16' stop the sounding pitch is -12, 32' -24 (inferred). Sustained notes only."
+  }
+]
