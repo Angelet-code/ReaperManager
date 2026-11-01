@@ -20,3 +20,6 @@ Thumbs.db
 
 # Local source material (copyrighted books/course PDFs); the distilled vault lives in knowledge/
 /composition/
+
+# Obsidian per-user editor state
+**/.obsidian/workspace*.json
