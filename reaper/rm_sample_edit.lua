@@ -166,8 +166,11 @@ local function command_sample_edit_apply(command)
   segments[index] = segment:sub(1, parsed.start - 1)
     .. render_sample_edits(parsed.header, parsed.blocks)
     .. segment:sub(parsed.finish + 1)
-  if not reaper.SetItemStateChunk(item, table.concat(segments), false) then
-    error("SetItemStateChunk failed.")
+  local new_chunk = table.concat(segments)
+  -- some items (e.g. with ARA plug-ins such as Melodyne) refuse the normal path
+  if not reaper.SetItemStateChunk(item, new_chunk, false)
+      and not reaper.SetItemStateChunk(item, new_chunk, true) then
+    error("SetItemStateChunk failed (REAPER refused the item chunk; items with ARA plug-ins like Melodyne can do this).")
   end
   reaper.UpdateArrange()
   return { take_index = index - 1, written = written, total_sample_edits = count_edits(parsed.blocks) }
@@ -194,6 +197,15 @@ local function command_add_take_from_file(command)
   end
   local _, name = reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", "", false)
   reaper.GetSetMediaItemTakeInfo_String(new_take, "P_NAME", tostring(command.name or (name .. " fix")), true)
+  -- optional overrides: a source that starts elsewhere, or that was rendered at a
+  -- different gain (e.g. -6 dB for declip headroom) compensated on the take
+  if command.startOffset ~= nil then
+    reaper.SetMediaItemTakeInfo_Value(new_take, "D_STARTOFFS", tonumber(command.startOffset))
+  end
+  if command.gainDb ~= nil then
+    local vol = reaper.GetMediaItemTakeInfo_Value(new_take, "D_VOL")
+    reaper.SetMediaItemTakeInfo_Value(new_take, "D_VOL", vol * 10 ^ (tonumber(command.gainDb) / 20))
+  end
 
   local env_points = 0
   local env = reaper.GetTakeEnvelopeByName(take, "Volume")
@@ -219,9 +231,22 @@ local function command_add_take_from_file(command)
   end
 
   reaper.SetActiveTake(new_take)
+  local sample_edits = false
+  if command.enableSampleEdits == true then
+    local selected = {}
+    for i = 0, reaper.CountSelectedMediaItems(0) - 1 do selected[#selected + 1] = reaper.GetSelectedMediaItem(0, i) end
+    reaper.SelectAllMediaItems(0, false)
+    reaper.SetMediaItemSelected(item, true)
+    reaper.Main_OnCommand(41668, 0) -- Take: toggle sample editing (off on a fresh take)
+    for _, other in ipairs(selected) do reaper.SetMediaItemSelected(other, true) end
+    local _, chunk = reaper.GetItemStateChunk(item, "", false)
+    local segments, index = active_take_segment(item, chunk)
+    sample_edits = parse_sample_edits(segments[index]) ~= nil
+  end
   reaper.UpdateItemInProject(item)
   reaper.UpdateArrange()
   return {
+    sample_edits_enabled = sample_edits,
     take_count = reaper.CountTakes(item),
     file = file,
     copied_volume_envelope_points = env_points
@@ -470,13 +495,59 @@ local function command_take_fx_report(command)
   return report
 end
 
+-- Read-only: writes the first selected item's state chunk to command.out.
+local function command_item_chunk_dump(command)
+  local item = reaper.GetSelectedMediaItem(0, 0)
+  if not item then error("No selected media item.") end
+  local _, chunk = reaper.GetItemStateChunk(item, "", false)
+  local file = io.open(tostring(command.out), "w")
+  if not file then error("Cannot write " .. tostring(command.out)) end
+  file:write(chunk)
+  file:close()
+  return { bytes = #chunk, out = command.out }
+end
+
+-- Copies the active take of the first selected item into a new item on the same
+-- track (same position, length, source, offset, gain), enables sample edits on it
+-- and leaves only the new item selected. The original item is not modified, so
+-- this works around items whose chunk REAPER refuses to rewrite (ARA plug-ins).
+local function command_take_to_new_item(command)
+  local item, take = first_selected_take()
+  local _, take_guid = reaper.GetSetMediaItemTakeInfo_String(take, "GUID", "", false)
+  if command.takeGuid and command.takeGuid ~= take_guid then
+    error("Active take changed; run the command again.")
+  end
+  local track = reaper.GetMediaItem_Track(item)
+  local file = reaper.GetMediaSourceFileName(reaper.GetMediaItemTake_Source(take), "")
+  local new_item = reaper.AddMediaItemToTrack(track)
+  reaper.SetMediaItemInfo_Value(new_item, "D_POSITION", reaper.GetMediaItemInfo_Value(item, "D_POSITION"))
+  reaper.SetMediaItemInfo_Value(new_item, "D_LENGTH", reaper.GetMediaItemInfo_Value(item, "D_LENGTH"))
+  reaper.SetMediaItemInfo_Value(new_item, "D_VOL", reaper.GetMediaItemInfo_Value(item, "D_VOL"))
+  local new_take = reaper.AddTakeToMediaItem(new_item)
+  reaper.SetMediaItemTake_Source(new_take, reaper.PCM_Source_CreateFromFile(file))
+  for _, key in ipairs({ "D_STARTOFFS", "D_PLAYRATE", "D_VOL", "D_PAN", "D_PITCH", "B_PPITCH", "I_CHANMODE" }) do
+    reaper.SetMediaItemTakeInfo_Value(new_take, key, reaper.GetMediaItemTakeInfo_Value(take, key))
+  end
+  local _, name = reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", "", false)
+  reaper.GetSetMediaItemTakeInfo_String(new_take, "P_NAME", name, true)
+  reaper.SelectAllMediaItems(0, false)
+  reaper.SetMediaItemSelected(new_item, true)
+  reaper.Main_OnCommand(41668, 0) -- Take: toggle sample editing (off on a fresh take)
+  reaper.UpdateItemInProject(new_item)
+  reaper.UpdateArrange()
+  local _, chunk = reaper.GetItemStateChunk(new_item, "", false)
+  return { file = file, sample_edits_enabled = chunk:find("SAMPLEEDITS", 1, true) ~= nil }
+end
+
 function M.register(registry)
   registry.command("sample_edit_probe", command_sample_edit_probe, { read_only = true })
   registry.command("sample_edit_dump", command_sample_edit_dump, { read_only = true })
+  registry.command("item_chunk_dump", command_item_chunk_dump, { read_only = true })
   registry.command("sample_edit_apply", command_sample_edit_apply)
   registry.command("add_take_from_file", command_add_take_from_file)
   registry.command("remove_takes_matching", command_remove_takes_matching)
   registry.command("apply_take_automation", command_apply_take_automation)
+  registry.command("take_to_new_item", command_take_to_new_item)
   registry.command("take_fx_report", command_take_fx_report, { read_only = true })
 end
 

@@ -26,7 +26,8 @@ local MENU = {
   { separator = true },
   { label = "Gain Stage", action = config.gain_stage_action_id },
   { label = "Select Items", action = config.select_items_action_id },
-  { label = "Detect Parts", action = config.detect_arrangement_action_id }
+  { label = "Detect Parts", action = config.detect_arrangement_action_id },
+  { label = "Tablatura en tiempo real", action = config.tab_viewer_action_id }
 }
 
 local function notify(text)

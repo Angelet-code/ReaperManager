@@ -11,12 +11,15 @@ export const DETECT_ARRANGEMENT_ACTION_KB_ID = "RS64a1b50c0935466b963c5b26e9b05a
 export const DETECT_ARRANGEMENT_ACTION_ID = `_${DETECT_ARRANGEMENT_ACTION_KB_ID}`;
 export const TOOLS_ACTION_KB_ID = "RSac0f84a1e50c8693fc4a6d1a0679bd73a95da430";
 export const TOOLS_ACTION_ID = `_${TOOLS_ACTION_KB_ID}`;
+export const TAB_VIEWER_ACTION_KB_ID = "RSaaf6fb3e84888e7bf322efb2456f4d16ea1e028b";
+export const TAB_VIEWER_ACTION_ID = `_${TAB_VIEWER_ACTION_KB_ID}`;
 export const BRIDGE_FILE = "Reaper Manager Bridge.lua";
 export const TOOLS_FILE = "Reaper Manager Tools.lua";
 export const CHAT_FILE = "Reaper Manager Chat.lua";
 export const GAIN_STAGE_FILE = "Reaper Manager Gain Stage.lua";
 export const SELECT_ALL_ITEMS_FILE = "Reaper Manager Select All Items.lua";
 export const DETECT_ARRANGEMENT_FILE = "Reaper Manager Detect Arrangement.lua";
+export const TAB_VIEWER_FILE = "Reaper Manager Tab Viewer.lua";
 export const JSON_FILE = "rm_json.lua";
 export const CONFIG_FILE = "rm_config.lua";
 export const REAPER_RUNTIME_FILES = [
@@ -31,7 +34,8 @@ export const REAPER_RUNTIME_FILES = [
   "rm_sibilant_split.lua",
   "rm_pluck_quantize.lua",
   "rm_project_mix.lua",
-  "rm_sample_edit.lua"
+  "rm_sample_edit.lua",
+  "rm_beat_builder.lua"
 ];
 
 export const COLOR_MAP = {

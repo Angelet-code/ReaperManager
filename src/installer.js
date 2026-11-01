@@ -22,6 +22,9 @@ import {
   SELECT_ALL_ITEMS_ACTION_KB_ID,
   SELECT_ALL_ITEMS_FILE,
   TOOLS_ACTION_ID,
+  TAB_VIEWER_ACTION_KB_ID,
+  TAB_VIEWER_ACTION_ID,
+  TAB_VIEWER_FILE,
   TOOLS_ACTION_KB_ID,
   TOOLS_FILE
 } from "./constants.js";
@@ -53,13 +56,15 @@ export function install({ root = workspaceRoot(), resourcePath = reaperResourceP
   const selectAllItemsTarget = path.join(scriptsDir, SELECT_ALL_ITEMS_FILE);
   const detectArrangementTarget = path.join(scriptsDir, DETECT_ARRANGEMENT_FILE);
   const toolsTarget = path.join(scriptsDir, TOOLS_FILE);
+  const tabViewerTarget = path.join(scriptsDir, TAB_VIEWER_FILE);
   copyFileAtomic(path.join(repoRoot, "reaper", BRIDGE_FILE), bridgeTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", CHAT_FILE), chatTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", GAIN_STAGE_FILE), gainStageTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", SELECT_ALL_ITEMS_FILE), selectAllItemsTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", DETECT_ARRANGEMENT_FILE), detectArrangementTarget);
   copyFileAtomic(path.join(repoRoot, "reaper", TOOLS_FILE), toolsTarget);
-  installReport.installedFiles.push(bridgeTarget, chatTarget, gainStageTarget, selectAllItemsTarget, detectArrangementTarget, toolsTarget);
+  copyFileAtomic(path.join(repoRoot, "reaper", TAB_VIEWER_FILE), tabViewerTarget);
+  installReport.installedFiles.push(bridgeTarget, chatTarget, gainStageTarget, selectAllItemsTarget, detectArrangementTarget, toolsTarget, tabViewerTarget);
 
   for (const file of REAPER_RUNTIME_FILES) {
     const target = path.join(scriptsDir, file);
@@ -105,6 +110,11 @@ export function install({ root = workspaceRoot(), resourcePath = reaperResourceP
       actionId: TOOLS_ACTION_ID,
       actionKbId: TOOLS_ACTION_KB_ID,
       file: TOOLS_FILE
+    }),
+    ensureActionRegistered(kbFile, backupRoot, installReport, {
+      actionId: TAB_VIEWER_ACTION_ID,
+      actionKbId: TAB_VIEWER_ACTION_KB_ID,
+      file: TAB_VIEWER_FILE
     })
   ].some(Boolean);
   const menuChanged = [
@@ -129,6 +139,10 @@ export function install({ root = workspaceRoot(), resourcePath = reaperResourceP
     ensureToolbarButton(menuFile, backupRoot, installReport, {
       actionId: TOOLS_ACTION_ID,
       label: "Herramientas"
+    }),
+    ensureToolbarButton(menuFile, backupRoot, installReport, {
+      actionId: TAB_VIEWER_ACTION_ID,
+      label: "Tab"
     })
   ].some(Boolean);
   if (kbChanged) installReport.changedFiles.push(kbFile);
@@ -159,6 +173,7 @@ function renderLuaConfig(root) {
     `  gain_stage_action_id = ${JSON.stringify(GAIN_STAGE_ACTION_ID)},`,
     `  select_items_action_id = ${JSON.stringify(SELECT_ALL_ITEMS_ACTION_ID)},`,
     `  detect_arrangement_action_id = ${JSON.stringify(DETECT_ARRANGEMENT_ACTION_ID)},`,
+    `  tab_viewer_action_id = ${JSON.stringify(TAB_VIEWER_ACTION_ID)},`,
     `  node_path = ${JSON.stringify(toLuaPath(process.execPath))},`,
     `  cli_path = ${JSON.stringify(toLuaPath(path.join(repoRoot, "bin", "reaper-manager.js")))},`,
     "  quick_action_timeout_seconds = 90,",

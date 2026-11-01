@@ -31,10 +31,30 @@ export function normalizeCommand(command, context = {}) {
     case "set_project_markers":
     case "sample_edit_probe":
     case "sample_edit_dump":
+    case "item_chunk_dump":
       return command;
     case "take_fx_report":
     case "reload_modules":
     case "apply_take_automation":
+    case "take_to_new_item":
+    case "build_beat":
+    case "fx_params":
+    case "set_sampler":
+    case "replace_midi":
+    case "add_midi":
+    case "add_track_fx":
+    case "swing_midi":
+    case "humanize_midi":
+    case "lock_midi":
+    case "dump_midi":
+    case "delete_midi_notes":
+    case "shift_pitch":
+    case "set_cc_shape":
+    case "show_fx":
+    case "adjust_velocity":
+    case "write_envelope":
+    case "open_project":
+    case "flatten_tempo":
       return command;
     case "remove_takes_matching":
       if (!command.match) throw new CommandError("remove_takes_matching needs a match string.");

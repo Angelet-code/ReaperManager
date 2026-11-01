@@ -133,6 +133,12 @@ export async function main(argv) {
       return runBuiltCommand({ type: "reload_modules" }, root);
     case "undo":
       return undoCommand(rest, root);
+    case "swing":
+      return swingCommand(rest, root);
+    case "humanize":
+      return humanizeCommand(rest, root);
+    case "lock":
+      return lockCommand(rest, root);
     case undefined:
     case "help":
     case "--help":
@@ -363,6 +369,58 @@ async function fxBypassCommand(args, root) {
 async function rockTemplateCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildRockTemplateCommand(options), root, options);
+}
+
+// Track selection for swing/humanize: --tracks "KICK,SNARE" (exact names) or --contains HATS.
+// --skip "12.48-13,24.48-25": bar ranges (1-based, fractional) the feel commands leave untouched.
+const feelSkip = (options) => (options.skip ? String(options.skip).split(",").map((r) => r.split("-").map(Number)) : undefined);
+const feelTracks = (options) => (options.tracks ? String(options.tracks).split(",").map((t) => t.trim()).filter(Boolean) : undefined);
+
+// swing --amount 58 [--grid 8|16] [--tracks A,B | --contains HATS] [--quantize] [--skip 12.48-13]: MPC-style swing on the written MIDI.
+async function swingCommand(args, root) {
+  const options = parseOptions(args);
+  const grid = Number(options.grid || 16);
+  if (![8, 16].includes(grid)) throw new Error("--grid must be 8 or 16.");
+  const amount = Number(options.amount || options._[0] || 58);
+  if (!(amount >= 50 && amount <= 75)) throw new Error("--amount must be between 50 and 75 (%).");
+  return runBuiltCommand({
+    type: "swing_midi", amount, grid: grid === 16 ? 0.25 : 0.5,
+    tracks: feelTracks(options), contains: options.contains,
+    skip: feelSkip(options),
+    quantize: Boolean(options.quantize), keep: options.keep === undefined ? undefined : Number(options.keep)
+  }, root, options);
+}
+
+// humanize --contains SNARE --offset 8 --timing 5 --drift 3 --velocity 6: per-track feel on the written MIDI.
+async function humanizeCommand(args, root) {
+  const options = parseOptions(args);
+  if (!options.contains && !options.tracks && !options.all) throw new Error("Pass --tracks A,B, --contains <track text> or --all.");
+  return runBuiltCommand({
+    type: "humanize_midi",
+    tracks: feelTracks(options),
+    contains: options.all ? undefined : options.contains,
+    offset_ms: Number(options.offset || 0),
+    timing_ms: Number(options.timing || 0),
+    drift_ms: Number(options.drift || 0),
+    velocity: Number(options.velocity || 0),
+    seed: Number(options.seed || 1)
+  }, root, options);
+}
+
+// lock --tracks BASS --to KICK [--window 45] [--offset 2]: put a part exactly on another part's real (swung, humanized) timing.
+async function lockCommand(args, root) {
+  const options = parseOptions(args);
+  if (!options.to) throw new Error("Pass --to <guide track>.");
+  if (!options.contains && !options.tracks) throw new Error("Pass --tracks A,B or --contains <track text>.");
+  return runBuiltCommand({
+    type: "lock_midi",
+    to: options.to,
+    tracks: feelTracks(options),
+    contains: options.contains,
+    window_ms: options.window === undefined ? undefined : Number(options.window),
+    offset_ms: Number(options.offset || 0),
+    skip: feelSkip(options)
+  }, root, options);
 }
 
 async function undoCommand(args, root) {
