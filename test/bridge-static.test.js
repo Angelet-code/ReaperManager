@@ -77,7 +77,7 @@ test("bridge reports runtime version and vocal-level capabilities", () => {
   const registry = readLuaFile("rm_registry.lua");
   const ping = extractFunction(source, "command_ping", "command_undo");
 
-  assert.match(registry, /local BRIDGE_VERSION = "pluck-quantize-2026-06-08"/);
+  assert.match(registry, /local BRIDGE_VERSION = "arrangement-debug2-2026-08-20"/);
   assert.match(registry, /vocal_level_estimated_points = true/);
   assert.match(registry, /vocal_level_zero_crossing_curve = true/);
   assert.match(registry, /vocal_level_phrase_safe_defaults = true/);
