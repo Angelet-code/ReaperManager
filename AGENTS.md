@@ -37,6 +37,19 @@ This workspace is a local Codex-to-REAPER mix assistant. The user writes mix/set
 
 The user is a sound engineer. Respond in Spanish by default unless they ask otherwise.
 
+## Composition Knowledge
+
+Before composing, arranging, harmonizing, voicing or orchestrating music (cues, songs, beats, chords, melodies, string/brass parts, forms, modulations, instrument ranges), read `knowledge/composition/START-HERE.md` and follow the workflow it routes to. It is an agent-oriented Obsidian vault distilled from the user's harmony, form, orchestration and film-scoring books:
+
+- Load only the notes the workflow lists, stage by stage: 3–6 for a focused task, about 8–12 for a whole piece. Read each note's frontmatter `summary` first.
+- `knowledge/composition/workflows/user-taste.md` (the user's ear-validated preferences) overrides book rules.
+- Ranges: `knowledge/composition/data/instruments.json` (C4 = MIDI 60, concert pitch).
+- Validate with `knowledge/composition/workflows/validate-generated-midi.md` before handing music over.
+- Never read `index.json` whole; grep it or the `_meta/glossary-*.md` tables for Spanish terms.
+- After editing the vault, run `node scripts/build-knowledge-index.mjs` (0 errors expected).
+
+The source PDFs live in `composition/` (git-ignored). To add a book, follow `knowledge/composition/_meta/digest-spec.md` then `_meta/synthesis-spec.md`.
+
 ## Key Paths
 
 - Workspace: `A:\PROYECTOS\OPENCODE\Reaper Manager`

@@ -17,3 +17,6 @@ temp/
 Thumbs.db
 *.swp
 *.swo
+
+# Local source material (copyrighted books/course PDFs); the distilled vault lives in knowledge/
+composition/
