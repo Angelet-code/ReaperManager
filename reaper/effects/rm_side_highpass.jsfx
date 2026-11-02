@@ -1,0 +1,40 @@
+desc: Reaper Manager - Side High-Pass (mono bass)
+//tags: stereo mid-side utility
+//author: Reaper Manager
+// Keeps the low end centred: encodes mid/side, high-passes only the side channel (24 dB/oct
+// Butterworth, two cascaded biquads) and decodes back. The mid channel is untouched.
+
+slider1:120<20,400,1>Side high-pass (Hz)
+slider2:100<0,200,1>Side width above cutoff (%)
+
+in_pin:left input
+in_pin:right input
+out_pin:left output
+out_pin:right output
+
+@init
+x1a = x2a = y1a = y2a = 0;
+x1b = x2b = y1b = y2b = 0;
+
+@slider
+w0 = 2 * $pi * slider1 / srate;
+cw = cos(w0); sw = sin(w0);
+// Butterworth 4th order = two biquads with Q 0.5412 and 1.3066
+q1 = 0.5412; q2 = 1.3066;
+al1 = sw / (2 * q1); al2 = sw / (2 * q2);
+na0 = 1 + al1;
+b0a = (1 + cw) / 2 / na0; b1a = -(1 + cw) / na0; b2a = b0a; a1a = -2 * cw / na0; a2a = (1 - al1) / na0;
+nb0 = 1 + al2;
+b0b = (1 + cw) / 2 / nb0; b1b = -(1 + cw) / nb0; b2b = b0b; a1b = -2 * cw / nb0; a2b = (1 - al2) / nb0;
+width = slider2 / 100;
+
+@sample
+m = (spl0 + spl1) * 0.5;
+s = (spl0 - spl1) * 0.5;
+ya = b0a * s + b1a * x1a + b2a * x2a - a1a * y1a - a2a * y2a;
+x2a = x1a; x1a = s; y2a = y1a; y1a = ya;
+yb = b0b * ya + b1b * x1b + b2b * x2b - a1b * y1b - a2b * y2b;
+x2b = x1b; x1b = ya; y2b = y1b; y1b = yb;
+s = yb * width;
+spl0 = m + s;
+spl1 = m - s;

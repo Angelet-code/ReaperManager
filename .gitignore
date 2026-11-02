@@ -23,3 +23,6 @@ Thumbs.db
 
 # Obsidian per-user editor state
 **/.obsidian/workspace*.json
+
+# Third-party reference MIDI for study (no redistribution); only aggregated numbers are kept in the repo
+/reference-midi/
