@@ -108,7 +108,7 @@ test("bridge: items split at bounds, keep crossing notes whole and start each CC
   assert.deepEqual(two.map((i) => [i.bar, i.bars, i.name]), [[1, 4, "A"], [5, 4, "B"]]);
   const startCC = two[1].cc.find((c) => c.cc === 11 && c.beat === 0);
   assert.equal(startCC.value, 80); // 40 → 100 over qn 0–24, at qn 16
-  assert.equal(two[1].cc.find((c) => c.cc === 64).value, 127); // the pedal keeps its last value
+  assert.equal(two[1].cc.find((c) => c.cc === 64).value, 0); // the pedal starts lifted in every item
   assert.equal(replaceMidi("X", two).type, "replace_midi");
   const spec = buildSpec(createTimeline([{ bar: 1, bpm: 90, num: 4, den: 4 }, { bar: 9, bpm: 100, num: 7, den: 8 }], 16), { tracks: [{ name: "A" }] });
   assert.deepEqual(spec.tempo_changes, [{ bar: 9, bpm: 100, timesig: [7, 8] }]);

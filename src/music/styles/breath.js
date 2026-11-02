@@ -81,15 +81,24 @@ export function createBreathPlanner({ timeline, arrivals = [], mode = "shared", 
       const x = onsets(g, p - 3, p + 3), y = onsets(h, p - 3, p + 3);
       return x.length >= 3 && y.length >= 3 && x.filter((q) => y.some((r) => Math.abs(q - r) < 0.05)).length >= 0.8 * Math.max(x.length, y.length);
     };
+    // a section never copies a cut within 2 beats (2.5 qn) of another breath of its own (La Forja v6: the woods
+    // copied the strings' cut and, two beats later, the horns')
+    const taken = new Map(G.map((g) => [g.name, []]));
+    const copy = (g, p) => {
+      const k = at(g, p);
+      if (k < 0 || taken.get(g.name).some((q) => Math.abs(q - p) < 2.5)) return;
+      breathAt(g.name, g.stamina, g.line, k);
+      taken.get(g.name).push(p);
+    };
     const cuts = [];
     for (const g of G) {
-      for (const c of cuts) { const k = at(g, c.p); if (k >= 0) breathAt(g.name, g.stamina, g.line, k); }
-      plan(g.name, g.stamina, g.ns, g.dyn, (p) => cuts.push({ p, by: g.name }));
+      for (const c of cuts) copy(g, c.p);
+      plan(g.name, g.stamina, g.ns, g.dyn, (p) => { cuts.push({ p, by: g.name }); taken.get(g.name).push(p); });
       planned.add(g.name);
     }
     for (const g of G) for (const c of cuts) {
-      const h = G.find((x) => x.name === c.by), k = at(g, c.p);
-      if (g !== h && k >= 0 && (doubles(g, h, c.p) || (g.wind && h.wind))) breathAt(g.name, g.stamina, g.line, k);
+      const h = G.find((x) => x.name === c.by);
+      if (g !== h && (doubles(g, h, c.p) || (g.wind && h.wind))) copy(g, c.p);
     }
     sharedAt = () => 0;
   }

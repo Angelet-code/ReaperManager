@@ -62,11 +62,13 @@ export function orchestraWriters(score) {
   function roll(t, p, len, pitches, ms = 28, acc = 0) {
     [...pitches].sort((a, b) => a - b).forEach((pitch, i) => noteAt(t, p + ms2qn(i * ms, p), len - ms2qn(i * ms, p), pitch, { acc, roll: true, keep: true }));
   }
-  // syncopated sustain pedal: up right at the change, down 60 ms later
+  // syncopated sustain pedal: up right at the change, down 60 ms later, lifted at p1 (otherwise it stayed down
+  // until the next passage)
   function pedal(t, p0, p1) {
     cc(t, Math.max(0, p0 - 0.01), 64, 0);
     cc(t, p0 + ms2qn(60, p0), 64, 127);
     cc(t, p1 - 0.02, 64, 127);
+    cc(t, p1, 64, 0);
   }
 
   // Pizzicato bass: the chord's bass on the downbeat; in a 3-beat chord a second note on beat 3 taken from the

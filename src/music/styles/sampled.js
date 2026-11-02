@@ -36,7 +36,10 @@ export function performSampled(name, d, cfg, ctx) {
       const prev = ns[i - 1], slurredIn = legato && prev && prev.slur && !n.afterBreath;
       ms = slurredIn ? ob.slurMs ?? ob.attackMs : ob.attackMs;
     }
-    const a = ms2qn(ms + (lat.jitterMs ? r.rr(lat.jitterMs) : 0), n.pos);
+    // n.rng / n.burn: notes written by a legacy isolate() (La Forja A/B before per-track streams) bring their own
+    // generator and burn what the replaced notes consumed; unused by pieces on independent streams
+    if (n.burn && lat.jitterMs) for (let k = 0; k < n.burn; k++) r.rr(1);
+    const a = ms2qn(ms + (lat.jitterMs ? (n.rng || r.rr)(lat.jitterMs) : 0), n.pos);
     n.pos -= Math.min(a, n.pos);
   });
   const vel = cfg.velocity || {};
@@ -62,7 +65,8 @@ export function performSampled(name, d, cfg, ctx) {
   } else {
     for (const n of ns) {
       n.len = n.nominalEnd - n.pos - (n.tieNext ? 0 : ms2qn(lg.releaseGapMs ?? 20, n.pos));
-      n.vel = n.vel ?? clamp(D(n.pos) * vel.attack.perDyn + vel.attack.base + (n.acc || 0) + r.rr(vel.attack.jitter));
+      if (n.burn && n.vel === undefined) for (let k = 0; k < n.burn; k++) r.rr(1);
+      n.vel = n.vel ?? clamp(D(n.pos) * vel.attack.perDyn + vel.attack.base + (n.acc || 0) + (n.rng || r.rr)(vel.attack.jitter));
     }
   }
   const evs = events(ns);

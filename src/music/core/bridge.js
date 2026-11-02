@@ -27,7 +27,8 @@ export function trackItems(d, timeline, { bounds, names = {}, single = false, ti
       const before = pts.filter((c) => c.pos <= p0).pop(), after = pts.find((c) => c.pos > p0);
       let v = num === 64 ? 0 : undefined;
       if (before && after && num !== 64) v = Math.round(before.value + ((after.value - before.value) * (p0 - before.pos)) / (after.pos - before.pos));
-      else if (before) v = before.value; else if (after && num !== 64) v = after.value;
+      // the sustain pedal (CC64) always starts lifted, never inherited from the previous passage
+      else if (before && num !== 64) v = before.value; else if (after && num !== 64) v = after.value;
       if (v !== undefined) ccs.unshift({ beat: 0, cc: num, value: clamp(v, 0, 127) });
     }
     // item length: up to the bound or until the last note is covered (whole bars)
