@@ -1,0 +1,112 @@
+{
+  "library": "Albion ONE",
+  "vendor": "Spitfire Audio",
+  "_doc": "Status: M measured in this project (calibracion-librerias 2026-11-02 and La Forja renders), D documented (manual / Spitfire CC table), A assumed, R17 validated by ear (user-taste R17). 'vibrato.scale' multiplies the piece section's vibrato level; 'noteShape.dip' is the CC1 dip at each note start.",
+  "defaults": {
+    "articulation": { "method": "patch" },
+    "ensemble": true,
+    "dynamics": { "cc": 1, "layerMap": [0.78, 6], "status": "R17" },
+    "expression": { "cc": 11, "ceiling": 112, "status": "M" },
+    "vibrato": { "cc": 21, "status": "D" },
+    "release": { "cc": 17, "status": "D" },
+    "latency": { "attackMs": 25, "slurMs": 50, "jitterMs": 8, "status": "R17" },
+    "calibration": {
+      "cc1Db": [[10, -38], [25, -26], [40, -18], [55, -12], [70, -9], [85, -4], [100, 0], [127, 0]],
+      "cc11Db": [[10, -22], [25, -14], [40, -8], [70, -4], [85, -3], [100, -3], [115, 0], [127, 0]],
+      "patch": "Strings - Long", "source": "calibracion-librerias 2026-11-02", "status": "M"
+    }
+  },
+  "patches": {
+    "strings-high-octave-legato": {
+      "match": ["Albion ONE - Strings High (Octave) - Legato"], "style": "sampled-legato", "family": "strings", "instrument": "violin",
+      "range": { "practical": [55, 86], "full": [55, 93] },
+      "legato": { "mode": "overlap-mono", "overlapMs": 70, "releaseGapMs": 30, "staccatoGapMs": 120, "status": "D" },
+      "vibrato": { "scale": 1.0 }, "noteShape": { "dip": 4 },
+      "velocity": { "slurEffect": "none", "status": "M" },
+      "latency": { "transitionMs": [160, 225, 595], "onBeat": { "attackMs": 150, "slurMs": 150 }, "status": "M" }
+    },
+    "woods-high-legato": {
+      "match": ["Albion ONE - Woods High - Legato"], "style": "sampled-legato", "family": "woodwinds", "instrument": "woodwinds-high",
+      "range": { "practical": [60, 96], "full": [55, 98] },
+      "legato": { "mode": "overlap-mono", "overlapMs": 70, "releaseGapMs": 30, "staccatoGapMs": 120, "status": "D" },
+      "vibrato": { "scale": 0.7 }, "noteShape": { "dip": 5 },
+      "velocity": { "slurEffect": "none", "status": "M" },
+      "latency": { "transitionMs": [70, 150, 460], "onBeat": { "attackMs": 115, "slurMs": 160 }, "status": "M" }
+    },
+    "brass-mid-legato": {
+      "match": ["Albion ONE - Brass Mid - Legato"], "style": "sampled-legato", "family": "brass", "instrument": "horn",
+      "range": { "practical": [41, 76], "full": [35, 77] },
+      "legato": { "mode": "overlap-mono", "overlapMs": 70, "releaseGapMs": 30, "staccatoGapMs": 120, "status": "D" },
+      "vibrato": { "scale": 0.45 }, "noteShape": { "dip": 6 },
+      "velocity": { "slurEffect": "none", "status": "M" },
+      "latency": { "transitionMs": [55, 90, 340], "onBeat": { "attackMs": 65, "slurMs": 210 }, "status": "M" }
+    },
+    "strings-long": {
+      "match": ["Albion ONE - Strings - Long"], "style": "sampled-long", "family": "strings", "instrument": "strings",
+      "range": { "practical": [36, 88], "full": [28, 96] },
+      "vibrato": { "scale": 0.9 }, "noteShape": { "dip": 8 },
+      "latency": { "attackDb6Ms": [135, 165], "onBeat": { "attackMs": 100 }, "status": "M" }
+    },
+    "strings-long-tremolo": {
+      "match": ["Albion ONE - Strings - Long Tremolo"], "style": "sampled-long", "family": "strings", "instrument": "strings",
+      "range": { "practical": [36, 88], "full": [28, 96] },
+      "vibrato": { "scale": 0 }, "noteShape": { "dip": 4 },
+      "latency": { "onBeat": { "attackMs": 80 }, "status": "A" }
+    },
+    "strings-low-8ves-long": {
+      "match": ["Albion ONE - Strings Low XL - 8ves - Long"], "style": "sampled-long", "family": "strings", "instrument": "strings-low",
+      "_doc": "8ves doubles celli and basses an octave apart: write one note in the cello register.",
+      "range": { "practical": [38, 64], "full": [36, 67] },
+      "vibrato": { "scale": 0.7 }, "noteShape": { "dip": 9 },
+      "latency": { "onBeat": { "attackMs": 100 }, "status": "A" }
+    },
+    "brass-low-long": {
+      "match": ["Albion ONE - Brass Low - Long"], "style": "sampled-long", "family": "brass", "instrument": "brass-low",
+      "range": { "practical": [31, 67], "full": [26, 70] },
+      "vibrato": { "scale": 0.2 }, "noteShape": { "dip": 8 },
+      "latency": { "onBeat": { "attackMs": 100 }, "status": "A" }
+    },
+    "trumpets-xl-long": {
+      "match": ["Albion ONE - Trumpets XL - Long"], "style": "sampled-long", "family": "brass", "instrument": "trumpet_c",
+      "range": { "practical": [57, 81], "full": [54, 84] },
+      "vibrato": { "scale": 0.3 }, "noteShape": { "dip": 6 },
+      "latency": { "onBeat": { "attackMs": 100 }, "status": "A" }
+    },
+    "strings-short-spiccato": {
+      "match": ["Albion ONE - Strings - Short Spiccato"], "style": "sampled-short", "family": "strings", "instrument": "strings",
+      "range": { "practical": [36, 93], "full": [28, 96] }, "humanize": { "ms": 7 },
+      "calibration": { "velDb": [[20, -41], [40, -28], [60, -20], [80, -11], [100, -12], [120, -2], [127, -2]], "cc1Effect": "≤3 dB", "status": "M" }
+    },
+    "strings-short-staccato-combo": {
+      "match": ["Albion ONE - Strings - Short Staccato Combo"], "style": "sampled-short", "family": "strings", "instrument": "strings",
+      "range": { "practical": [36, 93], "full": [28, 96] }, "humanize": { "ms": 7 }
+    },
+    "strings-short-pizzicato": {
+      "match": ["Albion ONE - Strings - Short Pizzicato"], "style": "sampled-short", "family": "strings", "instrument": "strings",
+      "range": { "practical": [36, 84], "full": [28, 88] }, "maxRate": 6, "humanize": { "ms": 9 }
+    },
+    "strings-low-8ves-short": {
+      "match": ["Albion ONE - Strings Low XL - 8ves - Short"], "style": "sampled-short", "family": "strings", "instrument": "strings-low",
+      "range": { "practical": [38, 64], "full": [36, 67] }, "humanize": { "ms": 6 }
+    },
+    "woods-high-short": {
+      "match": ["Albion ONE - Woods High - Short"], "style": "sampled-short", "family": "woodwinds", "instrument": "woodwinds-high",
+      "range": { "practical": [60, 96], "full": [55, 98] }, "humanize": { "ms": 8 }
+    },
+    "trumpets-xl-short": {
+      "match": ["Albion ONE - Trumpets XL - Short"], "style": "sampled-short", "family": "brass", "instrument": "trumpet_c",
+      "range": { "practical": [57, 81], "full": [54, 84] }, "maxRate": 14, "humanize": { "ms": 5 }
+    },
+    "brass-low-short-nasty": {
+      "match": ["Albion ONE - Brass Low - Short Nasty"], "style": "sampled-short", "family": "brass", "instrument": "brass-low",
+      "range": { "practical": [31, 67], "full": [26, 70] }, "humanize": { "ms": 6 }
+    },
+    "darwin-percussion": {
+      "match": ["Albion ONE - Darwin Percussion Ensemble"], "style": "percussion", "family": "percussion", "instrument": "percussion-ensemble",
+      "humanize": { "ms": 3 },
+      "map": { "sub": [24, 26], "low": [40, 41], "low2": [43, 45], "mid": [57, 59], "high": [71, 72], "sticks": [84, 86], "metal": [96, 98] },
+      "zones": { "sub": [24, 36], "low": [40, 52], "mid": [57, 67], "high": [71, 81], "sticks": [84, 95], "metal": [96, 107], "status": "M" },
+      "flam": { "leadMs": 32, "accent": -26 }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "library": "Ample Sound",
+  "vendor": "Ample Sound",
+  "_doc": "Keyswitches latch: write one only when the articulation changes. Never velocity-humanize Ample Bass J (velocity 126-127 is the accent layer).",
+  "defaults": { "ensemble": false, "articulation": { "method": "keyswitch" } },
+  "patches": {
+    "guitar-l": {
+      "match": ["VST3:Ample Guitar L (Ample Sound)"], "style": "sampled-short", "family": "guitar", "instrument": "electric-guitar",
+      "keyswitches": { "mode": "latch", "leadQn": 0.06, "len": 0.03, "vel": 100, "map": { "sustain": 24, "palmMute": 26 }, "status": "M" },
+      "range": { "practical": [40, 88], "full": [40, 88] }, "humanize": { "ms": 4 }
+    },
+    "bass-j": {
+      "match": ["VST3:Ample Bass J (Ample Sound)"], "style": "sampled-short", "family": "bass", "instrument": "electric-bass",
+      "keyswitches": { "mode": "latch", "leadQn": 0.06, "len": 0.03, "vel": 100,
+        "map": { "sustain": 24, "palmMute": 26, "slideIn": 27, "legatoSlide": 28, "hammer": 29, "slap": 31, "pop": 33 }, "status": "M" },
+      "range": { "practical": [40, 67], "full": [40, 72] }, "humanize": { "ms": 0 }, "velocity": { "jitter": 0, "keepJitter": 0 }
+    }
+  }
+}

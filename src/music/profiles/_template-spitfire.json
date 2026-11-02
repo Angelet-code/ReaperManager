@@ -1,0 +1,21 @@
+{
+  "library": "TEMPLATE Spitfire (BBC SO / Spitfire Symphony Orchestra / SSO Discover)",
+  "vendor": "Spitfire Audio",
+  "_doc": "Template for a Spitfire player library. Copy to <library>.json, rename the patches, then run scripts/calibrate-instrument.mjs on each patch. Everything here is A (assumed) until calibrated. Spitfire libraries share the UACC articulation spec on CC32; values below are placeholders to be read off the library before use.",
+  "template": true,
+  "defaults": {
+    "articulation": { "method": "uacc", "cc": 32, "map": {}, "status": "A" },
+    "ensemble": true,
+    "dynamics": { "cc": 1, "layerMap": [1, 0], "status": "A" },
+    "expression": { "cc": 11, "status": "A" },
+    "vibrato": { "cc": 21, "status": "A" },
+    "release": { "cc": 17, "status": "A" },
+    "latency": { "attackMs": 40, "slurMs": 80, "jitterMs": 8, "status": "A" },
+    "velocity": { "slurEffect": "unknown", "status": "A" }
+  },
+  "patches": {
+    "violins-1-legato": { "match": [], "style": "sampled-legato", "family": "strings", "instrument": "violin", "vibrato": { "scale": 1.0 }, "noteShape": { "dip": 4 } },
+    "violins-1-long": { "match": [], "style": "sampled-long", "family": "strings", "instrument": "violin", "vibrato": { "scale": 0.9 }, "noteShape": { "dip": 8 } },
+    "violins-1-spiccato": { "match": [], "style": "sampled-short", "family": "strings", "instrument": "violin", "humanize": { "ms": 7 } }
+  }
+}
