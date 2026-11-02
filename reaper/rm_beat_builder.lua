@@ -185,7 +185,8 @@ local function add_audio_item(track, spec)
   return { kind = "audio", bar = start_bar, position = position, length = length, playrate = playrate, source_length = source_length }
 end
 
--- notes: { pitch, beat (0-based from the item start), len (beats), vel }
+-- notes: { pitch, beat (0-based from the item start), len (beats), vel, chan (0-15, optional;
+-- guitar parts use chan 0-5 = string 1-6 so the Tab Viewer shows the intended fingering) }
 local function add_midi_item(track, spec)
   local start_bar = tonumber(spec.bar) or 1
   local bars = tonumber(spec.bars) or 1
@@ -201,7 +202,7 @@ local function add_midi_item(track, spec)
     local off_time = reaper.TimeMap2_QNToTime(0, start_qn + note.beat + note.len)
     local on_ppq = reaper.MIDI_GetPPQPosFromProjTime(take, on_time)
     local off_ppq = reaper.MIDI_GetPPQPosFromProjTime(take, off_time)
-    reaper.MIDI_InsertNote(take, false, false, on_ppq, off_ppq, 0, note.pitch, note.vel or 90, true)
+    reaper.MIDI_InsertNote(take, false, false, on_ppq, off_ppq, math.floor(tonumber(note.chan) or 0) & 15, note.pitch, note.vel or 90, true)
     count = count + 1
   end
   -- cc: { beat, cc, value } on channel 1 (e.g. cc 64 for the sustain pedal),
@@ -234,6 +235,19 @@ end
 local function command_build_beat(command)
   local result = { tracks = {} }
 
+  -- replace_tempo: rebuild the tempo map from scratch (re-sending a map otherwise adds markers on top of the
+  -- old ones); replace_markers: same for project markers (regions are kept)
+  if command.replace_tempo then
+    for i = reaper.CountTempoTimeSigMarkers(0) - 1, 0, -1 do reaper.DeleteTempoTimeSigMarker(0, i) end
+  end
+  if command.replace_markers then
+    local _, markers, regions = reaper.CountProjectMarkers(0)
+    for i = markers + regions - 1, 0, -1 do
+      local _, is_region, _, _, _, index = reaper.EnumProjectMarkers(i)
+      if not is_region then reaper.DeleteProjectMarker(0, index, false) end
+    end
+  end
+
   if command.tempo then
     local num = command.timesig and command.timesig[1] or 4
     local denom = command.timesig and command.timesig[2] or 4
@@ -252,6 +266,7 @@ local function command_build_beat(command)
     reaper.SetTempoTimeSigMarker(0, -1, bar_time(change.bar), -1, -1, change.bpm, 0, 0, change.linear == true)
   end
   if command.tempo_changes then reaper.UpdateTimeline() end
+  result.tempo_markers = reaper.CountTempoTimeSigMarkers(0)
 
   -- Pass 1: create tracks so sends can target any of them.
   local created = {}

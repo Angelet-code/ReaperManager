@@ -53,6 +53,7 @@ strategy, balance between families) lives one folder up in [[_orchestration]].
 | note | use_when | summary |
 |---|---|---|
 | [[harp]] | Harp parts, pedal settings, glissandi | 23–103; 7 pedals → one spelling per note name; no continuous chromaticism |
+| [[classical-guitar-solo]] | Solo classical guitar or any guitar part that must be really playable | write from string/fret; one shape per chord; melody owns its string; never release right after the attack; home theme, contrast, prepared climax |
 | [[piano-celesta-keyboards]] | Piano, celesta, harpsichord, organ in orchestra | piano 21–108 as percussive doubler; celesta +12 soft sparkle; harpsichord quiet; organ pedal bass |
 
 ## Cross-cutting

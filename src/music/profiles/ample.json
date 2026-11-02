@@ -1,13 +1,16 @@
 {
   "library": "Ample Sound",
   "vendor": "Ample Sound",
-  "_doc": "Keyswitches latch: write one only when the articulation changes. Never velocity-humanize Ample Bass J (velocity 126-127 is the accent layer).",
+  "_doc": "Keyswitches latch: write one only when the articulation changes. Never velocity-humanize Ample Bass J (velocity 126-127 is the accent layer). Ample names C3 = MIDI 60. Guitars (manual: Documents/Ample Sound/Manuals): string force 31-36 = 6th..1st string, one before every note (else Ample picks its own string); hammer/pull 29 and legato slide 28 need both notes overlapping on one string; velocity 127 = pop; FX 89-103 (strokes 93/94, golpe 101); auto legato off = 99 low velocity. Start Time 0 + play 45 ms early keeps the natural attack. Reference implementation: A:/CERBATANA/Ableton/2026-11-02 Fantasia San Juan/generator/lib/ample.mjs.",
   "defaults": { "ensemble": false, "articulation": { "method": "keyswitch" } },
   "patches": {
     "guitar-l": {
-      "match": ["VST3:Ample Guitar L (Ample Sound)"], "style": "sampled-short", "family": "guitar", "instrument": "electric-guitar",
-      "keyswitches": { "mode": "latch", "leadQn": 0.06, "len": 0.03, "vel": 100, "map": { "sustain": 24, "palmMute": 26 }, "status": "M" },
-      "range": { "practical": [40, 88], "full": [40, 88] }, "humanize": { "ms": 4 }
+      "_doc": "Ample Guitar L is the classical (nylon) guitar, not a Les Paul. Playable range E1-C5 (40-84). Velocity (measured 2026-11-02): 33 dB from 8 to 120, hard layer change between 64 and 72 (+4..+8 dB, sharper attack), another near 100; round robin varies +-2..4 dB per note. Classical writing: pp 26, p 38, mp 46, mf 54-62, tremolo a-m-i around 40-50; only f/ff above 70.",
+      "match": ["VST3:Ample Guitar L (Ample Sound)", "VSTi: Ample Guitar L (Ample Sound)"], "style": "sampled-short", "family": "guitar", "instrument": "classical-guitar",
+      "keyswitches": { "mode": "latch", "leadQn": 0.06, "len": 0.03, "vel": 100,
+        "map": { "sustain": 24, "harmonic": 25, "palmMute": 26, "slideInOut": 27, "legatoSlide": 28, "hammer": 29 },
+        "stringForce": { "6": 31, "5": 32, "4": 33, "3": 34, "2": 35, "1": 36 }, "status": "M" },
+      "range": { "practical": [40, 84], "full": [40, 84] }, "humanize": { "ms": 4 }
     },
     "bass-j": {
       "match": ["VST3:Ample Bass J (Ample Sound)"], "style": "sampled-short", "family": "bass", "instrument": "electric-bass",

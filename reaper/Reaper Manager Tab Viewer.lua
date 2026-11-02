@@ -2,7 +2,8 @@
 -- so the user can read the part while playing along.
 -- Page mode (default): a still page of bars; when the cursor reaches the last bar of the
 -- page, the page jumps so that bar comes first. Scroll mode: the tab runs continuously.
--- Standard tuning (E A D G B e). Frets are chosen per chord/note to keep the hand still.
+-- Standard tuning (E A D G B e). Frets are chosen per chord/note to keep the hand still, unless the
+-- part carries its fingering: notes on MIDI channels 1-6 then mean strings 1-6 (high e = channel 1).
 -- Mouse wheel: bars per page (seconds in scroll mode) | click a tab: change track |
 -- P: page/scroll | M: day/night | D: dock/undock | Esc: close.
 
@@ -220,17 +221,18 @@ local function rebuild(entry)
         local item_end = item_start + reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
         local _, note_count = reaper.MIDI_CountEvts(take)
         for n = 0, note_count - 1 do
-          local _, _, muted, start_ppq, end_ppq, _, pitch = reaper.MIDI_GetNote(take, n)
-          -- notes below C2 are articulation keyswitches (Ample Guitar C0/D0...), not played notes
-          if not muted and pitch < 36 then
+          local _, _, muted, start_ppq, end_ppq, chan, pitch = reaper.MIDI_GetNote(take, n)
+          -- notes below the low E are Ample keyswitches (articulations C0-F#0, String Force G0-C1, Capo
+          -- Force C#1); above C5 sit its FX sounds and toggles (strokes, golpes): neither is a played note
+          if not muted and pitch < 40 then
             if pitch == KS_SUSTAIN or pitch == KS_PALM_MUTE then
               switches[#switches + 1] = { t = reaper.MIDI_GetProjTimeFromPPQPos(take, start_ppq), mute = pitch == KS_PALM_MUTE }
             end
-          elseif not muted then
+          elseif not muted and pitch <= 88 then
             local t0 = reaper.MIDI_GetProjTimeFromPPQPos(take, start_ppq)
             local t1 = reaper.MIDI_GetProjTimeFromPPQPos(take, end_ppq)
             if t0 >= item_start - 0.001 and t0 < item_end then
-              notes[#notes + 1] = { t0 = t0, t1 = math.min(t1, item_end), pitch = pitch }
+              notes[#notes + 1] = { t0 = t0, t1 = math.min(t1, item_end), pitch = pitch, chan = chan }
             end
           end
         end
@@ -238,6 +240,11 @@ local function rebuild(entry)
     end
   end
   table.sort(notes, function(a, b) return a.t0 < b.t0 or (a.t0 == b.t0 and a.pitch < b.pitch) end)
+  -- a part with notes on channels 2-6 carries its own string per note
+  local string_mapped = false
+  for _, note in ipairs(notes) do
+    if note.chan >= 1 and note.chan <= 5 then string_mapped = true break end
+  end
   table.sort(switches, function(a, b) return a.t < b.t end)
   -- palm mute from the Ample keyswitches when the part has them, else guessed from length
   local switch_index, muting = 0, false
@@ -285,6 +292,12 @@ local function rebuild(entry)
     for k, note in ipairs(group.notes) do
       for p, pitch in ipairs(pitches) do
         if pitch == note.pitch and group.frets[p] then note.string, note.fret = group.frets[p].string, group.frets[p].fret end
+      end
+      -- fingering written in the part: channel = string
+      local fret = string_mapped and note.chan <= 5 and note.pitch - TUNING[note.chan + 1]
+      if fret and fret >= 0 and fret <= MAX_FRET then
+        note.string, note.fret = note.chan + 1, fret
+        group.unplayable = false
       end
       note.index = k
     end

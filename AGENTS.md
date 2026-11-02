@@ -44,6 +44,8 @@ Before composing, arranging, harmonizing, voicing or orchestrating music (cues, 
 - Load only the notes the workflow lists, stage by stage: 3–6 for a focused task, about 8–12 for a whole piece. Read each note's frontmatter `summary` first.
 - `knowledge/composition/workflows/user-taste.md` (the user's ear-validated preferences) overrides book rules.
 - Ranges: `knowledge/composition/data/instruments.json` (C4 = MIDI 60, concert pitch).
+- Guitar: `orchestration/instruments/classical-guitar-solo.md` (playable fingering, structure) and
+  `performance/guitar-ample-performance.md` (Ample keyswitches, velocity, legato, tremolo open work).
 - Validate with `knowledge/composition/workflows/validate-generated-midi.md` before handing music over.
 - Never read `index.json` whole; grep it or the `_meta/glossary-*.md` tables for Spanish terms.
 - After editing the vault, run `node scripts/build-knowledge-index.mjs` (0 errors expected).
@@ -252,6 +254,19 @@ Translate a simple Spanish request through the local parser:
 ```powershell
 node .\bin\reaper-manager.js ask "Coloreame todas las pistas que contengan la palabra CLICK de rojo"
 ```
+
+## Re-sending A Tempo Map
+
+`build_beat` adds tempo markers on top of the existing ones. To rebuild a piece's map send it with
+`"replace_tempo": true` (and `"replace_markers": true` for project markers), then re-send the MIDI so the notes
+land on the new map. The response reports `tempo_markers`.
+
+## Guitar Parts Carry Their Fingering
+
+`build_beat`/`replace_midi`/`add_midi` notes accept `chan` (0-15). For guitar, `chan` 0-5 = string 1-6 (high e
+= 0); the Tab Viewer then shows that string/fret instead of guessing. Ample guitars answer on every channel.
+A full fingering solver and playability checker (left hand, barres, shifts, right hand) lives in
+`A:\CERBATANA\Ableton\2026-11-02 Fantasia San Juan\generator\lib\fretboard.mjs`.
 
 ## REAPER Safety Rules
 

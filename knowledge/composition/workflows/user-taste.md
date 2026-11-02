@@ -60,6 +60,29 @@ detailed, genre-specific feedback in its project memory (`music-arrangement-prin
 - R14 `PREFER` Swing on the 8th grid. Hats laid back by about 5 ms and the snare by about 6 ms, never
   pushed. The bass is locked to the kick.
 
+- R18 `MUST` **Dynamics breathe at three levels, never flat.** Validated on *Fantasía de San Juan*
+  (guitar, 2026-11-02):
+  - inside each repeated figure (an arpeggio rises to its top note and recedes; equal attacks on every
+    note were rejected);
+  - per phrase: an arc to the culminating note, melodic contour, harmonic tension, softer phrase
+    endings, a slow breath; repeated figures that all sound the same (tremolos, ostinatos) "no terminan
+    de quedar bien";
+  - pickups belong to the next phrase: they lean into its downbeat, and the tempo breathes before them,
+    never stalling on them and jumping back.
+  Keep steady only what should be steady (bells, a groove's pulse).
+- R19 `MUST` **Calibrate velocity to the library before trusting a formula.** Measure the velocity curve
+  and its layer changes, and keep quiet styles in the soft layer. Classical guitar on Ample sounded "fuerte
+  en general" at velocities 80–110; the tremolo trill had to go down twice, to about a third of a plucked
+  melody.
+- R20 `MUST` **Every movement goes somewhere.** A home theme that returns, a contrast (key, register,
+  texture) and a prepared climax. A chain of attractive ideas without return was "no sé hacia dónde van";
+  A–B–A' with a dominant-pedal retransition was "mucho mejor".
+- R21 `MUST` **No out-of-key ornaments.** An ornament or passing note that clashes with what sounds under it
+  (C5 over E7 while G#4 rings) is heard as a wrong note. In sustained textures (tremolo, held chords) a
+  non-chord tone needs its own harmony.
+- R22 `NEVER` **Automatic expressive effects the score did not ask for** (auto slides/glissandi on big
+  leaps were "muy raros"). Add them only where marked.
+
 ## Apply
 Before delivering, play the result back mentally against R1–R6. After delivering, ask the user to listen
 and record what they validate. New validated taste goes into memory, and into this note if it is

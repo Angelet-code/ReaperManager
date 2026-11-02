@@ -25,6 +25,7 @@
     "percussion-ensemble": { "family": "percussion" },
     "drum-kit": { "family": "percussion" },
     "electric-guitar": { "family": "guitar" },
+    "classical-guitar": { "family": "guitar" },
     "electric-bass": { "family": "bass" }
   }
 }

@@ -47,6 +47,7 @@ rule strengths MUST/PREFER/AVOID/NEVER/ALLOWED).
 | "¿qué rango tiene…? / ¿puede tocar…?" | — | the instrument note via [[_instruments]]; `data/instruments.json` |
 | "reverb para orquesta / panorama / profundidad" | — | [[reverb-strategy-orchestral]], [[stage-seating-pan-depth]] |
 | check or fix generated MIDI | [[validate-generated-midi]] | [[orchestration-errors-checklist]] |
+| "obra para guitarra / guitarra clásica / trémolo / rasgueado / digitación" | [[plan-a-piece]] | [[classical-guitar-solo]], [[guitar-ample-performance]], [[user-taste]] (R18–R22) |
 
 ## Maps of content
 - [[_workflows]]: procedures.
@@ -56,7 +57,8 @@ rule strengths MUST/PREFER/AVOID/NEVER/ALLOWED).
 - [[_film-scoring]]: emotion → harmony, template, reverb, five elements, the HTTYD case study.
 
 ## Known gaps (no source in the vault)
-Choir writing, guitar, hybrid/synth layers, jazz and modern harmony (quartal, chromatic mediants,
+Choir writing, guitar beyond the solo-classical notes (no book source yet: those notes come from the user's
+feedback), hybrid/synth layers, jazz and modern harmony (quartal, chromatic mediants,
 modal loops), species counterpoint, sync to picture and hit points, trailer structure, patch and
 keyswitch maps of the user's libraries. Use general knowledge here, say so, and ask the user when it
 matters. New books in these areas can be added with `_meta/digest-spec.md` → `_meta/synthesis-spec.md`.
