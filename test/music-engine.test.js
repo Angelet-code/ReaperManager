@@ -63,6 +63,22 @@ test("sampled legato: early starts, overlap slurs, layered dynamics and section 
   assert.ok(lane(d, 21).length > 0);
 });
 
+test("a section without vib gets the default vibrato and a warning, never a CC point without a value", () => {
+  const piece = createPiece({ seed: 3, tempo, lastBar: 8, sections: [{ bar: 1, name: "A" }, { bar: 5, name: "B", vib: 30 }],
+    tracks: { STR: { profile: "albion-one/strings-long" } } });
+  piece.pad("STR", piece.harm(1, ["E", "A", "B7", "E", "C", "D", "E", "E"]), 3, 52, 64);
+  piece.dyn("STR", [[1, 0, 40], [8, 3, 30]]);
+  const report = piece.check();
+  assert.deepEqual(report.errors, []);
+  assert.ok(report.warnings.some((w) => /section A has no vib/.test(w)));
+  assert.ok(!report.warnings.some((w) => /section B has no vib/.test(w)));
+  assert.ok(piece.tracks.STR.cc.every((c) => Number.isFinite(c.pb ?? c.value)));
+  assert.ok(lane(piece.tracks.STR, 21).length > 0);
+  // a blank CC point (written by hand or by a style) is an error before it reaches REAPER
+  piece.cc("STR", 0, 7, NaN);
+  assert.ok(piece.check().errors.some((e) => /STR: 1 CC points without a value \(CC 7\)/.test(e)));
+});
+
 test("shared breaths: a doubled melody breathes in the same place", () => {
   const piece = createPiece({ seed: 1, tempo: [{ bar: 1, bpm: 60, num: 4, den: 4 }], lastBar: 12, sections: [{ bar: 1, name: "A", vib: 50 }],
     tracks: { STR: { profile: "albion-one/strings-high-octave-legato" }, WW: { profile: "albion-one/woods-high-legato" } },

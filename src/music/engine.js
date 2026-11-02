@@ -37,6 +37,8 @@ export const DEFAULT_OPTIONS = {
   swamBreath: false, // false | true | { end: "B"|"reo", shape, noise, ride, amount, ceil }
   feel: {} // { sampled: "laid-back"|"on-beat", "<track>": ... }: on-beat uses the latencies measured in context
 };
+// vibrato level of a section that does not give one (the new-piece templates use 50)
+export const SECTION_VIB = 50;
 
 /**
  * spec: {
@@ -81,10 +83,17 @@ export function createPiece(spec) {
   };
 
   // sections: [{ bar, end? (first bar after it), name, vib?, rel? }] → with pos/end in qn
-  const placeSections = (list) => list.map((s, i, all) => ({ ...s, pos: timeline.pos(s.bar, 0), end: timeline.pos(Math.min(s.end ?? all[i + 1]?.bar ?? lastBar + 2, lastBar + 2), 0) }));
+  // A section without vib used to write CC21 points with no value, and REAPER refused the whole item: fill it
+  // with SECTION_VIB and say so (rel stays optional: no release CC is written without it)
+  const withVib = (s) => {
+    if (Number.isFinite(s.vib)) return s;
+    warnings.push(`section ${s.name ?? `c.${s.bar}`} has no vib: vibrato CC at ${SECTION_VIB}`);
+    return { ...s, vib: SECTION_VIB };
+  };
+  const placeSections = (list) => list.map((s, i, all) => withVib({ ...s, pos: timeline.pos(s.bar, 0), end: timeline.pos(Math.min(s.end ?? all[i + 1]?.bar ?? lastBar + 2, lastBar + 2), 0) }));
   const sections = placeSections(spec.sections || []);
   // placed: the list already carries pos/end in qn
-  const setSections = (list, { placed = false } = {}) => { sections.splice(0, sections.length, ...(placed ? list : placeSections(list))); };
+  const setSections = (list, { placed = false } = {}) => { sections.splice(0, sections.length, ...(placed ? list.map(withVib) : placeSections(list))); };
   const sectionAt = (p) => sections.filter((s) => p >= s.pos - 0.01).pop() || sections[0] || { vib: 0 };
 
   // percussion writers bind to the declared tracks whose profile has the matching data
@@ -151,6 +160,9 @@ export function createPiece(spec) {
       const r = resolve(name);
       fixSamePitchOverlaps(d);
       for (const n of d.notes) n.vel = clamp(n.vel ?? 90);
+      // a CC point without a number reaches the bridge as null and REAPER rejects the whole item
+      const blank = d.cc.filter((c) => !Number.isFinite(c.pb ?? c.value));
+      if (blank.length) errors.push(`${name}: ${blank.length} CC points without a value (CC ${[...new Set(blank.map((c) => c.cc ?? "pb"))].join(", ")}), first at ${timeline.fmtPos(blank[0].pos)}`);
       const c = checkNotes(name, d, r.cfg.range, timeline);
       errors.push(...c.errors); warns.push(...c.warnings);
       if (r.cfg.monophonic) errors.push(...checkMonophonic(name, d, timeline).errors);
