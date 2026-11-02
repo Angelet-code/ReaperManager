@@ -1,0 +1,16 @@
+{
+  "library": "Arturia",
+  "vendor": "Arturia",
+  "defaults": { "ensemble": false, "articulation": { "method": "none" } },
+  "patches": {
+    "piano-v3": {
+      "match": ["VST3:Piano V3 (Arturia)", "VST3:Augmented GRAND PIANO (Arturia)"], "style": "piano", "family": "keyboards", "instrument": "piano",
+      "range": { "practical": [21, 108], "full": [21, 108] }, "humanize": { "ms": 5 }, "pedal": { "cc": 64, "status": "D" }
+    },
+    "mini-v3": {
+      "match": ["VST3:Mini V3 (Arturia)"], "style": "sampled-short", "family": "synth", "instrument": "synth",
+      "_doc": "Amount Mod1 is bipolar (0.5 = 0): set ~0.8 so the mod wheel opens the cutoff.", "humanize": { "ms": 3 }, "status": "A"
+    },
+    "mellotron-v": { "match": ["VST3:Mellotron V (Arturia)"], "style": "sampled-long", "family": "keyboards", "instrument": "keyboard-pad", "status": "A" }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "library": "Toontrack",
+  "vendor": "Toontrack",
+  "defaults": { "ensemble": false, "articulation": { "method": "none" } },
+  "patches": {
+    "ezdrummer-3": {
+      "match": ["VST3:EZdrummer 3 (Toontrack)"], "style": "drums", "family": "percussion", "instrument": "drum-kit",
+      "_doc": "GM-style map so any kit works; the kit itself is chosen in the EZD3 GUI (not a plugin parameter).",
+      "map": { "kick": 36, "snare": 38, "rim": 40, "sidestick": 37, "hat": 42, "hatPedal": 44, "hatOpen": 46, "crash": 49, "crash2": 57,
+        "splash": 55, "china": 52, "ride": 51, "rideBell": 53, "tom1": 48, "tom2": 47, "tom3": 45, "floor": 43, "floor2": 41 },
+      "groups": { "snare": ["snare", "rim", "sidestick"], "hats": ["hat", "hatPedal", "hatOpen", "ride", "rideBell"], "cymbals": ["crash", "crash2", "splash", "china"] },
+      "status": "M"
+    },
+    "ezbass": {
+      "match": ["VST:EZbass (Toontrack)", "VST3:EZbass (Toontrack)"], "style": "sampled-short", "family": "bass", "instrument": "electric-bass",
+      "_doc": "Write parts an octave above real pitch (low E = MIDI 40); the user preferred it (folk metal, 2026-10-28).",
+      "transposeWritten": 12, "range": { "practical": [40, 64], "full": [40, 67] }, "humanize": { "ms": 4 }, "status": "M"
+    }
+  }
+}

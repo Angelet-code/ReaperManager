@@ -1,0 +1,16 @@
+{
+  "library": "REAPER built-ins",
+  "vendor": "Cockos",
+  "defaults": { "ensemble": false, "articulation": { "method": "none" } },
+  "patches": {
+    "rs5k-oneshot": {
+      "match": ["sampler"], "style": "drums", "family": "percussion", "instrument": "drum-kit",
+      "_doc": "One ReaSamplOmatic5000 per drum piece, note 60 by default; one track per piece (beat-making-preferences).",
+      "map": { "hit": 60 }, "status": "M"
+    },
+    "reasynth": {
+      "match": ["ReaSynth"], "style": "sampled-short", "family": "synth", "instrument": "synth",
+      "_doc": "Pulse width != 0.5 creates DC offset: put JS: Filters/dc_remove after it.", "humanize": { "ms": 3 }, "status": "M"
+    }
+  }
+}

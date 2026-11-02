@@ -1,0 +1,449 @@
+{
+  "_doc": "Generic defaults per style. A track's resolved config = this style block -> family block -> _players.json (instrument) -> library defaults -> patch -> piece override. Any value taken from here for a field the style lists in 'required' is reported as a warning.",
+  "styles": {
+    "sampled-legato": {
+      "required": [
+        "dynamics.cc",
+        "expression.cc",
+        "latency.attackMs",
+        "latency.slurMs",
+        "legato.overlapMs"
+      ],
+      "legato": {
+        "mode": "overlap-mono",
+        "overlapMs": 70,
+        "releaseGapMs": 30,
+        "staccatoGapMs": 120
+      },
+      "dynamics": {
+        "cc": 1,
+        "layerMap": [
+          0.78,
+          6
+        ],
+        "drift": [
+          2.2,
+          1.4
+        ]
+      },
+      "noteShape": {
+        "dip": 5
+      },
+      "expression": {
+        "cc": 11,
+        "phrase": {
+          "start": 104,
+          "peak": 114,
+          "hold": 112,
+          "end": 100
+        },
+        "lift": 8
+      },
+      "vibrato": {
+        "cc": 21,
+        "scale": 0.7
+      },
+      "release": {
+        "cc": 17
+      },
+      "latency": {
+        "attackMs": 25,
+        "slurMs": 50,
+        "jitterMs": 8
+      },
+      "velocity": {
+        "slur": "map",
+        "slurMap": {
+          "fast": 112,
+          "mid": 96,
+          "slow": 78,
+          "slowLeap": 58,
+          "fastSec": 0.22,
+          "midSec": 0.45,
+          "jitter": 5,
+          "leapJitter": 4
+        },
+        "attack": {
+          "base": 70,
+          "perDyn": 0.25
+        }
+      },
+      "trim": {
+        "method": "cc11-then-cc1",
+        "cc11Floor": 90,
+        "cc1PerDb": 4
+      },
+      "monophonic": true
+    },
+    "sampled-long": {
+      "required": [
+        "dynamics.cc",
+        "expression.cc",
+        "latency.attackMs"
+      ],
+      "legato": {
+        "releaseGapMs": 20
+      },
+      "dynamics": {
+        "cc": 1,
+        "layerMap": [
+          0.78,
+          6
+        ],
+        "drift": [
+          2.2,
+          1.4
+        ]
+      },
+      "noteShape": {
+        "dip": 8
+      },
+      "expression": {
+        "cc": 11,
+        "phrase": {
+          "start": 104,
+          "peak": 114,
+          "hold": 112,
+          "end": 100
+        },
+        "lift": 8
+      },
+      "vibrato": {
+        "cc": 21,
+        "scale": 0.7
+      },
+      "release": {
+        "cc": 17
+      },
+      "latency": {
+        "attackMs": 25,
+        "slurMs": 25,
+        "jitterMs": 8
+      },
+      "velocity": {
+        "attack": {
+          "base": 40,
+          "perDyn": 0.6,
+          "jitter": 4
+        }
+      },
+      "trim": {
+        "method": "cc11-then-cc1",
+        "cc11Floor": 90,
+        "cc1PerDb": 4
+      }
+    },
+    "sampled-short": {
+      "required": [
+        "humanize.ms"
+      ],
+      "humanize": {
+        "ms": 7
+      },
+      "velocity": {
+        "offset": 6,
+        "jitter": 4,
+        "keepJitter": 2,
+        "minLenQn": 0.06
+      },
+      "expression": {
+        "cc": 11,
+        "hairpin": {
+          "center": 94,
+          "perDyn": 0.32,
+          "floor": 70
+        }
+      },
+      "trim": {
+        "method": "cc11-and-velocity",
+        "cc11Floor": 70,
+        "velPerDb": 3
+      }
+    },
+    "modeled": {
+      "required": [
+        "expression.cc",
+        "expression.dynMap",
+        "vibrato.cc",
+        "vibrato.depth"
+      ],
+      "kind": "wind",
+      "expression": {
+        "cc": 11,
+        "dynMap": [
+          20,
+          0.85
+        ],
+        "floor": 8,
+        "arc": 9,
+        "arcSkew": 0.7,
+        "contour": 0.9,
+        "lead": {
+          "windMs": 150,
+          "stringMs": 120,
+          "from": 0.6
+        },
+        "attackMs": {
+          "wind": 90,
+          "string": 110,
+          "inPhrase": 60
+        },
+        "rearticulationDip": {
+          "wind": 9,
+          "string": 12
+        },
+        "longNote": {
+          "minSec": 0.7,
+          "bigSec": 1.6,
+          "bump": [
+            5,
+            9
+          ],
+          "late": 2
+        },
+        "tail": {
+          "windMs": 240,
+          "stringMs": 300,
+          "fall": 22,
+          "floor": {
+            "wind": 14,
+            "string": 20
+          }
+        }
+      },
+      "vibrato": {
+        "cc": 1,
+        "depth": 40,
+        "delaySec": 0.35,
+        "minSec": 0.45
+      },
+      "legato": {
+        "mode": "overlap-mono",
+        "overlapMs": [
+          28,
+          50
+        ],
+        "gapMs": 45,
+        "tightMs": 40
+      },
+      "timing": {
+        "jitterMs": [
+          14,
+          10
+        ]
+      },
+      "velocity": {
+        "slur": {
+          "fast": 110,
+          "mid": 98,
+          "slow": 88,
+          "fastSec": 0.25,
+          "midSec": 0.5,
+          "stringOffset": -4,
+          "jitter": 6,
+          "floor": 0
+        },
+        "gliss": 72,
+        "grace": 120,
+        "attack": {
+          "base": 56,
+          "perDyn": 0.45,
+          "jitter": 4
+        }
+      },
+      "pitchBend": {
+        "range": 2,
+        "scoop": 0
+      },
+      "trim": {
+        "method": "modeled-cc11",
+        "ccPerDb": 6
+      },
+      "monophonic": true,
+      "breathShapes": {
+        "_doc": "Breath layer per family (measured on played MIDI, docs/swam-performance-research.md §5). mix: shape probabilities; pk: peak position range (share of the note); up/dn: rise/fall in points; rms: noise residual; slur: push at upward slurs.",
+        "wind": {
+          "mix": {
+            "messa": 0.65,
+            "bloom": 0.35
+          },
+          "messa": {
+            "pk": [
+              0.45,
+              0.75
+            ],
+            "up": [
+              8,
+              16
+            ],
+            "dn": [
+              8,
+              20
+            ]
+          },
+          "bloom": {
+            "pk": [
+              0.2,
+              0.4
+            ],
+            "up": [
+              2,
+              8
+            ],
+            "dn": [
+              8,
+              16
+            ]
+          },
+          "rms": 1.5,
+          "slur": [
+            3,
+            6
+          ],
+          "vibRide": 1
+        },
+        "brass": {
+          "mix": {
+            "cresc": 0.5,
+            "bloom": 0.5
+          },
+          "cresc": {
+            "pk": [
+              0.6,
+              0.9
+            ],
+            "up": [
+              6,
+              12
+            ],
+            "dn": [
+              0,
+              4
+            ]
+          },
+          "bloom": {
+            "pk": [
+              0.2,
+              0.4
+            ],
+            "up": [
+              2,
+              6
+            ],
+            "dn": [
+              4,
+              12
+            ]
+          },
+          "rms": 1.7,
+          "slur": [
+            3,
+            6
+          ],
+          "vibRide": 0.4
+        },
+        "string": {
+          "mix": {
+            "bloom": 0.75,
+            "cresc": 0.25
+          },
+          "bloom": {
+            "pk": [
+              0.15,
+              0.45
+            ],
+            "up": [
+              2,
+              8
+            ],
+            "dn": [
+              12,
+              25
+            ]
+          },
+          "cresc": {
+            "pk": [
+              0.7,
+              0.9
+            ],
+            "up": [
+              6,
+              12
+            ],
+            "dn": [
+              0,
+              4
+            ]
+          },
+          "rms": 1.2,
+          "slur": [
+            3,
+            6
+          ],
+          "vibRide": 1.2
+        }
+      }
+    },
+    "piano": {
+      "required": [],
+      "humanize": {
+        "ms": 5,
+        "noteMs": 2
+      },
+      "velocity": {
+        "perDyn": 0.82,
+        "offset": 14,
+        "top": 9,
+        "bottom": 3,
+        "inner": -3,
+        "jitter": 4,
+        "keepJitter": 3
+      },
+      "trim": {
+        "method": "velocity",
+        "velPerDb": 2.5
+      }
+    },
+    "percussion": {
+      "required": [],
+      "humanize": {
+        "ms": 0
+      },
+      "velocity": {
+        "jitter": 4,
+        "keepJitter": 2
+      },
+      "trim": {
+        "method": "velocity",
+        "velPerDb": 3
+      }
+    },
+    "drums": {
+      "required": [
+        "map"
+      ],
+      "humanize": {
+        "velocity": 4
+      },
+      "feel": {
+        "driftMs": 4.5,
+        "offsetsMs": {}
+      },
+      "trim": {
+        "method": "velocity",
+        "velPerDb": 3
+      }
+    }
+  },
+  "families": {
+    "strings": {
+      "modeled": {
+        "kind": "string"
+      }
+    },
+    "woodwinds": {},
+    "brass": {},
+    "percussion": {},
+    "keyboards": {}
+  }
+}

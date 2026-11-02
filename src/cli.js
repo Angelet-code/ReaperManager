@@ -41,6 +41,7 @@ import { prepareReferenceHierarchy } from "./reference-stems.js";
 import { runDeclip } from "./declip.js";
 import { runProximityDetect } from "./proximity.js";
 import { runToolToReport } from "./tools.js";
+import { musicProfiles, musicResolve } from "./commands/music.js";
 
 export async function main(argv) {
   const [command, ...rest] = argv;
@@ -139,6 +140,8 @@ export async function main(argv) {
       return humanizeCommand(rest, root);
     case "lock":
       return lockCommand(rest, root);
+    case "music":
+      return musicCommand(rest);
     case undefined:
     case "help":
     case "--help":
@@ -423,6 +426,15 @@ async function lockCommand(args, root) {
   }, root, options);
 }
 
+// music profiles [--assumed] | music resolve --profile <lib/patch>: music engine profile data (no REAPER).
+function musicCommand(args) {
+  const [sub, ...rest] = args;
+  const options = parseOptions(rest);
+  if (sub === "profiles") return printJson(musicProfiles({ assumedOnly: Boolean(options.assumed) }));
+  if (sub === "resolve") return printJson(musicResolve(options));
+  throw new Error('music: use "music profiles [--assumed]" or "music resolve --profile <library/patch>".');
+}
+
 async function undoCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildUndoCommand({ count: options.count || options._[0] || 1 }), root, options);
@@ -558,6 +570,8 @@ function printHelp() {
   node ${bin} route-to-bus --selected --bus DRUMS --disable-main
   node ${bin} fx-bypass --selected --fx RVerb --state toggle
   node ${bin} undo --count 1
+  node ${bin} music profiles --assumed
+  node ${bin} music resolve --profile swam/flute-3
   node ${bin} rock-template
   node ${bin} ask "Coloreame todas las pistas que contengan la palabra CLICK de rojo"
   node ${bin} chat "baja guitarras 1 dB"
