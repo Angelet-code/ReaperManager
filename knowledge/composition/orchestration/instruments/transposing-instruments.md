@@ -37,6 +37,8 @@ save ledger lines.
 | Strings (except Cb), flute, oboe, bassoon, trombones, tuba, timpani, harp, piano, marimba, vibes, bells | 0 | 0 |
 
 Historic horn crooks (written→sounding): C −12, D −10, Eb −9, E −8, F −7, G −5, A −3, Bb alto −2.
+Old (19th-c.) horn bass-clef notation is written an octave low: in F it sounds a P4 *above* written (+5);
+modern parts use −7 in both clefs (adler-orq-es p.315-316, piston-orch p.225-245; see [[horn]]).
 
 **Clefs:** treble — violin, flute, oboe, clarinets, trumpet, horn (bass clef for low notes); alto — viola
 (treble when high); tenor — high cello, bassoon, trombone; bass — cello, double bass, bassoon,

@@ -1,75 +1,93 @@
 ---
 id: orchestration.violin
 title: Violin (Vln I / Vln II)
-aliases: [violín, violines, violín primero, violín segundo, Violine, Geige, violino, violon]
+aliases: [violín, violines, violín primero, violín segundo, primeros violines, segundos violines, concertino, violín solista, violín solo, cuerda sol, cuerda mi, sul G, sul E, cuerdas al aire, Violine, Geige, G-Saite, violino, violon]
 domain: orchestration
-tags: [strings, instrument, ranges, registers]
+tags: [strings, instrument, ranges, registers, roles, doubling, solo]
 style_scope: universal
-use_when: Writing, checking or voicing a violin I / violin II part (section or solo) in MIDI.
-summary: Violin sounds as written, G3–E7 (55–100) orchestrally, comfortable 55–88; the E string (76–88) is the brightest and strongest, the D string (62–74) the weakest, the G string (55–74) dark and powerful for broad melodies. Most agile string; use détaché/spiccato for fast notes and divisi rather than chords in sections.
-sources: ["unir-orq-tema4 p.5-7, 15-21", "apuntes-orq-sesion1 scan p.5-6", "unir-orq-tema1 p.8-11"]
-related: ["[[string-techniques]]", "[[orchestra-sizes-and-section-balance]]", "[[stage-seating-pan-depth]]", "[[viola]]", "[[cello]]", "[[flute-piccolo]]", "[[_instruments]]"]
+use_when: Writing, checking or voicing a violin I / violin II part (section or solo) in MIDI: range, string colour, Vln I/II roles, solos and doublings.
+summary: Violin sounds as written; sections G3–E7 (55–100), most secure 55–88, Classical pastiche ≤ A6 (93), solo to ≈ B7 (107). Colour follows the string, not the octave: E (76+) brightest and strongest, G (55–72) dark and second in power, D (62–74) weakest, A (69–81) strong low and softer high. Vln I carries the themes; Vln II doubles it or accompanies. Positions, leaps, chords and harmonics are in [[violin-technique-limits]].
+sources: ["unir-orq-tema4 p.5-7, 15-21", "apuntes-orq-sesion1 scan p.5-6", "unir-orq-tema1 p.8-11", "adler-orq-es p.51-65", "piston-orch p.31, 37-64"]
+related: ["[[violin-technique-limits]]", "[[string-techniques]]", "[[string-techniques-stops-and-divisi]]", "[[string-section-writing]]", "[[orchestra-sizes-and-section-balance]]", "[[stage-seating-pan-depth]]", "[[viola]]", "[[cello]]", "[[flute-piccolo]]", "[[_instruments]]"]
 ---
 
 # Violin (Vln I / Vln II)
 
 ## Core idea
-Smallest and highest string: bright, lyrical, powerful, the default melodic voice of the orchestra until
-the late 19th c. Open strings **G3 D4 A4 E5 (55 62 69 76)**, tuned in fifths, treble clef, non-transposing.
-Two sections (Vln I, Vln II) each play one line unless marked divisi.
+Soprano of the strings, the most versatile string instrument. Open strings **G3 D4 A4 E5 (55 62 69 76)**,
+treble clef, non-transposing. The string ranges overlap, so colour depends on **which string** plays a
+note more than on its octave (Piston). Two sections, one line each unless divisi.
 
-| Zone | MIDI | Colour / behaviour |
+| Zone | MIDI | Colour |
 |---|---|---|
-| G string | 55–67 (sul G melodies up to D5 = 74) | dark, excellent power, broad expressive melodies |
-| D string | 62–74 | weakest string: gentle, grey, soft |
-| A string | 69–81 | strong in 1st position, loses brilliance as it climbs |
-| E string | 76–88 | most brilliant and strongest; strident if forced, ethereal and luminous when soft |
-| High extension | 89–93 | 6th–7th position: intonation harder, less power; use sparingly |
-| Extreme | 94–100 | orchestral ceiling ≈ E7 (100); short, exposed, tutti-supported only |
-| Solo only | 101–107 | figure shows stopped notes to ≈ B7, harmonics to ≈ D8 (110) [approx.] |
+| G string | 55–72 (sul G to 74) | dark, second in power; broad intense melodies; ferocious accents; hoarse at its top |
+| D string | 62–74 | weakest: calm, subdued, warm |
+| A string | 69–81 | strong in 1st position, softer higher: soft lyrical lines |
+| E string | 76–88 | most carrying power; strident if forced, luminous or mysterious when soft |
+| High extension | 89–93 | less power, harder intonation |
+| Extreme | 94–100 | orchestral ceiling; few, short, doubled |
+| Solo only | 101–107 | harmonics to ≈ 110 (approx.) |
 
-Full orchestral range **55–100**, practical **55–88**.
+55–61 exist only on the G string, 95+ only on the E string (Adler).
+**Range default:** full 55–100, practical 55–88. Variants: Adler and Piston cap orchestral parts at E7
+(100); Adler allows ≥ 107 for solo; his Classical cap is A6 (93).
 
 ## Rules
-- R1 `MUST` keep every note ≥ 55 (open G3). Nothing below exists on the instrument.
-- R2 `AVOID` section notes above 93 (A6); `NEVER` above 100 in orchestral parts (apuntes R6). Each string
-  is best in its first octave (G3–G4, D4–D5, A4–A5, E5–E6); tension and intonation risk grow above it.
-- R3 `ALLOWED` sul G melody up to D5 (74) for a dark, intense colour (Mahler 3/VI moves G→D string).
-- R4 `AVOID` open strings (55/62/69/76 held long and exposed) in expressive melody: no vibrato, different
-  timbre; fine in fast scales and ornaments.
-- R5 `ALLOWED` fast scales, arpeggios, repeated notes and string crossings: most agile string. `PREFER`
-  détaché/separate bows for fast runs, not legato (Flight of the Bumblebee: winds slur, strings détaché).
-- R6 `MUST` give every triple/quadruple stop at least one open-string pitch; comfortable keys D, G, A, E, C.
-  `AVOID` many multiple stops in sections, especially with many accidentals (dirty result); `PREFER` divisi.
-- R7 `MUST` mark concertmaster solos "solo" → use a solo-violin patch, not the section.
-- R8 `PREFER` roles: Vln I = soprano/melody (not always); Vln II = harmony or doubling of Vln I (octave or
-  3rd/6th below), accompaniment figures, textures. Either can take counterpoint.
-- R9 `ALLOWED` antiphonal seating (Vln I left, Vln II right) for call-and-response writing (Beethoven 7/I).
-- R10 `PREFER` doublings: Vln I + flute (unison or flute 8va) for brilliance; Vln I + II in octaves for
-  melodic weight; violins + oboe or clarinet at unison to colour a tune; piccolo + Vln I in high passages
-  (Vivaldi piccolo concerto). Baroque flute parts often simply double violins (tema 5).
-- R11 `AVOID` letting brass or full woodwinds cover a violin melody in 69–81 at f: violins need
-  numbers (see [[orchestra-sizes-and-section-balance]]) or an octave doubling to balance a large brass section.
+- R1 `MUST` every note ≥ 55. `AVOID` section notes > 93; `NEVER` > 100 in orchestral parts.
+- R2 `ALLOWED` above 100 only with a few desks plus a woodwind unison (Strauss *Zarathustra*: G#7 ≈ 104,
+  two desks + piccolo; Piston).
+- R3 `ALLOWED` sul G melody for intensity: cautious top C5 (72, Piston), D5 (74) vault default; also to
+  keep power in the D-string range (Bartók *Concerto for Orchestra*).
+- R4 `PREFER` high brilliance → E string; a soft expressive phrase in 74–81 stays on the A string (Adler,
+  Piston). Mark `sul …` only for a deliberate colour.
+- R5 `AVOID` exposed held open strings (55/62/69/76) in expressive melody (no vibrato). `ALLOWED` in fast
+  figures and for their ring (Brahms 4).
+- R6 `PREFER` détaché for energetic runs; Vln I + II in unison add energy and volume (Mozart K.543).
+- R7 `PREFER` divisi over multiple stops in sections; `AVOID` wide section leaps, above all legato
+  ([[violin-technique-limits]]).
+- R8 `MUST` an orchestral solo is the concertmaster; two soloists = the first desk, or concertmaster +
+  principal second (Adler). Solo patch, never the section at low CC1.
+- R9 `PREFER` a solo violin for its intimate, intense tone, not merely less volume. It carries well; keep
+  the tutti under it thin and soft (Brahms 1/ii; Piston).
+- R10 `PREFER` roles: Vln I = top voice, most themes. Vln II = mostly doubling Vln I at unison or octave;
+  else a 3rd/6th below, accompaniment, a secondary melody, or the tune for variety. It is technically
+  close to Vln I (Piston).
+- R11 `ALLOWED` split a fast line between Vln I and II in alternating fragments that meet on a shared
+  unison note (Brahms 4): simpler parts, more energy.
+- R12 `ALLOWED` divided violins or 2–4 solo violins alone as a chamber texture (Liszt *Faust*).
+- R13 `ALLOWED` antiphonal seating (Vln I left, II right) for call and response (Beethoven 7). Piston: the
+  effect is much reduced in practice; treat it as colour.
+- R14 `PREFER` doublings: + flute (unison or 8va) for brilliance; Vln I + II in octaves for weight; +
+  oboe/clarinet unison for colour; + piccolo high; violas 8vb under a ff tune (Berlioz *Fantastique*).
+- R15 `MUST` in loud tutti, double the violin line or thin the brass (Piston).
+- R16 `AVOID` a trill on open G3 (55); a section trill is shimmer, a crisp trill belongs to a soloist
+  (Piston).
+
+## Period practice
+- `[era: Classical, Adler]` top A6 (93). `[Piston]` 6–10 per violin section; Vln II doubled Vln I to
+  balance horns and trumpets.
+- `[era: late Romantic/Viennese c. 1890–1930, Piston]` audible portamento on wide upward slurred leaps
+  (*Rosenkavalier*); Classical shifts stay clean.
+- `[era: before c. 1925, Piston]` gut E string: silkier, mellower top.
+- `[era: Baroque, UNIR]` flute parts often just double the violins.
 
 ## Apply in MIDI / REAPER
-- Separate tracks: `Vln I`, `Vln II`; add `Vln I div a/b` tracks instead of chords when a part splits.
-- Articulation mapping ([[string-techniques]]): slurred phrase → legato patch; unslurred moderate notes →
-  sustain/détaché; dotted notes at moderate tempo, p–mf → spiccato; fast 16ths → spiccato/staccato or
-  short détaché; pizz, tremolo, con sordino, harmonics → matching patches.
-- Dynamics: CC1 for longs, velocity for shorts (mapping in [[_instruments]]). E-string ff (76–93) can
-  reach CC1 110–127; a D-string-only line (62–74) at f needs doubling to be heard over winds.
-- Pan (stage default): Vln I left (≈ L60), Vln II right (antiphonal ≈ R60) or centre-left (modern).
-- Very high soft sustains (88–100, pp, con sord or harmonics) give the "ethereal" film halo; keep CC1 ≤ 45.
+- Tracks `Vln I`, `Vln II`, `Vln I div a/b`, and a separate `Vln solo`.
+- Articulation → patch: [[string-techniques]]. CC1 for longs, velocity for shorts.
+- Register = colour: intense 55–72 mf–f; veiled 62–74 p (double it at f); glowing 76–96 pp–p (CC1 ≤ 45);
+  brilliant 76–93 f–ff (CC1 100–127).
+- Hocket (R11): Vln I plays bars 1–2, Vln II enters on the last note of bar 2 in unison.
+- Solo ≈ +5 dB over its bed by performance, not faders; bow changes ~4 s at f, ~10 s at pp
+  ([[user-taste]] R15–R16).
+- Pan from [[stage-seating-pan-depth]]: Vln I L55–60; Vln II L30 (modern) or R60 (antiphonal).
 
 ## Checklist
-- [ ] All notes within 55–100; notes 94–100 are few, short or doubled; nothing ≥ 101 on a section track.
-- [ ] Most melodic time spent in 55–88.
-- [ ] Chords on one track: each triple/quad stop includes 55, 62, 69 or 76 and adjacent notes ≤ 9 st apart
-      (inferred); otherwise split into divisi tracks.
-- [ ] Fast runs (16ths ≥ ~120 bpm) use a short/détaché patch, not legato.
-- [ ] Pizz ↔ arco and con sord ↔ senza changes have a gap (see [[string-techniques]]).
-- [ ] Vln II does not sit above Vln I for long stretches unless intended.
+- [ ] Section notes 55–100, mostly 55–88; 94–100 few, short or doubled; ≥ 101 only on a solo track.
+- [ ] Classical pastiche ≤ 93.
+- [ ] Leaps and chords pass [[violin-technique-limits]].
+- [ ] Fast runs (16ths ≥ ~120 bpm) on a short/détaché patch.
+- [ ] Vln II not above Vln I for long unless intended; loud tutti melody doubled or brass thinned.
 
 ## Examples
-- Typical open-string chords (sounding): G3–D4–B4–G5, G3–E4–C5–E5, A3–E4–C#5–A5, D4–A4–A5.
-- Sul G cantabile: D4–G4–B4–D5 on the G string, f espressivo, CC1 90–105.
+- Sul G cantabile: D4–G4–B4–D5 (62 67 71 74), f espressivo, CC1 90–105 (Tchaikovsky 5/ii model).
+- Soft E-string line: E5–B5–A5–E6 (76 83 81 88), pp, CC1 30–45 (Prokofiev *Classical*/ii model).

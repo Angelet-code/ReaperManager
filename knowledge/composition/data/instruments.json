@@ -9,18 +9,18 @@
     "range_full": [55, 100],
     "range_practical": [55, 88],
     "registers": [
-      { "name": "G string", "range": [55, 67], "character": "dark, powerful; sul G melodies up to D5 (74)" },
-      { "name": "D string", "range": [62, 74], "character": "weakest string: gentle, grey, soft" },
-      { "name": "A string", "range": [69, 81], "character": "strong in 1st position, loses brilliance higher" },
-      { "name": "E string", "range": [76, 88], "character": "most brilliant and strongest; ethereal when soft" },
-      { "name": "high extension", "range": [89, 93], "character": "6th-7th position: harder intonation, less power" },
-      { "name": "extreme", "range": [94, 100], "character": "orchestral ceiling; short, exposed, supported only" }
+      { "name": "G string", "range": [55, 72], "character": "dark, second in power; broad intense melodies to C5 (Piston), sul G to D5 (74); ferocious accents" },
+      { "name": "D string", "range": [62, 74], "character": "weakest string: calm, subdued, warm" },
+      { "name": "A string", "range": [69, 81], "character": "strong in 1st position, softer and lyrical higher" },
+      { "name": "E string", "range": [76, 88], "character": "most carrying power; strident if forced, luminous or mysterious when soft" },
+      { "name": "high extension", "range": [89, 93], "character": "less power, harder intonation" },
+      { "name": "extreme", "range": [94, 100], "character": "orchestral ceiling; few players, short, woodwind-doubled" }
     ],
     "weak_dynamics": [
       { "range": [62, 74], "issue": "a line kept on the D string is soft; double it or thin winds when at f" },
       { "range": [89, 100], "issue": "power and accuracy drop; avoid long or unsupported section notes" }
     ],
-    "notes": "Open strings 55/62/69/76. Solo violin reaches ~107 (harmonics ~110); not for sections. Triple/quad stops need an open-string pitch; prefer divisi in sections."
+    "notes": "Open strings 55/62/69/76. 55-61 only on G, 95+ only on E. First position 55-83 most secure. Classical cap 93 (Adler). Solo to ~107 (Adler), harmonics ~110; not for sections. Slurred leaps only on same/adjacent strings (Piston). Chords: adjacent strings, rolled; triple/quad stops need an open-string pitch; prefer divisi in sections. Natural harmonics on G: 67/74/79/83; artificial = stopped + 24. Avoid trills from open G (55). School orchestras: Vln I to 3rd position (~86), Vln II 1st position (~83) (Adler p.716-756; pitches general knowledge). Adler App. A: pro 55-107 [?] (prefer <= 100 for sections), beginners to 86, amateurs to 91."
   },
   {
     "id": "viola",
@@ -32,17 +32,31 @@
     "range_full": [48, 88],
     "range_practical": [48, 81],
     "registers": [
-      { "name": "C string", "range": [48, 55], "character": "dark, ominous; below violin range" },
-      { "name": "G string", "range": [55, 62], "character": "rich and warm" },
-      { "name": "D string", "range": [62, 69], "character": "discreet, gentle; accompaniment or melody" },
-      { "name": "A string", "range": [69, 81], "character": "nasal, penetrating, a bit unstable higher" },
-      { "name": "extension", "range": [82, 88], "character": "rare, strained; violins cover this register" }
+      { "name": "C string", "range": [48, 55], "character": "signature: sombre, menacing in loud détaché; delicate at pp" },
+      { "name": "G string", "range": [55, 62], "character": "subdued, warmer than the violin G" },
+      { "name": "D string", "range": [62, 69], "character": "gentle accompaniment string; gentle melodies" },
+      { "name": "A string", "range": [69, 81], "character": "nasal, penetrating, stands out; usual solo string; blends with woodwinds" },
+      { "name": "extension", "range": [82, 88], "character": "above 3rd position; rare, nearly always doubled by violins; 88 as harmonic" }
     ],
     "weak_dynamics": [
       { "range": [48, 81], "issue": "least powerful string section per player; exposed melody against brass needs doubling" },
+      { "range": [62, 69], "issue": "an intense lyrical melody here sounds sweet but bland; prefer cello upper register or violin sul G (Adler p.118-126)" },
       { "range": [82, 88], "issue": "nasal and strained; avoid in orchestral writing" }
     ],
-    "notes": "Open strings 48/55/62/69. Write dyads as divisi tracks; avoid triple/quad stops. Solo figure reaches ~98."
+    "notes": "Open strings 48/55/62/69. Comfortable <= 79 (3rd position, Piston). Two simultaneous notes both < 55 must be divisi. Max hand span P4 in stops; write dyads as divisi tracks, open-string 3-note chords only in ff tutti. Touch-4th harmonics <= 98; natural harmonics on C: 60/67/72/76; artificial = stopped + 24. Avoid trills from open C (48). Pizz wooden above ~76. Doubling a unison line whose top lies on the A string: mark the upper half sul D (Piston p.418); violas in unison with cellos on their A string add warmth, not brilliance. Solo figure ~98 (UNIR). B2 (47) only as scordatura. Adler App. A: pro 48-93, beginners to 81, amateurs ~83-84 [?]."
+  },
+  {
+    "id": "viola_damore",
+    "name_en": "Viola d'amore",
+    "name_es": "Viola de amor",
+    "family": "strings",
+    "note": "viola-damore",
+    "transposition_semitones": 0,
+    "range_full": [45, 93],
+    "range_practical": [57, 86],
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Period/solo colour, no section. 7 bowed strings A2 D3 A3 D4 F#4 A4 D5 (45 50 57 62 66 69 74; lowest [?]) + 7 sympathetic strings; D minor: F#4->F4. Top ~93 [?] (Adler p.73-75). Practical range is inferred."
   },
   {
     "id": "cello",
@@ -54,16 +68,17 @@
     "range_full": [36, 81],
     "range_practical": [36, 76],
     "registers": [
-      { "name": "C and G strings", "range": [36, 49], "character": "full, deep bass; little difference between C and G" },
-      { "name": "D string", "range": [50, 56], "character": "soft, discreet" },
-      { "name": "A string", "range": [57, 69], "character": "expressive and powerful: main melody zone" },
-      { "name": "high / thumb position", "range": [70, 81], "character": "intense singing tenor/alto colour" }
+      { "name": "C and G strings", "range": [36, 49], "character": "full, rich bass; C ponderous at f; G least volume (Adler), little timbre difference (Piston)" },
+      { "name": "D string", "range": [50, 56], "character": "smooth, warm, unobtrusive: dolce/intimate melodies (Adler: most lyrical)" },
+      { "name": "A string", "range": [57, 69], "character": "intense, powerful, brilliant: section melodies that must project" },
+      { "name": "high / thumb position", "range": [70, 81], "character": "intense singing tenor/alto; section top A5 (Piston)" }
     ],
     "weak_dynamics": [
-      { "range": [36, 49], "issue": "low melodies muddy and covered under dense mid-range scoring" },
-      { "range": [70, 81], "issue": "pizzicato loses resonance above about an octave over the open strings" }
+      { "range": [36, 50], "issue": "soft melodies here are covered: accompany pp and thin (Piston)" },
+      { "range": [43, 49], "issue": "G string projects least (Adler); double a weak low line" },
+      { "range": [72, 81], "issue": "pizzicato turns wooden above about B4 (71) (Piston)" }
     ],
-    "notes": "Open strings 36/43/50/57. Best pizz 36-69. No seconds in double stops. Solo literature goes higher (~93)."
+    "notes": "Open strings 36/43/50/57. Section top 81 (Piston); solo 82-88 (Piston D6-E6), solo literature to ~93. Thumb position from ~69 on the A string: prepare it. Double stops: no seconds low (Adler: > 6th hard low). Pizz good to 71. Natural harmonics on C: 48/55/60/64; artificial = stopped + 24. Best section for an intense lyrical melody in ~55-67; a restatement goes to Vln I an octave up (Adler p.118-126). A-string melody: avoid unison with violins/violas around 60-76 unless that colour is wanted (Piston p.417-418). 19th-c. editions: treble clef sounded 8vb. Adler App. A: pro 36-88 (section writing: <= 79 safe), beginners to 69, amateurs to 79."
   },
   {
     "id": "double_bass",
@@ -75,16 +90,19 @@
     "range_full": [24, 67],
     "range_practical": [28, 55],
     "registers": [
-      { "name": "extension", "range": [24, 27], "character": "C1-Eb1, only 5-string or C-extension basses" },
-      { "name": "low", "range": [28, 40], "character": "foundation; slow speech, heavy" },
-      { "name": "middle", "range": [41, 55], "character": "clearer, defined bass lines" },
-      { "name": "high", "range": [56, 67], "character": "thin, soloistic" }
+      { "name": "extension", "range": [24, 27], "character": "C1-Eb1: 5-string, C extension or scordatura (Eb1/D1) only" },
+      { "name": "low", "range": [28, 40], "character": "foundation; slow speech, heavy; pedals and pizz" },
+      { "name": "middle", "range": [41, 55], "character": "clearer, defined lines; best for divisi and bass chords" },
+      { "name": "high", "range": [56, 62], "character": "effective but intonation-sensitive; approach by step (Adler practical top 59, Piston 62)" },
+      { "name": "solo", "range": [63, 67], "character": "solo lines only; natural harmonics continue to G5 (79)" }
     ],
     "weak_dynamics": [
-      { "range": [24, 27], "issue": "only with 5-string/extension patch; otherwise out of range" },
-      { "range": [28, 40], "issue": "slow response: avoid fast figuration" }
+      { "range": [24, 27], "issue": "only some players have it: write in octaves, mark 'low C only'" },
+      { "range": [28, 40], "issue": "slow response: simplify fast figures copied from the cellos" },
+      { "range": [28, 33], "issue": "long stretches here make the orchestra heavy (Piston)" },
+      { "range": [60, 67], "issue": "pizzicato rarely above B3 (59); bowed above 62 solo only" }
     ],
-    "notes": "Open strings 28/33/38/43 (fourths). Written an octave above sounding. Source figure: top stopped note sounding G3 (55), harmonics ~79. Never exactly 2 basses."
+    "notes": "Open strings 28/33/38/43 (fourths). Written 8va above sounding (harmonics in treble clef written at pitch). Practical top variants: UNIR 55 (default), Adler 59, Piston 62. Pizz <= 59. Double stops need an open string (Adler) or stopped 3rd/4th/5th (Piston). Natural harmonics on E: 40/47/52/56 (Adler charts to partial 10), none artificial in orchestra. Jeté <= 3-4 notes per stroke. A melody an octave down (33-52) is a good bass range with cellos an octave above; 4-string basses take notes below 28 up an octave (Piston p.417). Never exactly 2 basses (UNIR; Piston allows 1 desk). Adler App. A: pro 28-67, C extension 24; non-pro 28-55."
   },
   {
     "id": "flute",
@@ -96,17 +114,18 @@
     "range_full": [59, 96],
     "range_practical": [60, 93],
     "registers": [
-      { "name": "low", "range": [59, 71], "character": "velvety, soft, easily covered; 60-63 cannot play loud" },
-      { "name": "middle", "range": [72, 83], "character": "clear; default melodic zone" },
-      { "name": "high", "range": [84, 94], "character": "brilliant without shrillness" },
-      { "name": "extreme", "range": [95, 96], "character": "loud only, shrill" }
+      { "name": "low", "range": [59, 71], "character": "velvety; 59-66 weak upper partials, covered by anything (Piston); 67-71 brightening" },
+      { "name": "middle", "range": [72, 83], "character": "clear, serene; default melodic zone" },
+      { "name": "high", "range": [84, 94], "character": "brilliant, carrying, not shrill to A6/Bb6 (Piston); Adler: brilliant from 81, somewhat strident from 93" },
+      { "name": "extreme", "range": [95, 96], "character": "loud only; approach by ascending scale" }
     ],
     "weak_dynamics": [
-      { "range": [59, 63], "issue": "cannot play forte; covered by almost anything" },
-      { "range": [64, 71], "issue": "soft; needs thin accompaniment" },
-      { "range": [94, 96], "issue": "pp hard to produce (general knowledge)" }
+      { "range": [59, 63], "issue": "cannot play forte" },
+      { "range": [64, 66], "issue": "easily covered; lowest voice of a light texture only" },
+      { "range": [67, 71], "issue": "soft; needs thin accompaniment" },
+      { "range": [89, 96], "issue": "undoubled at p/pp (e.g. a soft final chord): hard to start softly, reads louder than marked and piercing; put the top note on violins or double it (Adler p.566-567)" }
     ],
-    "notes": "59 only with B foot. An extreme note ~F7 (101) is printed but unreadable [?]. Most agile wind. Avoid trills on 59-63 foot notes; tremolo width <= 7 st low, <= 4 st high."
+    "notes": "59 only with B foot. 97-98 (C#7, D7) exceptional: ff only, doubled by piccolo (Adler, Piston); the UNIR ~F7 (101) [?] is not confirmed. Bb6 safer than B6. Most agile wind, narrow dynamic range. Avoid trills on 59-63 foot pairs and above 91; tremolo <= 7 st below 72, <= 4 st above (Adler allows 5). In unison with clarinet around 70-78 the clarinet dominates (Adler p.233); interlocked with low oboe the flute is swamped (p.253). Adler App. A: pro (59) 60-98, non-pro 62-96."
   },
   {
     "id": "piccolo",
@@ -118,34 +137,52 @@
     "range_full": [74, 108],
     "range_practical": [74, 103],
     "registers": [
-      { "name": "low", "range": [74, 83], "character": "weak, breathy (general knowledge)" },
-      { "name": "middle", "range": [84, 95], "character": "blends well, delicate colours" },
-      { "name": "high", "range": [96, 108], "character": "piercing, cuts through the whole orchestra" }
+      { "name": "low", "range": [74, 85], "character": "hollow, soft, easily covered; thin textures only (Adler, Piston)" },
+      { "name": "middle", "range": [86, 95], "character": "blends, delicate solos (Piston)" },
+      { "name": "high", "range": [96, 108], "character": "piercing over the full tutti; peaks only; 107-108 hard" }
     ],
     "weak_dynamics": [
-      { "range": [74, 79], "issue": "weak, easily covered (general knowledge)" },
-      { "range": [100, 108], "issue": "cannot play softly; shrill (general knowledge)" }
+      { "range": [74, 85], "issue": "weak, covered unless the orchestra is thin" },
+      { "range": [96, 108], "issue": "no real p, tiring: for soft passages write it an octave lower (Adler p.681-688)" }
     ],
-    "notes": "Written D4-C7, sounds an octave higher. Some instruments have written C4 (sounding 72). Check whether the patch maps sounding pitch."
+    "notes": "Written D4-C7, sounds an octave higher; no foot joint, nothing below written D4 (Adler, Piston). Piston: 74-105 safe, 106-108 climax only. Doubling a high flute: same sounding pitch. In a chorale tutti write it in its lowest octave (Piston p.455-456). Check whether the patch maps sounding pitch. Adler App. A: pro 74-108, non-pro 79-105."
   },
   {
     "id": "alto_flute",
     "name_en": "Alto flute in G",
     "name_es": "Flauta en sol",
     "family": "woodwinds",
-    "note": "flute-piccolo",
+    "note": "flute-piccolo-alto-and-bass-flute",
     "transposition_semitones": -5,
     "range_full": [55, 91],
     "range_practical": [55, 86],
     "registers": [
-      { "name": "low", "range": [55, 67], "character": "most characteristic: soft, warm, breathy" },
-      { "name": "middle", "range": [68, 79], "character": "subtler than the C flute" },
-      { "name": "high", "range": [80, 91], "character": "less characteristic (general knowledge)" }
+      { "name": "low", "range": [55, 67], "character": "most individual: rich, warm; stronger than the flute's low notes (Piston, Adler)" },
+      { "name": "middle", "range": [68, 79], "character": "only subtly different from the C flute" },
+      { "name": "high", "range": [80, 91], "character": "plain, no brilliance; hand to C flute above ~79 (Adler), avoid 85-91 (Piston)" }
     ],
     "weak_dynamics": [
       { "range": [55, 79], "issue": "soft instrument: keep accompaniment very light, never against loud brass" }
     ],
-    "notes": "Written C4-C7, sounds a P4 lower."
+    "notes": "Written C4-C7, sounds a P4 lower; top [?] in Adler chapter, App. A confirms 55-91. Needs more air than the flute. Rare in non-professional groups."
+  },
+  {
+    "id": "bass_flute",
+    "name_en": "Bass flute",
+    "name_es": "Flauta baja",
+    "family": "woodwinds",
+    "note": "flute-piccolo-alto-and-bass-flute",
+    "transposition_semitones": -12,
+    "range_full": [48, 84],
+    "range_practical": [48, 72],
+    "registers": [
+      { "name": "low", "range": [48, 67], "character": "rich, muffled, singular, warm" },
+      { "name": "upper", "range": [68, 84], "character": "less characteristic [?]" }
+    ],
+    "weak_dynamics": [
+      { "range": [48, 84], "issue": "soft instrument: very light accompaniment" }
+    ],
+    "notes": "Written C4-~C7, sounds an octave lower; top [?] (Adler p.193). Rare and expensive: chamber, band, film."
   },
   {
     "id": "oboe",
@@ -157,16 +194,16 @@
     "range_full": [58, 93],
     "range_practical": [60, 86],
     "registers": [
-      { "name": "low", "range": [58, 64], "character": "strongest, coarse; louder as it descends" },
-      { "name": "middle", "range": [65, 81], "character": "characteristic nasal, penetrating solo zone" },
-      { "name": "high", "range": [82, 89], "character": "thins; above 86 loses its character, mainly doubling" },
-      { "name": "extreme", "range": [90, 93], "character": "hard to produce; approach by step" }
+      { "name": "low", "range": [58, 64], "character": "lowest fifth: dense, strong, coarser as it descends" },
+      { "name": "middle", "range": [65, 81], "character": "warm, reedy, penetrating: best solo zone (Adler effective to 84)" },
+      { "name": "high", "range": [82, 89], "character": "thin; above 86 less oboe-like, mainly doubling" },
+      { "name": "extreme", "range": [90, 93], "character": "90-91 rare, by step, not in legato figuration; 92-93 never in orchestra (Piston)" }
     ],
     "weak_dynamics": [
-      { "range": [58, 60], "issue": "cannot attack softly (no p/pp entries)" },
-      { "range": [82, 93], "issue": "thin, uncharacteristic; hard above 90" }
+      { "range": [58, 65], "issue": "NEVER pp (Adler); 58 only at f (Piston); 58-61 raucous at the bottom of a unison/tutti line: put woods an octave above the violins (Adler)" },
+      { "range": [82, 93], "issue": "thin, uncharacteristic" }
     ],
-    "notes": "Double reed. Not agile in arpeggios. Avoid tremolos wider than 5 st. Sticks out of woodwind chords: solo colour."
+    "notes": "Double reed. Driest staccato; avoid double/triple tonguing, fast repeated notes and fast slurred arpeggios. Every note needs a tongued attack. Trills: all except on 58-59 and the 60-61 semitone. Tremolo <= 5 st (Piston; Adler <= 7), none above 77. Least air but needs frequent rests. Doubling a soft line: the low register (~58-64) is too prominent, hand it to a low flute (Adler p.281-282). Adler App. A: pro 58-93, non-pro 60-88."
   },
   {
     "id": "english_horn",
@@ -178,15 +215,48 @@
     "range_full": [52, 84],
     "range_practical": [52, 79],
     "registers": [
-      { "name": "low", "range": [52, 59], "character": "dark, strong (general knowledge)" },
-      { "name": "middle", "range": [60, 74], "character": "characteristic melancholy solo zone" },
-      { "name": "high", "range": [75, 84], "character": "thinner; 82-84 extreme" }
+      { "name": "low", "range": [52, 59], "character": "rich, deep, projecting; softer and less coarse than the oboe's low fifth (Piston, Adler)" },
+      { "name": "middle", "range": [60, 74], "character": "soft, reedy, melancholy solo zone" },
+      { "name": "high", "range": [75, 84], "character": "weak, sounds like an oboe; double above 81; 82 practical ceiling (Piston)" }
     ],
     "weak_dynamics": [
-      { "range": [52, 54], "issue": "soft attacks difficult (general knowledge, as oboe)" },
-      { "range": [79, 84], "issue": "thin, less characteristic" }
+      { "range": [79, 84], "issue": "thin, uncharacteristic; double above 81" }
     ],
-    "notes": "In F: written B3-E6 (G6 extreme), sounds a P5 lower."
+    "notes": "In F: written B3-G6, sounds a P5 lower. As agile as the oboe; use it for soft oboe-range low notes. Adler App. A: pro 52-84, non-pro 52-79; very rarely present in amateur orchestras."
+  },
+  {
+    "id": "oboe_damore",
+    "name_en": "Oboe d'amore",
+    "name_es": "Oboe de amor",
+    "family": "woodwinds",
+    "note": "oboe-english-horn-damore-and-heckelphone",
+    "transposition_semitones": -3,
+    "range_full": [56, 85],
+    "range_practical": [56, 76],
+    "registers": [
+      { "name": "low", "range": [56, 67], "character": "full, dark, sweeter than oboe" },
+      { "name": "high", "range": [77, 85], "character": "weak, almost useless; double it" }
+    ],
+    "weak_dynamics": [
+      { "range": [77, 85], "issue": "weak" }
+    ],
+    "notes": "In A, written B3-~E6 (top [?]; Piston written F6 = 86 in Strauss). No low Bb key. Baroque (Bach); rare today."
+  },
+  {
+    "id": "heckelphone",
+    "name_en": "Heckelphone / bass oboe",
+    "name_es": "Heckélfono / oboe bajo",
+    "family": "woodwinds",
+    "note": "oboe-english-horn-damore-and-heckelphone",
+    "transposition_semitones": -12,
+    "range_full": [45, 76],
+    "range_practical": [45, 72],
+    "registers": [
+      { "name": "low", "range": [45, 60], "character": "rich, full, reedy: bass of the double reeds" },
+      { "name": "upper", "range": [61, 76], "character": "hardly used" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Written A3-~E6 (optional ~G6 [?]), sounds an octave lower. Very rare (Strauss Salome, Elektra; Delius)."
   },
   {
     "id": "clarinet_bb",
@@ -204,10 +274,10 @@
       { "name": "top", "range": [83, 89], "character": "piercing, shrill" }
     ],
     "weak_dynamics": [
-      { "range": [65, 68], "issue": "pale throat tones: avoid exposed melodies sitting here" },
-      { "range": [83, 89], "issue": "shrill; hard to keep soft" }
+      { "range": [65, 68], "issue": "pale throat tones: usable freely (Piston), but give an exposed sustained peak note to the A clarinet" },
+      { "range": [83, 89], "issue": "shrill in f, flute-like when soft" }
     ],
-    "notes": "Written E3-G6. Best woodwind for pp and niente entries. Tremolo up to 9 st chalumeau, 5 st clarino, 4 st above the staff."
+    "notes": "Written E3-G6 (Piston safe top = 89). 90-94 (written G#6-C7) extreme, little value, only doubled in tutti (Piston); Adler's chart ~94 [?]. Break 68<->69 (slurred crossings routine for professionals). Best woodwind for pp and niente entries. Tremolo up to 9 st chalumeau, 5 st above the break, 4 st above written F5. A chord tone around 74-79 under a flute pair is stronger on clarinet than on flute 2 (Adler p.253). Adler App. A: pro 50-91, non-pro 50-87."
   },
   {
     "id": "clarinet_a",
@@ -225,10 +295,10 @@
       { "name": "top", "range": [82, 88], "character": "piercing, shrill" }
     ],
     "weak_dynamics": [
-      { "range": [64, 67], "issue": "pale throat tones: avoid exposed melodies" },
+      { "range": [64, 67], "issue": "pale throat tones: usable freely, but prefer it for an exposed sustained peak note the Bb clarinet would place on its throat" },
       { "range": [82, 88], "issue": "shrill" }
     ],
-    "notes": "Same written range as Bb clarinet, sounds a m3 lower. Registers inferred from the Bb chart shifted by -1."
+    "notes": "Same written range as Bb clarinet, sounds a m3 lower. Registers inferred from the Bb chart shifted by -1. Only pitch 49 forces the A clarinet in MIDI; key-based choice is era-tagged (Adler vs Piston). Adler App. A: pro 49-90."
   },
   {
     "id": "clarinet_eb",
@@ -240,15 +310,13 @@
     "range_full": [55, 94],
     "range_practical": [55, 91],
     "registers": [
-      { "name": "chalumeau", "range": [55, 69], "character": "thin dark low (inferred)" },
-      { "name": "throat tones", "range": [70, 73], "character": "pale (inferred)" },
-      { "name": "clarino", "range": [74, 87], "character": "bright, cutting" },
-      { "name": "top", "range": [88, 94], "character": "shrill, piercing, grotesque" }
+      { "name": "low (two lower octaves)", "range": [55, 78], "character": "lacks warmth; parody, caricature (Piston)" },
+      { "name": "high", "range": [79, 94], "character": "penetrating, brilliant, incisive staccato: main use" }
     ],
     "weak_dynamics": [
       { "range": [88, 94], "issue": "cannot play softly; very shrill (general knowledge)" }
     ],
-    "notes": "Sounds a m3 ABOVE written (the exception). Range is general knowledge (written E3-G6); registers inferred by +5 from Bb clarinet."
+    "notes": "Sounds a m3 ABOVE written. Range confirmed by Piston (written E3-G6 = 55-94 safe top); written G#6/A6 (95/96) appear occasionally. Specialist instrument; no quick switch from Bb. D clarinet (+2, 54-93 inferred) parts are played on Eb. Adler App. A: Eb pro 55-96, D 54-95; non-pro orchestras normally have neither."
   },
   {
     "id": "bass_clarinet",
@@ -258,17 +326,56 @@
     "note": "clarinets",
     "transposition_semitones": -14,
     "range_full": [34, 82],
-    "range_practical": [38, 72],
+    "range_practical": [37, 72],
     "registers": [
-      { "name": "low", "range": [34, 52], "character": "dark, rich; soft attacks and pp possible" },
-      { "name": "middle", "range": [53, 64], "character": "hollow, warm (general knowledge)" },
-      { "name": "high", "range": [65, 82], "character": "thinner, less characteristic; 78-82 extreme" }
+      { "name": "chalumeau", "range": [37, 53], "character": "dark, mysterious, warm; soft pp (Adler, Piston)" },
+      { "name": "clarion", "range": [54, 65], "character": "paler and less incisive than Bb clarinet at the same pitch" },
+      { "name": "top", "range": [66, 82], "character": "weak, thin; Adler top 70 (extreme 74), Piston highest advisable 75; 76-82 vault extreme" }
     ],
     "weak_dynamics": [
-      { "range": [34, 37], "issue": "only on low-C instruments (others bottom at 37 or 38)" },
-      { "range": [70, 82], "issue": "upper register weaker, rarely used (general knowledge)" }
+      { "range": [34, 36], "issue": "only on low-C instruments; floor you can count on = 37 (Adler, Piston)" },
+      { "range": [66, 82], "issue": "weak, hard to produce; thin solo colour only" }
     ],
-    "notes": "Treble-clef (French) notation sounds a M9 lower (-14); bass-clef (German) notation sounds a M2 lower (-2). Bass lines with bassoon/double bass."
+    "notes": "Treble-clef (French) notation sounds a M9 lower (-14); bass-clef (German) notation sounds a M2 lower (-2). Bass lines with bassoon/double bass; plays the soft low pp the bassoon cannot. Adler App. A: pro 38-74 with 37 (and 36 [?]) only on some instruments; non-pro 37-70; may be missing in amateur groups."
+  },
+  {
+    "id": "basset_horn",
+    "name_en": "Basset horn",
+    "name_es": "Corno di bassetto",
+    "family": "woodwinds",
+    "note": "clarinets-auxiliary",
+    "transposition_semitones": -7,
+    "range_full": [41, 84],
+    "range_practical": [41, 77],
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "In F. Range read from Adler's chart [?]; Piston confirms floor F2 (41). Veiled Mozart/Strauss colour. Practical top inferred."
+  },
+  {
+    "id": "clarinet_alto",
+    "name_en": "Alto clarinet",
+    "name_es": "Clarinete contralto",
+    "family": "woodwinds",
+    "note": "clarinets-auxiliary",
+    "transposition_semitones": -9,
+    "range_full": [43, 79],
+    "range_practical": [43, 67],
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "In Eb. Range from Adler's chapter chart [?]; Adler App. A (all clarinets written E3-A6) gives 43-84. Only the lowest two octaves are effective. Band instrument."
+  },
+  {
+    "id": "clarinet_contrabass",
+    "name_en": "Contrabass clarinet (Bb)",
+    "name_es": "Clarinete contrabajo",
+    "family": "woodwinds",
+    "note": "clarinets-auxiliary",
+    "transposition_semitones": -26,
+    "range_full": [26, 62],
+    "range_practical": [26, 50],
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Piston 26-62; Adler's chart ~24-60 [?]. Slow, sustained pedals; rare in orchestra, band staple. Eb contra-alto: -21, ~30-62 [?]. Practical top inferred."
   },
   {
     "id": "bassoon",
@@ -280,16 +387,17 @@
     "range_full": [34, 75],
     "range_practical": [34, 72],
     "registers": [
-      { "name": "low", "range": [34, 44], "character": "sonorous, dark, vibrant, a bit rough" },
-      { "name": "middle", "range": [45, 61], "character": "sweet, subdued, expressive; easily covered" },
-      { "name": "upper", "range": [62, 70], "character": "thin but intense; tender solos" },
-      { "name": "top", "range": [71, 75], "character": "thin, pinched; strained effect" }
+      { "name": "low", "range": [34, 42], "character": "sonorous, vibrant, slightly rough; no true pp" },
+      { "name": "middle (baritone)", "range": [43, 53], "character": "smooth, subdued; easily covered" },
+      { "name": "upper-middle", "range": [54, 62], "character": "gentlest, least carrying; tender solos, light accompaniment" },
+      { "name": "high", "range": [63, 72], "character": "tense, penetrating; well modulated to 69-70" },
+      { "name": "top", "range": [73, 75], "character": "strained; approach by step, double" }
     ],
     "weak_dynamics": [
-      { "range": [34, 44], "issue": "no pp or soft attacks (use bass clarinet)" },
-      { "range": [45, 61], "issue": "soft: neutralised under heavy scoring unless doubled" }
+      { "range": [34, 42], "issue": "no pp or soft attacks (use bass clarinet)" },
+      { "range": [43, 53], "issue": "soft: neutralised under heavy scoring unless doubled" }
     ],
-    "notes": "Register boundaries approximate [?]. Staccato especially effective. Bass of the woodwind choir."
+    "notes": "Piston extreme top E5 (76) by step, doubled; >= 77 forced (Berg). A1 (33) Wagner/Mahler extension only. Adler chart top ~75 [?]. UNIR zone borders 44/61/70 (tender register 58-70). No trills on Bb1-C2 (left thumb). Long staccato: split between two bassoons. SWAM Bassoon 3 loads with Transpose -12. Adler App. A: pro 34-75, beginners to 67, amateurs to 70."
   },
   {
     "id": "contrabassoon",
@@ -301,21 +409,36 @@
     "range_full": [21, 60],
     "range_practical": [22, 53],
     "registers": [
-      { "name": "sub-bass", "range": [21, 33], "character": "very low; audible slow vibrations" },
-      { "name": "foundation", "range": [34, 47], "character": "solid bass" },
-      { "name": "upper", "range": [48, 60], "character": "weak, little used (general knowledge); 58-60 extreme" }
+      { "name": "lowest 12th", "range": [22, 41], "character": "most effective: solid, buzzing organ-pipe foundation (Adler, Piston)" },
+      { "name": "upper", "range": [42, 53], "character": "weak from the first overblown F#2; use the bassoon unless doubling basses" },
+      { "name": "top", "range": [54, 60], "character": "poor; Mahler ~57, Ravel ~59 [?]" }
     ],
     "weak_dynamics": [
-      { "range": [48, 60], "issue": "weak upper register (general knowledge)" }
+      { "range": [42, 60], "issue": "weak, bassoon-like (Piston)" }
     ],
-    "notes": "Sounds an octave below written. 21 (A0) only on extended instruments [?]. Needs regular rests (breath)."
+    "notes": "Sounds an octave below written. A0 (21) Strauss, extension only. Frequent rests; no fast runs or fast repeated tonguing: give it only the accents and slurred notes of a fast line (Piston p.420-421); in a contrapuntal tutti drop single unplayable notes rather than the doubling. Sarrusophone parts go here. Adler App. A: pro 22-58; normally absent in amateur groups."
+  },
+  {
+    "id": "sax_soprano",
+    "name_en": "Soprano saxophone",
+    "name_es": "Saxofón soprano",
+    "family": "woodwinds",
+    "note": "saxophones",
+    "transposition_semitones": -2,
+    "range_full": [56, 89],
+    "range_practical": [63, 84],
+    "registers": [],
+    "weak_dynamics": [
+      { "range": [56, 62], "issue": "bottom P5: soft attacks difficult, no pp" }
+    ],
+    "notes": "Bb. Written Bb3-F6 = 56-87; written G6 (89) on modern instruments (Adler App. A 56-89). Practical = best-controlled zone (written F4-D6). Adler p.217-221, Piston p.185-187: written Bb3-F6 (F#6/G6 on modern instruments); best zone written F4-D6. Featured soloist rather than blending inner voice; jazz vs symphonic vibrato on purpose."
   },
   {
     "id": "sax_alto",
     "name_en": "Alto saxophone",
     "name_es": "Saxofón alto",
     "family": "woodwinds",
-    "note": "transposing-instruments",
+    "note": "saxophones",
     "transposition_semitones": -9,
     "range_full": [49, 81],
     "range_practical": [51, 77],
@@ -325,16 +448,16 @@
       { "name": "high", "range": [75, 81], "character": "thin, intense (general knowledge)" }
     ],
     "weak_dynamics": [
-      { "range": [49, 52], "issue": "soft attacks difficult (general knowledge)" }
+      { "range": [49, 55], "issue": "bottom P5: soft attacks difficult, no pp" }
     ],
-    "notes": "General knowledge only (no instrument note): Eb, written Bb3-F#6, sounds a M6 lower."
+    "notes": "Eb, sounds a M6 lower. Best zone 56-77. Adler p.217-221, Piston p.185-187: written Bb3-F6 (F#6/G6 on modern instruments); best zone written F4-D6. Featured soloist rather than blending inner voice; jazz vs symphonic vibrato on purpose. Adler App. A: 49-82 (G6 = altissimo [?])."
   },
   {
     "id": "sax_tenor",
     "name_en": "Tenor saxophone",
     "name_es": "Saxofón tenor",
     "family": "woodwinds",
-    "note": "transposing-instruments",
+    "note": "saxophones",
     "transposition_semitones": -14,
     "range_full": [44, 76],
     "range_practical": [46, 72],
@@ -344,16 +467,16 @@
       { "name": "high", "range": [70, 76], "character": "intense, edgy (general knowledge)" }
     ],
     "weak_dynamics": [
-      { "range": [44, 47], "issue": "soft attacks difficult (general knowledge)" }
+      { "range": [44, 50], "issue": "bottom P5: soft attacks difficult, no pp" }
     ],
-    "notes": "General knowledge only: Bb, written Bb3-F#6, sounds a M9 lower."
+    "notes": "Bb, sounds a M9 lower. Best zone 51-72. Adler p.217-221, Piston p.185-187: written Bb3-F6 (F#6/G6 on modern instruments); best zone written F4-D6. Featured soloist rather than blending inner voice; jazz vs symphonic vibrato on purpose. Adler App. A: 44-77 (G6 = altissimo [?])."
   },
   {
     "id": "sax_baritone",
     "name_en": "Baritone saxophone",
     "name_es": "Saxofón barítono",
     "family": "woodwinds",
-    "note": "transposing-instruments",
+    "note": "saxophones",
     "transposition_semitones": -21,
     "range_full": [37, 69],
     "range_practical": [37, 64],
@@ -363,9 +486,9 @@
       { "name": "high", "range": [61, 69], "character": "thin (general knowledge)" }
     ],
     "weak_dynamics": [
-      { "range": [37, 40], "issue": "soft attacks difficult (general knowledge)" }
+      { "range": [37, 43], "issue": "bottom P5: soft attacks difficult, no pp" }
     ],
-    "notes": "General knowledge only: Eb, written Bb3-F#6, sounds an octave + M6 lower. Tema 1 table lists -9 [?]; -21 is standard."
+    "notes": "Eb, sounds an octave + M6 lower (-21, confirmed by Adler and Piston). Best zone 44-65. Adler p.217-221, Piston p.185-187: written Bb3-F6 (F#6/G6 on modern instruments); best zone written F4-D6. Featured soloist rather than blending inner voice; jazz vs symphonic vibrato on purpose. Adler App. A: 37-70 (G6 = altissimo [?]). Bass sax (Bb, -26): 32-65."
   },
   {
     "id": "horn",
@@ -377,17 +500,17 @@
     "range_full": [35, 77],
     "range_practical": [41, 74],
     "registers": [
-      { "name": "very low", "range": [35, 40], "character": "weak, foggy (general knowledge)" },
+      { "name": "very low", "range": [35, 40], "character": "valved notes below the F-side 2nd harmonic: hard to control, slow to speak; long notes only" },
       { "name": "low", "range": [41, 49], "character": "dark, a bit unfocused" },
       { "name": "low-middle", "range": [50, 52], "character": "deep and solid" },
       { "name": "middle-high", "range": [53, 71], "character": "bright and heroic: home register" },
       { "name": "top", "range": [72, 77], "character": "brilliant and loud, tiring" }
     ],
     "weak_dynamics": [
-      { "range": [35, 49], "issue": "weak projection, intonation risk; double with trombone/bassoon to be heard (pedals 31-34 below the full range are worse still: see notes)" },
-      { "range": [72, 77], "issue": "loud only; soft is hard; rest afterwards" }
+      { "range": [35, 49], "issue": "weak projection, intonation risk; no fast passages; double with a 2nd horn (even at pp, Piston), trombone or bassoon to be heard (pedals 31-34 below the full range are worse still: see notes)" },
+      { "range": [72, 77], "issue": "loud only; soft is hard; double extreme highs when loud (Piston); rest afterwards" }
     ],
-    "notes": "Written F#2-C6. Pedals (Bb side) 31-34 (written D2-F2) lie outside range_full: insecure, hard to tune, rare; use only as an occasional effect. Pads in 53-72. Rests after top-register passages."
+    "notes": "Written F#2-C6 (Adler, Piston agree). Pedals (Bb side) 31-34 (written D2-F2, Piston) lie outside range_full: insecure, hard to tune, rare; long notes only, never in fast passages. Variant: Adler lists Bb-side pedals down to 29 (written C2), F-side pedals unused. Comfortable solo range 53-72 (Piston: from 48). Section: horns 1/3 high, 2/4 low. Stopped notes only >= 53 (below: mute). Pads in 53-72. Rests after top-register passages. Natural-horn crook sets: see natural-horn-period-practice. Section balance: above mf 2 horns ~ 1 trumpet ~ 1 trombone, so pair horns on each chord tone a single trumpet/trombone carries (Adler p.363-364; Piston p.244-245). Loud high unison: horns 1+3 or 2 horns + 1 trumpet rather than 4 horns (Adler p.379). Adler App. A: pro 35-77, non-pro 41-72."
   },
   {
     "id": "trumpet_c",
@@ -407,7 +530,7 @@
       { "range": [54, 61], "issue": "weak projection" },
       { "range": [80, 84], "issue": "cannot play softly" }
     ],
-    "notes": "Non-transposing. More intensity and delicacy than Bb. Practical range is general knowledge."
+    "notes": "Non-transposing. Adler and Piston: 54-84; written D6 (86) avoid (Piston). Melodic comfort 60-79 (Piston). More intensity and delicacy than Bb. Practical range is general knowledge. Out-of-tune 1+3/1+2+3 notes (live parts): 54, 55, 61, 62. Low register weaker: there the 2-horns = 1-trumpet equivalence does not hold (Adler p.364). Adler App. A: pro 54-84, non-pro 57-82."
   },
   {
     "id": "trumpet_bb",
@@ -424,36 +547,36 @@
       { "name": "high", "range": [78, 84], "character": "brilliant but strident" }
     ],
     "weak_dynamics": [
-      { "range": [52, 59], "issue": "weak projection" },
+      { "range": [52, 61], "issue": "weak projection; sticks out of a mixed unison and sounds poor on a melody (Piston p.358, 424; ~62 inferred)" },
       { "range": [78, 84], "issue": "cannot play softly" }
     ],
-    "notes": "Written F#3-D6. Long double/triple tonguing tiring: rests between bursts."
+    "notes": "Written F#3-D6 (Adler chapter) = 52-84. Variant: Piston's normal top and Adler App. A pro top written C6 = 82, written D6 extreme. Melodic comfort 58-77 (Piston). Low register dull (Adler, UNIR) but full and solemn at mf-f (Piston); there fewer horns balance one trumpet (Adler p.364). Out-of-tune 1+3/1+2+3 notes (live parts): 52, 53, 59, 60. Long double/triple tonguing tiring: rests between bursts. Adler App. A non-pro: 55-80."
   },
   {
     "id": "trumpet_d",
     "name_en": "Small trumpet in D",
     "name_es": "Trompeta en re",
     "family": "brass",
-    "note": "trumpet",
+    "note": "trumpet-family-auxiliary",
     "transposition_semitones": 2,
     "range_full": [56, 86],
     "range_practical": [58, 84],
     "registers": [
-      { "name": "low", "range": [56, 63], "character": "weak (general knowledge)" },
-      { "name": "middle", "range": [64, 81], "character": "bright, Baroque-like" },
-      { "name": "high", "range": [82, 86], "character": "shrill" }
+      { "name": "low", "range": [56, 61], "character": "not very practical (Adler)" },
+      { "name": "middle", "range": [62, 81], "character": "bright, Baroque-like" },
+      { "name": "high", "range": [82, 86], "character": "shrill (Piston)" }
     ],
     "weak_dynamics": [
       { "range": [82, 86], "issue": "shrill, cannot play softly" }
     ],
-    "notes": "Convertible to Eb (+3, sounding ~57-87). Top notes of figure approximate [?]."
+    "notes": "Written F#3-D6. Adler chapter: sounds 56-88; Piston (inferred) and Adler App. A: 56-86. Convertible to Eb. Used mainly high; shrill."
   },
   {
     "id": "trumpet_eb",
     "name_en": "Small trumpet in Eb",
     "name_es": "Trompeta en mi bemol",
     "family": "brass",
-    "note": "trumpet",
+    "note": "trumpet-family-auxiliary",
     "transposition_semitones": 3,
     "range_full": [57, 87],
     "range_practical": [59, 85],
@@ -465,14 +588,33 @@
     "weak_dynamics": [
       { "range": [83, 87], "issue": "shrill, cannot play softly" }
     ],
-    "notes": "Same instrument as the D trumpet with an Eb slide/crook. Top notes approximate [?]."
+    "notes": "Written F#3-D6. Adler chapter: sounds 57-89; Piston (inferred) and Adler App. A: 57-87. Same instrument as the D trumpet with an Eb slide/crook. Shrill high, weak low."
+  },
+  {
+    "id": "trumpet_piccolo_bb",
+    "name_en": "Piccolo trumpet in Bb",
+    "name_es": "Trompeta piccolo en si bemol",
+    "family": "brass",
+    "note": "trumpet-family-auxiliary",
+    "transposition_semitones": 10,
+    "range_full": [64, 91],
+    "range_practical": [68, 91],
+    "registers": [
+      { "name": "low", "range": [64, 67], "character": "weak, rarely used (inferred)" },
+      { "name": "middle", "range": [68, 86], "character": "brilliant, Baroque clarino register" },
+      { "name": "high", "range": [87, 91], "character": "shrill (inferred)" }
+    ],
+    "weak_dynamics": [
+      { "range": [87, 91], "issue": "shrill, loud only (inferred)" }
+    ],
+    "notes": "Adler: written F#3-A5, sounds a m7 higher; effective written Bb3-A5 (68-91). Register split inferred."
   },
   {
     "id": "bass_trumpet",
     "name_en": "Bass trumpet",
     "name_es": "Trompeta baja",
     "family": "brass",
-    "note": "trumpet",
+    "note": "trumpet-family-auxiliary",
     "transposition_semitones": -12,
     "range_full": [40, 72],
     "range_practical": [42, 70],
@@ -482,26 +624,43 @@
       { "name": "high", "range": [67, 72], "character": "intense" }
     ],
     "weak_dynamics": [],
-    "notes": "In C sounds an octave lower (42-72); in Bb sounds a M9 lower (-14, 40-70). Played by trombonists. Register split is inferred."
+    "notes": "In C sounds an octave lower (42-72); in Bb a M9 lower (-14, 40-70); in D a m7 lower (-10, 43-74 [?] bottom); in Eb a M6 lower (-9, 44-75 [?] bottom; Piston: Eb with 4th valve bottom 44, without 45). Adler App. A prints the low D trumpet as \"M7 lower\" [?] (m7 assumed). C/Bb = valve trombone, played by trombonists; Eb keeps a trumpet tone. Register split is inferred."
   },
   {
     "id": "flugelhorn",
     "name_en": "Flugelhorn",
     "name_es": "Fliscorno",
     "family": "brass",
-    "note": "trumpet",
+    "note": "trumpet-family-auxiliary",
     "transposition_semitones": -2,
     "range_full": [52, 82],
     "range_practical": [55, 77],
     "registers": [
       { "name": "low", "range": [52, 59], "character": "dark, soft (general knowledge)" },
-      { "name": "middle", "range": [60, 74], "character": "round, mellow (general knowledge)" },
+      { "name": "middle", "range": [60, 74], "character": "very sweet and opulent, closer to the horn than the cornet (Adler)" },
       { "name": "high", "range": [75, 82], "character": "less secure (general knowledge)" }
     ],
     "weak_dynamics": [
       { "range": [75, 82], "issue": "loses mellowness; trumpet is better here (general knowledge)" }
     ],
-    "notes": "Only listed as Bb transposing in tema 1; range and registers are general knowledge."
+    "notes": "Adler: written F#3-C6 (optional D6), sounds 52-82 (optional 84); same range and transposition as the cornet (App. A agrees). Also in Eb, F, C. Rare in orchestra, common in band and jazz."
+  },
+  {
+    "id": "cornet_bb",
+    "name_en": "Cornet in Bb",
+    "name_es": "Corneta en si bemol",
+    "family": "brass",
+    "note": "trumpet-family-auxiliary",
+    "transposition_semitones": -2,
+    "range_full": [52, 84],
+    "range_practical": [55, 79],
+    "registers": [
+      { "name": "low", "range": [52, 59], "character": "mellow (inferred from Bb trumpet)" },
+      { "name": "middle", "range": [60, 77], "character": "warm, mellow, between trumpet and horn" },
+      { "name": "high", "range": [78, 84], "character": "brighter, less heroic than trumpet (inferred)" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Adler chapter: same range as Bb trumpet, written F#3-D6 = 52-84; Piston and Adler App. A: 52-82. Cornet in A: -3. Very agile (Piston: most agile brass). Folk, march, military, theatre tunes; band melody instrument, not a regular orchestra member. Practical range inferred from Bb trumpet."
   },
   {
     "id": "trombone_tenor",
@@ -513,17 +672,17 @@
     "range_full": [34, 77],
     "range_practical": [40, 70],
     "registers": [
-      { "name": "pedal / gap", "range": [34, 39], "character": "Bb1 (34) pedal usable; 35-39 need an F attachment (general knowledge)" },
-      { "name": "low", "range": [40, 44], "character": "dark, rather nondescript" },
+      { "name": "pedal / gap", "range": [34, 39], "character": "pedal Bb1 (34) good if prepared (also A1/Ab1 33/32 below range_full); 35-39 only with F attachment (Piston: absent on plain Bb tenor)" },
+      { "name": "low", "range": [40, 44], "character": "dark, rather nondescript; E2 the poorest note" },
       { "name": "middle", "range": [45, 66], "character": "very strong; horn-like but harder in the middle" },
-      { "name": "high", "range": [67, 70], "character": "very intense" },
-      { "name": "extension", "range": [71, 77], "character": "strained; solo/jazz" }
+      { "name": "high", "range": [67, 70], "character": "very intense; not softer than mf" },
+      { "name": "extension", "range": [71, 77], "character": "difficult and risky (Adler-en2 quarter notes C5-F5)" }
     ],
     "weak_dynamics": [
-      { "range": [34, 39], "issue": "insecure pedals / unavailable without F attachment" },
-      { "range": [71, 77], "issue": "extension: cannot sustain soft reliably" }
+      { "range": [34, 39], "issue": "pedals need preparation (28-31 hard to control); 35-39 need the F attachment" },
+      { "range": [65, 77], "issue": "high register does not play softer than mf (Piston)" }
     ],
-    "notes": "Pedals down to 28 exist but are insecure, esp. below 31. Avoid fast passages forcing slide positions VII<->I. Three in unison dominate the orchestra."
+    "notes": "Adler-en2 X-68: E2-Bb4 + C5-F5 risky; Piston: chromatic 40-74, F5 not orchestral. Pedals: only I-III (34-32) good. Fast VII<->I alternation (E2/B2 vs Bb2) awkward. Slide gliss <= 6 st on one partial. Three in unison dominate the orchestra. Soft p/pp chords with < > swells under strings are idiomatic (Adler p.382); with bassoons + contrabassoon on the bass, trombones 1-2 can sit in their brilliant register (Adler p.371-375). Adler App. A: pro 40-77, beginners to 65, amateurs to 70."
   },
   {
     "id": "trombone_bass",
@@ -535,15 +694,33 @@
     "range_full": [24, 70],
     "range_practical": [31, 65],
     "registers": [
-      { "name": "trigger / pedal zone", "range": [24, 33], "character": "heavy; slow notes only (general knowledge)" },
-      { "name": "low", "range": [34, 45], "character": "dark, powerful: signature zone (general knowledge)" },
-      { "name": "middle", "range": [46, 65], "character": "like the tenor trombone" },
-      { "name": "high", "range": [66, 70], "character": "strained" }
+      { "name": "pedal / trigger zone", "range": [24, 33], "character": "pedals to E1 (28), to C1 (24) with F trigger; first four F-side pedals usable; slow notes only" },
+      { "name": "low", "range": [34, 42], "character": "heavy and quite strong (B1 35 needs E slide/trigger)" },
+      { "name": "middle", "range": [43, 56], "character": "deep and solid" },
+      { "name": "high", "range": [57, 70], "character": "very powerful" }
     ],
     "weak_dynamics": [
-      { "range": [24, 30], "issue": "slow speech, insecure fast notes (general knowledge)" }
+      { "range": [24, 33], "issue": "pedals: slow speech, long notes only" }
     ],
-    "notes": "Range is general knowledge (source gives only the tenor). Concert pitch: tema 1's 'reads an octave lower' is doubtful."
+    "notes": "Non-transposing. Adler-en2 X-72/X-73: Bb1-Bb4 (34-70), B1 only with E attachment; F-side 2nd partials 36-41. Piston: chromatic to 35 + pedal 34. Vault practical floor 31 kept; Adler-en2 and App. A pro range start at 34 (31-33 are pedals). Adler App. A non-pro: 34-65. Tema 1's 'reads an octave lower' is doubtful."
+  },
+  {
+    "id": "trombone_alto",
+    "name_en": "Alto trombone",
+    "name_es": "Trombón alto",
+    "family": "brass",
+    "note": "trombone-period-practice",
+    "transposition_semitones": 0,
+    "range_full": [45, 77],
+    "range_practical": [52, 75],
+    "registers": [
+      { "name": "low", "range": [45, 51], "character": "weak, poor quality (narrow bore)" },
+      { "name": "middle-high", "range": [52, 75], "character": "pure, mellow yet brilliant; less piercing than tenor" }
+    ],
+    "weak_dynamics": [
+      { "range": [45, 51], "issue": "weak" }
+    ],
+    "notes": "In Eb, P4 above tenor; alto clef. Adler-en2 X-75 and App. A: A2-Eb5 (45-75), F5 extreme; pedals not feasible. Practical floor 52 inferred from \"weak from ~Eb3 downward\" [?]. Period instrument (18th-19th c.), returning today; absent in amateur orchestras."
   },
   {
     "id": "tuba",
@@ -555,16 +732,49 @@
     "range_full": [26, 67],
     "range_practical": [31, 60],
     "registers": [
-      { "name": "very low", "range": [26, 37], "character": "deep, heavy; slow notes only" },
-      { "name": "strong", "range": [38, 51], "character": "very strong core bass" },
-      { "name": "upper", "range": [52, 62], "character": "weaker but intense; lyrical" },
-      { "name": "top", "range": [63, 67], "character": "thin, shrill, hard to control" }
+      { "name": "very low", "range": [26, 37], "character": "deep and heavy; slow bass notes only, then good at any dynamic" },
+      { "name": "strong", "range": [38, 51], "character": "very powerful core bass (Adler: 36-52)" },
+      { "name": "upper", "range": [52, 62], "character": "weaker but intense; soft and round, horn-like, lyrical" },
+      { "name": "top", "range": [63, 67], "character": "thin, shouts, hard to keep soft; 66-67 beyond the F tuba's 8th partial" }
     ],
     "weak_dynamics": [
-      { "range": [26, 37], "issue": "slow motion only (any dynamic works if slow)" },
-      { "range": [63, 67], "issue": "thin, hard to control" }
+      { "range": [26, 37], "issue": "slow motion only" },
+      { "range": [60, 67], "issue": "cannot play softly; strained" }
     ],
-    "notes": "Both range ends read from a small figure [?]. CC/BBb tubas reach ~22-28 (general knowledge). Needs frequent breaths."
+    "notes": "Adler: D1-F4 (26-65); Piston F tuba: pedals 26-29, chromatic to 65, G4 67 extreme; safe floor for all bass tubas Eb1 27. CC tuba to C4 60 (D4 62), BBb to Bb3 58. Vault practical 31 kept (Piston working range 29-58). Needs frequent breaths. Mute best 45-60. Adler App. A: pro 26-67, non-pro 29-60."
+  },
+  {
+    "id": "euphonium",
+    "name_en": "Euphonium (tenor tuba)",
+    "name_es": "Bombardino",
+    "family": "brass",
+    "note": "tuba-family-and-relatives",
+    "transposition_semitones": 0,
+    "range_full": [29, 70],
+    "range_practical": [35, 67],
+    "registers": [
+      { "name": "pedal", "range": [29, 34], "character": "pedals; 29-32 doubtful" },
+      { "name": "low", "range": [35, 40], "character": "4th-valve zone; compensation-dependent intonation" },
+      { "name": "home", "range": [41, 65], "character": "mellow, smooth, agile" },
+      { "name": "high", "range": [66, 70], "character": "solo top (Bydlo)" }
+    ],
+    "weak_dynamics": [
+      { "range": [29, 36], "issue": "pedal/4th-valve combinations, intonation risk" }
+    ],
+    "notes": "Bb, 4 valves, sounds as written in bass clef (band treble-clef parts sound a M9 lower). Adler and App. A: Bb1-Bb4 (34-70). Piston: pedals F1-Bb1, chromatic B1-Bb4. Plays Wagner tenor-tuba and tenor-tuba parts; band staple, rare in amateur orchestras."
+  },
+  {
+    "id": "baritone_horn",
+    "name_en": "Baritone (band)",
+    "name_es": "Barítono",
+    "family": "brass",
+    "note": "tuba-family-and-relatives",
+    "transposition_semitones": 0,
+    "range_full": [40, 70],
+    "range_practical": [40, 67],
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "Band instrument, 3 valves, same range as tenor trombone (Adler, App. A E2-Bb4). Concert pitch here; band treble-clef parts sound a M9 lower."
   },
   {
     "id": "timpani",
@@ -586,7 +796,22 @@
       { "range": [36, 37], "issue": "below the 30-inch drum (D2-A2): C2-C#2 need a 32-inch or larger drum, not always available" },
       { "range": [58, 60], "issue": "over-tight head: thin tone" }
     ],
-    "notes": "Max simultaneous distinct pitches = number of drums (usually 4). Classical style: 2 drums, tonic + dominant. Retuning needs 1-2 beats. C2 (36) and C#2 (37) only with a 32-inch+ drum."
+    "notes": "Max simultaneous distinct pitches = number of drums (assume 4; piccolo optional). Each note mid-drum (F2/F#2 better on the 30-inch than the 28-inch, Piston). Retuning needs ~1-2 beats for small changes (general knowledge). C2-C#2 (36-37) only with a 32-inch+ drum. Classical style: 2 drums (28+25-inch, period range F2-F3 41-53, G3 55 rare), tonic + dominant. Drum labels: Adler (chapter and App. A) calls the low drum 32-inch and gives C2-A2 (36-45), 28\" 41-48, 25\" 46-53, 23\" 50-57, 21\" 53-60; Piston/UNIR call the D2-A2 drum 30-inch. Extension drums: 58 (Piston), 59 (Stravinsky), 62 [?] (Ravel). Symphony Series Timpani plays concert + 12."
+  },
+  {
+    "id": "roto_toms",
+    "name_en": "Roto-toms",
+    "name_es": "Roto-toms",
+    "family": "percussion-pitched",
+    "note": "timpani-effects-and-period-practice",
+    "transposition_semitones": 0,
+    "range_full": [40, 74],
+    "range_practical": [40, 74],
+    "registers": [
+      { "name": "whole range", "range": [40, 74], "character": "drier than timpani, short ring" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Approximate: seven sizes, each about an octave; Adler's per-size readings are uncertain [?]. Short notes, little ring."
   },
   {
     "id": "glockenspiel",
@@ -601,7 +826,7 @@
       { "name": "whole range", "range": [79, 108], "character": "bright, bell-like sparkle; long ring" }
     ],
     "weak_dynamics": [],
-    "notes": "Written G3-C6, sounds two octaves higher. Check patch mapping (written vs sounding). Usually single lines."
+    "notes": "Written G3-C6, sounds two octaves higher (Adler, Piston and App. A agree; 30 bars). Metal mallets loudest. Usually single lines, 2 mallets; Piston: 2-3 per hand for chords possible. Cuts through a tutti at the top. Check patch mapping (written vs sounding)."
   },
   {
     "id": "xylophone",
@@ -613,10 +838,11 @@
     "range_full": [65, 108],
     "range_practical": [65, 103],
     "registers": [
-      { "name": "whole range", "range": [65, 108], "character": "dry, cutting, little resonance" }
+      { "name": "low (model-dependent)", "range": [65, 71], "character": "Adler's common model starts at C5 (72); the player takes missing notes up an octave" },
+      { "name": "common range", "range": [72, 108], "character": "dry, crisp; brightest and most penetrating at the top" }
     ],
     "weak_dynamics": [],
-    "notes": "Range varies by model; 3.5-octave written F3-C7 is general knowledge. Sounds an octave higher."
+    "notes": "Sounds an octave higher. Vault default 65-108. Adler models (sounding): 72-108 (most common; App. A), 65-108, 60-108 (largest). Piston (1955): small 65-96, medium 65-101, large 65-108. Sustain = roll."
   },
   {
     "id": "marimba",
@@ -635,7 +861,7 @@
     "weak_dynamics": [
       { "range": [36, 56], "issue": "soft low register; keep texture light (general knowledge)" }
     ],
-    "notes": "Source typical range A2-C7 (45-96); 5-octave instruments reach C2 (36)."
+    "notes": "Typical A2-C7 (45-96) per Adler's figure and App. A; Adler text implies C3-C7 (48-96); some instruments reach F2 (41); 5-octave models reach C2 (36, general knowledge). Bass marimba C2-D5 [?] (36-74, rare). Piston: large 4-octave C3-C7 (48-96). Two mallets per hand: rolled 4-note chords. Sustain = roll."
   },
   {
     "id": "vibraphone",
@@ -650,7 +876,7 @@
       { "name": "standard 3-octave", "range": [53, 89], "character": "metallic, sustaining; motor vibrato" }
     ],
     "weak_dynamics": [],
-    "notes": "Standard 3-octave F3-F6 (53-89). Other models: C4-F6 (60-89); some 4-octave models reach C7 (53-96), so use 90-96 only if the patch/player has them. Damper pedal = CC64."
+    "notes": "Adler: size 1 F3-F6 (53-89, standard), size 2 C4-F6 (60-89), size 3 F3-C7 [?] (53-96) rare: avoid writing for it. App. A: 53-89 with C3 (48) on some instruments. Piston's 1955 'four octaves from 4-foot C' (48-96) is not used. Damper pedal = CC64; state motor on/off/speed. Chords up to 4 (6) notes."
   },
   {
     "id": "tubular_bells",
@@ -665,7 +891,7 @@
       { "name": "whole range", "range": [60, 79], "character": "church-bell; long complex ring; 78-79 extension" }
     ],
     "weak_dynamics": [],
-    "notes": "No fast passages; often in octaves. Perceived pitch can seem an octave off because of the strike tone (general knowledge)."
+    "notes": "C4-F5 (60-77) on 18 tubes, F#5-G5 (78-79) on 20-tube sets (Adler, App. A; Piston 60-77). Max 2 notes at once per player. No fast melodic runs; a fast pedalled figure = pealing bells (Adler). Real bells below C4 are impossible: imitate orchestrally (Piston). Perceived pitch can seem an octave off because of the strike tone (general knowledge)."
   },
   {
     "id": "crotales",
@@ -677,10 +903,26 @@
     "range_full": [84, 108],
     "range_practical": [84, 108],
     "registers": [
-      { "name": "whole range", "range": [84, 108], "character": "pure, piercing, long ring" }
+      { "name": "lower set (rare)", "range": [84, 95], "character": "written C4-B4" },
+      { "name": "common set", "range": [96, 108], "character": "written C5-C6; pure, piercing, long ring" }
     ],
     "weak_dynamics": [],
-    "notes": "General knowledge (not in source): 2-octave set written C4-C6, sounds two octaves higher."
+    "notes": "Sounds two octaves higher (Adler). Older scores vary (sounding as written or an octave higher), so period parts may lie lower, e.g. Berlioz Bb5/F6 (82, 89). Hand-held pairs: one pair = one pitch (Piston)."
+  },
+  {
+    "id": "cimbalom",
+    "name_en": "Cimbalom",
+    "name_es": "Cimbalón (címbalo húngaro)",
+    "family": "percussion-pitched",
+    "note": "plucked-strings-zither-cimbalom",
+    "transposition_semitones": 0,
+    "range_full": [40, 88],
+    "range_practical": [40, 88],
+    "registers": [
+      { "name": "whole range", "range": [40, 88], "character": "struck metal strings; florid fast figuration cuts through tutti" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Four chromatic octaves E2-E6 (Adler p.449-450). Sustained notes are rolls even if not marked. Damper pedal on most instruments. Hungarian colour (Piston p.338-339). Also covered in mallet-percussion-extended-and-rare."
   },
   {
     "id": "snare_drum",
@@ -694,6 +936,19 @@
     "registers": [],
     "weak_dynamics": [],
     "notes": "Unpitched: MIDI note = library key map (GM 38). Ostinati, rolls."
+  },
+  {
+    "id": "tenor_drum",
+    "name_en": "Tenor drum",
+    "name_es": "Tambor tenor",
+    "family": "percussion-unpitched",
+    "note": "percussion-unpitched",
+    "transposition_semitones": 0,
+    "range_full": null,
+    "range_practical": null,
+    "registers": [],
+    "weak_dynamics": [],
+    "notes": "No snares; deeper than the snare; processional. Library key map."
   },
   {
     "id": "bass_drum",
@@ -745,7 +1000,7 @@
     "range_practical": null,
     "registers": [],
     "weak_dynamics": [],
-    "notes": "Unpitched; dark, shuddering, long decay; violent when struck hard."
+    "notes": "Unpitched; dark, shuddering, long decay; violent when struck hard. Use very sparingly; soft strokes most effective (Piston); never repeat quickly."
   },
   {
     "id": "triangle",
@@ -758,7 +1013,7 @@
     "range_practical": null,
     "registers": [],
     "weak_dynamics": [],
-    "notes": "Unpitched (GM 80 muted / 81 open). Audible over the tutti; use sparingly."
+    "notes": "Unpitched (GM 80 muted / 81 open). Audible over the tutti; use sparingly. Extreme economy; soft dynamics best (Adler)."
   },
   {
     "id": "tambourine",
@@ -771,14 +1026,14 @@
     "range_practical": null,
     "registers": [],
     "weak_dynamics": [],
-    "notes": "Unpitched (GM 54). Hits, shakes, rolls."
+    "notes": "Unpitched (GM 54). Hits, shakes, rolls. Sizes 38/25/15 cm; 25 cm if unspecified (Adler). Struck, shaken roll (loud), thumb roll (soft)."
   },
   {
     "id": "wood_block",
     "name_en": "Wood block",
     "name_es": "Caja china",
     "family": "percussion-unpitched",
-    "note": "percussion-unpitched",
+    "note": "percussion-unpitched-latin-and-effects",
     "transposition_semitones": 0,
     "range_full": null,
     "range_practical": null,
@@ -791,7 +1046,7 @@
     "name_en": "Castanets",
     "name_es": "Castañuelas",
     "family": "percussion-unpitched",
-    "note": "percussion-unpitched",
+    "note": "percussion-unpitched-latin-and-effects",
     "transposition_semitones": 0,
     "range_full": null,
     "range_practical": null,
@@ -809,17 +1064,72 @@
     "range_full": [23, 103],
     "range_practical": [24, 96],
     "registers": [
-      { "name": "lowest", "range": [23, 35], "character": "deep, long ring; muddy in close chords (general knowledge)" },
-      { "name": "low-middle", "range": [36, 59], "character": "full, warm; bass notes, open arpeggios" },
+      { "name": "lowest", "range": [23, 35], "character": "deep, long ring; muddy in close chords; a single wound string lacks body (Piston)" },
+      { "name": "low-middle", "range": [36, 59], "character": "full, warm; bass notes, open arpeggios; best melodic zone begins (Piston)" },
       { "name": "middle", "range": [60, 83], "character": "richest, most resonant" },
-      { "name": "high", "range": [84, 95], "character": "bright, clear, shorter ring" },
+      { "name": "high", "range": [84, 95], "character": "bright, clear, shorter ring; no expressive melody (Piston)" },
       { "name": "top", "range": [96, 103], "character": "dry, short, little sustain" }
     ],
     "weak_dynamics": [
       { "range": [96, 103], "issue": "short and weak (general knowledge)" },
+      { "range": [85, 103], "issue": "strings too short for expressive melody (Piston p.338)" },
+      { "range": [23, 35], "issue": "single low note lacks carrying power: enharmonic unison or doubling (Piston p.327)" },
       { "range": [23, 103], "issue": "covered by brass/tutti except glissandi and middle-register ff chords" }
     ],
-    "notes": "47 strings in Cb major, Cb1 (23) to Gb7 (102); top note G7 (103) with the G pedal natural (Gb7/F#7 = 102). 7 pedals (D C B | E F G A), flat/natural/sharp. One spelling per note name at a time; no continuous chromaticism. Max 4 notes per hand."
+    "notes": "47 strings in Cb major. Range variants: Adler (chapter, App. A) 23-104 (G pedal reaches the top string), Piston 23-102 (1955). Lowest string(s) have no pedal: fixed per piece (Adler: two lowest, 23-26; Piston: lowest). 7 pedals (D C B | E F G A), one setting per letter in all octaves; pitch classes 2, 7, 9 (D, G, A) have no homophone. Max 4 notes and 16 st per hand, chords rolled upward by default. Harmonics sound +12, strings 45-77 (sounding 57-89, Adler); RH 1, LH 2-3. See harp-pedals, harp-techniques."
+  },
+  {
+    "id": "classical_guitar",
+    "name_en": "Classical guitar",
+    "name_es": "Guitarra (clásica)",
+    "family": "plucked",
+    "note": "plucked-strings",
+    "transposition_semitones": -12,
+    "range_full": [40, 83],
+    "range_practical": [40, 76],
+    "registers": [
+      { "name": "bass strings", "range": [40, 54], "character": "warm bass, open E/A/D (general knowledge)" },
+      { "name": "treble", "range": [55, 76], "character": "singing melody zone (general knowledge)" },
+      { "name": "top frets", "range": [77, 83], "character": "thin, solo only (general knowledge)" }
+    ],
+    "weak_dynamics": [
+      { "range": [40, 83], "issue": "quiet unamplified; harmonics nearly inaudible; thin the orchestra (Adler p.102)" }
+    ],
+    "notes": "Written treble clef an octave above sounding. Open strings 40 45 50 55 59 64; chan 0-5 = strings 1-6. Adler chapter chart and App. A top 76; 19-fret instrument to 83 (general knowledge); Ample Guitar L plays 40-84. Solo writing: classical-guitar-solo."
+  },
+  {
+    "id": "mandolin",
+    "name_en": "Mandolin",
+    "name_es": "Mandolina",
+    "family": "plucked",
+    "note": "plucked-strings",
+    "transposition_semitones": 0,
+    "range_full": [55, 93],
+    "range_practical": [55, 88],
+    "registers": [
+      { "name": "whole range", "range": [55, 93], "character": "bright plucked; held notes only as tremolo" }
+    ],
+    "weak_dynamics": [
+      { "range": [55, 93], "issue": "quiet: solo or with pizz/muted strings, soft winds (Adler p.104)" }
+    ],
+    "notes": "4 paired courses tuned like the violin, 55 62 69 76. Plectrum. Sustain = tremolo. Practical = Adler App. A pro range G3-E6."
+  },
+  {
+    "id": "banjo_5string",
+    "name_en": "Banjo (5-string)",
+    "name_es": "Banjo",
+    "family": "plucked",
+    "note": "plucked-strings",
+    "transposition_semitones": -12,
+    "range_full": [48, 76],
+    "range_practical": [48, 69],
+    "registers": [
+      { "name": "whole range", "range": [48, 76], "character": "bright, percussive, short decay" }
+    ],
+    "weak_dynamics": [
+      { "range": [48, 76], "issue": "covered by horns/saxes at p (Gershwin, Adler p.107)" }
+    ],
+    "notes": "Adler tuning C3 G3 B3/C4 D4 + thumb string G4 (48 55 59/60 62 67); bluegrass open G 50 55 59 62 67 (general knowledge). Each fretted string reaches a M9 above open. Practical top = Adler's chart A4 [?] (App. A shows only C3 and A4 and calls the banjo non-transposing; tenor banjo 8vb, 36-57). Transposition -12 is general knowledge."
   },
   {
     "id": "piano",
@@ -831,12 +1141,12 @@
     "range_full": [21, 108],
     "range_practical": [28, 103],
     "registers": [
-      { "name": "bass", "range": [21, 39], "character": "rumbling, percussive octaves (general knowledge)" },
-      { "name": "middle", "range": [40, 83], "character": "full, singing (general knowledge)" },
-      { "name": "treble", "range": [84, 108], "character": "bright, bell-like, short decay (general knowledge)" }
+      { "name": "bass", "range": [21, 39], "character": "percussive; reinforces timpani/BD (Adler); loud staccato turns metallic and hides pitch (Piston)" },
+      { "name": "middle", "range": [40, 83], "character": "full, singing; least useful for orchestral doubling (Adler prefers extremes)" },
+      { "name": "treble", "range": [84, 108], "character": "bright, short decay; adds brilliance to piccolo/flute up to 108 (Piston)" }
     ],
     "weak_dynamics": [],
-    "notes": "Orchestral use: percussive doubler, filler, accompaniment. CC64 sustain. Per hand <= 5 notes, <= ~16 st span."
+    "notes": "Orchestral use: doubler (pizz, staccato winds, xylophone, accents) in short values, not on legato pads; percussion (low tremolo with timp/BD rolls). CC64 damper; sostenuto (CC66) only below middle C and missing on many pianos. Per hand <= 5 notes, <= ~16 st span."
   },
   {
     "id": "celesta",
@@ -855,7 +1165,7 @@
     "weak_dynamics": [
       { "range": [60, 108], "issue": "soft instrument: disappears in loud textures" }
     ],
-    "notes": "Written C3-C7, sounds an octave higher. Pairs with pizz strings and harp."
+    "notes": "Written C3-C7, sounds an octave higher (Adler App. A agrees; its extra top note is unreadable, do not use). Sweet spot ~72-96 (inferred from Adler). Medium decay: no true staccato (resonators ring, Adler) and no long sustain (Piston). Doubles harp, flutes/piccolo, pizz or muted solo violins on the same chord tones."
   },
   {
     "id": "harpsichord",
@@ -872,7 +1182,7 @@
     "weak_dynamics": [
       { "range": [29, 89], "issue": "very limited volume: thin the orchestration around it" }
     ],
-    "notes": "Dynamics only via registers/stops and texture. Baroque continuo."
+    "notes": "Dynamics only via stops/coupler and texture; thin the orchestra around it or play in its rests (Adler); avoid against a large orchestra unless amplified/modern high-power (Adler, Piston). Baroque continuo. Adler App. A: F1-F6 (29-89); chapter top read uncertainly (F6 or E6), Piston bottom F1 [?]."
   },
   {
     "id": "organ_manual",
@@ -887,7 +1197,7 @@
       { "name": "manual key range", "range": [36, 96], "character": "colour and loudness set by registration" }
     ],
     "weak_dynamics": [],
-    "notes": "Ranges are KEY numbers at 8' pitch; 16' stops sound -12, 4' +12. No touch dynamics."
+    "notes": "Ranges are KEY numbers at 8' pitch; 16' stops sound -12, 4' +12. No touch dynamics. Adler App. A: common 56-key manuals C2-G6 (36-91); 61-key manuals reach C7 (96)."
   },
   {
     "id": "organ_pedal",
@@ -902,6 +1212,135 @@
       { "name": "pedal key range", "range": [36, 67], "character": "bass reinforcement under tutti" }
     ],
     "weak_dynamics": [],
-    "notes": "KEY numbers; with a 16' stop the sounding pitch is -12, 32' -24 (inferred). Sustained notes only."
+    "notes": "KEY numbers; with a 16' stop the sounding pitch is -12, 32' -24 (inferred). Score marks +16'/+32' to extend down; most organs lack 32' (Adler). Sustained notes only; low pedal cluster (C-C#-D) for storm effects (Piston, Verdi Otello). Adler App. A: common 25-note pedalboard C2-C4 (36-60); 32-note pedalboards reach G4 (67)."
+  },
+  {
+    "id": "harmonium",
+    "name_en": "Harmonium (reed organ)",
+    "name_es": "Armonio",
+    "family": "keyboards",
+    "note": "piano-celesta-keyboards-organ-harpsichord",
+    "transposition_semitones": 0,
+    "range_full": [29, 89],
+    "range_practical": [29, 89],
+    "registers": [
+      { "name": "five-octave compass", "range": [29, 89], "character": "soft sustained reed tone; stops colour and extend +/-12" }
+    ],
+    "weak_dynamics": [],
+    "notes": "Adler ex.13-12 and App. A: F1-F6, low F1 and top read uncertainly [?]; some instruments reach C7 (96); some stops extend an octave up/down. Write like organ manuals, no pedalboard. Soft chords under recitative; small-orchestra wind substitute (Piston)."
+  },
+  {
+    "id": "voice_soprano",
+    "name_en": "Soprano",
+    "name_es": "Soprano",
+    "family": "voices",
+    "note": "texture-accompanied-melody-voice-and-choir",
+    "transposition_semitones": 0,
+    "range_full": [55, 84],
+    "range_practical": [60, 79],
+    "registers": [
+      { "name": "low", "range": [60, 66], "character": "weakest: only very soft (inferred split)" },
+      { "name": "middle", "range": [67, 76], "character": "relaxed, fairly strong" },
+      { "name": "top", "range": [77, 84], "character": "most powerful, penetrating" }
+    ],
+    "weak_dynamics": [
+      { "range": [55, 66], "issue": "chest/low: thin the orchestra" }
+    ],
+    "notes": "Adler: C4-C6 for soloists, some higher; chest resonance to G3 (55). Practical = four-part choral range (Hindemith)."
+  },
+  {
+    "id": "voice_mezzo",
+    "name_en": "Mezzo-soprano",
+    "name_es": "Mezzosoprano",
+    "family": "voices",
+    "note": "texture-accompanied-melody-voice-and-choir",
+    "transposition_semitones": 0,
+    "range_full": [57, 81],
+    "range_practical": [57, 81],
+    "registers": [
+      { "name": "low", "range": [57, 63], "character": "weakest (inferred split)" },
+      { "name": "middle", "range": [64, 73], "character": "relaxed, fairly strong" },
+      { "name": "top", "range": [74, 81], "character": "most powerful" }
+    ],
+    "weak_dynamics": [
+      { "range": [57, 63], "issue": "accompany lightly" }
+    ],
+    "notes": "Adler A3-A5. No narrower writing range in the vault."
+  },
+  {
+    "id": "voice_alto",
+    "name_en": "Alto / contralto",
+    "name_es": "Contralto",
+    "family": "voices",
+    "note": "texture-accompanied-melody-voice-and-choir",
+    "transposition_semitones": 0,
+    "range_full": [53, 79],
+    "range_practical": [55, 74],
+    "registers": [
+      { "name": "low", "range": [55, 61], "character": "often the best zone for altos (Adler exception)" },
+      { "name": "middle", "range": [62, 69], "character": "relaxed" },
+      { "name": "top", "range": [70, 77], "character": "can sound constricted" }
+    ],
+    "weak_dynamics": [
+      { "range": [74, 79], "issue": "top may sound forced" }
+    ],
+    "notes": "Adler: contralto (F3) G3-F5; alto in general G3-G5 [? top may be F5]. Practical = four-part choral range (Hindemith)."
+  },
+  {
+    "id": "voice_tenor",
+    "name_en": "Tenor",
+    "name_es": "Tenor",
+    "family": "voices",
+    "note": "texture-accompanied-melody-voice-and-choir",
+    "transposition_semitones": -12,
+    "range_full": [48, 70],
+    "range_practical": [48, 67],
+    "registers": [
+      { "name": "low", "range": [50, 56], "character": "only very soft" },
+      { "name": "middle", "range": [57, 62], "character": "relaxed" },
+      { "name": "top", "range": [63, 70], "character": "penetrating, most powerful" }
+    ],
+    "weak_dynamics": [
+      { "range": [48, 56], "issue": "accompany lightly" }
+    ],
+    "notes": "Written treble clef 8vb (sounds an octave lower). Adler (C3) D3-Bb4; heavy vs lyric tenors differ."
+  },
+  {
+    "id": "voice_baritone",
+    "name_en": "Baritone",
+    "name_es": "Barítono",
+    "family": "voices",
+    "note": "texture-accompanied-melody-voice-and-choir",
+    "transposition_semitones": 0,
+    "range_full": [43, 67],
+    "range_practical": [43, 65],
+    "registers": [
+      { "name": "low", "range": [43, 49], "character": "weakest (inferred split)" },
+      { "name": "middle", "range": [50, 57], "character": "relaxed" },
+      { "name": "top", "range": [58, 65], "character": "most powerful" }
+    ],
+    "weak_dynamics": [
+      { "range": [43, 49], "issue": "accompany lightly" }
+    ],
+    "notes": "Adler G2-F4 (G4)."
+  },
+  {
+    "id": "voice_bass",
+    "name_en": "Bass",
+    "name_es": "Bajo",
+    "family": "voices",
+    "note": "texture-accompanied-melody-voice-and-choir",
+    "transposition_semitones": 0,
+    "range_full": [38, 64],
+    "range_practical": [40, 60],
+    "registers": [
+      { "name": "low", "range": [41, 47], "character": "often the best zone for basses (Adler exception)" },
+      { "name": "middle", "range": [48, 56], "character": "relaxed" },
+      { "name": "top", "range": [57, 64], "character": "can sound constricted" }
+    ],
+    "weak_dynamics": [
+      { "range": [60, 64], "issue": "top may sound forced" }
+    ],
+    "notes": "Adler bass F2-E4; basso profundo (D2) E2-D4, some a 4th lower (inferred ~33-35)."
   }
 ]

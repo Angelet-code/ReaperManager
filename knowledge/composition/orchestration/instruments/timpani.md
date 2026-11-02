@@ -1,65 +1,90 @@
 ---
 id: orchestration.timpani
 title: Timpani
-aliases: [timbales, timbal, Pauken, timpani, timbales de pedal, redoble, baquetas, timbales sinfónicos]
+aliases: [timbales, timbal, Pauken, timpani, timbales de pedal, timbales sinfónicos, redoble, redoble de timbal, baquetas, baquetas duras, baquetas blandas, secco, seco, apagar, cambio de afinación, Pedalpauken, Paukenwirbel, timbalero]
 domain: orchestration
-tags: [percussion, instrument, ranges, pitched-percussion]
+tags: [percussion, instrument, ranges, pitched-percussion, rolls, retuning]
 style_scope: universal
-use_when: Writing or checking a timpani part: choosing pitches/drums, rolls, retuning time, Classical vs modern use.
-summary: Timpani sound as written, ≈ C2–C4 (36–60) across five drum sizes (30" 38–45, 28" 41–48, 25" 46–53, 23" 50–57, 21" 53–59); tune each drum mid-range. Classical style uses two drums on tonic and dominant tied to the trumpets; modern pedal timpani can change pitch but need time, and you can never have more simultaneous pitches than drums.
-sources: ["unir-orq-tema7 p.5-8", "unir-orq-tema1 p.6-8"]
-related: ["[[trumpet]]", "[[percussion-unpitched]]", "[[mallet-percussion]]", "[[_instruments]]"]
+use_when: Writing or checking a timpani part (choosing pitches and drums, rolls and their endings, retuning time, stick choice, timpani's role in the tutti).
+summary: Timpani sound as written, 36–60 (practical 38–57) on four pedal drums plus an optional piccolo; put each note in the middle of a drum, never ask for more pitches than drums, and leave rests for retuning. They reinforce the tutti bass with the brass, underline rhythm, and roll for sustain; mark every roll ending and every short (secco) note.
+sources: ["unir-orq-tema7 p.5-8", "unir-orq-tema1 p.6-8", "adler-orq-es p.433, 435-436, 445-448", "piston-orch p.296-303"]
+related: ["[[timpani-effects-and-period-practice]]", "[[percussion-unpitched]]", "[[mallet-percussion]]", "[[percussion-section-writing]]", "[[trumpet]]", "[[trumpet-period-practice]]", "[[brass-section-writing]]", "[[film-percussion-phrase-marking]]", "[[library-translation-table]]", "[[user-taste]]", "[[_instruments]]"]
 ---
 
 # Timpani
 
 ## Core idea
-Copper bowls with a head, tuned by pedal (modern) or by hand (historic). Non-transposing, bass clef. The only
-percussion present in orchestral scores of almost every period. Classical: **two drums, tonic + dominant**,
-unchanged through the work; 19th c.: three; today 4 (up to 5), retuned within a movement.
+Copper kettles with a head; modern drums retune with a pedal. Non-transposing, bass clef. The low drums
+stand at the player's left. Effects, roto-toms and period styles (Classical two-drum writing, Beethoven,
+Berlioz): [[timpani-effects-and-period-practice]].
 
-| Drum | Range (MIDI) | Best (mid-range, inferred) |
+| Drum (UNIR/Piston size; Adler's label) | Range (MIDI) | Best, mid-head (inferred) |
 |---|---|---|
-| 30" | 38–45 (D2–A2) | 40–43 |
-| 28" | 41–48 | 43–46 |
-| 25" | 46–53 | 48–51 |
-| 23" | 50–57 | 52–55 |
-| 21" | 53–59 (60 optional) [top approx.] | 55–57 |
+| 30" (Adler: 32" / 81 cm) | 38–45 (D2–A2) | 40–43 |
+| 28" (71 cm) | 41–48 (F2–C3) | 43–46 |
+| 25" (63 cm) | 46–53 (Bb2–F3) | 48–51 |
+| 23" (58 cm) | 50–57 (D3–A3); 58 on some drums (Piston) | 52–55 |
+| 21" piccolo (53 cm), optional | 53–59 (F3–B3); 60 approx. | 55–57 |
 
-Full range **36–60**, practical **38–57**. C2–C#2 (36–37) lie below the 30" drum and need a 32" or larger drum
-(not in every section; see `instruments.json` `timpani`).
+Vault default: full **36–60**, practical **38–57**. 36–37 (C2–C#2) need a 32"+ drum (Piston) or a
+stretched low drum (Adler: "possible"). Above 59 only small extension drums (see the effects note).
 
 ## Rules
-- R1 `PREFER` tuning each drum in the middle of its range (head neither slack nor over-tight) for the best tone.
-- R2 `MUST` (Classical style) use only two pitches, tonic and dominant (e.g. D major: A2 45 + D3 50), fixed
-  for the movement.
-- R3 `MUST` (modern) have no more distinct pitches sounding in a passage than drums available (4 default),
-  and leave time to re-pedal: ≈ 1–2 beats per retuning at moderate tempo, more for large intervals (general knowledge).
-- R4 `PREFER` role since Classicism: reinforce the tutti, usually with the brass (trumpets + timpani on
-  cadences).
-- R5 `ALLOWED` exposed timpani alternating with the orchestra for big impact (Strauss *Zarathustra* C–G).
-- R6 `ALLOWED` hard sticks = louder, clearer attacks; soft sticks = warmer, more resonant.
-- R7 `MUST` write rolls as trill/tremolo and state measured vs unmeasured; a roll is the timpani's sustain.
-- R8 `ALLOWED` damping: notated durations can be honoured by damping with the fingers; otherwise the drum rings.
-- R9 `ALLOWED` agility (general knowledge): fast single strokes and rolls on one drum are easy; fast
-  patterns across 2–3 adjacent drums fine; melodies need pre-tuned drums.
+- R1 `MUST` Assume four drums (30/28/25/23"); the piccolo is optional (Adler). Never more distinct pitches
+  in a passage than drums, and [[user-taste]] R16: at most 4 per passage.
+- R2 `PREFER` The drum that puts the note mid-head: neither slack nor tight gives the best tone. In the
+  F2–F3 overlap choose accordingly; F2/F#2 sound better on the 30" than on the 28" (Piston).
+- R3 `MUST` Know which drum plays each note and plan every retuning. Pedals make small changes quick, but
+  the player checks pitch, often while the orchestra plays in another key. Leave ≈ 1–2 beats for a small
+  change at moderate tempo and a bar or more for a large one (general knowledge). Notate the change
+  ("Bb → B") in a rest (Adler).
+- R4 `MUST` The timpanist plays only timpani; give other percussion to other players (Adler).
+- R5 `PREFER` Role: dynamic reinforcement of the tutti, above all its bass, with the brass on cadences and
+  climaxes; also underline the rhythmic outline. Not a continuous layer (Piston, UNIR).
+- R6 `ALLOWED` Soft timpani: a pp ostinato can be the only bass under a thin texture (Tchaikovsky 4); a pp
+  roll gives atmosphere (Haydn "Drumroll").
+- R7 `ALLOWED` Solos: one player on four drums (Holst *Planets*); exposed strokes alternating with the
+  orchestra (Strauss *Zarathustra* C–G).
+- R8 `MUST` A roll is the timpani's sustain. Notate its exact length and ending (Piston): (a) separate
+  rolls, each new note accented; (b) a roll tied across the barline, no accent at the join; (c) a roll
+  ending on a short unaccented release note. For a tremolo between two drums, say measured or unmeasured
+  (Adler).
+- R9 `MUST` Mark every duration. Timpani ring; the player damps by hand. Mark short notes staccato and add
+  *secco* to an isolated short note (Piston, Adler).
+- R10 `MUST` Mark dynamics precisely: every change is exposed on percussion. The dynamic range is enormous
+  (Piston, Adler).
+- R11 `ALLOWED` Sticks: hard = louder and clearer (also clarifies soft rhythmic figures); soft = warmer
+  and more resonant; medium otherwise. Leave time for a stick change.
+- R12 `ALLOWED` Agility: fast single strokes and rolls on one drum are easy. Figures across adjacent
+  drums must let the hands alternate naturally. A melody needs pre-tuned drums or a pedal change per
+  note.
+- R13 `ALLOWED` Two drums struck together (double stops), e.g. an oom-pah waltz bass with a 2-note
+  chord on beats 2–3 (Adler).
 
 ## Apply in MIDI / REAPER
-- Track `Timp` at concert pitch. Choose the pitch set first (≤ 4), map each to a drum, check each sits in a
-  drum's range (preferably its middle).
-- Hits: velocity = dynamics (p ≈ 40–60, f ≈ 90–110, ff accent 115–127); hard/soft stick = different patches.
-- Rolls: use the library roll patch with CC1 swells (cresc. roll into a tutti hit), or alternate notes at
-  32nds with velocity jitter ±8 (inferred).
-- Note length: if the library responds to note-off (choke), use length for damping; otherwise let ring.
-- Pan: centre rear.
+- Track `TIMP`, own player, pan centre, rear depth with the brass. Reason in concert pitch, then check the
+  patch's key mapping: **Symphony Series Timpani** plays concert + 12 (hit keys 48–71 sound an octave
+  lower; low D2 = key 50). Its keyswitches are 36 hits, 38 tremolo roll (CC1 dynamics), 40 crescendo
+  roll, 41 flam ([[library-translation-table]]). Darwin Percussion Ensemble has no timpani.
+- Pitch plan first: list the pitches per passage (≤ 4), assign each to a drum in the table, keep it in
+  the "best" column, and check the gaps between pitch changes on one drum.
+- Velocity = dynamics (inferred): p 40–60, mf 70–85, f 90–110, accented ff 115–127. Repeated strokes ±5
+  jitter.
+- Roll: the roll keyswitch with CC1 drawn like the hairpin. Case (a) starts a new note with a velocity
+  bump of about +10. Case (b) keeps one long note over the barline. Case (c) ends with a release note of
+  0.25–0.5 beat at the roll's final level. Fallback: 32nd single strokes, velocity ±8 (inferred).
+- Secco: a short note (≤ 0.25 beat) only if the patch damps on note-off; otherwise use a short/damped
+  articulation.
+- Climax pickup: 16ths on one or two drums rising 90 → 115 into the downbeat, with the brass.
 
 ## Checklist
-- [ ] All notes 36–60; mostly 38–57.
-- [ ] ≤ 4 distinct pitches in any passage without a pause; retunings have ≥ 1–2 beats.
-- [ ] Classical-style piece: only tonic and dominant pitches.
-- [ ] Rolls are marked as rolls (roll patch or tremolo), not sustained single notes.
-- [ ] Timpani mostly coincide with brass/tutti accents and cadences.
+- [ ] All notes 36–60 in concert pitch, mostly 38–57; library key offset applied.
+- [ ] ≤ 4 distinct pitches per passage; each change has its rest.
+- [ ] Each roll has a defined length and ending; short notes are short or secco.
+- [ ] Timpani sit with brass/tutti accents and cadences, not in every bar.
+- [ ] Timpani track holds no other percussion.
 
 ## Examples
-- D major Classical: A2 (45) + D3 (50), with trumpets at cadences.
-- Film ostinato: E2 (40), B2 (47), E3 (52) on 30"/25"/23" drums, f, hard sticks.
+- Film ostinato in E minor: E2 (40), B2 (47), E3 (52) on 30"/25"/23" drums, f, hard sticks.
+- Soft bass: pp A2–E3 (45, 52) eighths alone under p strings, soft sticks.
+- Roll into a tutti: roll on D3 (50) p → ff over 2 bars, accent on the downbeat, release 0.5 beat.

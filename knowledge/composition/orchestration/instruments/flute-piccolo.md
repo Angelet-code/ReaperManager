@@ -1,70 +1,87 @@
 ---
 id: orchestration.flute-piccolo
-title: Flute, piccolo and alto flute
-aliases: [flauta, flautas, flautín, piccolo, ottavino, flauta en sol, flauta alto, Flöte, Querflöte, kleine Flöte, Pikkolo, Altflöte, flûte]
+title: Flute and piccolo
+aliases: [flauta, flautas, flauta travesera, flautín, piccolo, ottavino, flauto piccolo, petite flûte, Flöte, große Flöte, Querflöte, kleine Flöte, Pikkolo, flûte, segunda flauta, flautas múltiples, armónicos de flauta, frullato]
 domain: orchestration
-tags: [woodwinds, instrument, ranges, registers, transposition]
+tags: [woodwinds, instrument, ranges, registers, transposition, doubling, section-layout]
 style_scope: universal
-use_when: Writing, checking or doubling a flute, piccolo or alto-flute part in MIDI.
-summary: Flute B3/C4–C7 (59/60–96), weak and unable to play loud at 60–63, clear and melodic at 72–84, brilliant up to ≈ 94; the most agile wind. Piccolo sounds an octave above written (74–108), cuts through any tutti; alto flute in G sounds a 4th below written (55–91), best in its soft low octave.
-sources: ["unir-orq-tema5 p.4-11", "unir-orq-tema1 p.8-15"]
-related: ["[[oboe-english-horn]]", "[[clarinets]]", "[[violin]]", "[[transposing-instruments]]", "[[_instruments]]"]
+use_when: Writing, checking or doubling a flute or piccolo part in MIDI (melody, runs, high doublings, flute pairs and trios).
+summary: Flute C4–C7 (60–96; B3 59 with a B foot, 97–98 exceptional ff only); weak and coverable at 60–66, clear and serene at 72–83, brilliant to A6/Bb6 (93–94); the most agile wind, narrow dynamic range, uses a lot of air. Piccolo sounds an octave above written (74–108, practical ≤ 103): sparing peaks, delicate solos, unison doubling of a high flute.
+sources: ["unir-orq-tema5 p.4-11", "unir-orq-tema1 p.8-15", "adler-orq-es p.170-174", "adler-orq-es p.180-191", "piston-orch p.126-144"]
+related: ["[[flute-piccolo-alto-and-bass-flute]]", "[[woodwind-basics]]", "[[woodwind-basics-articulation-and-effects]]", "[[woodwind-section-writing]]", "[[oboe-english-horn]]", "[[clarinets]]", "[[violin]]", "[[transposing-instruments]]", "[[_instruments]]"]
 ---
 
-# Flute, piccolo and alto flute
+# Flute and piccolo
 
 ## Core idea
-Metal but a woodwind (pre-Böhm flutes were wooden). Unlike the oboe, **flute power grows as it rises**.
-Most agile wind instrument (only the piccolo is more agile). Treble clef. Breath is the limit, not fingers.
+The only reedless woodwind (metal; wooden flutes were mellower). Unlike the oboe, **flute power grows as it
+rises**. Most agile wind; breath, not fingers, is the limit. Alto and bass flute:
+[[flute-piccolo-alto-and-bass-flute]].
 
 | Instrument | Written → sounding | Full (sounding) | Practical |
 |---|---|---|---|
-| Flute (C) | as written | 59 (B foot, optional) / 60 – 96 | 60–93 |
-| Piccolo | +12 (sounds 8va) | 74–108 (written D4–C7; written C4 optional on some) | 74–103 |
-| Alto flute in G | −5 (P4 lower) | 55–91 (written C4–C7) | 55–86 |
+| Flute (C) | 0 | 60–96 (59 B foot; 97–98 exceptional) | 60–93 |
+| Piccolo | +12 | 74–108 (written D4–C7, no foot joint) | 74–103 (Piston: ≤ 105, 106–108 climax only) |
 
-Flute registers: **60–71** low (velvety, soft, easily covered; 60–63 cannot play loud) · **72–83** middle
-(much clearer, the default melodic zone) · **84–94** high (brilliant without shrillness up to ≈ A6/Bb6
-93–94) · **95–96** extreme (loud only). An extra top note ≈ F7 (101) is printed but unreadable [?].
+Flute registers (vault default, ≈ Piston): **60–66** velvety but weak upper partials, covered by anything
+(60–63 cannot play loud) · **67–71** brightening · **72–83** clear, serene (melodic default) · **84–94**
+brilliant, carrying, not shrill up to A6/Bb6 · **95–96** loud only · 97–98 exceptional.
+Variant (Adler): weak but seductive 59–65; sweet with little projection 67–79; clear and brilliant 81–91;
+somewhat strident 93–96. Adler hears the edge from A6, Piston only above Bb6.
+UNIR's printed top ≈ F7 (101) [?] is confirmed by neither.
 
 ## Rules
-- R1 `AVOID` forte on 60–63 (C4–D#4): weak upper partials; covered by almost anything.
-- R2 `PREFER` flute melodies in 72–93 (C5–A6).
-- R3 `ALLOWED` scales, arpeggios, register leaps and repeated tonguing at speed (idiomatic).
-- R4 `PREFER` long fast or loud high passages split between Fl 1 and Fl 2, overlapping the last note of one
-  with the first of the next (Stravinsky *Firebird*): high forte uses a lot of air.
-- R5 `AVOID` trills C4–Db4, Db4–Eb4, C#4–D#4, B3–C#4 (foot-joint notes).
-- R6 `AVOID` fingered tremolos below G4 (67); `MUST` keep tremolo width ≤ P5 (7 st) in the low octave and
-  ≤ M3 (4 st) high.
-- R7 `ALLOWED` flutter-tongue (Flatterzunge, frullato): the wind equivalent of string tremolo.
-- R8 `PREFER` mainly melodic; for accompaniment chords combine flutes with clarinets and bassoons (blend),
-  rarely with oboes.
-- R9 `PREFER` doublings: flute + Vln I (unison, or flute 8va for sparkle); flute + clarinet in octaves or
-  unison; flute 8va over oboe melody (general knowledge); piccolo + Vln I or flute an octave up.
-- R10 `ALLOWED` piccolo middle register for delicate blends; its top cuts through the whole orchestra.
-- R11 `PREFER` alto flute in its lowest octave (55–67) where it is most characteristic; keep the texture
-  very light — it is as soft as the low flute.
-- R12 `ALLOWED` breathing (general knowledge): give a breath (≥ an 8th rest) at least every ≈ 4 bars at
-  moderate tempo, more often in high f passages; low-register long notes need more air than they seem.
-- Style fact: Baroque flute often just doubles the violins; from the Classical "a 2" orchestra it is
-  independent and virtuosic.
+- R1 `AVOID` forte on 60–63 and burying 60–66 under other parts or loud low bass. `PREFER` low flute as the
+  lowest voice of a light texture, over slow harmonic rhythm (Stravinsky *Psalms*, Dvořák 9).
+- R2 `PREFER` melodies in 72–93: second octave for serene lines, third octave for brilliance and projection.
+  A melody may span the whole range.
+- R3 `AVOID` notes above 93 unless needed; approach by ascending scale. Bb6 (94) is safer than B6 (95).
+  `NEVER` 97–98 in soft passages: ff only, doubled by the piccolo.
+- R4 `AVOID` chromatic writing in the bottom fourth (60–65) and top fourth (93–98) (Adler); `AVOID` fast
+  exposed passage work that keeps crossing A6 (93) (Piston).
+- R5 `PREFER` dynamic shape from register and orchestration: the flute's dynamic range is narrow (Piston).
+- R6 `ALLOWED` scales, arpeggios, wide leaps, repeated notes, double/triple tonguing: all idiomatic.
+- R7 `MUST` breathing room: loud high passages use the most air. Rest after hard passages; split long fast
+  or loud lines between Fl 1 and Fl 2, overlapping on accented notes (*Firebird*); relay long held notes
+  between two flutes (Brahms 1/iv).
+- R8 `AVOID` trills on the foot-key pairs 59–60, 59–61, 60–61, 61–63 (slow only) and above G6 (91).
+  Fingered tremolo ≤ 7 st below 72; above, ≤ M3 is safe (Piston), P4 fine (Adler). None to/from 59.
+- R9 `ALLOWED` flutter-tongue (easiest on flute), harmonics 79–92 (veiled, less in tune; soft colour only),
+  whistle tones, key clicks: see [[woodwind-basics-articulation-and-effects]].
+- R10 `PREFER` Fl 2 doubles Fl 1 in unison for weight; an octave below only when Fl 1 is ≥ 84 so Fl 2 stays
+  in its clear octave. Give Fl 2 some of Fl 1's material to rest the first player.
+- R11 `PREFER` one of five multi-flute textures (Adler): unison/octave; parallel 3rds, 6ths or triads
+  (*Mirlitons*, *Aida*: 3 flutes, not 2 + piccolo, for a homogeneous soft chord); antiphony; relay;
+  independent lines. Two flutes can be the inner voices under string outer voices (Mendelssohn 4/II).
+- R12 `PREFER` doublings: flute + Vln I (unison, or 8va for sparkle); flute + clarinet; flute 8va over an
+  oboe tune (general knowledge). Two high flutes ppp on a bare P4 = "magical" cadence colour (Mahler 4).
+- R13 `MUST` piccolo: sparing. `AVOID` its top octave (≥ 96) for sustained lines: peaks only. Its effect is in
+  inverse proportion to its use; it can be delicate (pp solo over pp strings, Shostakovich 7).
+- R14 `AVOID` the piccolo's lowest octave (74–~86) unless the orchestra is thin: hollow, soft, covered.
+  `PREFER` its middle range for solos and blending; above ~86 (inferred) it dominates.
+- R15 `PREFER` piccolo doubling a flute that is already high at the **same sounding pitch**; an octave above
+  only when the flute is in its middle (UNIR). High woodwind chord: 2 flutes with the piccolo on top.
+
+## Period practice
+- `[era: Baroque]` the flute mostly doubles the violins; `[era: Classical]` 1–2 flutes, independent; a pair
+  from Beethoven, 3 from the mid-19th c.; modern 4–5 (2 piccolos or piccolo + alto flute).
+- `[era: early 19th c., Rossini]` the 2nd flute doubles on piccolo; earlier, piccolo in stage works only.
+- `[era: martial]` two piccolos in unison with grace notes (Gluck); piccolo + snare = fife (Prokofiev *Kijé*).
 
 ## Apply in MIDI / REAPER
-- Tracks `Fl 1`, `Fl 2`, `Picc`, `Alto Fl` (all at concert pitch; piccolo patches play sounding pitch).
-- Articulations: legato (slurs), sustain, staccato/short (velocity), flutter, trills; runs on a legato patch
-  are fine (flute legato is fast), unlike strings.
-- Dynamics: low register (60–71) CC1 ≤ 65 and expect it to sound p; high register (84–94) reads f even at
-  moderate CC1; do not program ppp sustained notes above 93 (general knowledge).
-- Pan: centre-left in the woodwind row.
+- Tracks `Fl 1`, `Fl 2`, `Picc` at concert pitch; check whether the piccolo patch maps sounding pitch.
+- CC1: 60–71 ≤ 65, expect p; 84–94 reads f at moderate CC1; no ppp above 93. Big swells: add instruments.
+- Runs: legato patch is fine. Long runs alternate on `Fl 1` / `Fl 2`, hand-off on the accent, ~1/16 overlap.
+- Breaths: Albion woods legato every ~8 s with a 220 ms gap ([[user-taste]] R17); SWAM flute CC11 per
+  [[modeled-instruments-swam]].
+- Piccolo + high flute doubling: same MIDI pitch on both tracks.
 
 ## Checklist
-- [ ] Flute notes 59–96 (59 only with a B-foot patch); mostly 60–93.
-- [ ] No sustained f/ff (CC1 > 80) on 60–63; low flute lines have a thin (pp) accompaniment.
-- [ ] Piccolo notes 74–108; mostly ≤ 103.
-- [ ] Alto flute notes 55–91; not doubled against loud brass.
-- [ ] Each wind line has breath gaps (≥ 1 every ~4 bars at moderate tempo).
-- [ ] No trills on the foot notes (59–63 pairs listed in R5).
+- [ ] Flute 60–96 (59 only with a B-foot patch; 97–98 only ff and doubled); mostly 60–93.
+- [ ] No f on 60–63; low flute lines have a thin accompaniment, nothing loud below them.
+- [ ] Trills/tremolos pass R8.
+- [ ] Every flute line breathes; loud high runs split or rested.
+- [ ] Piccolo 74–108, mostly ≤ 103; rests in tutti; no long stretches ≥ 96.
 
 ## Examples
-- Smetana *Moldau*: running flute 16ths over harp/violin punctuation.
-- Ravel *Ma mère l'oye*: low vs middle flute colour; Debussy *Syrinx*: tour of all registers.
+- Flute pair in thirds, p staccato: Fl 1 F#5–A5–D6 (78 81 86), Fl 2 D5–F#5–B5 (74 78 83).

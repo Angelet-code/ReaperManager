@@ -30,6 +30,12 @@ Read `_meta/conventions.md` first and follow its schema exactly.
 8. **No invention dressed as source.** You may add widely accepted knowledge to fill an obvious gap,
    but mark such rules `(general knowledge)` so they are not attributed to the books. Keep it modest.
 9. **Conflicts:** if two sources disagree, keep both, attribute each, and state which applies when.
+   Disagreements between periods (Rimsky 1891, Forsyth 1914, Piston 1955, Adler 2002, modern film
+   practice) are not errors to resolve: they are period styles an agent may evoke on purpose. Write
+   them as era-tagged rules (`R7 PREFER [era: Romantic Russian, Rimsky 1891] …`) or a short
+   `## Period practice` section, and make the modern practice the default for library-based MIDI unless
+   the request names a period or style. Ranges: keep the vault range as the current default and list
+   period/author variants beside it.
 
 ## Deliverables (in the folder you are given)
 - The topic notes (`<kebab-name>.md`), unique file names across the vault.

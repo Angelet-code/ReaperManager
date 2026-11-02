@@ -7,7 +7,7 @@ summary: Entry point for any agent composing, arranging, harmonizing or orchestr
 # START HERE
 
 This vault distills harmony (Hindemith I–II), form (Zamacois), orchestration (UNIR course and class
-notes) and film scoring (4-Day Challenge deck, Powell's *HTTYD* score) into small notes for agents that
+notes, Adler 2002, Piston 1955) and film scoring (4-Day Challenge deck, Powell's *HTTYD* score) into small notes for agents that
 write MIDI into REAPER through this repo's CLI and bridge. Conventions: [[conventions]] (C4 = MIDI 60;
 rule strengths MUST/PREFER/AVOID/NEVER/ALLOWED).
 
@@ -28,7 +28,8 @@ rule strengths MUST/PREFER/AVOID/NEVER/ALLOWED).
 3. The style the user asked for. A rule's `style_scope` says where it is law. Common-practice voice
    leading (Hindemith) is law for chorales, classical pieces and orchestral pads. It is advice for
    film writing and does not apply to rock power chords.
-4. Book rules: `MUST`/`NEVER` before `PREFER`/`AVOID`.
+4. Book rules: `MUST`/`NEVER` before `PREFER`/`AVOID`. Between orchestration books, Adler (2002) is the
+   modern default; Piston (1955) and older practice are era-tagged variants, used when a period is asked for.
 5. `(general knowledge)` and `(inferred)` statements: useful defaults with no source behind them.
 
 ## Task router
@@ -41,23 +42,32 @@ rule strengths MUST/PREFER/AVOID/NEVER/ALLOWED).
 | "voicings para cuerdas / metales / pad" | [[harmonize-and-voice]] (steps 2–4) | [[harmony-voicing-for-instruments]], [[chord-voicing-family-stacking]] |
 | "orquesta esto / pásalo a orquesta / arreglo orquestal" | [[orchestrate-existing-material]] | [[orchestrate-from-piano-sketch]], [[texture-types]], [[doubling-colour-and-decay]] |
 | "modula a… / cambio de tono / sube un tono el último estribillo" | — | [[modulation]], [[secondary-dominants]], [[cadences]] |
-| "más tensión / clímax / build / que crezca" | — | [[building-and-releasing-climaxes]], [[dynamics-by-orchestration]], [[harmonic-planning-seven-factors]] |
+| "más tensión / clímax / build / que crezca" | — | [[building-and-releasing-climaxes]], [[building-and-releasing-climaxes-symphonic]], [[dynamics-by-orchestration]], [[harmonic-planning-seven-factors]] |
+| "escribe para la cuerda / maderas / metales / percusión" | — | [[string-section-writing]], [[woodwind-section-writing]], [[brass-section-writing]], [[percussion-section-writing]] |
+| "acompaña a un solista / voz / coro / concierto" | — | [[texture-accompanied-melody-concerto-soloist]], [[texture-accompanied-melody-voice-and-choir]] |
+| "al estilo de Haydn / Beethoven / Wagner" (period forces) | — | [[orchestra-sizes-and-section-balance-by-era]], [[brass-section-writing-period-practice]], the instrument's period split note |
+| "banda / banda de música / marcha / conjunto de viento" | [[orchestrate-existing-material]] | [[wind-band]], [[wind-band-transcription]] |
+| "plantilla / orden de pistas / partitura / orquesta de aficionados" | — | [[score-and-parts-layout]], [[orchestral-mockup-template]], [[orchestrate-from-piano-sketch-other-transcriptions]] |
 | "ostinato / acción / persecución" | — | [[action-ostinato-pedal-gallop]], [[film-percussion-phrase-marking]] |
 | "tema heroico / melodía principal" | — | [[heroic-theme-orchestration]], [[thematic-development]] |
 | "¿qué rango tiene…? / ¿puede tocar…?" | — | the instrument note via [[_instruments]]; `data/instruments.json` |
 | "reverb para orquesta / panorama / profundidad" | — | [[reverb-strategy-orchestral]], [[stage-seating-pan-depth]] |
 | check or fix generated MIDI | [[validate-generated-midi]] | [[orchestration-errors-checklist]] |
-| "obra para guitarra / guitarra clásica / trémolo / rasgueado / digitación" | [[plan-a-piece]] | [[classical-guitar-solo]], [[guitar-ample-performance]], [[user-taste]] (R18–R22) |
+| "suena a MIDI / más realista / curvas de expresión / humaniza / legato / SWAM" | — | [[_performance]], [[user-taste]] (R17), [[cc-expression-phrase-shapes]] |
+| "obra para guitarra / guitarra clásica / trémolo / rasgueado / digitación" | [[plan-a-piece]] | [[classical-guitar-solo]], [[guitar-ample-performance]], [[user-taste]] (R18–R24) |
 
 ## Maps of content
 - [[_workflows]]: procedures.
 - [[_harmony]]: chords, voice leading, cadences, modulation, harmonic planning.
 - [[_form]]: phrases, small and large forms, dances, fugue, vocal forms, modern song mapping.
-- [[_orchestration]]: textures, balance, doubling, climaxes. Instrument notes are in [[_instruments]].
+- [[_orchestration]]: textures, balance, doubling, climaxes, section writing (strings, woods, brass, percussion),
+  transcription, score layout, wind band. Instrument notes (with technique and period splits): [[_instruments]].
 - [[_film-scoring]]: emotion → harmony, template, reverb, five elements, the HTTYD case study.
+- [[_performance]]: how notes are played in MIDI: CC phrase shapes, legato overlaps, slur velocity, timing and
+  velocity humanization, SWAM. Measured from professional MIDI.
 
 ## Known gaps (no source in the vault)
-Choir writing, guitar beyond the solo-classical notes (no book source yet: those notes come from the user's
+Choir writing beyond Adler's accompaniment rules (no lyric choir library), guitar beyond the solo-classical notes (no book source yet: those notes come from the user's
 feedback), hybrid/synth layers, jazz and modern harmony (quartal, chromatic mediants,
 modal loops), species counterpoint, sync to picture and hit points, trailer structure, patch and
 keyswitch maps of the user's libraries. Use general knowledge here, say so, and ask the user when it

@@ -1,22 +1,23 @@
 ---
 id: orchestration.stage-seating-pan-depth
 title: Stage seating to pan and depth map
-aliases: [disposición de la orquesta, colocación en el escenario, panorama orquestal, paneo de orquesta, profundidad, violines antifonales]
+aliases: [disposición de la orquesta, colocación en el escenario, panorama orquestal, paneo de orquesta, profundidad, violines antifonales, orden de pistas]
 domain: orchestration
 tags: [seating, pan, depth, mix, template]
 style_scope: universal (seating = orchestral practice; pan values = mock-up practice)
 use_when: Setting pan and depth for orchestral tracks in REAPER, or deciding whether a library's baked-in hall position should be kept.
-summary: Pan follows the audience's view of the stage. Strings sit in front from left to right, woodwinds in the centre, horns and brass behind, and percussion at the back. Libraries recorded in place (Spitfire/Albion) already contain that position, so leave them near centre. Dry libraries get the pan values and depth sends from the table. Choose one seating (modern or antiphonal) for the whole cue.
-sources: ["unir-orq-tema1 p.4-6", "unir-orq-tema4 p.15-21", "film-4day-challenge slide 5"]
-related: ["[[reverb-strategy-orchestral]]", "[[orchestral-mockup-template]]", "[[line-separation-and-fusion]]", "[[orchestra-sizes-and-section-balance]]"]
+summary: Pan follows the audience's view of the stage. Strings sit in front from left to right, woodwinds in the centre, horns and brass behind, and percussion at the back. Libraries recorded in place (Spitfire/Albion) already contain that position, so leave them near centre. Dry libraries get the pan values and depth sends from the table. Choose one seating (modern or antiphonal) for the whole cue. Musical planes (foreground/background) come from the orchestration first: [[stage-seating-pan-depth-planes]].
+sources: ["unir-orq-tema1 p.4-6", "unir-orq-tema4 p.15-21", "film-4day-challenge slide 5", "adler-orq-es p.3-6"]
+related: ["[[stage-seating-pan-depth-planes]]", "[[reverb-strategy-orchestral]]", "[[orchestral-mockup-template]]", "[[line-separation-and-fusion]]", "[[orchestra-sizes-and-section-balance]]"]
 ---
 
 # Stage seating to pan and depth map
 
 ## Core idea
 The listener should "see" the orchestra. Distance from the front of the stage is **depth**: more reverb,
-less high end and slightly later reflections. Left–right position is **pan**. Pan and depth are also the
-mix's extra tools for separating lines (see [[line-separation-and-fusion]]).
+less high end and slightly later reflections. Left–right position is **pan**. Pan and depth are only the
+mix's extra tools for separating lines; the musical foreground/background comes from the scoring (see
+[[stage-seating-pan-depth-planes]], [[line-separation-and-fusion]]).
 
 ## Rules
 - R1 `MUST` Choose one seating per cue and keep it: **modern** (Vln I, Vln II, Va, Vc from left to right)
@@ -66,13 +67,14 @@ REAPER `D_PAN` is −1 (left) to +1 (right). The CLI's `pan` command takes `L50`
 
 These values are a starting map (general knowledge, derived from the UNIR stage figure).
 
-- **Dry libraries:** apply the pan column. Fake depth with a larger reverb send for rear rows, a gentle
-  high shelf on rear rows (−2 to −3 dB above 8 kHz), and 0–10 ms less pre-delay on rear rows than on
-  front rows (the reflections arrive closer to the direct sound).
+- **Dry libraries:** apply the pan column. Fake depth with a larger reverb send, a gentle high shelf
+  (−2 to −3 dB above 8 kHz) and 0–10 ms less pre-delay on rear rows than on front rows.
 - **Hall-recorded libraries:** pan 0, or a small trim of ±0.1. Use less reverb send (about 6 dB less than
   the table), because the room is already in the samples.
-- **Mixing both kinds:** match the dry ones to the wet ones. Pan the dry ones by the table and push their
-  sends 3–6 dB higher.
+- **Mixing both kinds:** match the dry ones to the wet ones: pan them by the table, sends 3–6 dB higher.
+  Dry modelled soloists (SWAM) go into the room at their stage distance ([[user-taste]] R15).
+- **Track order** stays score order (woods, horns, trumpets, trombones, tuba, timpani, percussion,
+  harp/keys, strings; Adler), whatever the seating.
 - CLI: `node .\bin\reaper-manager.js pan --contains "VLN I" --pan L55`. Build specs set `pan` per track.
 
 ## Checklist

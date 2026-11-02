@@ -44,6 +44,14 @@ voice crossing). The reference solver is `generator/lib/fretboard.mjs` in
   and a climax prepared by what comes before. A chain of nice ideas "no sabe hacia dónde va".
 
 ## Apply in MIDI / REAPER
+- Choose the Ample Guitar L settings for the piece from the [[guitar-ample-performance]] R7 table (vibrato,
+  legato, attack, release, sample cycling; per section if the texture changes) and leave one empty bar
+  before the first note.
+- Write in **sounding** pitch: the melody's home is E4–E5 (strings 1–2, frets 0–12). A theme written around
+  F#5 landed at frets 14–17 (*Remanso*).
+- Under a melody, pick the arpeggio's inner tones under the melody note sounding at that eighth, not under
+  the bar's lowest note (or the arpeggio collapses to one repeated note), and drop tones a semitone from it.
+  Reference: `flow()` in `A:\CERBATANA\Ableton\2026-11-02 Remanso\generator\sections\remanso.mjs`.
 - One MIDI channel per string (channel 1 = 1st string); the Tab Viewer then shows the real fingering.
 - Arpeggio figures (one beat): bass → middle → top note (the peak) → open string under it → middle →
   low; dynamics rise to the peak and recede (see [[guitar-ample-performance]]).

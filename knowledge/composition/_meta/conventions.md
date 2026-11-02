@@ -31,19 +31,21 @@ Every topic note has YAML frontmatter:
 id: harmony.voice-leading-parallels   # domain.slug, unique
 title: Parallel fifths and octaves
 aliases: [quintas paralelas, octavas paralelas, Quintenparallelen]   # Spanish/German terms for lookup
-domain: harmony | form | orchestration | film-scoring | workflow | meta
+domain: harmony | form | orchestration | film-scoring | performance | workflow | meta
 tags: [voice-leading, four-part]
 style_scope: common-practice | romantic | film | universal | ...
 use_when: one sentence: the task situation in which an agent should load this note
 summary: one or two sentences with the core takeaway (an agent may stop reading here)
 sources: ["hindemith-1 p.12-14"]   # source_id + printed pages; see sources/
-related: ["[[other-note]]"]
+related: ["[[voice-leading-basics]]"]
 ```
 
 Body sections, in this order (omit empty ones):
 1. `## Core idea` – 2–5 lines.
 2. `## Rules` – IDs `R1…` with strength keywords.
 3. `## Exceptions`
+   `## Period practice` (optional) – how earlier periods/authors did it differently, era-tagged, for
+   writing in the manner of a period; the Rules above stay the modern default.
 4. `## Apply in MIDI / REAPER` – concrete: MIDI numbers, velocities, CCs, track/voice layout.
 5. `## Checklist` – yes/no checks to verify generated material.
 6. `## Examples` – short, in Roman numerals / chord symbols / note names with octave.

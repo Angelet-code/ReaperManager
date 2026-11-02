@@ -26,6 +26,7 @@ term appears, e.g. "passing tone (nota de paso)". Keep Spanish terms because use
 ---
 source_id: <given>
 source_title: <given>
+source_era: <given, e.g. "1955; mid-20th-c. American orchestral practice">
 scan_pages: <first>-<last>          # page numbers of the PNG files you read
 printed_pages: <first>-<last>       # page numbers printed on the book pages, if visible
 chapters: [<chapter numbers/titles covered>]
@@ -73,6 +74,15 @@ continues_into: <chapter title if your range ends mid-chapter, else null>
    reliably, describe what it demonstrates instead.
 7. Prefer more, smaller rules over long paragraphs. One rule = one checkable statement.
 8. If the source gives a rule and later an exception, keep both and link them.
+9. **Era is data, not noise.** Every source carries `source_era` in the frontmatter (publication year and
+   the practice it describes, given in your task). When a rule depends on the instruments or habits of
+   that time (natural horn crooks, gut strings, obsolete keywork, "rarely used today", period seating or
+   section sizes), tag it `[era: <practice>]`, e.g. `[era: natural horn, pre-1840]`. When the author
+   contrasts periods ("in Mozart's time…, today…"), keep both as separate rules. Never drop a rule only
+   because it is dated: agents use period practice on purpose to evoke an era.
+10. **Scanned scores.** Read musical examples from the page image, never from a PDF text layer (it is
+   garbage for notation). Describe what the example demonstrates (instruments, register, doublings,
+   dynamics, articulation); transcribe only the notes needed for a rule, with `[?]` where unsure.
 
 ## Size
 

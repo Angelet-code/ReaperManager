@@ -60,10 +60,58 @@ detailed, genre-specific feedback in its project memory (`music-arrangement-prin
 - R14 `PREFER` Swing on the 8th grid. Hats laid back by about 5 ms and the snare by about 6 ms, never
   pushed. The bass is locked to the kick.
 
+- R15 `MUST` **Balance with the performance, never with faders.** Relative level depends on the section and on
+  each line's role (melody, countermelody, bed), so set it per section in the MIDI: CC1/CC11 on long notes,
+  velocity on shorts. Measure stems per segment. As a guide:
+  - an exposed solo sits about +5 dB over its bed;
+  - a countermelody sits about 3 dB under the melody;
+  - a section melody in a tutti sits about 4 dB under the bed.
+  Lower the heavy bed (low strings, low brass, percussion, piano) before raising melodies. Don't double a section
+  with its own soloist. Place dry modelled soloists (SWAM) in a room at a stage distance so they match the
+  sampled orchestra.
+- R16 `MUST` **Idiomatic stamina and speed.**
+  - Winds and brass breathe: a phrase that is too long gets a breath at its best point.
+  - Solo strings change bow by dynamic: about 4 s at f, about 10 s at pp.
+  - Horns and trumpets rest after high or long passages.
+  - Basses don't play fast figures in the low register.
+  - The tuba plays no short notes below D2.
+  - Timpani use at most 4 drums per passage, with time to retune.
+- R17 `PREFER` **Measured performance shape for modelled soloists and Albion sections.** Validated by ear
+  on 2026-11-02 in an A/B on *La Forja del Alba* bars 52–64 (solo violin SWAM over Albion string legato).
+  The user chose B, "la medida". The B values were taken from professional reference MIDI; see
+  [[_performance]]. **They were validated as a set (B against A), not change by change.**
+  - **SWAM slur velocity** (sets the portamento time) depends on the slurred note's length:
+    - about 110 for notes under 0.25 s;
+    - about 98 for 0.25–0.5 s;
+    - about 88 for 0.5 s or more;
+    - ±6, and 4 lower on strings;
+    - the solo horn never below 100, because its portamento reaches 2.4 s.
+  - **SWAM phrase in CC11:**
+    - the curve starts moving 150 ms (winds) or 120 ms (strings) before the first note-on, from 60 % of
+      the target;
+    - it reaches the target 90/110 ms after the note-on;
+    - the phrase arc peaks early, at about 0.37 of the phrase;
+    - the final fall is short, about 22 points over the last 240/300 ms, and the note-off does the rest.
+      Don't sink it to the floor.
+  - **SWAM timing and overlap:**
+    - human timing of about ±24 ms (triangular);
+    - slur overlap that varies between 28 and 50 ms.
+  - **Albion longs and legato:**
+    - the CC1 dynamic layer about 16 % lower (0.78·v + 6);
+    - phrase CC11 8 points higher to give the level back;
+    - attack offsets ±8 ms around the usual 25/50 ms;
+    - shorter section phrases with breaths: string legato every ~7 s with a 120 ms gap, woods and horn
+      legato every ~8 s with 220 ms.
+  - Reference implementation: the music engine `src/music` (styles `modeled` and `sampled`, numbers in
+    `src/music/profiles/*.json`; design `docs/music-engine.md`). It reproduces La Forja's `expr.mjs` output
+    exactly and only carries B. La Forja's own generator keeps `EXPR_A=1` for the old version.
+
 - R18 `MUST` **Dynamics breathe at three levels, never flat.** Validated on *Fantasía de San Juan*
   (guitar, 2026-11-02):
   - inside each repeated figure (an arpeggio rises to its top note and recedes; equal attacks on every
-    note were rejected);
+    note were rejected). The shape is a smooth swell over time: offsets that alternate note to note (a
+    two-voice p-i-m-i going loud-soft-loud) sounded unrealistic on *Remanso*, where an even hand with a
+    slight lean to the middle of the bar was approved;
   - per phrase: an arc to the culminating note, melodic contour, harmonic tension, softer phrase
     endings, a slow breath; repeated figures that all sound the same (tremolos, ostinatos) "no terminan
     de quedar bien";
@@ -81,7 +129,19 @@ detailed, genre-specific feedback in its project memory (`music-arrangement-prin
   (C5 over E7 while G#4 rings) is heard as a wrong note. In sustained textures (tremolo, held chords) a
   non-chord tone needs its own harmony.
 - R22 `NEVER` **Automatic expressive effects the score did not ask for** (auto slides/glissandi on big
-  leaps were "muy raros"). Add them only where marked.
+  leaps were "muy raros"). Add them only where marked. Plugin defaults are effects nobody chose either: a
+  fresh Ample Guitar L has Auto Mod on, and a mod wheel held over an arpeggio made everything waver. Know what
+  each setting does and choose it for the piece and section; do not inherit defaults or the last piece's
+  values (see [[guitar-ample-performance]] R7).
+- R23 `MUST` **Match the number of ideas to the length.** A ~2-minute piece wants one theme, one
+  accompaniment texture and a plain form (intro – A – A – B – A – coda, B made from the same motif). Seven
+  sections with new textures, a thumb melody, triplets, a borrowed chord and a harmonics coda were
+  "demasiada cosa distinta, falta estructura y orden" (*Remanso*, Nov 2026); save variety for multi-part
+  pieces.
+- R24 `PREFER` **When a piece asks for delicacy** (*Remanso*, calm guitar arpeggio, "bastante mejor, así se
+  queda"): soft dynamics with the melody singing about 5 dB over an even accompaniment, a softened attack
+  and natural release tails, smooth tempo ramps (±2–3 %), no vibrato over the arpeggio. This is the
+  recipe for that character, not a default for every piece.
 
 ## Apply
 Before delivering, play the result back mentally against R1–R6. After delivering, ask the user to listen

@@ -39,6 +39,9 @@ Run these checks on the build spec (the `notes` lists) or on a `dump_midi` of th
    - no mud: [[bass-line-doubling]]'s low-chord check.
 5. **Dynamics and CC.** CC1/CC11 curves must be smooth ramps, not steps. Entrances must sit below the
    section's climax. Velocity must vary per voice: no flat 100s ([[user-taste]] R2).
+5b. **Performance against references.** Run `node scripts/analyze-reference-midi.mjs --generator <out dir>
+   --compare <refGroup>:<ourGroup>` and look at metrics whose median falls outside the reference p10–p90:
+   overlaps, slur velocity, timing spread, phrase shape. See [[_performance]].
 6. **Form.** The bar count per section matches the plan. Cadences fall where the plan says.
 7. **Build response.** Every command reported success. No half-built tracks.
 
