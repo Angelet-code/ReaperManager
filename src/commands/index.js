@@ -38,11 +38,19 @@ export function normalizeCommand(command, context = {}) {
     case "apply_take_automation":
     case "take_to_new_item":
     case "build_beat":
+    case "capture_patch":
+    case "load_patch":
+    case "list_patches":
+    case "regroup_folders":
+    case "transport":
+    case "render_audio":
+    case "set_track_mix":
     case "fx_params":
     case "set_sampler":
     case "replace_midi":
     case "add_midi":
     case "add_track_fx":
+    case "fx_offline":
     case "swing_midi":
     case "humanize_midi":
     case "lock_midi":
@@ -54,6 +62,7 @@ export function normalizeCommand(command, context = {}) {
     case "adjust_velocity":
     case "write_envelope":
     case "open_project":
+    case "save_project":
     case "flatten_tempo":
       return command;
     case "remove_takes_matching":

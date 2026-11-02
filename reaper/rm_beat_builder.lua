@@ -123,12 +123,97 @@ local function add_sampler(track, spec, sampler)
   return report
 end
 
+-- Patch library: a plugin's full state (e.g. Kontakt with an instrument loaded) saved as an
+-- .RfxChain under <resource>/FXChains/Reaper Manager, so it can be recalled without the plugin UI.
+local function patch_dir()
+  return reaper.GetResourcePath() .. "\\FXChains\\Reaper Manager"
+end
+
+local function patch_path(name)
+  local safe = tostring(name):gsub('[\\/:*?"<>|]', "_")
+  return patch_dir() .. "\\" .. safe .. ".RfxChain"
+end
+
+-- Splits the track chunk's FXCHAIN into one text block per FX (BYPASS ... WAK), keeping order.
+local function fx_blocks(chunk)
+  local lines = {}
+  for line in (chunk .. "\n"):gmatch("(.-)\r?\n") do lines[#lines + 1] = line end
+  local blocks, current, depth, in_chain = {}, nil, 0, false
+  local chain_start, chain_end
+  for i, line in ipairs(lines) do
+    local trimmed = line:match("^%s*(.-)%s*$")
+    if not in_chain then
+      if trimmed == "<FXCHAIN" then in_chain, depth, chain_start = true, 1, i end
+    else
+      if depth == 1 and trimmed:match("^BYPASS ") then
+        current = { line }
+        blocks[#blocks + 1] = current
+      elseif depth == 1 and trimmed == ">" then
+        chain_end = i
+        break
+      elseif current then
+        current[#current + 1] = line
+      end
+      if trimmed:sub(1, 1) == "<" then depth = depth + 1 elseif trimmed == ">" then depth = depth - 1 end
+    end
+  end
+  return blocks, lines, chain_start, chain_end
+end
+
+local function capture_patch(track, fx, name)
+  local _, chunk = reaper.GetTrackStateChunk(track, "", false)
+  local blocks = fx_blocks(chunk)
+  local block = blocks[fx + 1]
+  if not block then error("FX " .. fx .. " not found in the track chunk") end
+  local out = {}
+  for _, line in ipairs(block) do
+    if not line:match("^%s*FXID ") and not line:match("^%s*FLOATPOS ") then out[#out + 1] = line:match("^%s*(.-)$") end
+  end
+  reaper.RecursiveCreateDirectory(patch_dir(), 0)
+  local path = patch_path(name)
+  local file = io.open(path, "wb")
+  if not file then error("could not write " .. path) end
+  file:write(table.concat(out, "\n") .. "\n")
+  file:close()
+  local _, fx_name = reaper.TrackFX_GetFXName(track, fx, "")
+  return { patch = name, file = path, fx = fx_name, bytes = #table.concat(out, "\n") }
+end
+
+-- Appends a saved patch to the track's FX chain by editing the track chunk.
+local function load_patch(track, name)
+  local path = patch_path(name)
+  local file = io.open(path, "rb")
+  if not file then error("patch not found: " .. tostring(name) .. " (" .. path .. ")") end
+  local body = file:read("*a")
+  file:close()
+  local before = reaper.TrackFX_GetCount(track)
+  local _, chunk = reaper.GetTrackStateChunk(track, "", false)
+  local _, lines, chain_start, chain_end = fx_blocks(chunk)
+  local new_chunk
+  if chain_start and chain_end then
+    table.insert(lines, chain_end, (body:gsub("\n$", "")))
+    new_chunk = table.concat(lines, "\n")
+  else
+    local chain = "<FXCHAIN\nSHOW 0\nLASTSEL 0\nDOCKED 0\n" .. body .. ">"
+    local at = chunk:find("\n<ITEM") or chunk:match("^.*()\n>")
+    new_chunk = chunk:sub(1, at) .. chain .. "\n" .. chunk:sub(at + 1)
+  end
+  if not reaper.SetTrackStateChunk(track, new_chunk, false) then error("SetTrackStateChunk refused patch " .. name) end
+  local count = reaper.TrackFX_GetCount(track)
+  if count <= before then error("patch did not add an FX: " .. name) end
+  local _, fx_name = reaper.TrackFX_GetFXName(track, count - 1, "")
+  reaper.TrackFX_Show(track, count - 1, 2) -- no floating window: many open plugin GUIs froze REAPER
+  return { patch = name, fx = fx_name, index = count - 1 }
+end
+
 local function add_fx(track, spec)
+  if spec.patch then return load_patch(track, spec.patch) end
   if spec.sampler then return add_sampler(track, spec, spec.sampler) end
   local candidates = spec.candidates or { spec.name }
   for _, candidate in ipairs(candidates) do
     local index = reaper.TrackFX_AddByName(track, candidate, false, -1)
     if index >= 0 then
+      reaper.TrackFX_Show(track, index, 2) -- no floating window (auto-float would open every GUI)
       local report = { fx = candidate, index = index, params = {} }
       apply_fx_params(track, index, spec.params, report.params)
       if spec.describe then report.available = describe_params(track, index) end
@@ -260,10 +345,17 @@ local function command_build_beat(command)
     result.tempo = reaper.Master_GetTempo()
   end
 
-  -- tempo_changes: { bar, bpm, linear } in ascending bar order, added before any item so
-  -- every position below is computed on the final tempo map. linear ramps to the next marker.
+  -- tempo_changes: { bar, bpm, linear, timesig = {num, denom} } in ascending bar order, added before any
+  -- item so every position below is computed on the final tempo map. linear ramps to the next marker.
+  -- A timesig change is placed by measure so the later bars follow the new meter.
   for _, change in ipairs(command.tempo_changes or {}) do
-    reaper.SetTempoTimeSigMarker(0, -1, bar_time(change.bar), -1, -1, change.bpm, 0, 0, change.linear == true)
+    if change.timesig then
+      reaper.SetTempoTimeSigMarker(0, -1, -1, math.floor(change.bar) - 1, 0, change.bpm,
+        change.timesig[1], change.timesig[2], change.linear == true)
+    else
+      reaper.SetTempoTimeSigMarker(0, -1, bar_time(change.bar), -1, -1, change.bpm, 0, 0, change.linear == true)
+    end
+    reaper.UpdateTimeline()
   end
   if command.tempo_changes then reaper.UpdateTimeline() end
   result.tempo_markers = reaper.CountTempoTimeSigMarkers(0)
@@ -579,7 +671,8 @@ local function command_dump_midi(command)
           muted = reaper.GetMediaItemInfo_Value(item, "B_MUTE") == 1 }
         local take = reaper.GetActiveTake(item)
         if take and reaper.TakeIsMIDI(take) then
-          local _, count = reaper.MIDI_CountEvts(take)
+          local _, count, cc_count = reaper.MIDI_CountEvts(take)
+          entry.cc_count = (entry.cc_count or 0) + cc_count
           for n = 0, count - 1 do
             local _, _, muted, sppq, eppq, _, pitch, vel = reaper.MIDI_GetNote(take, n)
             local time = reaper.MIDI_GetProjTimeFromPPQPos(take, sppq)
@@ -817,6 +910,20 @@ local function command_open_project(command)
   return { path = opened, tracks = reaper.CountTracks(0) }
 end
 
+-- Save the current project, optionally to a new path ("Save as" without a dialog): { path }.
+local function command_save_project(command)
+  local path = command.path and tostring(command.path) or nil
+  if path and path ~= "" then
+    local dir = path:match("^(.*)[/\\][^/\\]+$")
+    if dir then reaper.RecursiveCreateDirectory(dir, 0) end
+    reaper.Main_SaveProjectEx(0, path, 0)
+  else
+    reaper.Main_SaveProject(0, false)
+  end
+  local _, saved = reaper.EnumProjects(-1, "")
+  return { path = saved }
+end
+
 -- Lock one part to another's real timing (a bass to the kick): { tracks | contains (followers), to (guide track),
 --   window_ms (default 45), offset_ms (lag behind the guide, default 0) }.
 -- Follower notes within the window of a guide note start exactly on it (+ offset); the rest take the shift of
@@ -916,6 +1023,23 @@ local function command_flatten_tempo(command)
   return { markers = count, bpm = bpm }
 end
 
+-- Set FX offline/online by name match: { track, fx_match, offline = true|false }. An offline plugin is not
+-- instantiated, so a heavy or unstable plugin can be brought back one at a time.
+local function command_fx_offline(command)
+  local track = find_track(command.track)
+  if not track then error("track not found: " .. tostring(command.track)) end
+  local changed = {}
+  for fx = 0, reaper.TrackFX_GetCount(track) - 1 do
+    local _, fx_name = reaper.TrackFX_GetFXName(track, fx, "")
+    if fx_name:lower():find(tostring(command.fx_match or ""):lower(), 1, true) then
+      reaper.TrackFX_SetOffline(track, fx, command.offline ~= false)
+      reaper.TrackFX_Show(track, fx, 2)
+      changed[#changed + 1] = { fx = fx_name, offline = reaper.TrackFX_GetOffline(track, fx) }
+    end
+  end
+  return { track = command.track, changed = changed }
+end
+
 -- Add FX (same specs as build_beat, samplers included) to an existing track: { track, fx = {...} }
 local function command_add_track_fx(command)
   local track = find_track(command.track)
@@ -968,10 +1092,163 @@ end
 
 function M.register(registry)
   registry.command("build_beat", command_build_beat)
+  -- { track, fx (index, default 0), name }: save that FX's full state as a recallable patch
+  registry.command("capture_patch", function(command)
+    local track = find_track(command.track)
+    if not track then error("track not found: " .. tostring(command.track)) end
+    return capture_patch(track, tonumber(command.fx) or 0, command.name)
+  end, { read_only = true })
+  -- { track, name, replace }: load a saved patch onto a track (replace removes its FX first)
+  registry.command("load_patch", function(command)
+    local track = find_track(command.track)
+    if not track then error("track not found: " .. tostring(command.track)) end
+    if command.replace then
+      for fx = reaper.TrackFX_GetCount(track) - 1, 0, -1 do reaper.TrackFX_Delete(track, fx) end
+    end
+    return load_patch(track, command.name)
+  end)
+  -- { groups = { {name, color, tracks = {...contiguous names...}} } }: put each group under a new EMPTY
+  -- folder track. Children send their MIDI to the parent too, so a folder must never host an instrument.
+  registry.command("regroup_folders", function(command)
+    local done = {}
+    for _, name in ipairs(command.flat or {}) do
+      local track = find_track(name)
+      if track then reaper.SetMediaTrackInfo_Value(track, "I_FOLDERDEPTH", 0) end
+    end
+    for _, group in ipairs(command.groups or {}) do
+      local first, last
+      for _, name in ipairs(group.tracks) do
+        local track = find_track(name)
+        if not track then error("track not found: " .. tostring(name)) end
+        reaper.SetMediaTrackInfo_Value(track, "I_FOLDERDEPTH", 0)
+        local index = math.floor(reaper.GetMediaTrackInfo_Value(track, "IP_TRACKNUMBER")) - 1
+        first = first and math.min(first, index) or index
+        last = last and math.max(last, index) or index
+      end
+      if last - first + 1 ~= #group.tracks then error("group tracks are not contiguous: " .. group.name) end
+      reaper.InsertTrackAtIndex(first, false)
+      local folder = reaper.GetTrack(0, first)
+      reaper.GetSetMediaTrackInfo_String(folder, "P_NAME", group.name, true)
+      local color = hex_color(group.color)
+      if color then reaper.SetTrackColor(folder, color) end
+      reaper.SetMediaTrackInfo_Value(folder, "I_FOLDERDEPTH", 1)
+      reaper.SetMediaTrackInfo_Value(reaper.GetTrack(0, last + 1), "I_FOLDERDEPTH", -1)
+      done[#done + 1] = { folder = group.name, children = #group.tracks }
+    end
+    reaper.TrackList_AdjustWindows(false)
+    return { groups = done }
+  end)
+  -- { from_bar, to_bar, dir, name, tail_ms }: render the master mix of a bar range to <dir>\<name>.wav
+  -- (24-bit default WAV) so it can be measured. The project's own render settings are restored afterwards.
+  registry.command("render_audio", function(command)
+    local num = { "RENDER_SETTINGS", "RENDER_BOUNDSFLAG", "RENDER_STARTPOS", "RENDER_ENDPOS", "RENDER_TAILFLAG",
+      "RENDER_TAILMS", "RENDER_ADDTOPROJ", "RENDER_CHANNELS", "RENDER_SRATE" }
+    local str = { "RENDER_FILE", "RENDER_PATTERN", "RENDER_FORMAT" }
+    local saved_num, saved_str = {}, {}
+    for _, key in ipairs(num) do saved_num[key] = reaper.GetSetProjectInfo(0, key, 0, false) end
+    for _, key in ipairs(str) do local _, value = reaper.GetSetProjectInfo_String(0, key, "", false); saved_str[key] = value end
+
+    local start = bar_time(tonumber(command.from_bar) or 1)
+    local stop = bar_time(tonumber(command.to_bar) or 2)
+    reaper.RecursiveCreateDirectory(command.dir, 0)
+    -- stems: { "TRACK", ... } renders each listed track's output (pre-master, no sends) as <name>_<track>.wav
+    local saved_selection = {}
+    if command.stems then
+      for i = 0, reaper.CountTracks(0) - 1 do
+        local track = reaper.GetTrack(0, i)
+        saved_selection[track] = reaper.IsTrackSelected(track)
+        reaper.SetTrackSelected(track, false)
+      end
+      for _, name in ipairs(command.stems) do
+        local track = find_track(name)
+        if not track then error("stem track not found: " .. tostring(name)) end
+        reaper.SetTrackSelected(track, true)
+      end
+    end
+    reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", command.stems and 3 or 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", start, true)
+    reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", stop, true)
+    reaper.GetSetProjectInfo(0, "RENDER_TAILFLAG", command.tail_ms and 0xFF or 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_TAILMS", tonumber(command.tail_ms) or 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_CHANNELS", 2, true)
+    reaper.GetSetProjectInfo(0, "RENDER_SRATE", 48000, true)
+    reaper.GetSetProjectInfo_String(0, "RENDER_FILE", command.dir, true)
+    reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", (command.name or "render") .. (command.stems and "_$track" or ""), true)
+    reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", "evaw", true)
+    local clock = os.clock()
+    reaper.Main_OnCommand(42230, 0) -- File: Render project, using the most recent render settings, auto-close
+
+    for key, value in pairs(saved_num) do reaper.GetSetProjectInfo(0, key, value, true) end
+    for key, value in pairs(saved_str) do reaper.GetSetProjectInfo_String(0, key, value, true) end
+    if command.stems then
+      for track, selected in pairs(saved_selection) do reaper.SetTrackSelected(track, selected) end
+      local files, i = {}, 0
+      while true do
+        local file = reaper.EnumerateFiles(command.dir, i)
+        if not file then break end
+        if file:find((command.name or "render") .. "_", 1, true) == 1 then files[#files + 1] = file end
+        i = i + 1
+      end
+      return { dir = command.dir, stems = files, seconds = stop - start, render_cpu = os.clock() - clock }
+    end
+    local file = command.dir .. "\\" .. (command.name or "render") .. ".wav"
+    local handle = io.open(file, "rb")
+    local size = handle and handle:seek("end") or 0
+    if handle then handle:close() end
+    if size == 0 then error("render produced no file: " .. file) end
+    return { file = file, bytes = size, seconds = stop - start, render_cpu = os.clock() - clock }
+  end, { bypass_undo = true })
+  -- { tracks = { ["EXACT NAME"] = { pan = -1..1, volume_db, sends = { ["DEST"] = db } } } }: exact-name mix
+  -- settings (pan is REAPER's balance for stereo tracks; -1 = left). Existing sends are updated, not duplicated.
+  registry.command("set_track_mix", function(command)
+    local report = {}
+    for name, mix in pairs(command.tracks or {}) do
+      local track = find_track(name)
+      if not track then error("track not found: " .. tostring(name)) end
+      if mix.pan then reaper.SetMediaTrackInfo_Value(track, "D_PAN", tonumber(mix.pan)) end
+      if mix.volume_db then reaper.SetMediaTrackInfo_Value(track, "D_VOL", db_to_gain(mix.volume_db)) end
+      for dest_name, db in pairs(mix.sends or {}) do
+        local dest = find_track(dest_name)
+        if not dest then error("send destination not found: " .. tostring(dest_name)) end
+        local found
+        for s = 0, reaper.GetTrackNumSends(track, 0) - 1 do
+          if reaper.GetTrackSendInfo_Value(track, 0, s, "P_DESTTRACK") == dest then found = s end
+        end
+        found = found or reaper.CreateTrackSend(track, dest)
+        reaper.SetTrackSendInfo_Value(track, 0, found, "D_VOL", db_to_gain(db))
+      end
+      report[#report + 1] = { track = name, pan = reaper.GetMediaTrackInfo_Value(track, "D_PAN"),
+        volume_db = 20 * math.log(reaper.GetMediaTrackInfo_Value(track, "D_VOL"), 10) }
+    end
+    return { tracks = report }
+  end)
+  -- { action = "play" | "stop", bar }: transport, e.g. to audition or to test keyswitches
+  registry.command("transport", function(command)
+    if command.action == "stop" then reaper.OnStopButton()
+    else
+      if command.bar then reaper.SetEditCurPos(bar_time(tonumber(command.bar)), true, false) end
+      reaper.OnPlayButton()
+    end
+    return { action = command.action or "play", position = reaper.GetPlayPosition() }
+  end, { bypass_undo = true })
+  registry.command("list_patches", function()
+    local patches, i = {}, 0
+    while true do
+      local file = reaper.EnumerateFiles(patch_dir(), i)
+      if not file then break end
+      if file:match("%.RfxChain$") then patches[#patches + 1] = file:gsub("%.RfxChain$", "") end
+      i = i + 1
+    end
+    table.sort(patches)
+    return { dir = patch_dir(), patches = patches }
+  end, { read_only = true })
   registry.command("set_sampler", command_set_sampler)
   registry.command("replace_midi", command_replace_midi)
   registry.command("add_midi", command_add_midi)
   registry.command("add_track_fx", command_add_track_fx)
+  registry.command("fx_offline", command_fx_offline)
   registry.command("swing_midi", command_swing_midi, {
     read_only = function(command) return command.inspect == true end
   })
@@ -985,6 +1262,7 @@ function M.register(registry)
   registry.command("adjust_velocity", command_adjust_velocity)
   registry.command("write_envelope", command_write_envelope)
   registry.command("open_project", command_open_project, { bypass_undo = true })
+  registry.command("save_project", command_save_project, { bypass_undo = true })
   registry.command("flatten_tempo", command_flatten_tempo)
   registry.command("fx_params", command_fx_params, {
     read_only = function(command) return command.params == nil end

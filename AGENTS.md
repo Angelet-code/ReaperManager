@@ -49,6 +49,7 @@ Before composing, arranging, harmonizing, voicing or orchestrating music (cues, 
 - Validate with `knowledge/composition/workflows/validate-generated-midi.md` before handing music over.
 - Never read `index.json` whole; grep it or the `_meta/glossary-*.md` tables for Spanish terms.
 - After editing the vault, run `node scripts/build-knowledge-index.mjs` (0 errors expected).
+- Generate music with the engine in `src/music` (design `docs/music-engine.md`): `node scripts/new-piece.mjs` for a new piece; libraries are profiles in `src/music/profiles/*.json`; onboard a new one with `scripts/calibrate-instrument.mjs` (renders through REAPER only with the user's OK). Until merged, these live on branch `claude/beautiful-cori-2cb102`.
 
 The source PDFs live in `composition/` (git-ignored). To add a book, follow `knowledge/composition/_meta/digest-spec.md` then `_meta/synthesis-spec.md`.
 
@@ -255,19 +256,6 @@ Translate a simple Spanish request through the local parser:
 node .\bin\reaper-manager.js ask "Coloreame todas las pistas que contengan la palabra CLICK de rojo"
 ```
 
-## Re-sending A Tempo Map
-
-`build_beat` adds tempo markers on top of the existing ones. To rebuild a piece's map send it with
-`"replace_tempo": true` (and `"replace_markers": true` for project markers), then re-send the MIDI so the notes
-land on the new map. The response reports `tempo_markers`.
-
-## Guitar Parts Carry Their Fingering
-
-`build_beat`/`replace_midi`/`add_midi` notes accept `chan` (0-15). For guitar, `chan` 0-5 = string 1-6 (high e
-= 0); the Tab Viewer then shows that string/fret instead of guessing. Ample guitars answer on every channel.
-A full fingering solver and playability checker (left hand, barres, shifts, right hand) lives in
-`A:\CERBATANA\Ableton\2026-11-02 Fantasia San Juan\generator\lib\fretboard.mjs`.
-
 ## REAPER Safety Rules
 
 - Treat the currently open REAPER project as live work.
@@ -283,6 +271,104 @@ A full fingering solver and playability checker (left hand, barres, shifts, righ
 - Prefer stereo variants when available.
 - `RVerb` means `VST3:RVerb Stereo (Waves)`.
 - The plugin cache is stored at `.reaper-manager\plugin-cache.json`.
+- `JS: Volume Adjustment` (`JS:Utility/volume`) loads at **+6 dB**. Right after adding it, set
+  `Adjustment (dB)` to 0.5 normalized (0 dB; range ±150 dB, so +1.5 dB = 0.505) and `Max Volume (dB)` to
+  0.54 (+12 dB headroom). Automate it with `write_envelope` (`fx`, `param`) for section gain rides.
+- CC11 on Albion patches is close to the ceiling at 110–112, so raising it gains only about 1 dB. For more,
+  ride a bus gain plugin.
+
+## Listening By Measurement
+
+Claude cannot hear, but can render and measure. `{"type":"render_audio","from_bar":1,"to_bar":31,
+"tail_ms":3000,"dir":"<abs dir>","name":"mix"}` renders the master (24-bit WAV, ~4x realtime). Add
+`"stems":["TRACK",...]` to render each track's output instead (`<name>_<track>.wav`). The project's render
+settings and track selection are restored afterwards. Use `--timeout 400000` on `send`. Measure level and
+bands per half bar to locate holes, jumps and section balance. For stereo, measure L/R balance,
+correlation and side/mid per stem. `{"type":"transport","action":"play","bar":5}` / `"stop"` drives
+playback.
+
+## Meter Changes And Saving
+
+`build_beat` `tempo_changes` entries accept `"timesig": [num, denom]` (e.g. `{"bar":105,"bpm":138,"timesig":[7,8]}`);
+later bars follow the new meter, and MIDI `beat` offsets stay in quarter notes. `{"type":"save_project"}` saves
+the open project; `{"type":"save_project","path":"A:/.../name.rpp"}` writes a copy there without renaming the
+tab, so follow it with `open_project` on that path for a new, empty project. Use forward slashes in JSON paths:
+the bridge's JSON parser drops backslash escapes.
+
+Load SWAM instruments one per command and keep their windows closed: with several SWAM GUIs floating, REAPER
+froze during an autosave (Nov 2026). `add_track_fx`/`load_patch` now hide the floating window after loading.
+`{"type":"fx_offline","track":"FL SOLO","fx_match":"SWAM","offline":false}` sets a plugin offline/online. To isolate
+an unstable plugin, set suspects offline in a copy of the .rpp (`BYPASS 0 1 0` before its `<VST` block, and
+`FLOAT` → `FLOATPOS` to close saved windows), then bring them back one at a time watching the heartbeat.
+SWAM defaults to check after loading: Bassoon 3 Transpose -12 (normalized 0.5 = 0), Cello 3 Transpose -12
+(0.6667 = 0), French Horn F Transpose -12 (0.93 = 0) and bend ±12 (0.0417 = ±2).
+
+## Re-sending A Tempo Map
+
+`build_beat` adds tempo markers on top of the existing ones. To rebuild a piece's map send it with
+`"replace_tempo": true` (and `"replace_markers": true` for project markers), then re-send the MIDI so the notes
+land on the new map. The response reports `tempo_markers`.
+
+## Guitar Parts Carry Their Fingering
+
+`build_beat`/`replace_midi`/`add_midi` notes accept `chan` (0-15). For guitar, `chan` 0-5 = string 1-6 (high e
+= 0); the Tab Viewer then shows that string/fret instead of guessing. Ample guitars answer on every channel.
+A full fingering solver and playability checker (left hand, barres, shifts, right hand) lives in
+`A:\CERBATANA\Ableton\2026-11-02 Fantasia San Juan\generator\lib\fretboard.mjs`.
+
+## Folder Tracks Carry MIDI
+
+In REAPER a child track sends its MIDI to the folder parent as well as its audio. A folder parent must
+therefore be an empty bus (no instrument, no MIDI items). In `build_beat` specs, open each family with a
+dedicated folder track (`WOODS`, `BRASS`, `PERCUSSION`, `STRINGS`…) and never put `folder: 1` on an
+instrument track. To fix an existing session: `{"type":"regroup_folders","groups":[{"name":"WOODS",
+"color":"#6fb36f","tracks":["FL SOLO","WW LEGATO"]}],"flat":["REV PANORAMIC"]}` (contiguous tracks).
+
+## Instrument Patches (Kontakt Without The UI)
+
+A plugin's full state (e.g. Kontakt with an Albion ONE instrument loaded) can be saved once and recalled
+on any track without touching the plugin window. Patches live in
+`%APPDATA%\REAPER\FXChains\Reaper Manager\<name>.RfxChain`.
+
+```powershell
+# save FX 0 of a track whose patch was loaded by hand
+node .\bin\reaper-manager.js send capture.json   # {"type":"capture_patch","track":"HN LEGATO","fx":0,"name":"Albion ONE - Brass Mid - Legato"}
+node .\bin\reaper-manager.js send list.json      # {"type":"list_patches"}
+node .\bin\reaper-manager.js send load.json      # {"type":"load_patch","track":"X","name":"...","replace":true}
+```
+
+`build_beat` and `add_track_fx` accept `{"patch": "<name>"}` as an FX spec. Check `list_patches` before
+loading a library by hand. To load a new .nki by hand, Kontakt's browser only lists NKS presets; use
+Kontakt `FILE > Load...` and type the .nki path into the Windows dialog for the rest (e.g. Brass legatos).
+
+Captured so far (Nov 2026): Albion ONE `Woods High - Legato/Short`, `Brass Mid - Legato` (horns),
+`Brass Low - Long/Short Nasty`, `Trumpets XL - Long/Short`, `Strings - Long/Long Tremolo/Short
+Spiccato/Short Staccato Combo/Short Pizzicato`, `Strings High (Octave) - Legato`, `Strings Low XL -
+8ves - Long/Short`, `Darwin Percussion Ensemble`; Symphony Series `Timpani`, `Cymbal 1`.
+
+Articulation facts (Kontakt names C3 = MIDI 60):
+- Albion longs: CC1 dynamics, CC11 expression, CC21 vibrato, CC17 release. Shorts: velocity. Legato
+  patches are monophonic: overlap notes to slur. `8ves` low strings already double celli + basses an
+  octave apart: write one note in the cello register.
+- Darwin Percussion Ensemble: Sub hits 24–36, Low hits 40–52, Mid hits 57–67, High hits 71–81, High
+  sticks 84–95, Metal 96–107. No timpani.
+- Symphony Series Timpani (verified in Kontakt): keyswitch 36 hits, 38 tremolo roll (CC1 dynamics), 40
+  cresc, 41 flam (keyswitches sit on white keys; 37 does nothing); 45 plays a damp. Hit keys 48–71 sound
+  an octave lower (low D = key 50).
+- Symphony Series Cymbal 1 (verified): keyswitch 36 hard / 38 soft mallets; 48 and 50 long hit, 52 and 53
+  short (choke), 55 tremolo roll (CC1, use for swells), 57 recorded crescendo, 60–65 velocity layers.
+- Never guess a keyswitch from a screenshot at 100%: set Kontakt `VIEW > Zoom 200%`, read the Mapping
+  page, then confirm by sending one test note (`add_midi` at bar 1 beat 0.6), `transport` play/stop
+  (`{"type":"transport","action":"play","bar":1}`), check which articulation lights up, and `undo`.
+- SWAM: CC11 expression as one continuous phrase curve (never dip between slurred notes; fall to ~20
+  before the last note-off for a natural release), CC1 vibrato depth (delayed on long notes); overlap =
+  slur, gap = tongued. Velocity on a slurred note sets portamento time (Portamento Control = Velocity):
+  use ~110–120 for clean slurs, lower only for a deliberate glide (horn max portamento is 2.4 s). On
+  attacked notes velocity sets attack hardness. Check `Transpose` and `Pitch Bend Up/Down` with
+  `fx_params` after loading: SWAM French Horn F defaults to Transpose -12 and ±12 bend (set to 0 and ±2,
+  normalized Transpose 0.93 = 0). Load one per command.
+- Albion longs/legato sample attacks are slow: start notes ~0.04–0.05 beat early, slurred legato notes
+  ~0.06–0.1 beat early, so they speak on the beat.
 
 ## Install And Repair
 
