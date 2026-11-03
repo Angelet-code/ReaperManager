@@ -21,6 +21,22 @@ No todos los subagentes deben ser `explorer`.
 
 Si el limite de hilos esta lleno, cerrar agentes viejos antes de empezar. No reutilizar un `explorer` como implementador salvo que la tarea sea solo inspeccion.
 
+## Config Repo-Local
+
+Los perfiles cargables viven en `.codex/agents/`:
+
+- `.codex/agents/audiodesign.md`
+- `.codex/agents/programer.md`
+- `.codex/agents/tester.md`
+
+Los workflows viven en `.codex/workflows/`. Para `vocal-level` V2 usar
+`.codex/workflows/vocal-level-v2.md` como fuente operativa y este documento
+como explicacion del bucle.
+
+`AGENTS.md` sigue siendo la fuente comun de seguridad, rutas, comandos y reglas
+REAPER. Los perfiles `.codex/agents/` solo especializan el rol que recibe cada
+subagente.
+
 ## Reglas De Rama
 
 - `main` conserva el baseline estable publicado.

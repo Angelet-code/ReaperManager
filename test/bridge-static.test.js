@@ -77,12 +77,14 @@ test("bridge reports runtime version and vocal-level capabilities", () => {
   const registry = readLuaFile("rm_registry.lua");
   const ping = extractFunction(source, "command_ping", "command_undo");
 
-  assert.match(registry, /local BRIDGE_VERSION = "vocal-level-measured-macro-micro-2026-05-24"/);
+  assert.match(registry, /local BRIDGE_VERSION = "arrangement-debug2-2026-08-20"/);
   assert.match(registry, /vocal_level_estimated_points = true/);
   assert.match(registry, /vocal_level_zero_crossing_curve = true/);
   assert.match(registry, /vocal_level_phrase_safe_defaults = true/);
   assert.match(registry, /vocal_level_macro_micro = true/);
   assert.match(registry, /vocal_level_post_level_measurement = true/);
+  assert.match(registry, /separate_vocal_sibilants = true/);
+  assert.match(registry, /quantize_plucks = true/);
   assert.match(bridge, /bridge_version = registry_module\.version\(\)/);
   assert.match(bridge, /features = registry_module\.features\(\)/);
   assert.match(bridge, /selected_item_count = reaper\.CountSelectedMediaItems\(0\)/);
@@ -234,6 +236,32 @@ test("vocal-level bridge rejects non-selected raw item filters", () => {
   assert.match(body, /local item_filter = command\.itemFilter or \{ type = "selected" \}/);
   assert.match(body, /if item_filter\.type ~= "selected" then\s+error\("vocal-level only supports selected items"\)\s+end/);
   assert.match(body, /local items = collect_items\(item_filter\)/);
+});
+
+test("sibilant separation preview is read-only and selected-only", () => {
+  const source = readBridge();
+  const registry = readLuaFile("rm_registry.lua");
+  const sibilants = readLuaFile("rm_sibilant_split.lua");
+  const commandBody = extractFunction(source, "command_separate_vocal_sibilants", "M.register");
+
+  assert.match(registry, /"rm_sibilant_split"/);
+  assert.match(sibilants, /registry\.command\("separate_vocal_sibilants", command_separate_vocal_sibilants, \{\s+read_only = function\(command\) return command\.preview == true end\s+\}\)/);
+  assert.match(commandBody, /if item_filter\.type ~= "selected" then error\("separate-sibilants only supports selected items"\) end/);
+  assert.match(commandBody, /ensure_destination_track\(settings, source_track\)/);
+  assert.match(commandBody, /apply_analysis_regions\(analysis, destination_track, settings\)/);
+});
+
+test("pluck quantize preview is read-only and selected-only", () => {
+  const registry = readLuaFile("rm_registry.lua");
+  const bridge = readLuaFile("Reaper Manager Bridge.lua");
+  const plucks = readLuaFile("rm_pluck_quantize.lua");
+  const commandBody = extractFunction(plucks, "command_quantize_pluck_items", "M.register");
+
+  assert.match(registry, /"rm_pluck_quantize"/);
+  assert.match(bridge, /"rm_pluck_quantize"/);
+  assert.match(plucks, /registry\.command\("quantize_pluck_items", command_quantize_pluck_items, \{\s+read_only = function\(command\) return command\.preview == true end\s+\}\)/);
+  assert.match(commandBody, /if item_filter\.type ~= "selected" then error\("quantize-plucks only supports selected items"\) end/);
+  assert.match(commandBody, /apply_pluck_edits\(analysis, settings\)/);
 });
 
 test("vocal-level report includes macro_micro telemetry and point density", () => {

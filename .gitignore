@@ -17,3 +17,12 @@ temp/
 Thumbs.db
 *.swp
 *.swo
+
+# Local source material (copyrighted books/course PDFs); the distilled vault lives in knowledge/
+/composition/
+
+# Obsidian per-user editor state
+**/.obsidian/workspace*.json
+
+# Third-party reference MIDI for study (no redistribution); only aggregated numbers are kept in the repo
+/reference-midi/

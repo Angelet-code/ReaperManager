@@ -16,7 +16,12 @@ const TUNING = [
   ["slew-db", "--slew-db", "Slew dB", 0.1, 12],
   ["knee-db", "--knee-db", "Knee dB", 0, 12],
   ["max-db", "--max-db", "Max dB over clip", 0.5, 24],
-  ["keep", "--keep", "Crest keep", 0, 1]
+  ["keep", "--keep", "Crest keep", 0, 1],
+  ["lf-hz", "--lf-hz", "LF limit Hz", 20, 400],
+  ["lf-margin-db", "--lf-margin-db", "LF margin dB", 0, 80],
+  ["guard", "--guard", "Guard samples", 0, 64],
+  ["bridge", "--bridge", "Bridge samples", 0, 64],
+  ["spade-frame", "--spade-frame", "SPADE frame", 256, 8192]
 ];
 
 // Source-time range (seconds) to repair, from a sample_edit_probe response.
@@ -46,6 +51,10 @@ export function declipSourceRange(probe, { item = false } = {}) {
 
 export function buildDeclipArgs(options, sourceFile, range, outFile) {
   const args = [DECLIP_SCRIPT, sourceFile, "--start-s", String(range.startS), "--end-s", String(range.endS), "--out", outFile];
+  if (options.method !== undefined) {
+    if (!["spade", "lsar", "curve"].includes(options.method)) throw new CommandError("--method must be spade, lsar or curve.");
+    args.push("--method", options.method);
+  }
   for (const [key, flag, label, min, max] of TUNING) {
     if (options[key] === undefined) continue;
     const value = Number(options[key]);

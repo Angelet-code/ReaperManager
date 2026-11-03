@@ -12,7 +12,7 @@ export { parsePan } from "../core/pan.js";
 export { buildColorTracksCommand, buildDeleteTracksCommand, buildSelectTracksCommand, buildAdjustVolumeCommand, buildPanCommand, buildCopyBalanceCommand, buildTrackStateCommand, buildRenameCommand, buildCreateTracksCommand } from "./tracks.js";
 export { buildCreateReturnsCommand, buildSendVolumeCommand, buildRouteToBusCommand } from "./sends.js";
 export { buildAddFxCommand, buildRemoveFxCommand, buildFxBypassCommand } from "./fx.js";
-export { buildGainStageCommand, buildItemVolumeCommand, buildSelectItemsCommand, buildVocalLevelCommand } from "./items.js";
+export { buildGainStageCommand, buildItemVolumeCommand, buildQuantizePlucksCommand, buildSelectItemsCommand, buildSeparateSibilantsCommand, buildVocalLevelCommand } from "./items.js";
 export { buildAutoBalanceCommand, buildDetectArrangementCommand, buildInspectProjectCommand } from "./mix.js";
 export { buildFolderCommand } from "./folders.js";
 export { buildRockTemplateCommand, buildUndoCommand } from "./project.js";
@@ -30,6 +30,46 @@ export function normalizeCommand(command, context = {}) {
     case "set_project_regions":
     case "set_project_markers":
     case "sample_edit_probe":
+    case "sample_edit_dump":
+    case "item_chunk_dump":
+      return command;
+    case "take_fx_report":
+    case "reload_modules":
+    case "apply_take_automation":
+    case "take_to_new_item":
+    case "build_beat":
+    case "capture_patch":
+    case "load_patch":
+    case "list_patches":
+    case "regroup_folders":
+    case "transport":
+    case "render_audio":
+    case "set_track_mix":
+    case "fx_params":
+    case "set_sampler":
+    case "replace_midi":
+    case "add_midi":
+    case "add_track_fx":
+    case "fx_offline":
+    case "swing_midi":
+    case "humanize_midi":
+    case "lock_midi":
+    case "dump_midi":
+    case "delete_midi_notes":
+    case "shift_pitch":
+    case "set_cc_shape":
+    case "show_fx":
+    case "adjust_velocity":
+    case "write_envelope":
+    case "open_project":
+    case "save_project":
+    case "flatten_tempo":
+      return command;
+    case "remove_takes_matching":
+      if (!command.match) throw new CommandError("remove_takes_matching needs a match string.");
+      return command;
+    case "add_take_from_file":
+      if (!command.file) throw new CommandError("add_take_from_file needs a file.");
       return command;
     case "sample_edit_apply":
       if (!Array.isArray(command.channels) || command.channels.length === 0) {
@@ -107,6 +147,8 @@ export function normalizeCommand(command, context = {}) {
       };
     case "adjust_item_volume_db":
     case "gain_stage_items":
+    case "quantize_pluck_items":
+    case "separate_vocal_sibilants":
     case "vocal_level_items":
     case "set_track_state":
     case "rename_tracks":

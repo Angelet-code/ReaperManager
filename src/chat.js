@@ -31,6 +31,7 @@ const CHAT_ALLOWED_COMMANDS = new Set([
   "adjust_send_volume_db",
   "adjust_item_volume_db",
   "gain_stage_items",
+  "separate_vocal_sibilants",
   "set_track_state",
   "rename_tracks",
   "create_tracks",
@@ -457,6 +458,7 @@ function summarizeAction(type, data = {}) {
   if (type === "adjust_send_volume_db") return `${count(data.changed)} envíos ajustados.`;
   if (type === "adjust_item_volume_db") return `${count(data.changed)} items ajustados.`;
   if (type === "gain_stage_items") return `${count(data.applied ?? data.changed)} items procesados.`;
+  if (type === "separate_vocal_sibilants") return `${count(data.moved ?? data.changed)} sibilancias separadas en ${count(data.analyzed)} items.`;
   if (type === "set_track_state") return `${count(data.changed)} pistas actualizadas.`;
   if (type === "rename_tracks") return `${count(data.changed)} pistas renombradas.`;
   if (type === "create_tracks") return `${count(data.created?.length ?? data.created)} pistas creadas.`;

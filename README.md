@@ -9,6 +9,7 @@ Local bridge between Codex and REAPER for mix assistant commands.
 - Adds a `Gain Stage` toolbar button that applies deterministic gain staging to selected items.
 - Adds a `Select Items` toolbar button that selects every item in the project.
 - Adds `vocal-level` for pre-compressor vocal clip gain on selected item take volume envelopes, using macro-to-micro leveling around the `-18 dBFS = 0 VU` working point.
+- Adds `separate-sibilants` for selected vocal items: detects bright consonants, cuts near zero crossings, and moves them to a dedicated processing track.
 - Lets Codex send structured commands through `.reaper-manager/queue`.
 - Writes command responses and bridge heartbeat into `.reaper-manager/state`.
 
@@ -46,6 +47,68 @@ node .\bin\reaper-manager.js rock-template
 node .\bin\reaper-manager.js chat "baja guitarras 1 dB"
 ```
 
+## Sibilant separation
+
+`separate-sibilants` detects short high-frequency consonant regions in selected
+items, snaps the cut points to nearby zero crossings, and moves the separated
+pieces to a destination track.
+
+```powershell
+node .\bin\reaper-manager.js separate-sibilants --selected-items --preview
+node .\bin\reaper-manager.js separate-sibilants --selected-items --destination-track "VOX SIBILANTS"
+```
+
+The command requires selected items, defaults to zero-crossing cuts with no fades,
+and looks for isolated high-band energy relative to the rest of that same voice.
+Detection options include `--consonants`, `--band-low-hz`, `--band-high-hz`,
+`--padding-ms`, `--merge-gap-ms`, and `--zero-crossing-search-ms`.
+
+## Proximity detect (syllables that sound far)
+
+`proximity-detect` finds syllables whose low harmonics (H1+H2 vs 1-4 kHz) drop
+against the singer's own per-pitch model and against their neighbours, then
+tells two causes apart by the level of the affected window:
+
+- `LEJOS`: quieter than the neighbours. The singer pulled back or turned away.
+  The level gap gives the distance ratio (6 dB = twice as far) and the cardioid
+  proximity effect at both distances gives the bass to give back: a physically
+  shaped low shelf, no fixed dB limit. Gain then completes the level match.
+- `FUERTE`: louder than the neighbours. Shouted / pressed phonation also thins
+  the voice; it only gets its level brought down, no EQ.
+- thinner at the same level is most likely the vowel itself and is left alone.
+
+The correction window starts after glottal hits (a sharp rise is a new
+syllable; the hit and its decay are never processed), and markers sit on it.
+
+```powershell
+node .in
+eaper-manager.js proximity-detect --preview     # list only
+node .in
+eaper-manager.js proximity-detect              # PROX markers
+node .in
+eaper-manager.js proximity-detect --fix        # + corrected render as a new take (A/B with T)
+```
+
+Levels are compared in perceived loudness (K-weighting): a thinner syllable
+loses mostly body energy, not loudness. `LEJOS` lifts `--level-amount` (0.45)
+of its loudness dip (part of a dip is phrasing), `FUERTE` pulls down
+`--loud-amount` (0.8) of its excess, and a glottal hit right before a `FUERTE`
+vowel comes down by `--hit-share` (0.75) of the vowel's gain so it does not
+stick out. These defaults come from hand corrections of real takes.
+
+Tuning: `--amount` (1, share of the proximity bass restored), `--mic-cm` (10, normal mic
+distance: closer = more bass at stake), `--h12-drop-db` (6), `--min-z` (1),
+`--level-drop-db` (1.5), `--loud-db` (1.5), `--min-level-db` (20), `--max` (30),
+`--selection`, `--fade-ms` (20), `--replace-envelope`. Run it on the original
+take, not on a `prox-fix` render.
+
+`--fix` writes everything on the original take, nothing rendered and nothing
+cut: the take volume envelope gets a plateau per correction window with linear
+ramps of `--fade-ms` outside it, and a ReaEQ take FX renamed "Proximity EQ"
+(band 1, low shelf at c / 4 pi r: ~273 Hz for 10 cm) gets its gain automated the
+same way (0 dB outside the windows). A/B by bypassing the FX and the envelope.
+An existing take volume envelope is only overwritten with `--replace-envelope`.
+
 ## Declip (clipped peak reconstruction)
 
 `declip` rebuilds the flat-topped peaks of a clipped recording as per-take
@@ -57,6 +120,18 @@ node .\bin\reaper-manager.js declip --preview   # analysis only
 node .\bin\reaper-manager.js declip             # time selection of the selected item
 node .\bin\reaper-manager.js declip --item      # whole item
 ```
+
+Default method: A-SPADE (sparse spectral declipping). In 2048-sample frames
+around the clipped runs it finds the signal that is sparsest in frequency and
+consistent with what survived, without assuming any peak shape (voice, drums or
+bass alike). Clips are often filtered afterwards (converter, resampling), so the
+plateaus ripple and ring: the plateau level is taken from the most crowded
+magnitude near the top (not the max, which is an overshoot), same-sign dips of up
+to `--bridge` (3) samples inside a plateau are bridged, and `--guard` (3) samples
+each side are rebuilt freely. Peaks that need more than the take's headroom bend
+towards the ceiling in the last 0.5 dB; render the take lower if many do.
+`--method lsar` (autoregressive fill) and `--method curve` (the first peak-shape
+model, which added a dull "clac" on dense transients) remain available.
 
 Before running it:
 

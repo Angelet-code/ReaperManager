@@ -1,0 +1,31 @@
+{
+  "_doc": "Player layer per instrument (transferable between libraries): breath or bow stamina and default timing looseness. Instrument ids follow knowledge/composition/data/instruments.json; section-only ids (woodwinds-high, strings-low) are added here. stamina.sec = seconds per breath/bow at mf (longer at p, shorter at f); gapMs = breath silence, 0 = bow change. 'section' applies to ensemble patches, 'solo' to solo instruments. Source: La Forja del Alba performance B (user-taste R17).",
+  "instruments": {
+    "flute": { "family": "woodwinds", "stamina": { "solo": { "sec": 7, "gapMs": 260 }, "section": { "sec": 8, "gapMs": 220 } } },
+    "oboe": { "family": "woodwinds", "stamina": { "solo": { "sec": 10, "gapMs": 240 }, "section": { "sec": 8, "gapMs": 220 } } },
+    "english_horn": { "family": "woodwinds", "stamina": { "solo": { "sec": 9, "gapMs": 240 } } },
+    "clarinet_bb": { "family": "woodwinds", "stamina": { "solo": { "sec": 10, "gapMs": 220 }, "section": { "sec": 8, "gapMs": 220 } } },
+    "bassoon": { "family": "woodwinds", "stamina": { "solo": { "sec": 8, "gapMs": 260 } } },
+    "woodwinds-high": { "family": "woodwinds", "stamina": { "section": { "sec": 8, "gapMs": 220 } } },
+    "horn": { "family": "brass", "stamina": { "solo": { "sec": 8, "gapMs": 280 }, "section": { "sec": 8, "gapMs": 220 } } },
+    "trumpet_c": { "family": "brass", "stamina": { "solo": { "sec": 8, "gapMs": 260 }, "section": { "sec": 11, "gapMs": 240 } } },
+    "trombone_tenor": { "family": "brass" },
+    "tuba": { "family": "brass" },
+    "brass-low": { "family": "brass" },
+    "violin": { "family": "strings", "stamina": { "solo": { "sec": 5, "gapMs": 0 }, "section": { "sec": 7, "gapMs": 120 } } },
+    "viola": { "family": "strings", "stamina": { "solo": { "sec": 5, "gapMs": 0 } } },
+    "cello": { "family": "strings", "stamina": { "solo": { "sec": 5.5, "gapMs": 0 } } },
+    "double_bass": { "family": "strings" },
+    "strings": { "family": "strings" },
+    "strings-low": { "family": "strings" },
+    "piano": { "family": "keyboards" },
+    "harp": { "family": "harp" },
+    "timpani": { "family": "percussion" },
+    "suspended_cymbal": { "family": "percussion" },
+    "percussion-ensemble": { "family": "percussion" },
+    "drum-kit": { "family": "percussion" },
+    "electric-guitar": { "family": "guitar" },
+    "classical-guitar": { "family": "guitar" },
+    "electric-bass": { "family": "bass" }
+  }
+}

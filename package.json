@@ -10,10 +10,10 @@
   "scripts": {
     "install:reaper": "node ./bin/reaper-manager.js install",
     "status": "node ./bin/reaper-manager.js status",
-    "test": "node --test test"
+    "test": "node --test \"test/**/*.test.js\""
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=21"
   },
   "dependencies": {
     "openai": "^6.39.0"

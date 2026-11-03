@@ -17,8 +17,11 @@ local runtime_modules = {
   "rm_commands_basic",
   "rm_gain_stage",
   "rm_vocal_level",
+  "rm_sibilant_split",
+  "rm_pluck_quantize",
   "rm_project_mix",
-  "rm_sample_edit"
+  "rm_sample_edit",
+  "rm_beat_builder"
 }
 
 for _, module_name in ipairs(runtime_modules) do

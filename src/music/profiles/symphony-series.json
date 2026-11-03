@@ -1,0 +1,27 @@
+{
+  "library": "Symphony Series Percussion",
+  "vendor": "Native Instruments",
+  "_doc": "Keyswitches verified in Kontakt at 200% plus test notes (AGENTS.md). Hit keys sound an octave lower than written: write sounding pitch + 12.",
+  "defaults": { "style": "percussion", "family": "percussion", "ensemble": false, "articulation": { "method": "keyswitch" } },
+  "patches": {
+    "timpani": {
+      "match": ["Symphony Series - Timpani"], "instrument": "timpani",
+      "range": { "practical": [36, 60], "full": [36, 60] },
+      "keyswitches": { "mode": "per-note", "leadQn": 0.06, "len": 0.03, "vel": 100, "map": { "hit": 36, "roll": 38, "crescendo": 40, "flam": 41 }, "status": "M" },
+      "keyOffset": 12, "damp": 45,
+      "roll": {
+        "_doc": "Measured (renders/test-timbal-redoble 2026-11-02): the roll ignores velocity, CC11 and CC2; CC1 moves only ~13 dB. CC7 (Kontakt volume, 127 = patch default) does the crescendo; CC1 follows curved; CC7 back to 127 before the next hit.",
+        "lanes": [{ "cc": 7, "from": 40, "to": 127, "curve": 1 }, { "cc": 1, "from": 0, "to": 127, "curve": 1.5 }],
+        "vel": 90, "resetCc": 7, "resetLeadQn": 0.1, "status": "M"
+      },
+      "arrivals": { "notRolls": true }
+    },
+    "cymbal-1": {
+      "match": ["Symphony Series - Cymbal 1"], "instrument": "suspended_cymbal",
+      "keyswitches": { "mode": "per-note", "leadQn": 0.06, "len": 0.03, "vel": 100, "map": { "hard": 36, "soft": 38 }, "status": "M" },
+      "hits": { "long": [48, 50], "short": [52, 53], "roll": 55, "recordedCrescendo": 57, "velocityLayers": [60, 65] },
+      "swell": { "cc": 1, "vel": 80, "ring": 1.25, "status": "M" },
+      "arrivals": { "pitches": [48, 50, 52, 53] }
+    }
+  }
+}

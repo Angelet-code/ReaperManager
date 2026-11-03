@@ -16,6 +16,7 @@ import {
   buildInspectProjectCommand,
   buildItemVolumeCommand,
   buildPanCommand,
+  buildQuantizePlucksCommand,
   buildRemoveFxCommand,
   buildRenameCommand,
   buildRockTemplateCommand,
@@ -23,6 +24,7 @@ import {
   buildSendVolumeCommand,
   buildSelectTracksCommand,
   buildSelectItemsCommand,
+  buildSeparateSibilantsCommand,
   buildTrackStateCommand,
   buildUndoCommand,
   buildVocalLevelCommand,
@@ -37,6 +39,9 @@ import { parseNatural } from "./natural.js";
 import { pluginCachePath, reaperResourcePath, workspaceRoot } from "./paths.js";
 import { prepareReferenceHierarchy } from "./reference-stems.js";
 import { runDeclip } from "./declip.js";
+import { runProximityDetect } from "./proximity.js";
+import { runToolToReport } from "./tools.js";
+import { musicProfiles, musicResolve } from "./commands/music.js";
 
 export async function main(argv) {
   const [command, ...rest] = argv;
@@ -95,10 +100,18 @@ export async function main(argv) {
       return itemVolumeCommand(rest, root);
     case "gain-stage":
       return gainStageCommand(rest, root);
+    case "quantize-plucks":
+      return quantizePlucksCommand(rest, root);
+    case "separate-sibilants":
+      return separateSibilantsCommand(rest, root);
     case "vocal-level":
       return vocalLevelCommand(rest, root);
     case "declip":
       return declipCommand(rest, root);
+    case "proximity-detect":
+      return proximityDetectCommand(rest, root);
+    case "tool":
+      return toolCommand(rest, root);
     case "track-state":
       return trackStateCommand(rest, root);
     case "rename":
@@ -117,8 +130,18 @@ export async function main(argv) {
       return runBuiltCommand({ type: "ping" }, root);
     case "shutdown":
       return runBuiltCommand({ type: "shutdown" }, root);
+    case "reload":
+      return runBuiltCommand({ type: "reload_modules" }, root);
     case "undo":
       return undoCommand(rest, root);
+    case "swing":
+      return swingCommand(rest, root);
+    case "humanize":
+      return humanizeCommand(rest, root);
+    case "lock":
+      return lockCommand(rest, root);
+    case "music":
+      return musicCommand(rest);
     case undefined:
     case "help":
     case "--help":
@@ -282,6 +305,16 @@ async function gainStageCommand(args, root) {
   return runBuiltCommand(buildGainStageCommand(options), root, options);
 }
 
+async function quantizePlucksCommand(args, root) {
+  const options = parseOptions(args);
+  return runBuiltCommand(buildQuantizePlucksCommand(options), root, options);
+}
+
+async function separateSibilantsCommand(args, root) {
+  const options = parseOptions(args);
+  return runBuiltCommand(buildSeparateSibilantsCommand(options), root, options);
+}
+
 async function vocalLevelCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildVocalLevelCommand(options), root, options);
@@ -291,6 +324,19 @@ async function declipCommand(args, root) {
   const options = parseOptions(args);
   const request = (command) => runCommandForResponse(normalizeCommand(command), root, { timeout: options.timeout || 120000 });
   return printJson(await runDeclip(options, { request }));
+}
+
+async function proximityDetectCommand(args, root) {
+  const options = parseOptions(args);
+  const request = (command) => runCommandForResponse(normalizeCommand(command), root, { timeout: options.timeout || 120000 });
+  return printJson(await runProximityDetect(options, { request }));
+}
+
+// Entry point for the REAPER "Herramientas" menu: always writes --report, never throws.
+async function toolCommand(args, root) {
+  const options = parseOptions(args);
+  const request = (command) => runCommandForResponse(normalizeCommand(command), root, { timeout: options.timeout || 300000 });
+  return printJson(await runToolToReport(options._[0], options.report, request));
 }
 
 async function trackStateCommand(args, root) {
@@ -326,6 +372,67 @@ async function fxBypassCommand(args, root) {
 async function rockTemplateCommand(args, root) {
   const options = parseOptions(args);
   return runBuiltCommand(buildRockTemplateCommand(options), root, options);
+}
+
+// Track selection for swing/humanize: --tracks "KICK,SNARE" (exact names) or --contains HATS.
+// --skip "12.48-13,24.48-25": bar ranges (1-based, fractional) the feel commands leave untouched.
+const feelSkip = (options) => (options.skip ? String(options.skip).split(",").map((r) => r.split("-").map(Number)) : undefined);
+const feelTracks = (options) => (options.tracks ? String(options.tracks).split(",").map((t) => t.trim()).filter(Boolean) : undefined);
+
+// swing --amount 58 [--grid 8|16] [--tracks A,B | --contains HATS] [--quantize] [--skip 12.48-13]: MPC-style swing on the written MIDI.
+async function swingCommand(args, root) {
+  const options = parseOptions(args);
+  const grid = Number(options.grid || 16);
+  if (![8, 16].includes(grid)) throw new Error("--grid must be 8 or 16.");
+  const amount = Number(options.amount || options._[0] || 58);
+  if (!(amount >= 50 && amount <= 75)) throw new Error("--amount must be between 50 and 75 (%).");
+  return runBuiltCommand({
+    type: "swing_midi", amount, grid: grid === 16 ? 0.25 : 0.5,
+    tracks: feelTracks(options), contains: options.contains,
+    skip: feelSkip(options),
+    quantize: Boolean(options.quantize), keep: options.keep === undefined ? undefined : Number(options.keep)
+  }, root, options);
+}
+
+// humanize --contains SNARE --offset 8 --timing 5 --drift 3 --velocity 6: per-track feel on the written MIDI.
+async function humanizeCommand(args, root) {
+  const options = parseOptions(args);
+  if (!options.contains && !options.tracks && !options.all) throw new Error("Pass --tracks A,B, --contains <track text> or --all.");
+  return runBuiltCommand({
+    type: "humanize_midi",
+    tracks: feelTracks(options),
+    contains: options.all ? undefined : options.contains,
+    offset_ms: Number(options.offset || 0),
+    timing_ms: Number(options.timing || 0),
+    drift_ms: Number(options.drift || 0),
+    velocity: Number(options.velocity || 0),
+    seed: Number(options.seed || 1)
+  }, root, options);
+}
+
+// lock --tracks BASS --to KICK [--window 45] [--offset 2]: put a part exactly on another part's real (swung, humanized) timing.
+async function lockCommand(args, root) {
+  const options = parseOptions(args);
+  if (!options.to) throw new Error("Pass --to <guide track>.");
+  if (!options.contains && !options.tracks) throw new Error("Pass --tracks A,B or --contains <track text>.");
+  return runBuiltCommand({
+    type: "lock_midi",
+    to: options.to,
+    tracks: feelTracks(options),
+    contains: options.contains,
+    window_ms: options.window === undefined ? undefined : Number(options.window),
+    offset_ms: Number(options.offset || 0),
+    skip: feelSkip(options)
+  }, root, options);
+}
+
+// music profiles [--assumed] | music resolve --profile <lib/patch>: music engine profile data (no REAPER).
+function musicCommand(args) {
+  const [sub, ...rest] = args;
+  const options = parseOptions(rest);
+  if (sub === "profiles") return printJson(musicProfiles({ assumedOnly: Boolean(options.assumed) }));
+  if (sub === "resolve") return printJson(musicResolve(options));
+  throw new Error('music: use "music profiles [--assumed]" or "music resolve --profile <library/patch>".');
 }
 
 async function undoCommand(args, root) {
@@ -443,10 +550,18 @@ function printHelp() {
   node ${bin} send-volume --selected --dest Reverb --db 2
   node ${bin} item-volume --selected --db -3
   node ${bin} gain-stage --all-items
+  node ${bin} quantize-plucks --selected-items --preview
+  node ${bin} separate-sibilants --selected-items --preview
   node ${bin} vocal-level --selected-items --preview
   node ${bin} declip --preview
   node ${bin} declip
   node ${bin} declip --item --keep 0.8 --slew-db 1.5
+  node ${bin} proximity-detect --preview
+  node ${bin} proximity-detect
+  node ${bin} proximity-detect --fix
+  node ${bin} proximity-detect --fix --replace-envelope --amount 0.7 --fade-ms 30
+  node ${bin} proximity-detect --fix --render
+  node ${bin} reload
   node ${bin} vocal-level --selected-items --replace-envelope
   node ${bin} track-state --contains VOX --mute on
   node ${bin} rename --contains CLICK --prefix REF_
@@ -455,6 +570,8 @@ function printHelp() {
   node ${bin} route-to-bus --selected --bus DRUMS --disable-main
   node ${bin} fx-bypass --selected --fx RVerb --state toggle
   node ${bin} undo --count 1
+  node ${bin} music profiles --assumed
+  node ${bin} music resolve --profile swam/flute-3
   node ${bin} rock-template
   node ${bin} ask "Coloreame todas las pistas que contengan la palabra CLICK de rojo"
   node ${bin} chat "baja guitarras 1 dB"

@@ -23,14 +23,31 @@ local sorted_number_copy = core.sorted_number_copy
 local median = core.median
 local try_add_fx = core.try_add_fx
 
+local ACCENT_BYTES = {
+  ["\195\161"] = "a", ["\195\169"] = "e", ["\195\173"] = "i", ["\195\179"] = "o", ["\195\186"] = "u",
+  ["\195\188"] = "u", ["\195\177"] = "n", ["\195\160"] = "a", ["\195\168"] = "e", ["\195\172"] = "i",
+  ["\195\178"] = "o", ["\195\185"] = "u", ["\195\164"] = "a", ["\195\171"] = "e", ["\195\175"] = "i",
+  ["\195\182"] = "o", ["\195\167"] = "c",
+  ["\195\129"] = "a", ["\195\137"] = "e", ["\195\141"] = "i", ["\195\147"] = "o", ["\195\154"] = "u",
+  ["\195\156"] = "u", ["\195\145"] = "n", ["\195\135"] = "c"
+}
+
+-- "Batería" -> "bateria". Sin esto los acentos parten la palabra en dos y el
+-- nombre deja de reconocerse.
+local function fold_accents(value)
+  return (tostring(value):gsub("\195[\128-\191]", function(pair)
+    return ACCENT_BYTES[pair] or " "
+  end))
+end
+
 local function normalize_words(value)
-  local text = lower(value):gsub("[^a-z0-9]+", " ")
+  local text = lower(fold_accents(value)):gsub("[^a-z0-9]+", " ")
   text = text:gsub("^%s+", ""):gsub("%s+$", "")
   return " " .. text .. " "
 end
 
 local function compact_name(value)
-  return lower(value):gsub("[^a-z0-9]+", "")
+  return lower(fold_accents(value)):gsub("[^a-z0-9]+", "")
 end
 
 local function words_has(words, token)
@@ -72,16 +89,16 @@ local function classify_role(name)
   if compact:find("synth", 1, true) or compact:find("piano", 1, true) then return "keys" end
   if compact:find("sfx", 1, true) then return "fx" end
   if compact:find("loop", 1, true) or compact:find("chug", 1, true) then return "drums" end
-  if (name_has_any(words, { "lead", "main", "principal" }) and name_has_any(words, { "vox", "vocal", "vocals", "voz" })) or words_has(words, "lv") then return "lead_vocal" end
+  if (name_has_any(words, { "lead", "main", "principal" }) and name_has_any(words, { "vox", "vocal", "vocals", "voz", "voces" })) or words_has(words, "lv") then return "lead_vocal" end
   if name_has_any(words, { "backing", "bv", "bvox", "choir", "coro", "coros" }) then return "backing_vocal" end
-  if name_has_any(words, { "vox", "vocal", "vocals", "voz" }) then return "vocal" end
+  if name_has_any(words, { "vox", "vocal", "vocals", "voz", "voces" }) then return "vocal" end
   if name_has_any(words, { "bass", "bajo", "sub" }) then return "bass" end
   if name_has_any(words, { "kick", "bombo" }) then return "kick" end
   if name_has_any(words, { "snare", "snr", "caja" }) then return "snare" end
-  if name_has_any(words, { "hihat", "hat", "shaker", "perc", "percussion" }) then return "percussion" end
-  if name_has_any(words, { "drums", "drum", "loop", "chug" }) then return "drums" end
-  if name_has_any(words, { "gtr", "guitar", "eguitar", "elecgtr", "acoustic", "guitarra" }) then return "guitar" end
-  if name_has_any(words, { "synth", "piano", "keys", "key", "strings", "brass", "organ", "teclado", "teclas" }) then return "keys" end
+  if name_has_any(words, { "hihat", "hh", "hat", "hats", "shaker", "perc", "percussion", "percusion", "ride", "crash", "tom", "toms", "overhead", "overheads", "oh" }) then return "percussion" end
+  if name_has_any(words, { "drums", "drum", "bateria", "loop", "chug" }) then return "drums" end
+  if name_has_any(words, { "gtr", "guitar", "eguitar", "elecgtr", "acoustic", "guitarra", "guitarras", "acus", "acustica", "acusticas" }) then return "guitar" end
+  if name_has_any(words, { "synth", "piano", "keys", "key", "strings", "brass", "organ", "teclado", "teclados", "teclas", "mellotron", "hammond", "rhodes", "wurlitzer", "moog", "clav" }) then return "keys" end
   if name_has_any(words, { "sfx", "fx", "effect", "efecto" }) then return "fx" end
   return "unknown"
 end
@@ -446,9 +463,27 @@ local function delete_project_markers_by_names(names, clear_markers, clear_regio
   return #to_delete
 end
 
+-- Plain (non-region) markers whose name starts with prefix; lets a detector replace its own markers.
+local function delete_markers_by_prefix(prefix)
+  local _, marker_count, region_count = reaper.CountProjectMarkers(0)
+  local total = (marker_count or 0) + (region_count or 0)
+  local to_delete = {}
+  for i = 0, total - 1 do
+    local ok, is_region, _, _, name, marker_index = reaper.EnumProjectMarkers3(0, i)
+    if ok and not is_region and tostring(name or ""):sub(1, #prefix) == prefix then
+      to_delete[#to_delete + 1] = marker_index
+    end
+  end
+  for _, marker_index in ipairs(to_delete) do
+    reaper.DeleteProjectMarker(0, marker_index, false)
+  end
+  return #to_delete
+end
+
 local function command_set_project_markers(command)
   local markers = command.markers or {}
-  if #markers == 0 then error("no markers provided") end
+  local has_prefix = type(command.clearPrefix) == "string" and command.clearPrefix ~= ""
+  if #markers == 0 and not has_prefix then error("no markers provided") end
 
   local names = {}
   for _, marker in ipairs(markers) do
@@ -457,6 +492,10 @@ local function command_set_project_markers(command)
 
   if command.clearRegions == true or command.clearMarkers == true then
     delete_project_markers_by_names(names, command.clearMarkers == true, command.clearRegions == true)
+  end
+  local cleared = 0
+  if has_prefix then
+    cleared = delete_markers_by_prefix(command.clearPrefix)
   end
 
   local created = {}
@@ -479,6 +518,7 @@ local function command_set_project_markers(command)
   reaper.UpdateArrange()
   return {
     created = #created,
+    cleared = cleared,
     markers = created
   }
 end
@@ -534,9 +574,66 @@ local function measure_start_time(measure_index, fallback)
   return fallback
 end
 
+--[[
+  Deduce el rol de una pista sin nombre util.
+
+  En sesiones grandes las pistas de audio se llaman "Track 137" o con el
+  microfono o el ampli usado ("SHURE BETA52", "SAT 50 BUENA"), pero SIEMPRE
+  van enrutadas a un bus que si esta bien nombrado (DRUMS, BACKING VOCALS,
+  E.GUITAR...). Asi que si el nombre no dice nada, se hereda el rol:
+
+    1. del bus al que envia (siguiendo la cadena de envios), y
+    2. si eso falla, de la carpeta que la contiene.
+
+  Memoiza por pista y corta a 6 saltos para no colgarse con envios circulares.
+]]
+local function resolve_track_role(track, cache, visiting, depth)
+  if not track then return "unknown" end
+  cache = cache or {}
+  visiting = visiting or {}
+  depth = depth or 0
+
+  if cache[track] then return cache[track] end
+  if depth > 6 or visiting[track] then return "unknown" end
+  visiting[track] = true
+
+  local role = classify_role(track_name(track))
+  if role ~= "unknown" and role ~= "reference" and role ~= "click" then
+    visiting[track] = nil
+    cache[track] = role
+    return role
+  end
+
+  local resolved = "unknown"
+
+  local send_count = reaper.GetTrackNumSends(track, 0)
+  for send_index = 0, send_count - 1 do
+    local dest = reaper.GetTrackSendInfo_Value(track, 0, send_index, "P_DESTTRACK")
+    if dest then
+      local dest_role = resolve_track_role(dest, cache, visiting, depth + 1)
+      if dest_role ~= "unknown" then
+        resolved = dest_role
+        break
+      end
+    end
+  end
+
+  if resolved == "unknown" and reaper.GetParentTrack then
+    local parent = reaper.GetParentTrack(track)
+    if parent then
+      resolved = resolve_track_role(parent, cache, visiting, depth + 1)
+    end
+  end
+
+  visiting[track] = nil
+  if resolved ~= "unknown" then cache[track] = resolved end
+  return resolved
+end
+
 local function collect_arrangement_tracks()
   local tracks = {}
   local max_item_end = 0
+  local role_cache = {}
   for i = 0, reaper.CountTracks(0) - 1 do
     local track = reaper.GetTrack(0, i)
     local item_count = reaper.CountTrackMediaItems(track)
@@ -550,7 +647,14 @@ local function collect_arrangement_tracks()
     }
     classify_category(entry)
     if not entry.excluded and item_count > 0 then
-      entry.group = arrangement_group_for_role(entry.role)
+      if entry.role == "unknown" then
+        entry.resolved_role = resolve_track_role(track, role_cache, {}, 0)
+        entry.role_source = entry.resolved_role ~= "unknown" and "routing" or "name"
+      else
+        entry.resolved_role = entry.role
+        entry.role_source = "name"
+      end
+      entry.group = arrangement_group_for_role(entry.resolved_role)
       entry.track = track
       tracks[#tracks + 1] = entry
       for item_index = 0, item_count - 1 do
@@ -698,14 +802,24 @@ local function compute_arrangement_features(stats, units, unit_count, units_per_
       rms[i] = value
       if value > max_rms then max_rms = value end
     end
-    if max_rms <= 0 then max_rms = 1e-12 end
 
     rel_db[group] = {}
     strengths[group] = {}
-    for i = 1, unit_count do
-      local db = gain_to_db((rms[i] + 1e-12) / max_rms)
-      rel_db[group][i] = db
-      strengths[group][i] = clamp((db - active_floor) / (0 - active_floor), 0, 1)
+
+    if max_rms <= 0 then
+      -- Grupo sin una sola pista sonando. Normalizar contra su propio maximo
+      -- lo dejaba en 0 dB relativos, es decir fuerza 1.0 en todo el tema: un
+      -- grupo inexistente contaba como si estuviera a tope de principio a fin.
+      for i = 1, unit_count do
+        rel_db[group][i] = -150
+        strengths[group][i] = 0
+      end
+    else
+      for i = 1, unit_count do
+        local db = gain_to_db((rms[i] + 1e-12) / max_rms)
+        rel_db[group][i] = db
+        strengths[group][i] = clamp((db - active_floor) / (0 - active_floor), 0, 1)
+      end
     end
   end
 
@@ -902,10 +1016,12 @@ local function build_deterministic_arrangement_markers(features, bar_starts, pro
     return markers, chorus_runs
   end
 
+  -- Solo hay INTRO si algo empieza despues del compas 1. Si el primer
+  -- estribillo o la primera voz caen ya en el compas 1, la marca INTRO
+  -- ocuparia la misma posicion y el dedupe se comeria la seccion real.
   local first_vocal = first_vocal_bar_between(bars, 1, chorus_runs[1].start_bar - 1)
-  if first_vocal and first_vocal > 1 then
-    add_arrangement_marker(markers, "INTRO", 0, colors.intro)
-  else
+  local song_starts_at_bar_1 = chorus_runs[1].start_bar <= 1 or first_vocal == 1
+  if not song_starts_at_bar_1 then
     add_arrangement_marker(markers, "INTRO", 0, colors.intro)
   end
 
@@ -964,22 +1080,99 @@ local function command_detect_arrangement(command)
   local skipped = {}
   local analyzed_items = 0
 
+  local function group_frame_total(group)
+    local total = 0
+    for i = 1, #units do total = total + stats[group].count[i] end
+    return total
+  end
+
   for _, track_entry in ipairs(tracks) do
+    local before_frames = group_frame_total(track_entry.group)
+    track_entry.items_analyzed = 0
+    track_entry.items_skipped = 0
+    track_entry.skip_reason = nil
     for item_index = 0, reaper.CountTrackMediaItems(track_entry.track) - 1 do
       local item = reaper.GetTrackMediaItem(track_entry.track, item_index)
       local ok, reason = analyze_item_for_arrangement(item, track_entry.group, units, stats, settings)
       if ok then
         analyzed_items = analyzed_items + 1
+        track_entry.items_analyzed = track_entry.items_analyzed + 1
       else
         skipped[reason or "unknown"] = (skipped[reason or "unknown"] or 0) + 1
+        track_entry.items_skipped = track_entry.items_skipped + 1
+        track_entry.skip_reason = reason
       end
     end
+    track_entry.frames = group_frame_total(track_entry.group) - before_frames
   end
 
   if analyzed_items == 0 then error("no audio items could be analyzed") end
 
   local features = compute_arrangement_features(stats, units, #units, settings.units_per_bar, settings)
   local markers, chorus_runs = build_deterministic_arrangement_markers(features, bar_starts, project_end, settings.units_per_bar, settings)
+
+  -- Diagnostico: con debugFeatures se devuelven los numeros por compas para
+  -- poder ver por que una seccion cruza (o no) los umbrales.
+  local group_summary = nil
+  local bar_features = nil
+  if command.debugFeatures == true then
+    group_summary = {}
+    for _, track_entry in ipairs(tracks) do
+      local group = track_entry.group
+      group_summary[group] = group_summary[group] or {
+        tracks = 0, items_analyzed = 0, items_skipped = 0, frames = 0, silent_tracks = {}
+      }
+      local summary = group_summary[group]
+      summary.tracks = summary.tracks + 1
+      summary.items_analyzed = summary.items_analyzed + (track_entry.items_analyzed or 0)
+      summary.items_skipped = summary.items_skipped + (track_entry.items_skipped or 0)
+      summary.frames = summary.frames + (track_entry.frames or 0)
+      if (track_entry.frames or 0) == 0 and #summary.silent_tracks < 8 then
+        summary.silent_tracks[#summary.silent_tracks + 1] = {
+          name = track_entry.name,
+          items = track_entry.item_count,
+          analyzed = track_entry.items_analyzed,
+          skipped = track_entry.items_skipped,
+          reason = track_entry.skip_reason
+        }
+      end
+    end
+
+    for _, group in ipairs(ARRANGEMENT_GROUPS) do
+      local summary = group_summary[group]
+      if summary then
+        local nonzero = 0
+        local peak = 0
+        for i = 1, #units do
+          if stats[group].sum[i] > 0 then nonzero = nonzero + 1 end
+          if stats[group].count[i] > 0 then
+            local rms = math.sqrt(stats[group].sum[i] / stats[group].count[i])
+            if rms > peak then peak = rms end
+          end
+        end
+        summary.units_with_signal = nonzero
+        summary.peak_rms_db = peak > 0 and gain_to_db(peak) or nil
+      end
+    end
+
+    bar_features = {}
+    for _, bar in ipairs(features.bars) do
+      bar_features[#bar_features + 1] = {
+        bar = bar.bar,
+        start = bar.start,
+        drums = bar.drums,
+        bass = bar.bass,
+        guitar = bar.guitar,
+        keys = bar.keys,
+        lead = bar.lead,
+        backing = bar.backing,
+        music = bar.music_strength,
+        density = bar.density,
+        chorus_score = bar.chorus_score,
+        vocal = bar.vocal_strength
+      }
+    end
+  end
   if #markers == 0 then error("arrangement detection produced no markers") end
 
   local created = {}
@@ -1022,7 +1215,9 @@ local function command_detect_arrangement(command)
     tempo = grid.tempo,
     time_signature = tostring(grid.numerator) .. "/" .. tostring(grid.denominator),
     units_per_bar = settings.units_per_bar,
-    chorus_runs = chorus_runs
+    chorus_runs = chorus_runs,
+    groups = group_summary,
+    bar_features = bar_features
   }
 end
 

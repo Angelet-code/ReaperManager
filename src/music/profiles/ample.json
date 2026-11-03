@@ -1,0 +1,27 @@
+{
+  "library": "Ample Sound",
+  "vendor": "Ample Sound",
+  "_doc": "Keyswitches latch: write one only when the articulation changes. Never velocity-humanize Ample Bass J (velocity 126-127 is the accent layer). Ample names C3 = MIDI 60. Guitars (manual: Documents/Ample Sound/Manuals): string force 31-36 = 6th..1st string, one before every note (else Ample picks its own string); hammer/pull 29 and legato slide 28 need both notes overlapping on one string; velocity 127 = pop; FX 89-103 (strokes 93/94, golpe 101); auto legato off = 99 low velocity. Start Time 0 + play 45 ms early keeps the natural attack. Reference implementation: A:/CERBATANA/Ableton/2026-11-02 Fantasia San Juan/generator/lib/ample.mjs.",
+  "defaults": { "ensemble": false, "articulation": { "method": "keyswitch" } },
+  "patches": {
+    "guitar-l": {
+      "_doc": "Ample Guitar L is the classical (nylon) guitar, not a Les Paul. Playable range E1-C5 (40-84). Velocity (measured 2026-11-02): 33 dB from 8 to 120, hard layer change between 64 and 72 (+4..+8 dB, sharper attack), another near 100; round robin varies +-2..4 dB per note. Classical writing: pp 26, p 38, mp 46, mf 54-62, tremolo a-m-i around 40-50; only f/ff above 70. Fresh instance (measured): Auto Mod On, Auto Legato 1, Start Time 35 ms, Release 50 ms, Cycle Plus Off. Settings are chosen per piece/section, never inherited: see knowledge/composition/performance/guitar-ample-performance.md R7 (what each param does, evidence level, which value for which texture). Leave one empty bar before the first note. fxPresets are starting points for known contexts, not defaults.",
+      "fxPresets": {
+        "delicate-arpeggio": { "_doc": "validated by ear on Remanso (Nov 2026): calm p-i-m-i, lead notes 25 ms", "S-Auto Mod Tog": 0, "Auto Legato": 0, "Cycle Plus Tog": 1, "M-Start Time": 0.4, "M-Release Time": 0.02 },
+        "natural-attack": { "_doc": "full pluck, lead notes 45 ms (Fantasia default sections); vibrato only as drawn CC1", "S-Auto Mod Tog": 0, "Auto Legato": 0, "Cycle Plus Tog": 1, "M-Start Time": 0, "M-Release Time": 0 },
+        "tremolo": { "_doc": "measured on Fantasia (automate only the tremolo section): lead 15 ms, drawn CC1 on long notes", "S-Auto Mod Tog": 0, "M-Start Time": 0.6, "M-Release Time": 0.02 }
+      },
+      "match": ["VST3:Ample Guitar L (Ample Sound)", "VSTi: Ample Guitar L (Ample Sound)"], "style": "sampled-short", "family": "guitar", "instrument": "classical-guitar",
+      "keyswitches": { "mode": "latch", "leadQn": 0.06, "len": 0.03, "vel": 100,
+        "map": { "sustain": 24, "harmonic": 25, "palmMute": 26, "slideInOut": 27, "legatoSlide": 28, "hammer": 29 },
+        "stringForce": { "6": 31, "5": 32, "4": 33, "3": 34, "2": 35, "1": 36 }, "status": "M" },
+      "range": { "practical": [40, 84], "full": [40, 84] }, "humanize": { "ms": 4 }
+    },
+    "bass-j": {
+      "match": ["VST3:Ample Bass J (Ample Sound)"], "style": "sampled-short", "family": "bass", "instrument": "electric-bass",
+      "keyswitches": { "mode": "latch", "leadQn": 0.06, "len": 0.03, "vel": 100,
+        "map": { "sustain": 24, "palmMute": 26, "slideIn": 27, "legatoSlide": 28, "hammer": 29, "slap": 31, "pop": 33 }, "status": "M" },
+      "range": { "practical": [40, 67], "full": [40, 72] }, "humanize": { "ms": 0 }, "velocity": { "jitter": 0, "keepJitter": 0 }
+    }
+  }
+}

@@ -16,6 +16,10 @@ export function buildDetectArrangementCommand(options = {}) {
     detectBreaks: options.detectBreaks !== false && !options["no-breaks"]
   };
 
+  if (options.debugFeatures === true || options["debug-features"]) {
+    command.debugFeatures = true;
+  }
+
   addNumberOption(command, "unitsPerBar", options.unitsPerBar ?? options["units-per-bar"], 1, 8);
   addNumberOption(command, "sampleStride", options.sampleStride ?? options["sample-stride"], 1, 4096);
   addNumberOption(command, "activeDb", options.activeDb ?? options["active-db"], -80, -6);

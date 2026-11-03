@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -17,12 +18,14 @@ import {
   buildInspectProjectCommand,
   buildItemVolumeCommand,
   buildPanCommand,
+  buildQuantizePlucksCommand,
   buildRemoveFxCommand,
   buildRockTemplateCommand,
   buildRouteToBusCommand,
   buildSendVolumeCommand,
   buildSelectItemsCommand,
   buildSelectTracksCommand,
+  buildSeparateSibilantsCommand,
   buildTrackStateCommand,
   buildUndoCommand,
   buildVocalLevelCommand,
@@ -158,6 +161,125 @@ test("buildGainStageCommand can target selected tracks in preview", () => {
   assert.deepEqual(command.itemFilter, { type: "tracks", trackFilter: { type: "selected" } });
   assert.equal(command.preview, true);
   assert.equal(command.peakCeilingDb, -1);
+});
+
+test("buildQuantizePlucksCommand requires selected items", () => {
+  assert.throws(
+    () => buildQuantizePlucksCommand({}),
+    /Use --selected-items/
+  );
+});
+
+test("buildQuantizePlucksCommand targets selected items with edit-safe defaults", () => {
+  const command = buildQuantizePlucksCommand({ "selected-items": true });
+  assert.equal(command.type, "quantize_pluck_items");
+  assert.deepEqual(command.itemFilter, { type: "selected" });
+  assert.equal(command.preview, false);
+  assert.equal(command.preRollMs, 8);
+  assert.equal(command.fadeMs, 3);
+  assert.equal(command.toleranceMs, 2);
+  assert.equal(command.minNoteGapMs, 35);
+});
+
+test("buildQuantizePlucksCommand supports preview and timing overrides", () => {
+  const command = buildQuantizePlucksCommand({
+    "selected-items": true,
+    preview: true,
+    "pre-roll-ms": "12",
+    "fade-ms": "5",
+    "tolerance-ms": "4",
+    "min-note-gap-ms": "90"
+  });
+  assert.equal(command.preview, true);
+  assert.equal(command.preRollMs, 12);
+  assert.equal(command.fadeMs, 5);
+  assert.equal(command.toleranceMs, 4);
+  assert.equal(command.minNoteGapMs, 90);
+});
+
+test("buildQuantizePlucksCommand rejects unsafe numeric ranges", () => {
+  assert.throws(
+    () => buildQuantizePlucksCommand({ "selected-items": true, "pre-roll-ms": "300" }),
+    /Pre-roll/
+  );
+  assert.throws(
+    () => buildQuantizePlucksCommand({ "selected-items": true, "min-note-gap-ms": "2" }),
+    /Minimum note gap/
+  );
+});
+
+test("buildSeparateSibilantsCommand requires selected items", () => {
+  assert.throws(
+    () => buildSeparateSibilantsCommand({}),
+    /Use --selected-items/
+  );
+});
+
+test("buildSeparateSibilantsCommand targets selected items with zero-crossing defaults", () => {
+  const command = buildSeparateSibilantsCommand({ "selected-items": true });
+  assert.equal(command.type, "separate_vocal_sibilants");
+  assert.deepEqual(command.itemFilter, { type: "selected" });
+  assert.equal(command.preview, false);
+  assert.equal(command.destinationTrackName, "VOX SIBILANTS");
+  assert.deepEqual(command.consonants, ["s"]);
+  assert.equal(command.zeroCrossing, true);
+  assert.equal(command.zeroCrossingSearchMs, 8);
+  assert.equal(command.paddingMs, 0);
+  assert.equal(command.crossfadeMs, 0);
+  assert.equal(command.mergeGapMs, 12);
+  assert.equal(command.detectionWindowMs, 4);
+  assert.equal(command.minSibilantMs, 5);
+  assert.equal(command.maxSibilantMs, 220);
+  assert.equal(command.bandLowHz, 3500);
+  assert.equal(command.bandHighHz, 12000);
+  assert.equal(command.sensitivity, 0.65);
+});
+
+test("buildSeparateSibilantsCommand supports preview and detection overrides", () => {
+  const command = buildSeparateSibilantsCommand({
+    "selected-items": true,
+    preview: true,
+    "destination-track": "ESS BUS",
+    consonants: "s,ch,x",
+    "zero-crossing-search-ms": "12",
+    "padding-ms": "8",
+    "crossfade-ms": "5",
+    "merge-gap-ms": "12",
+    "detection-window-ms": "2",
+    "min-sibilant-ms": "30",
+    "max-sibilant-ms": "180",
+    "band-low-hz": "4200",
+    "band-high-hz": "15000",
+    sensitivity: "0.8"
+  });
+  assert.equal(command.preview, true);
+  assert.equal(command.destinationTrackName, "ESS BUS");
+  assert.deepEqual(command.consonants, ["s", "ch", "x"]);
+  assert.equal(command.zeroCrossingSearchMs, 12);
+  assert.equal(command.paddingMs, 8);
+  assert.equal(command.crossfadeMs, 5);
+  assert.equal(command.mergeGapMs, 12);
+  assert.equal(command.detectionWindowMs, 2);
+  assert.equal(command.minSibilantMs, 30);
+  assert.equal(command.maxSibilantMs, 180);
+  assert.equal(command.bandLowHz, 4200);
+  assert.equal(command.bandHighHz, 15000);
+  assert.equal(command.sensitivity, 0.8);
+});
+
+test("buildSeparateSibilantsCommand rejects invalid detection ranges", () => {
+  assert.throws(
+    () => buildSeparateSibilantsCommand({ "selected-items": true, "min-sibilant-ms": "250", "max-sibilant-ms": "100" }),
+    /Maximum sibilant/
+  );
+  assert.throws(
+    () => buildSeparateSibilantsCommand({ "selected-items": true, "band-low-hz": "12000", "band-high-hz": "4000" }),
+    /band high/
+  );
+  assert.throws(
+    () => buildSeparateSibilantsCommand({ "selected-items": true, consonants: "" }),
+    /Sibilant consonants/
+  );
 });
 
 test("buildVocalLevelCommand requires selected items", () => {
@@ -591,6 +713,88 @@ test("buildUndoCommand validates the undo count", () => {
   assert.deepEqual(buildUndoCommand({ count: "2" }), { type: "undo", count: 2 });
 });
 
+test("CLI help lists the separate-sibilants command surface", () => {
+  const result = spawnSync(process.execPath, [path.resolve("bin", "reaper-manager.js"), "help"], {
+    encoding: "utf8"
+  });
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /separate-sibilants --selected-items --preview/);
+  assert.match(result.stdout, /quantize-plucks --selected-items --preview/);
+});
+
+test("quantize-plucks CLI queues a no-wait command payload", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "rm-plucks-cli-"));
+  const result = spawnSync(
+    process.execPath,
+    [
+      path.resolve("bin", "reaper-manager.js"),
+      "quantize-plucks",
+      "--selected-items",
+      "--preview",
+      "--pre-roll-ms",
+      "12",
+      "--fade-ms",
+      "5",
+      "--tolerance-ms",
+      "4",
+      "--min-note-gap-ms",
+      "90",
+      "--no-wait"
+    ],
+    {
+      cwd: root,
+      encoding: "utf8"
+    }
+  );
+  assert.equal(result.status, 0, result.stderr);
+
+  const queue = path.join(root, ".reaper-manager", "queue");
+  const files = fs.readdirSync(queue).filter((file) => file.endsWith(".json"));
+  assert.equal(files.length, 1);
+  const payload = JSON.parse(fs.readFileSync(path.join(queue, files[0]), "utf8"));
+  assert.equal(payload.command.type, "quantize_pluck_items");
+  assert.deepEqual(payload.command.itemFilter, { type: "selected" });
+  assert.equal(payload.command.preview, true);
+  assert.equal(payload.command.preRollMs, 12);
+  assert.equal(payload.command.fadeMs, 5);
+  assert.equal(payload.command.toleranceMs, 4);
+  assert.equal(payload.command.minNoteGapMs, 90);
+});
+
+test("separate-sibilants CLI queues a no-wait command payload", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "rm-sibilants-cli-"));
+  const result = spawnSync(
+    process.execPath,
+    [
+      path.resolve("bin", "reaper-manager.js"),
+      "separate-sibilants",
+      "--selected-items",
+      "--preview",
+      "--destination-track",
+      "ESS BUS",
+      "--consonants",
+      "s,ch",
+      "--no-wait"
+    ],
+    {
+      cwd: root,
+      encoding: "utf8"
+    }
+  );
+  assert.equal(result.status, 0, result.stderr);
+
+  const queue = path.join(root, ".reaper-manager", "queue");
+  const files = fs.readdirSync(queue).filter((file) => file.endsWith(".json"));
+  assert.equal(files.length, 1);
+  const payload = JSON.parse(fs.readFileSync(path.join(queue, files[0]), "utf8"));
+  assert.equal(payload.command.type, "separate_vocal_sibilants");
+  assert.deepEqual(payload.command.itemFilter, { type: "selected" });
+  assert.equal(payload.command.preview, true);
+  assert.equal(payload.command.destinationTrackName, "ESS BUS");
+  assert.deepEqual(payload.command.consonants, ["s", "ch"]);
+  assert.equal(payload.command.zeroCrossing, true);
+});
+
 function writeTestWav(file) {
   const sampleRate = 48000;
   const frames = 4800;
@@ -717,6 +921,13 @@ test("natural vocal level command parses selected voice shorthand", () => {
 test("natural vocal level command can request preview", () => {
   const command = parseNatural("Previsualiza vocal level en los clips seleccionados");
   assert.equal(command.type, "vocal_level_items");
+  assert.equal(command.preview, true);
+});
+
+test("natural separate-sibilants command parses selected vocal consonants", () => {
+  const command = parseNatural("Previsualiza y separa las eses de los clips seleccionados");
+  assert.equal(command.type, "separate_vocal_sibilants");
+  assert.deepEqual(command.itemFilter, { type: "selected" });
   assert.equal(command.preview, true);
 });
 
