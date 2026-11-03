@@ -49,7 +49,7 @@ Before composing, arranging, harmonizing, voicing or orchestrating music (cues, 
 - Validate with `knowledge/composition/workflows/validate-generated-midi.md` before handing music over.
 - Never read `index.json` whole; grep it or the `_meta/glossary-*.md` tables for Spanish terms.
 - After editing the vault, run `node scripts/build-knowledge-index.mjs` (0 errors expected).
-- Generate music with the engine in `src/music` (design `docs/music-engine.md`): `node scripts/new-piece.mjs` for a new piece; libraries are profiles in `src/music/profiles/*.json`; onboard a new one with `scripts/calibrate-instrument.mjs` (renders through REAPER only with the user's OK). Until merged, these live on branch `claude/beautiful-cori-2cb102`.
+- Generate music with the engine in `src/music` (design `docs/music-engine.md`): `node scripts/new-piece.mjs` for a new piece; libraries are profiles in `src/music/profiles/*.json`; onboard a new one with `scripts/calibrate-instrument.mjs` (renders through REAPER only with the user's OK).
 
 The source PDFs live in `composition/` (git-ignored). To add a book, follow `knowledge/composition/_meta/digest-spec.md` then `_meta/synthesis-spec.md`.
 

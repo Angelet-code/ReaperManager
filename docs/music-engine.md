@@ -1,6 +1,6 @@
 # Motor de generación musical
 
-Estado: **construido** (diseño aprobado por el usuario el 2026-11-02). Rama `claude/beautiful-cori-2cb102`.
+Estado: **construido** (diseño aprobado por el usuario el 2026-11-02). Integrado en `main`.
 
 ## Por qué
 
